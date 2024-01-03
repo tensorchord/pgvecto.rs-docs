@@ -11,18 +11,20 @@ hero:
     alt: pgvecto.rs
   actions:
     - theme: brand
-      text: Markdown Examples
+      text: Tutorial
       link: /markdown-examples
     - theme: alt
-      text: API Examples
+      text: API Reference
       link: /api-examples
-
+    - theme: alt
+      text: Launch Blog ↗️
+      link: https://blog.pgvecto.rs
 features:
-  - title: Feature A
+  - title: SQL Complete
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
+  - title: Async Indexing with Multithreading
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
+  - title: Blazing fast search
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
 
