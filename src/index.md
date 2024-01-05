@@ -11,11 +11,11 @@ hero:
     alt: pgvecto.rs
   actions:
     - theme: brand
-      text: Tutorial
-      link: /markdown-examples
-    - theme: alt
-      text: API Reference
-      link: /api-examples
+      text: Get Started
+      link: /getting-started/overview
+    # - theme: alt
+    #   text: API Reference
+    #   link: /api-examples
     - theme: alt
       text: Launch Blog ↗️
       link: https://blog.pgvecto.rs
@@ -27,4 +27,3 @@ features:
   - title: Blazing fast search
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
-
