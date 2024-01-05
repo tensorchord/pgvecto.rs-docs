@@ -57,7 +57,7 @@ export default defineConfig({
           collapsed: false,
           items: [
             {text: 'Configuration', link: '/admin/configuration'},
-            {text: 'Upgrading', link: '/faqs/upgrading'},
+            {text: 'Upgrading from older versions', link: '/admin/upgrading'},
           ],
         },
         {
