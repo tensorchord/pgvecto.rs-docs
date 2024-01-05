@@ -29,6 +29,11 @@ export default defineConfig({
       { text: 'Blog', link: 'https://blog.pgvecto.rs' },
     ],
 
+    editLink: {
+      pattern: 'https://github.com/tensorchord/pgvecto.rs-docs/tree/main/src/:path',
+      text: 'Edit this page',
+    },
+
     sidebar: {
       '/':[
         {
@@ -36,6 +41,22 @@ export default defineConfig({
           collapsed: false,
           items:[
             { text: 'Overview', link: '/getting-started/overview' },
+            { text: 'Installation', link: '/getting-started/installation' },
+          ],
+        },
+        {
+          text: 'Usage',
+          collapsed: false,
+          items:[
+            { text: 'Indexing', link: '/usage/indexing' },
+            { text: 'Search', link: '/usage/search' }
+          ]
+        },
+        {
+          text: 'Administration',
+          collapsed: false,
+          items: [
+            {text: 'Configuration', link: '/admin/configuration'},
           ],
         },
         {
@@ -43,14 +64,24 @@ export default defineConfig({
           collapsed: false,
           items:[
             { text: 'pgvecto.rs vs. pgvector', link: '/faqs/comparison-pgvector' },
-            { text: 'pgvecto.rs vs. specialized vectordb', link: '/faqs/comparison-with-specialized-vectordb' }
+            { text: 'pgvecto.rs vs. specialized vectordb', link: '/faqs/comparison-with-specialized-vectordb' },
+            {text: 'Upgrading', link: '/faqs/upgrading'},
           ]
         },
         {
-          text: 'Misc',
-          collapsed: true,
+          text: 'Community',
+          collapsed: false,
           items: [
-            {text: 'Telemetry', link: '/misc/telemetry'},
+            {text: 'Contributing to pgvecto.rs', link: '/community/contributing'},
+            {text: 'Roadmap', link: '/community/roadmap'},
+            {text: 'Adopters', link: '/community/adopters'},
+          ],
+        },
+        {
+          text: 'Developers',
+          collapsed: false,
+          items: [
+            {text: 'Development tutorial', link: '/developers/development'},
           ],
         },
       ],

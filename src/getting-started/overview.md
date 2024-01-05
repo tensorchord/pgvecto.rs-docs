@@ -113,3 +113,20 @@ SELECT * FROM items ORDER BY embedding <-> '[3,2,1]' LIMIT 5;
 ### Half-precision floating-point
 
 `vecf16` type is the same with `vector` in anything but the scalar type. It stores 16-bit floating point numbers. If you want to reduce the memory usage to get better performance, you can try to replace `vector` type with `vecf16` type.
+
+## Roadmap 🗂️
+
+Please check out [ROADMAP](../community/roadmap).
+
+## Contribute 😊
+
+We welcome all kinds of contributions from the open-source community, individuals, and partners.
+
+- Join our [discord community](https://discord.gg/KqswhpVgdU)!
+- To build from the source, please read our [contributing documentation](../community/contributing) and [development tutorial](../developers/development).
+
+### Talk with us
+
+💬 Interested in talking with us about your experience building or managing AI/ML applications?
+
+[**Set up a time to chat!**](https://calendly.com/cegao/tensorchord-interview)
