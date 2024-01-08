@@ -14,6 +14,21 @@ export default defineConfig({
       md.use(mathjax3);
     },
   },
+  head: [
+    // Google Analytics
+    [
+      'script',
+      {
+        async: "true",
+        src: 'https://www.googletagmanager.com/gtag/js?id=G-YGY455DH2T' 
+      }
+    ],
+    [
+      'script',
+      {},
+      "window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());\ngtag('config', 'G-YGY455DH2T');"
+    ],
+  ],
   vue: {
     template: {
       compilerOptions: {
