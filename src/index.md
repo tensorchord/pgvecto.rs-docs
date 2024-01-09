@@ -20,10 +20,10 @@ hero:
       text: Launch Blog ↗️
       link: https://blog.pgvecto.rs
 features:
-  - title: SQL Complete
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Async Indexing with Multithreading
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Blazing fast search
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Fast
+    details: 20x faster than pgvector at 90% recall.
+  - title: 100% Rust
+    details: pgvecto.rs is implemented in Rust rather than C like many existing Postgres extensions. Rust provides many advantages for an extension like pgvecto.rs.
+  - title: Relational + Semantic Search
+    details: pgvecto.rs allows you to use the same SQL interface for both relational and semantic search (and even combine them).
 ---
