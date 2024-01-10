@@ -1,6 +1,6 @@
 # Monitoring
 
-We provide a view `pg_vector_index_info` to monitor the progress of indexing.
+We provide a view `pg_vector_index_stat` to monitor the progress of indexing.
 
 | Column       | Type   | Description                                                                         |
 | ------------ | ------ | ----------------------------------------------------------------------------------- |

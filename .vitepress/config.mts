@@ -77,6 +77,13 @@ export default defineConfig({
           ],
         },
         {
+          text: 'Reference',
+          collapsed: false,
+          items:[
+            { text: 'Schema', link: '/reference/schema' },
+          ]
+        },
+        {
           text: 'FAQs',
           collapsed: false,
           items:[
