@@ -64,7 +64,8 @@ export default defineConfig({
           collapsed: false,
           items:[
             { text: 'Indexing', link: '/usage/indexing' },
-            { text: 'Search', link: '/usage/search' }
+            { text: 'Search', link: '/usage/search' },
+            { text: 'Monitoring', link: '/usage/monitoring' },
           ]
         },
         {

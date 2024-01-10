@@ -14,10 +14,10 @@ The `vector_l2_ops` is an operator class for squared Euclidean distance. There a
 | ----------- | -------------------------- | -------------- |
 | vector      | squared Euclidean distance | vector_l2_ops  |
 | vector      | negative dot product       | vector_dot_ops |
-| vector      | negative cosine similarity | vector_cos_ops |
+| vector      | cosine distance            | vector_cos_ops |
 | vecf16      | squared Euclidean distance | vecf16_l2_ops  |
 | vecf16      | negative dot product       | vecf16_dot_ops |
-| vecf16      | negative cosine similarity | vecf16_cos_ops |
+| vecf16      | cosine distance            | vecf16_cos_ops |
 
 Now you can perform a KNN search with the following SQL again, this time the vector index is used for searching.
 
@@ -33,7 +33,7 @@ pgvecto.rs constructs the index asynchronously. When you insert new rows into th
 
 ## Options
 
-We utilize TOML syntax to express the index's configuration. Here's what each key in the configuration signifies:
+We utilize [TOML syntax](https://toml.io/en/v1.0.0) to express the index's configuration. Here's what each key in the configuration signifies:
 
 | Key        | Type  | Description                            |
 | ---------- | ----- | -------------------------------------- |
@@ -43,18 +43,20 @@ We utilize TOML syntax to express the index's configuration. Here's what each ke
 
 Options for table `segment`.
 
-| Key                      | Type    | Description                                                         |
-| ------------------------ | ------- | ------------------------------------------------------------------- |
-| max_growing_segment_size | integer | Maximum size of unindexed vectors. Default value is `20_000`.       |
-| max_sealed_segment_size  | integer | Maximum size of vectors for indexing. Default value is `1_000_000`. |
+| Key                      | Type    | Default     | Description                           |
+| ------------------------ | ------- | ----------- | ------------------------------------- |
+| max_growing_segment_size | integer | `20_000`    | Maximum size of unindexed vectors.    |
+| max_sealed_segment_size  | integer | `1_000_000` | Maximum size of vectors for indexing. |
 
 Options for table `optimizing`.
 
-| Key                | Type    | Description                                                                                                                                                |
-| ------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| optimizing_threads | integer | Maximum threads for indexing. Default value is the sqrt of number of cores.                                                                                |
-| sealing_secs       | integer | If a writing segment larger than `sealing_size` do not accept new data for `sealing_secs` seconds, the writing segment will be turned to a sealed segment. |
-| sealing_size       | integer | See above.                                                                                                                                                 |
+| Key                | Type    | Default                     | Description                   |
+| ------------------ | ------- | --------------------------- | ----------------------------- |
+| optimizing_threads | integer | sqrt of the number of cores | Maximum threads for indexing. |
+| sealing_secs       | integer | `60`                        | See below.                    |
+| sealing_size       | integer | `1`                         | See below.                    |
+
+If a write segment larger than `sealing_size` do not accept new data for `sealing_secs` seconds, the write segment will be turned to a sealed segment.
 
 Options for table `indexing`.
 
@@ -74,20 +76,21 @@ Options for table `flat`.
 
 Options for table `ivf`.
 
-| Key              | Type    | Description                                                     |
-| ---------------- | ------- | --------------------------------------------------------------- |
-| nlist            | integer | Number of cluster units. Default value is `1000`.               |
-| least_iterations | integer | Least iterations for K-Means clustering. Default value is `16`. |
-| iterations       | integer | Max iterations for K-Means clustering. Default value is `500`.  |
-| quantization     | table   | The quantization algorithm to be used.                          |
+| Key              | Type    | Default | Description                               |
+| ---------------- | ------- | ------- | ----------------------------------------- |
+| nlist            | integer | `1000`  | Number of cluster units.                  |
+| nsample          | integer | `65536` | Number of samples for K-Means clustering. |
+| least_iterations | integer | `16`    | Least iterations for K-Means clustering.  |
+| iterations       | integer | `500`   | Max iterations for K-Means clustering.    |
+| quantization     | table   |         | The quantization algorithm to be used.    |
 
 Options for table `hnsw`.
 
-| Key             | Type    | Description                                        |
-| --------------- | ------- | -------------------------------------------------- |
-| m               | integer | Maximum degree of the node. Default value is `12`. |
-| ef_construction | integer | Search scope in building. Default value is `300`.  |
-| quantization    | table   | The quantization algorithm to be used.             |
+| Key             | Type    | Default | Description                            |
+| --------------- | ------- | ------- | -------------------------------------- |
+| m               | integer | `12`    | Maximum degree of the node.            |
+| ef_construction | integer | `300`   | Search scope in building.              |
+| quantization    | table   |         | The quantization algorithm to be used. |
 
 Options for table `quantization`.
 
@@ -101,29 +104,12 @@ You can choose only one algorithm in above indexing algorithms. Default value is
 
 Options for table `product`.
 
-| Key    | Type    | Description                                                                                                              |
-| ------ | ------- | ------------------------------------------------------------------------------------------------------------------------ |
-| sample | integer | Samples to be used for quantization. Default value is `65535`.                                                           |
-| ratio  | string  | Compression ratio for quantization. Only `"x4"`, `"x8"`, `"x16"`, `"x32"`, `"x64"` are allowed. Default value is `"x4"`. |
+| Key    | Type    | Default                                 | Description                          |
+| ------ | ------- | --------------------------------------- | ------------------------------------ |
+| sample | integer | `65535`                                 | Samples to be used for quantization. |
+| ratio  | string  | `enum("x4", "x8", "x16", "x32", "x64")` | Compression ratio for quantization.  |
 
-## Progress View
-
-We also provide a view `pg_vector_index_info` to monitor the progress of indexing.
-
-| Column       | Type   | Description                                                                         |
-| ------------ | ------ | ----------------------------------------------------------------------------------- |
-| tablerelid   | oid    | The oid of the table.                                                               |
-| indexrelid   | oid    | The oid of the index.                                                               |
-| tablename    | name   | The name of the table.                                                              |
-| indexname    | name   | The name of the index.                                                              |
-| idx_status   | text   | Its value is `NORMAL` or `UPGRADE`. Whether this index is normal or needs upgrade.  |
-| idx_indexing | bool   | Not null if `idx_status` is `NORMAL`. Whether the background thread is indexing.    |
-| idx_tuples   | int8   | Not null if `idx_status` is `NORMAL`. The number of tuples.                         |
-| idx_sealed   | int8[] | Not null if `idx_status` is `NORMAL`. The number of tuples in each sealed segment.  |
-| idx_growing  | int8[] | Not null if `idx_status` is `NORMAL`. The number of tuples in each growing segment. |
-| idx_write    | int8   | Not null if `idx_status` is `NORMAL`. The number of tuples in write buffer.         |
-| idx_size     | int8   | Not null if `idx_status` is `NORMAL`. The byte size for all the segments.           |
-| idx_config   | text   | Not null if `idx_status` is `NORMAL`. The configuration of the index.               |
+Compression ratio is how many memory you are saved for saving vectors. For example, `"x4"` is $\frac{1}{4}$ compared to before. If you are creating indexes on `vecf16`, `"x4"` is $\frac{1}{2}$ compared to before.
 
 ## Examples
 
