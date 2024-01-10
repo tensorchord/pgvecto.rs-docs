@@ -3,38 +3,81 @@
 The SQL for searching is very simple. Here is an example of searching the $5$ nearest embedding in table `items`:
 
 ```sql
+SET vectors.hnsw_ef_search = 64;
 SELECT * FROM items ORDER BY embedding <-> '[3,2,1]' LIMIT 5;
 ```
 
-::: info
+The vector index will search for `64` nearest rows, and `5` nearest rows is gotten since there is a `LIMIT` clause.
 
-If `vectors.k` is set to `64`, but your SQL returned less than `64` rows, for example, only `32` rows. There is some possible reasons:
+## Search modes
 
-* Less than `64` rows should be returned. It's expected.
-* The vector index returned `64` rows, but `32` of which are deleted before but the index do not know since PostgreSQL vacuum is lazy.
-* The vector index returned `64` rows, but `32` of which are invisible to the transaction so PostgreSQL decided to hide these rows for you.
-* The vector index returned `64` rows, but `32` of which are satisfying the condition `id % 2 = 0` in `WHERE` clause.
+There are two search modes: `basic` and `vbase`.
 
-There are four ways to solve the problem:
+### `basic`
 
-* Set `vectors.k` larger. If you estimate that 20% of rows will satisfy the condition in `WHERE`, just set `vectors.k` to be 5 times than before.
-* Set `vectors.enable_vector_index` to `off`. If you estimate that 0.0001% of rows will satisfy the condition in `WHERE`, just do not use vector index. No algorithms will be faster than brute force by PostgreSQL.
-* Set `vectors.enable_prefilter` to `on`. If you cannot estimate how many rows will satisfy the condition in `WHERE`, leave the job for the index. The index will check if the returned row can be accepted by PostgreSQL. However, it will make queries slower so the default value for this option is `off`.
-* Set `vectors.enable_vbase` to `on`. It will use vbase optimization, so that the index will pull rows as many as you need. It only works for HNSW algorithm.
+`basic` is the default search mode. In this mode, vector indexes behave like a vector search library. It works well if all of your queries is like this:
 
-:::
+```sql
+SELECT * FROM items ORDER BY embedding <-> '[3,2,1]' LIMIT 5;
+```
+
+It's recommended if your do **not** take advantages of
+
+* database transaction
+* deletions without `VACUUM`
+* WHERE clauses and very complex SQL statments
+
+### `vbase`
+
+`vbase` is another search mode. In this mode, vector indexes behave like a database index. In `vbase` mode, searching results become a stream and every time the database pulls a row, the vector index computes a row to return. It's quite different from an ordinary vector search if you are using a vector search library, such as *faiss*. The latter always wants to know how many results are needed before searching. The original idea comes from [VBASE: Unifying Online Vector Similarity Search and Relational Queries via Relaxed Monotonicity](https://www.usenix.org/conference/osdi23/presentation/zhang-qianxi).
+
+Assuming you are using HNSW algorithm, you may want the following SQL to work:
+
+```sql
+SET vectors.hnsw_ef_search = 64;
+SELECT * FROM items ORDER BY embedding <-> '[3,2,1]' WHERE id % 2 = 0 LIMIT 64;
+```
+
+In `basic` mode, you may only get `32` rows because the HNSW algorithm does search simply so the filter condition is ignored.
+
+In `vbase` mode, the HNSW algorithm is guaranteed to return rows as many as you need, so you can always get correct behavior if your do take advantages of:
+
+* database transaction
+* deletions without `VACUUM`
+* `WHERE` clauses and very complex SQL statments
+
+You can enable `vbase` by a SQL statment `SET vectors.search_mode = vbase;`.
+
+## Prefilter
+
+If your queries include a `WHERE` clause, you can set set search mode to `vbase`. It's good and it even works on all conditions. `vbase` is a **postfilter** method: it pulls rows as many as you need, but it scans rows that you may not need. Since some rows will definitely be removed by the `WHERE` clause, we can skip scanning them, which will make the search faster. We call it **prefilter**.
+
+Prefilter speeds your query in the following condition:
+
+* You create a multicolumn vector index containing a vector column and many payload columns.
+* The `WHERE` clause in a query is just simple like `(id % 2 = 0) AND (age >  50)`.
+
+Prefilter is also used in internal implementation for handling deleted rows in pgvecto.rs.
+
+Prefilter may have a negative impact on precision. Test the precision before using it.
+
+Prefilter is enabled by default because it almost only works if you create a multicolumn vector index.
 
 ## Options
 
 Search options are specified by PostgreSQL GUC. You can use `SET` command to apply these options in session or `SET LOCAL` command to apply these options in transaction.
 
-| Option                      | Type    | Description                                                                                                                                                   |
-| --------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| vectors.k                   | integer | Expected number of candidates returned by index. The parameter will influence the recall if you use HNSW or quantization for indexing. Default value is `64`. |
-| vectors.ivf_nprobe          | integer | Number of units to query for ivf index. Default value is `10`.  |
-| vectors.enable_prefilter    | boolean | Enable prefiltering or not. Default value is `off`.                                                                                                           |
-| vectors.enable_vector_index | boolean | Enable vector indexes or not. This option is for debugging. Default value is `on`.                                                                            |
-| vectors.enable_vbase        | boolean | Enable vbase optimization or not. Default value is `off`.                                                                                                     |
-| vectors.vbase_range         | integer | Range size of vbase optimization. The larger the range, the more accurate the result, but the slower the speed. Default value is `100`.                       |
+Runtime parameters for planning a query:
 
-Note: When `vectors.enable_vbase` is enabled, prefilter does not work.
+| Option               | Type    | Default                  | Description                                                                  |
+| -------------------- | ------- | ------------------------ | ---------------------------------------------------------------------------- |
+| vectors.enable_index | boolean | `on`                     | Enables or disables the query planner's use of vector index-scan plan types. |
+| vectors.search_mode  | boolean | `enum("basic", "vbase")` | Search mode.                                                                 |
+
+Runtime parameters for executing a query:
+
+| Option                   | Type                     | Default | Description                               |
+| ------------------------ | ------------------------ | ------- | ----------------------------------------- |
+| vectors.enable_prefilter | boolean                  | `on`    | Enables or disables the use of prefilter. |
+| vectors.ivf_nprobe       | integer (`[1, 1000000]`) | `10`    | Number of lists to scan.                  |
+| vectors.hnsw_ef_search   | integer (`[1, 65535]`)   | `100`   | Search scope of HNSW.                     |
