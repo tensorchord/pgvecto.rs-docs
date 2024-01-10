@@ -29,7 +29,7 @@ It's recommended if your do **not** take advantages of
 
 ### `vbase`
 
-`vbase` is another search mode. In this mode, vector indexes behave like a database index.
+`vbase` is another search mode. In this mode, vector indexes behave like a database index. In `vbase` mode, searching results become a stream and every time the database pulls a row, the vector index computes a row to return. It's quite different from an ordinary vector search if you are using a vector search library, such as *faiss*. The latter always wants to know how many results are needed before searching. The original idea comes from [VBASE: Unifying Online Vector Similarity Search and Relational Queries via Relaxed Monotonicity](https://www.usenix.org/conference/osdi23/presentation/zhang-qianxi).
 
 Assuming you are using HNSW algorithm, you may want the following SQL to work:
 
