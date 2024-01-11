@@ -9,7 +9,7 @@ ALTER EXTENSION vectors UPDATE TO '999.999.999';
 Then check the status of all vector indexes:
 
 ```sql
-SELECT * FROM pg_vector_index_info;
+SELECT * FROM pg_vector_index_stat;
 ```
 
 If you see the error `The extension is upgraded so all index files are outdated.`, you need to delete the index files created by older versions. You can delete the folder with this command:
@@ -20,7 +20,7 @@ rm -rf $(psql -U postgres -tAqX -c $'SELECT CONCAT(CURRENT_SETTING(\'data_direct
 
 If you are using Docker, you can just delete `pg_vectors` folder under the volume directory too. Then you need to restart PostgreSQL.
 
-If you see the error `The extension is upgraded so this index is outdated.` when using an index or see the text `UPGRADE` in the view `pg_vector_index_info`, you need to reindex these indexes.
+If you see the error `The extension is upgraded so this index is outdated.` when using an index or see the text `UPGRADE` in the view `pg_vector_index_stat`, you need to reindex these indexes.
 
 Let's say the name of the index is `t_val_idx`, you will reindex them with this SQL:
 
