@@ -20,7 +20,7 @@ pnpm i
 
 ```shell
 # dev en-US docs
-pnpm doc:dev
+pnpm docs:dev
 ```
 
 This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
