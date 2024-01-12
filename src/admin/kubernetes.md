@@ -8,9 +8,9 @@ If you want to use `pgvecto.rs` in PostgreSQL which is running in Kubernetes, we
 |------|---------|
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | >= 2.4.1 |
 | <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl) | >= 1.14 |
-| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 2.10 |
+| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 1.24.0 |
 
-## Helm Instal CloudNative-PG
+## Helm Install CloudNative-PG
 
 ```shell
 $ sudo helm repo add cnpg https://cloudnative-pg.github.io/charts
@@ -50,7 +50,7 @@ USER postgres
 ```shell
 $ docker build -t <your-postgresql-image-repo>:15 --build-arg CNPG_TAG=15 --build-arg PGVECTORS_TAG=v0.1.13   --build-arg TARGETARCH=amd64 .
 ```
-> Notice: PostgreSQL docker image tag must contain CNPG_TAG.
+> Notice: PostgreSQL docker image tag must start with CNPG_TAG for cloudnative-pg to recognize the postgres version.
 
 ## Create PostgreSQL Cluster In Kubernetes
 
