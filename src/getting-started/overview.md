@@ -43,7 +43,7 @@ docker run \
 Then you can connect to the database using the `psql` command line tool. The default username is `postgres`, and the default password is `mysecretpassword`.
 
 ```sh
-psql -h localhost -p 5432 -U postgres
+psql postgresql://postgres:mysecretpassword@localhost:5432/postgres
 ```
 
 Run the following SQL to ensure the extension is enabled.
