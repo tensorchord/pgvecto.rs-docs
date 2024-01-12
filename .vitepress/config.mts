@@ -78,11 +78,11 @@ export default defineConfig({
           ],
         },
         {
-          text: 'Reference',
+          text: 'Integration',
           collapsed: false,
           items: [
-            { text: 'Schema', link: '/reference/schema' },
-          ]
+            { text: 'LangChain', link: '/integration/langchain' },
+          ],
         },
         {
           text: 'FAQs',
@@ -90,6 +90,13 @@ export default defineConfig({
           items: [
             { text: 'pgvecto.rs vs. pgvector', link: '/faqs/comparison-pgvector' },
             { text: 'pgvecto.rs vs. specialized vectordb', link: '/faqs/comparison-with-specialized-vectordb' },
+          ]
+        },
+        {
+          text: 'Reference',
+          collapsed: false,
+          items: [
+            { text: 'Schema', link: '/reference/schema' },
           ]
         },
         {
