@@ -73,7 +73,7 @@ kind: Cluster
 metadata:
   name: pgvectors 
 spec:
-  instances: 3 
+  instances: 1 
   bootstrap:
     initdb:
       database: tensorchord
@@ -92,55 +92,58 @@ spec:
     - "vectors.so"
 ```
 
-We can check the status of the cluster after the cluster is created.
+You can install `cnpg` [kubectl plugin](https://cloudnative-pg.io/documentation/1.22/kubectl-plugin/) to manage your PostgreSQL cluster. Now we can check the status of the cluster. 
 
 ```shell
 $ sudo kubectl get pod
 pgvectors-1                                                1/1     Running   0             3m54s
-pgvectors-2                                                1/1     Running   0             3m31s
-pgvectors-3                                                1/1     Running   0             3m8s
 
-$ $ sudo kubectl cnpg status pgvectors
+$ sudo kubectl cnpg status pgvectors
+$ kubectl cnpg status pgvectors
 Cluster Summary
-Name:               pgvectors
-Namespace:          default
-System ID:          7320256283141423133
-PostgreSQL Image:   postgresql-pgvectors:15
-Primary instance:   pgvectors-1
-Status:             Cluster in healthy state 
-Instances:          3
-Ready instances:    3
-Current Write LSN:  0/6031038 (Timeline: 1 - WAL File: 000000010000000000000006)
+Name:                pgvectors
+Namespace:           default
+System ID:           7323107530735296538
+PostgreSQL Image:    docker.io/xieydd/pgvectors:15
+Primary instance:    pgvectors-1
+Primary start time:  2024-01-12 07:17:34 +0000 UTC (uptime 17m33s)
+Status:              Cluster in healthy state 
+Instances:           1
+Ready instances:     1
+Current Write LSN:   0/4000000 (Timeline: 1 - WAL File: 000000010000000000000003)
 
 Certificates Status
 Certificate Name       Expiration Date                Days Left Until Expiration
 ----------------       ---------------                --------------------------
-pgvectors-ca           2024-04-03 14:47:56 +0000 UTC  89.99
-pgvectors-replication  2024-04-03 14:47:56 +0000 UTC  89.99
-pgvectors-server       2024-04-03 14:47:56 +0000 UTC  89.99
+pgvectors-ca           2024-04-11 07:12:00 +0000 UTC  89.98
+pgvectors-replication  2024-04-11 07:12:00 +0000 UTC  89.98
+pgvectors-server       2024-04-11 07:12:00 +0000 UTC  89.98
 
 Continuous Backup status
 Not configured
 
+Physical backups
+No running physical backups found
+
 Streaming Replication status
-Replication Slots Enabled
-Name         Sent LSN   Write LSN  Flush LSN  Replay LSN  Write Lag  Flush Lag  Replay Lag  State      Sync State  Sync Priority  Replication Slot
-----         --------   ---------  ---------  ----------  ---------  ---------  ----------  -----      ----------  -------------  ----------------
-pgvectors-2  0/6031038  0/6031038  0/6031038  0/6031038   00:00:00   00:00:00   00:00:00    streaming  async       0              active
-pgvectors-3  0/6031038  0/6031038  0/6031038  0/6031038   00:00:00   00:00:00   00:00:00    streaming  async       0              active
+Not configured
 
 Unmanaged Replication Slot Status
 No unmanaged replication slots found
 
+Managed roles status
+No roles managed
+
+Tablespaces status
+No managed tablespaces
+
 Instances status
 Name         Database Size  Current LSN  Replication role  Status  QoS         Manager Version  Node
 ----         -------------  -----------  ----------------  ------  ---         ---------------  ----
-pgvectors-1  29 MB          0/6031038    Primary           OK      BestEffort  1.22.0           kind-control-plane
-pgvectors-2  29 MB          0/6031038    Standby (async)   OK      BestEffort  1.22.0           kind-control-plane
-pgvectors-3  29 MB          0/6031038    Standby (async)   OK      BestEffort  1.22.0           kind-control-plane
+pgvectors-1  29 MB          0/4000000    Primary           OK      BestEffort  1.22.0           kind-control-plane
 ```
 
-You can install `cnpg` [kubectl plugin](https://cloudnative-pg.io/documentation/1.22/kubectl-plugin/) to manage your PostgreSQL cluster.
+> Notice: This article just provides a minimal configuration, not include logical replication, streaming logical replication, backup and restore, etc. We will provide those in another article. You can also refer to [CloudNative-PG](https://cloudnative-pg.io/docs/) for more `Cluster` configuration.
 
 ## Connect To PostgreSQL
 
@@ -149,13 +152,6 @@ We can connect to PostgreSQL cluster and validate `vectors` extension has been i
 ```shell
 $ kubectl port-forward services/pgvectors-rw 5432:5432
 $ psql -h 127.0.0.1 -d tensorchord -U tensorchord
-Password for user tensorchord: 
-psql (14.10 (Ubuntu 14.10-0ubuntu0.22.04.1), server 15.5 (Debian 15.5-1.pgdg110+1))
-WARNING: psql major version 14, server major version 15.
-         Some psql features might not work.
-SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
-Type "help" for help.
-
 tensorchord=> \dx
 Name   | Version |   Schema   |                                         Description                                          
 ---------+---------+------------+----------------------------------------------------------------------------------------------
@@ -163,4 +159,4 @@ Name   | Version |   Schema   |                                         Descript
  vectors | 0.1.13  | public     | vectors: Vector database plugin for Postgres, written in Rust, specifically designed for LLM
 ```
 
-The `vectors` extension is installed successfully. You can try [quick-start](http://localhost:5173/getting-started/overview.html#quick-start) without installition.
+The `vectors` extension is installed successfully. You can try [quick-start](http://docs.pgvecto.rs/getting-started/overview.html#quick-start) without installition.
