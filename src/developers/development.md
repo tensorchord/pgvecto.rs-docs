@@ -71,8 +71,10 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 ```sh
 cargo install cargo-pgrx@$(grep 'pgrx = {' Cargo.toml | cut -d '"' -f 2)
-cargo pgrx init --pg15=/usr/lib/postgresql/15/bin/pg_config
+cargo pgrx init
 ```
+
+`cargo-pgrx` is a helpful tool to develop a PostgreSQL extension. You can read the document in https://docs.rs/crate/cargo-pgrx/latest.
 
 7. The following command is helpful if you are struggling with permission issues.
 
