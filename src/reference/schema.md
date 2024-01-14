@@ -45,6 +45,7 @@ Here is the schema provided by pgvecto.rs.
 | ----------- | ----------- | --------- |
 | real[]      | vector      | yes       |
 | vector      | real[]      | yes       |
+| vector      | vecf16      | no        |
 
 ## List of access methods
 
