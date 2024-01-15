@@ -38,10 +38,11 @@ You can configure PostgreSQL by the reference of the parent image in https://hub
 
 1. Download the deb package in the release page, and type `sudo apt install vectors-pg15-*.deb` to install the deb package.
 
-2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include `vectors.so`.
+2. Configure your PostgreSQL by modifying the `shared_preload_libraries` and `search_path` to include the extension.
 
 ```sh
 psql -U postgres -c 'ALTER SYSTEM SET shared_preload_libraries = "vectors.so"'
+psql -U postgres -c 'ALTER SYSTEM SET search_path TO vectors, "$user", public'
 # You need restart the PostgreSQL cluster to take effects.
 sudo systemctl restart postgresql.service   # for pgvecto.rs running with systemd
 ```
@@ -57,22 +58,23 @@ CREATE EXTENSION vectors;
 
 Before building from source, you could refer to the [development guide](/developers/development.md) to set up the development environment.
 
-Then you could build and install the extension.
+1. Then you could build and install the extension.
 
 ```sh
 cargo pgrx install --sudo --release
 ```
 
-Configure your PostgreSQL by modifying the `shared_preload_libraries` to include `vectors.so`.
+2. Configure your PostgreSQL by modifying the `shared_preload_libraries` and `search_path` to include the extension.
 
 ```sh
 psql -U postgres -c 'ALTER SYSTEM SET shared_preload_libraries = "vectors.so"'
+psql -U postgres -c 'ALTER SYSTEM SET search_path TO vectors, "$user", public'
 # You need restart the PostgreSQL cluster to take effects.
 sudo systemctl restart postgresql.service   # for pgvecto.rs running with systemd
 service postgresql restart  # for pgvecto.rs running in envd
 ```
 
-Connect to the database and enable the extension.
+3. Connect to the database and enable the extension.
 
 ```sql
 DROP EXTENSION IF EXISTS vectors;
