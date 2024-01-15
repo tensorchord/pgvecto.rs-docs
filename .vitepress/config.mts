@@ -69,13 +69,14 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Administration',
+          text: 'Use Cases',
           collapsed: false,
           items: [
             { text: 'Configuration', link: '/admin/configuration' },
             { text: 'Upgrading from older versions', link: '/admin/upgrading' },
             { text: 'How to use pgvecto.rs in Kubernetes?', link: '/admin/kubernetes' },
             { text: 'Setting up logical replication', link: '/admin/logical_replication' },
+            { text: 'Hybrid Search', link: '/use-cases/hybrid-search' },
           ],
         },
         {
@@ -83,6 +84,15 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: 'LangChain', link: '/integration/langchain' },
+          ],
+        },
+        {
+          text: 'Administration',
+          collapsed: false,
+          items: [
+            { text: 'Configuration', link: '/admin/configuration' },
+            { text: 'Upgrading from older versions', link: '/admin/upgrading' },
+            { text: 'Kubernetes', link: '/admin/kubernetes' },
           ],
         },
         {
