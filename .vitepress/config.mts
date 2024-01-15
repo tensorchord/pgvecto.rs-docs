@@ -7,7 +7,7 @@ const customElements = ['mjx-container'];
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "pgvecto.rs",
-  description: "Scalable Vector Search in Postgres",  
+  description: "Scalable Vector Search in Postgres",
   srcDir: 'src',
   markdown: {
     config: (md) => {
@@ -20,7 +20,7 @@ export default defineConfig({
       'script',
       {
         async: "true",
-        src: 'https://www.googletagmanager.com/gtag/js?id=G-YGY455DH2T' 
+        src: 'https://www.googletagmanager.com/gtag/js?id=G-YGY455DH2T'
       }
     ],
     [
@@ -50,11 +50,11 @@ export default defineConfig({
     },
 
     sidebar: {
-      '/':[
+      '/': [
         {
           text: 'Getting Started',
           collapsed: false,
-          items:[
+          items: [
             { text: 'Overview', link: '/getting-started/overview' },
             { text: 'Installation', link: '/getting-started/installation' },
           ],
@@ -62,7 +62,7 @@ export default defineConfig({
         {
           text: 'Usage',
           collapsed: false,
-          items:[
+          items: [
             { text: 'Indexing', link: '/usage/indexing' },
             { text: 'Search', link: '/usage/search' },
             { text: 'Monitoring', link: '/usage/monitoring' },
@@ -72,21 +72,22 @@ export default defineConfig({
           text: 'Administration',
           collapsed: false,
           items: [
-            {text: 'Configuration', link: '/admin/configuration'},
-            {text: 'Upgrading from older versions', link: '/admin/upgrading'},
+            { text: 'Configuration', link: '/admin/configuration' },
+            { text: 'Upgrading from older versions', link: '/admin/upgrading' },
+            { text: 'How to use pgvecto.rs in Kubernetes?', link: '/admin/kubernetes' },
           ],
         },
         {
           text: 'Integration',
           collapsed: false,
           items: [
-            {text: 'LangChain', link: '/integration/langchain'},
+            { text: 'LangChain', link: '/integration/langchain' },
           ],
         },
         {
           text: 'FAQs',
           collapsed: false,
-          items:[
+          items: [
             { text: 'pgvecto.rs vs. pgvector', link: '/faqs/comparison-pgvector' },
             { text: 'pgvecto.rs vs. specialized vectordb', link: '/faqs/comparison-with-specialized-vectordb' },
           ]
@@ -94,7 +95,7 @@ export default defineConfig({
         {
           text: 'Reference',
           collapsed: false,
-          items:[
+          items: [
             { text: 'Schema', link: '/reference/schema' },
           ]
         },
@@ -102,16 +103,16 @@ export default defineConfig({
           text: 'Community',
           collapsed: false,
           items: [
-            {text: 'Contributing to pgvecto.rs', link: '/community/contributing'},
-            {text: 'Roadmap', link: '/community/roadmap'},
-            {text: 'Adopters', link: '/community/adopters'},
+            { text: 'Contributing to pgvecto.rs', link: '/community/contributing' },
+            { text: 'Roadmap', link: '/community/roadmap' },
+            { text: 'Adopters', link: '/community/adopters' },
           ],
         },
         {
           text: 'Developers',
           collapsed: false,
           items: [
-            {text: 'Development tutorial', link: '/developers/development'},
+            { text: 'Development tutorial', link: '/developers/development' },
           ],
         },
       ],
@@ -119,7 +120,7 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/tensorchord/pgvecto.rs' },
-      { icon: 'discord', link: 'https://discord.gg/KqswhpVgdU'}
+      { icon: 'discord', link: 'https://discord.gg/KqswhpVgdU' }
     ]
   }
 })
