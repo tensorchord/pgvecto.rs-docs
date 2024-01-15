@@ -24,7 +24,7 @@ As the above example suggests, a `tsquery` is not just raw text, any more than a
 
 :::
 
-You could use full text search and vector search together in a single query, with the help of `pgvecto.rs`.
+You could use full text search and vector search together in a single query, with the help of `pgvecto.rs`. In this example, we create a table named `items` with two columns: `content` and `embedding`. The column `content` is of type `text`, and the column `embedding` is of type `vector(3)`. We insert four items into the table:
 
 ```sql
 CREATE TABLE items (
@@ -53,7 +53,7 @@ postgres=# select * from items;
 (4 rows)
 ```
 
-Let's search for the items with the word `cat` and `rat` in their content first. We will use full text search to do that. The function `to_tsvector` converts a text to a `tsvector:
+Let's search for the items with the word `cat` and `rat` in their content first. We will use full text search to do that. The function `to_tsvector` converts a text to a `tsvector`. The operator `@@` checks if a `tsvector` matches a `tsquery`.
 
 ```sql
 SELECT content, embedding
