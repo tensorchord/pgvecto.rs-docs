@@ -109,21 +109,26 @@ We will get the item with the embedding `[7, 8, 9]` first, and the item with the
 
 You could normalize the rank of the full text search result and the vector search result, and then merge them together:
 
-```sql
+```sql{2,9,20}
+-- The query starts with a Common Table Expression (CTE), named "semantic_search".
 WITH semantic_search AS (
     SELECT id, content, embedding, 
     RANK () OVER (ORDER BY embedding <-> '[7, 8, 9]') AS rank
     FROM items
     ORDER BY embedding <-> '[7, 8, 9]'::vector
     ), 
+-- Another CTE, named "full_text_search", is defined.
     full_text_search AS (
     SELECT id, content, embedding, 
     RANK () OVER (ORDER BY 
-        ts_rank(to_tsvector('english', content), 'cat & rat'::tsquery) DESC) AS rank
+        ts_rank(to_tsvector('english', content), 
+            'cat & rat'::tsquery) DESC) AS rank
     FROM items
     WHERE to_tsvector('english', content) @@ 'cat & rat'::tsquery
-    ORDER BY ts_rank(to_tsvector('english', content), 'cat & rat'::tsquery) DESC
+    ORDER BY ts_rank(
+        to_tsvector('english', content), 'cat & rat'::tsquery) DESC
     )
+-- The main query selects columns from both CTEs.
     SELECT 
         COALESCE(semantic_search.id, full_text_search.id) AS id,
         COALESCE(semantic_search.content, full_text_search.content) AS content,
