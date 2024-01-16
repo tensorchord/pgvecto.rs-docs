@@ -42,7 +42,7 @@ You can configure PostgreSQL by the reference of the parent image in https://hub
 
 ```sh
 psql -U postgres -c 'ALTER SYSTEM SET shared_preload_libraries = "vectors.so"'
-psql -U postgres -c 'ALTER SYSTEM SET search_path TO vectors, "$user", public'
+psql -U postgres -c 'ALTER SYSTEM SET search_path TO "$user", public, vectors'
 # You need restart the PostgreSQL cluster to take effects.
 sudo systemctl restart postgresql.service   # for pgvecto.rs running with systemd
 ```
@@ -68,7 +68,7 @@ cargo pgrx install --sudo --release
 
 ```sh
 psql -U postgres -c 'ALTER SYSTEM SET shared_preload_libraries = "vectors.so"'
-psql -U postgres -c 'ALTER SYSTEM SET search_path TO vectors, "$user", public'
+psql -U postgres -c 'ALTER SYSTEM SET search_path TO "$user", public, vectors'
 # You need restart the PostgreSQL cluster to take effects.
 sudo systemctl restart postgresql.service   # for pgvecto.rs running with systemd
 service postgresql restart  # for pgvecto.rs running in envd
