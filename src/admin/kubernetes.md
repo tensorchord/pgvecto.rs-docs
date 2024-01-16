@@ -1,4 +1,4 @@
-# How to use pgvecto.rs in Kubernetes?
+# Kubernetes
 
 If you want to use `pgvecto.rs` in PostgreSQL which is running in Kubernetes, we provide a tutorial to help you. In this tutorial, we will use [CloudNative-PG](https://cloudnative-pg.io/) to deploy PostgreSQL cluster in Kubernetes.
 
@@ -10,7 +10,9 @@ If you want to use `pgvecto.rs` in PostgreSQL which is running in Kubernetes, we
 | <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl) | >= 1.14 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 1.24.0 |
 
-## Helm Install CloudNative-PG
+## Install CloudNative-PG
+
+We use [CloudNative-PG (cnpg)](https://cloudnative-pg.io/) to deploy PostgreSQL cluster in Kubernetes. You can install it by [helm](https://helm.sh/docs/intro/install/).
 
 ```shell
 $ sudo helm repo add cnpg https://cloudnative-pg.github.io/charts
@@ -23,7 +25,7 @@ NAME                                   READY   STATUS    RESTARTS   AGE
 cnpg-cloudnative-pg-67ff4f5f66-94m8d   1/1     Running   0          1m
 ```
 
-## Build PostgreSQL Docker Image
+## Build PostgreSQL image with pgvecto.rs
 
 We use the official [CloudNative-PG docker image](https://github.com/cloudnative-pg/postgres-containers) as the base image, and install `pgvecto.rs` in it. And you can also find `pgvecto.rs` version from [releases](https://github.com/tensorchord/pgvecto.rs/releases).
 
@@ -52,7 +54,7 @@ $ docker build -t <your-postgresql-image-repo>:15 --build-arg CNPG_TAG=15 --buil
 ```
 > Notice: PostgreSQL docker image tag must start with CNPG_TAG for cloudnative-pg to recognize the postgres version.
 
-## Create PostgreSQL Cluster In Kubernetes
+## Create PostgreSQL cluster
 
 We provide a sample yaml file to create a PostgreSQL cluster in Kubernetes. You can modify it according to your needs. You need pay attention to the following points:
 - Set `shared_preload_libraries` to load `pgvecto.rs` shared library. You can also set `postInitApplicationSQL`  `ALTER SYSTEM SET shared_preload_libraries = "vectors.so";` to load `pgvecto.rs` shared library. 
@@ -145,9 +147,9 @@ pgvectors-1  29 MB          0/4000000    Primary           OK      BestEffort  1
 
 > Notice: This article just provides a minimal configuration, not include logical replication, streaming logical replication, backup and restore, etc. We will provide those in another article. You can also refer to [CloudNative-PG](https://cloudnative-pg.io/docs/) for more `Cluster` configuration.
 
-## Connect To PostgreSQL
+## Connect to PostgreSQL cluster
 
-We can connect to PostgreSQL cluster and validate `vectors` extension has been installed successfully.
+You can use `kubectl port-forward` to connect to PostgreSQL cluster.
 
 ```shell
 $ kubectl port-forward services/pgvectors-rw 5432:5432
