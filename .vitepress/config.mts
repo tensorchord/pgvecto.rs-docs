@@ -89,6 +89,7 @@ export default defineConfig({
             { text: 'Configuration', link: '/admin/configuration' },
             { text: 'Upgrading from older versions', link: '/admin/upgrading' },
             { text: 'Kubernetes', link: '/admin/kubernetes' },
+            { text: 'Setting up FDW', link: '/admin/fdw' },
           ],
         },
         {
