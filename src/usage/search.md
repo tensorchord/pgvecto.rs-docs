@@ -25,7 +25,7 @@ It's recommended if your do **not** take advantages of
 
 * database transaction
 * deletions without `VACUUM`
-* WHERE clauses and very complex SQL statments
+* WHERE clauses and very complex SQL statements
 
 ### `vbase`
 
@@ -44,9 +44,9 @@ In `vbase` mode, the HNSW algorithm is guaranteed to return rows as many as you 
 
 * database transaction
 * deletions without `VACUUM`
-* `WHERE` clauses and very complex SQL statments
+* `WHERE` clauses and very complex SQL statements
 
-You can enable `vbase` by a SQL statment `SET vectors.search_mode = vbase;`.
+You can enable `vbase` by a SQL statement `SET vectors.search_mode = vbase;`.
 
 ## Prefilter
 
@@ -57,7 +57,7 @@ Prefilter speeds your query in the following condition:
 * You create a multicolumn vector index containing a vector column and many payload columns.
 * The `WHERE` clause in a query is just simple like `(id % 2 = 0) AND (age >  50)`.
 
-Prefilter is also used in internal implementation for handling deleted rows in pgvecto.rs.
+Prefilter is also used in internal implementation for handling deleted rows in `pgvecto.rs`.
 
 Prefilter may have a negative impact on precision. Test the precision before using it.
 
