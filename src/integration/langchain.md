@@ -1,20 +1,20 @@
 # LangChain
 
-This document describes the Langchain integration.
+This document describes the LangChain integration.
 
 LangChain is a framework for developing applications powered by language models. It is a set of tools that allows you to fine-tune, deploy, and use language models in production.
 
-pgvecto.rs provides a Langchain integration that allows you to retrieve the most similar vectors in LangChain.
+`pgvecto.rs` provides a LangChain integration that allows you to retrieve the most similar vectors in LangChain.
 
 ## Pre-requisites
 
-Some dependencies are required to use the Langchain integration:
+Some dependencies are required to use the LangChain integration:
 
 ```sh
 pip install langchain langchain-openai pgvecto-rs
 ```
 
-You could start the postgres instance with pgvecto.rs extension in a docker container:
+You could start the postgres instance with `pgvecto.rs` extension in a docker container:
 
 ```sh
 docker run \
@@ -39,7 +39,7 @@ CREATE EXTENSION vectors;
 
 ## Create a vector store from scratch
 
-We will show how to use pgvecto.rs in LangChain to retrieve the most similar vectors. 
+We will show how to use `pgvecto.rs` in LangChain to retrieve the most similar vectors. 
 
 First, you need to create the text loader and the text splitter to split the text into chunks. We use the markdown file [pgvecto.rs-docs/src/getting-started/overview.md](https://github.com/tensorchord/pgvecto.rs-docs/blob/main/src/getting-started/overview.md) as an example.
 
@@ -140,7 +140,7 @@ Score:  0.29536954
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 Score:  0.35845917
-More details at [📝pgvecto.rs vs. pgvector](/faqs/comparison-pgvector.md).
+More details at [📝`pgvecto.rs` vs. pgvector](/faqs/comparison-pgvector.md).
 
 ## Quick start
 

@@ -1,13 +1,13 @@
 # Installation
 
-There are three ways to install pgvecto.rs.
+There are three ways to install `pgvecto.rs`.
 
 ## Docker
 
 <a href="https://hub.docker.com/r/tensorchord/pgvecto-rs"><img src="https://img.shields.io/docker/pulls/tensorchord/pgvecto-rs" /></a>
 
 
-The easiest way to try pgvecto.rs is to run it from a ready-to use [Docker image](https://hub.docker.com/r/tensorchord/pgvecto-rs).
+The easiest way to try `pgvecto.rs` is to run it from a ready-to use [Docker image](https://hub.docker.com/r/tensorchord/pgvecto-rs).
 
 ```sh
 docker run \

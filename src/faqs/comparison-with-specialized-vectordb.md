@@ -4,7 +4,7 @@ Read our complete blog at [modelz.ai/blog/pgvector](https://modelz.ai/blog/pgvec
 
 Imagine this, your existing data is stored in a Postgres database, and you want to use a vector database to do some vector similarity search. You have to move your data from Postgres to the vector database, and you have to maintain two databases at the same time. This is not a good idea.
 
-Why not just use Postgres to do the vector similarity search? This is the reason why we build pgvecto.rs. The user journey is like this:
+Why not just use Postgres to do the vector similarity search? This is the reason why we build `pgvecto.rs`. The user journey is like this:
 
 ```sql
 -- Update the embedding column for the documents table
