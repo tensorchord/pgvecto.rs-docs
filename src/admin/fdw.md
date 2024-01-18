@@ -4,7 +4,7 @@ Vector retrieval is a query that consumes CPU and IO, even if there already have
 
 [Foreign data wrapper(FDW)](https://wiki.postgresql.org/wiki/Foreign_data_wrappers) is a module that you can use to access and interact with an external data (foreign data) source. They allow you to query foreign objects from remote servers as if they were local objects. Postgres now has a lot of foreign data wrappers available and they work with plenty of different source types: NoSQL databases, platforms like Twitter and Facebook, geospatial data formats, etc. 
 
-In this turorial, we will use the [`postgres_fdw`](https://www.postgresql.org/docs/current/postgres-fdw.html) module, which includes the foreign-data wrapper. This wrapper can be used to access data stored in external PostgreSQL servers. This article will explain how to use `postgres_fdw` to access index data in a foreign PostgreSQL cluster that already has the [`pgvecto.rs`](https://github.com/tensorchord/pgvecto.rs) extension installed.
+In this tutorial, we will use the [`postgres_fdw`](https://www.postgresql.org/docs/current/postgres-fdw.html) module, which includes the foreign-data wrapper. This wrapper can be used to access data stored in external PostgreSQL servers. This article will explain how to use `postgres_fdw` to access index data in a foreign PostgreSQL cluster that already has the [`pgvecto.rs`](https://github.com/tensorchord/pgvecto.rs) extension installed.
 
 ## Deploying PostgreSQL Clusters
 
