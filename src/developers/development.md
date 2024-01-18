@@ -2,7 +2,7 @@
 
 ## Environment
 
-You can setup development environment simply using `envd`. It will create a docker container and install all the dependencies for you.
+You can setup development environment simply using [`envd`](https://github.com/tensorchord/envd). It will create a docker container and install all the dependencies for you.
 
 ```sh
 pip install envd
@@ -119,7 +119,7 @@ For a debug build, backtrace is printed when a thread in background worker proce
 
 ### Version
 
-pgvecto.rs uses `pg_vectors` directory under PostgreSQL data directory for storage. To reduce the unnecessary rebuilding indexes when upgrade, we record version number of persistent data. If you modify the structure of persistent data, you need to bump the `VERSION` (if it's a breaking change) or `SOFT_VERSION` (if a newer version can still read old data).
+`pgvecto.rs` uses `pg_vectors` directory under PostgreSQL data directory for storage. To reduce the unnecessary rebuilding indexes when upgrade, we record version number of persistent data. If you modify the structure of persistent data, you need to bump the `VERSION` (if it's a breaking change) or `SOFT_VERSION` (if a newer version can still read old data).
 
 The version number is saved in these two files:
 

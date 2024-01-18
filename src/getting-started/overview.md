@@ -1,32 +1,21 @@
 # Overview
 
-An introduction to the pgvecto.rs.
+An introduction to the `pgvecto.rs`.
 
-## What is pgvecto.rs
+## What is `pgvecto.rs`
 
-pgvecto.rs is a Postgres extension that provides vector similarity search functions. It is written in Rust and based on [pgrx](https://github.com/tcdi/pgrx). It is currently in the beta status, we invite you to try it out in production and provide us with feedback. Read more at [📝our launch blog](https://modelz.ai/blog/pgvecto-rs).
+`pgvecto.rs` is a Postgres extension that provides vector similarity search functions. It is written in Rust and based on [pgrx](https://github.com/tcdi/pgrx). It is currently in the beta status, we invite you to try it out in production and provide us with feedback. Read more at [📝our launch blog](https://modelz.ai/blog/pgvecto-rs).
 
-## Why use pgvecto.rs
+## Why use `pgvecto.rs`
 
-- 💃 **Easy to use**: pgvecto.rs is a Postgres extension, which means that you can use it directly within your existing database. This makes it easy to integrate into your existing workflows and applications.
-- 🔗 **Async indexing**: pgvecto.rs's index is asynchronously constructed by the background threads and does not block insertions and always ready for new queries.
-- 🥅 **Filtering**: pgvecto.rs supports filtering. You can set conditions when searching or retrieving points. This is the missing feature of other postgres extensions.
-- 🧮 **Quantization**: pgvecto.rs supports scalar quantization and product qutization up to 64x.
-- 🦀 **Rewrite in Rust**: Rust's strict compile-time checks ensure memory safety, reducing the risk of bugs and security issues commonly associated with C extensions.
-
-## Comparison with pgvector
-
-|                                             | pgvecto.rs                                             | pgvector                |
-| ------------------------------------------- | ------------------------------------------------------ | ----------------------- |
-| Transaction support                         | ✅                                                      | ⚠️                       |
-| Sufficient Result with Delete/Update/Filter | ✅                                                      | ⚠️                       |
-| Vector Dimension Limit                      | 65535                                                  | 2000                    |
-| Prefilter on HNSW                           | ✅                                                      | ❌                       |
-| Parallel HNSW Index build                   | ⚡️ Linearly faster with more cores                      | 🐌 Only single core used |
-| Async Index build                           | Ready for queries anytime and do not block insertions. | ❌                       |
-| Quantization                                | Scalar/Product Quantization                            | ❌                       |
-
-More details at [📝pgvecto.rs vs. pgvector](/faqs/comparison-pgvector.md).
+- 💃 **User-Friendly**: Effortlessly incorporate `pgvecto.rs` into your existing database as a Postgres extension, streamlining integration with your current workflows and applications.
+- 🥅 **Join and Filter without Limitation**: Elevate your search capabilities in `pgvecto.rs` with VBASE filtering. Apply any filter conditions and join with other tables, achieving high recall and low latency, a distinctive edge over other vector databases.
+- 🌓 **Efficient FP16 Support**: Optimize your data storage with `pgvecto.rs`, supporting FP16 vector type to cut memory and storage usage by half, and boosting throughput.
+- 🧮 **Advanced Quantization**: Utilize scalar and product quantization in `pgvecto.rs` for up to 64x compression. Achieve up to 4x memory savings with less than 2% recall loss with scalar quantization.
+- 🔍 **Hybrid Search**: Leverage the full-text search functionality in PostgreSQL with `pgvecto.rs` to search text and vector data within a single query.
+- 🔗 **Async indexing**: The `pgvecto.rs` index is built asynchronously by background threads, allowing non-blocking inserts and always ready for new queries.
+- ⬆️ **Extended Vector Length**: `pgvecto.rs` supports vector length up to 65535, suitable for the latest models.
+- 🦀 **Rust-Powered Reliability**: Rust's strict compile-time checks ensure memory safety, reducing the risk of bugs and security issues commonly associated with C extensions.
 
 ## Quick start
 
@@ -53,7 +42,7 @@ DROP EXTENSION IF EXISTS vectors;
 CREATE EXTENSION vectors;
 ```
 
-pgvecto.rs introduces a new data type `vector(n)` denoting an n-dimensional vector. The `n` within the brackets signifies the dimensions of the vector.
+`pgvecto.rs` introduces a new data type `vector(n)` denoting an n-dimensional vector. The `n` within the brackets signifies the dimensions of the vector.
 
 You could create a table with the following SQL. 
 

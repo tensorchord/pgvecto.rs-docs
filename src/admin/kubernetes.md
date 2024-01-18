@@ -25,7 +25,7 @@ NAME                                   READY   STATUS    RESTARTS   AGE
 cnpg-cloudnative-pg-67ff4f5f66-94m8d   1/1     Running   0          1m
 ```
 
-## Build PostgreSQL image with pgvecto.rs
+## Build PostgreSQL image with `pgvecto.rs`
 
 We use the official [CloudNative-PG docker image](https://github.com/cloudnative-pg/postgres-containers) as the base image, and install `pgvecto.rs` in it. And you can also find `pgvecto.rs` version from [releases](https://github.com/tensorchord/pgvecto.rs/releases).
 

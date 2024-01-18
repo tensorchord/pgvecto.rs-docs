@@ -73,6 +73,10 @@ export default defineConfig({
           text: 'Use Cases',
           collapsed: false,
           items: [
+            { text: 'Configuration', link: '/admin/configuration' },
+            { text: 'Upgrading from older versions', link: '/admin/upgrading' },
+            { text: 'How to use pgvecto.rs in Kubernetes?', link: '/admin/kubernetes' },
+            { text: 'Setting up logical replication', link: '/admin/logical_replication' },
             { text: 'Hybrid Search', link: '/use-cases/hybrid-search' },
           ],
         },
@@ -90,13 +94,14 @@ export default defineConfig({
             { text: 'Configuration', link: '/admin/configuration' },
             { text: 'Upgrading from older versions', link: '/admin/upgrading' },
             { text: 'Kubernetes', link: '/admin/kubernetes' },
+            { text: 'Foreign Data Wrapper (FDW)', link: '/admin/fdw' },
           ],
         },
         {
           text: 'FAQs',
           collapsed: false,
           items: [
-            { text: 'pgvecto.rs vs. pgvector', link: '/faqs/comparison-pgvector' },
+            // { text: 'pgvecto.rs vs. pgvector', link: '/faqs/comparison-pgvector' },
             { text: 'pgvecto.rs vs. specialized vectordb', link: '/faqs/comparison-with-specialized-vectordb' },
           ]
         },

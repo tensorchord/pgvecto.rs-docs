@@ -1,6 +1,6 @@
 # Indexing
 
-Indexing is the process of building a data structure that allows for efficient search. pgvecto.rs supports three indexing algorithms: brute force (FLAT), IVF, and HNSW. The default algorithm is HNSW.
+Indexing is the process of building a data structure that allows for efficient search. `pgvecto.rs` supports three indexing algorithms: brute force (FLAT), IVF, and HNSW. The default algorithm is HNSW.
 
 Assuming there is a table `items` and there is a column named `embedding` of type `vector(n)`, you can create a vector index for squared Euclidean distance with the following SQL.
 
@@ -27,7 +27,7 @@ SELECT * FROM items ORDER BY embedding <-> '[3,2,1]' LIMIT 5;
 
 ::: details
 
-pgvecto.rs constructs the index asynchronously. When you insert new rows into the table, they will first be placed in an append-only file. The background thread will periodically merge the newly inserted row to the existing index. When a user performs any search prior to the merge process, it scans the append-only file to ensure accuracy and consistency.
+`pgvecto.rs` constructs the index asynchronously. When you insert new rows into the table, they will first be placed in an append-only file. The background thread will periodically merge the newly inserted row to the existing index. When a user performs any search prior to the merge process, it scans the append-only file to ensure accuracy and consistency.
 
 :::
 

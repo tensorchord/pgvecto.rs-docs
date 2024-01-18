@@ -1,6 +1,6 @@
 # Schema
 
-Here is the schema provided by pgvecto.rs.
+Here is the schema provided by `pgvecto.rs`.
 
 # List of data types
 
@@ -18,18 +18,18 @@ Here is the schema provided by pgvecto.rs.
 | +    | vecf16        | vecf16         | vecf16      | element-wise arithmetic     |
 | -    | vector        | vector         | vector      | element-wise arithmetic     |
 | -    | vecf16        | vecf16         | vecf16      | element-wise arithmetic     |
-| =    | vector        | vector         | boolean     | dictionary order comparsion |
-| =    | vecf16        | vecf16         | boolean     | dictionary order comparsion |
-| <>   | vector        | vector         | boolean     | dictionary order comparsion |
-| <>   | vecf16        | vecf16         | boolean     | dictionary order comparsion |
-| <    | vector        | vector         | boolean     | dictionary order comparsion |
-| <    | vecf16        | vecf16         | boolean     | dictionary order comparsion |
-| >    | vector        | vector         | boolean     | dictionary order comparsion |
-| >    | vecf16        | vecf16         | boolean     | dictionary order comparsion |
-| <=   | vector        | vector         | boolean     | dictionary order comparsion |
-| <=   | vecf16        | vecf16         | boolean     | dictionary order comparsion |
-| >=   | vector        | vector         | boolean     | dictionary order comparsion |
-| >=   | vecf16        | vecf16         | boolean     | dictionary order comparsion |
+| =    | vector        | vector         | boolean     | dictionary order comparison |
+| =    | vecf16        | vecf16         | boolean     | dictionary order comparison |
+| <>   | vector        | vector         | boolean     | dictionary order comparison |
+| <>   | vecf16        | vecf16         | boolean     | dictionary order comparison |
+| <    | vector        | vector         | boolean     | dictionary order comparison |
+| <    | vecf16        | vecf16         | boolean     | dictionary order comparison |
+| >    | vector        | vector         | boolean     | dictionary order comparison |
+| >    | vecf16        | vecf16         | boolean     | dictionary order comparison |
+| <=   | vector        | vector         | boolean     | dictionary order comparison |
+| <=   | vecf16        | vecf16         | boolean     | dictionary order comparison |
+| >=   | vector        | vector         | boolean     | dictionary order comparison |
+| >=   | vecf16        | vecf16         | boolean     | dictionary order comparison |
 | <->  | vector        | vector         | real        | squared Euclidean distance  |
 | <->  | vecf16        | vecf16         | real        | squared Euclidean distance  |
 | <#>  | vector        | vector         | real        | negative dot product        |
