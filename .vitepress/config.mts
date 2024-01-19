@@ -73,7 +73,7 @@ export default defineConfig({
           text: 'Use Cases',
           collapsed: false,
           items: [
-            { text: 'Hybrid Search', link: '/use-cases/hybrid-search' },
+            { text: 'Hybrid search', link: '/use-cases/hybrid-search' },
           ],
         },
         {
@@ -88,9 +88,9 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: 'Configuration', link: '/admin/configuration' },
-            { text: 'Upgrading from older versions', link: '/admin/upgrading' },
+            { text: 'Upgrading', link: '/admin/upgrading' },
             { text: 'Logical replication', link: '/admin/logical_replication' },
-            { text: 'Foreign Data Wrapper (FDW)', link: '/admin/fdw' },
+            { text: 'Foreign data wrapper (FDW)', link: '/admin/fdw' },
             { text: 'Kubernetes', link: '/admin/kubernetes' },
           ],
         },

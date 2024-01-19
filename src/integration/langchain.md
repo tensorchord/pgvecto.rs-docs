@@ -6,7 +6,7 @@ LangChain is a framework for developing applications powered by language models.
 
 `pgvecto.rs` provides a LangChain integration that allows you to retrieve the most similar vectors in LangChain.
 
-## Pre-requisites
+## Install dependencies
 
 Some dependencies are required to use the LangChain integration:
 
@@ -37,7 +37,7 @@ DROP EXTENSION IF EXISTS vectors;
 CREATE EXTENSION vectors;
 ```
 
-## Create a vector store from scratch
+## Create the database and load documents
 
 We will show how to use `pgvecto.rs` in LangChain to retrieve the most similar vectors. 
 
@@ -99,6 +99,8 @@ db = PGVecto_rs.from_documents(
 )
 ```
 
+## Query
+
 Finally, we can retrieve the most similar vectors in LangChain.
 
 ```python
@@ -148,7 +150,7 @@ For new users, we recommend using the [Docker image](https://hub.docker.com/r/te
 ...
 ```
 
-## Add vectors to an existing store
+## Initialize from an existing database
 
 Above, we created a vector store from scratch. However, often times we want to work with an existing vector store. In order to do that, we can initialize it directly.
 
