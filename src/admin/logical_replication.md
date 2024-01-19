@@ -1,12 +1,12 @@
-# Setting up logical replication
+# Logical replication
 
-Logical replication is a method of replicating data objects and their changes, based upon their replication identity (usually a primary key). It is often used in migration, Change Data Capture(CDC), and fine-grained database integration and access control. 
+Logical replication is a feature in PostgreSQL that enables the replication of individual database objects or a subset of data from one PostgreSQL database to another.
 
-In this article, we will introduce how to set logical replication for pgvecto.rs index. Even if the source index instance goes down, you can still query the target database using the index.
+With logical replication, you can selectively replicate specific tables, databases, or even specific rows based on predefined replication rules. This provides more flexibility compared to physical replication, where the entire database cluster is replicated. It allows you to design custom replication topologies and replicate only the data that is necessary for your use case.
 
-## Deploying PostgreSQL Clusters
+We will show you how to use logical replication to replicate data from one PostgreSQL database to another.
 
-In this tutorial, we will use docker compose to deploy two PostgreSQL clusters.
+## Deploy source and target PostgreSQL clusters
 
 ``` shell
 $ echo 'version: "3.7"
@@ -55,22 +55,22 @@ DROP EXTENSION IF EXISTS "vectors";
 CREATE EXTENSION "vectors";
 ```
 
-## Set Logical Replication
+## Configure logical replication
 
 Now, we can set logical replication between source database and target database.
 
-###  Prepare Data 
+### Prepare test data
 
 We need to create a table named `test` with a column named `embedding` of type `vector(10)` in source database and target database. Then we create an index on the `embedding` column of the `test` table in source database and target database. Finally, we insert data into the source database.
 
-#### Create test table
+#### Create the table
 
 ```sql
 DROP TABLE IF EXISTS test;
 CREATE TABLE test (id integer PRIMARY KEY, embedding vector(10) NOT NULL);
 ```
 
-#### Create index
+#### Create the index
 
 We create an index on the `embedding` column of the `test` table in source database and target database. The index type is flat, it is a brute force algorithm. We choose `vector_l2_ops` squared Euclidean distance to measure the distance between vectors. Another index type and distance function can be found in [here](https://docs.pgvecto.rs/usage/indexing.html).
 
@@ -114,11 +114,11 @@ SELECT id FROM test ORDER BY embedding <-> '[0.40671515, 0.24202824, 0.37059402,
 (0 rows)
 ```
 
-###  Config Logical Replication
+### Set up logical replication
 
 To simplify the process of setting up logical replication between two PostgreSQL databases, we will use [pg-easy-replicate](https://github.com/shayonj/pg_easy_replicate).
 
-#### Config Check
+We use [pg-easy-replicate](https://github.com/shayonj/pg_easy_replicate) to set up logical replication between source database and target database.
 
 ```shell
 # get the network name
@@ -141,7 +141,7 @@ Every sync will need to be bootstrapped before you can set up the sync between t
 $ docker run -e SOURCE_DB_URL="postgres://postgres:password@<source_db_ip>:5432/postgres"    -e TARGET_DB_URL="postgres://postgres:password@<target_db_ip>:5432/postgres"   -it --rm --network=pg_regress_localnet shayonj/pg_easy_replicate:latest pg_easy_replicate bootstrap --group-name database-cluster-1 --copy-schema
 ```
 
-### Start Sync
+### Start sync
 
 Once the bootstrap is complete, you can start the sync. Starting the sync sets up the publication, subscription and performs other minor housekeeping things.
 
@@ -149,9 +149,9 @@ Once the bootstrap is complete, you can start the sync. Starting the sync sets u
 $ docker run -e SOURCE_DB_URL="postgres://postgres:password@192.168.64.2:5432/postgres"    -e TARGET_DB_URL="postgres://postgres:password@192.168.64.3:5432/postgres"   -it --rm --network=pg_regress_localnet shayonj/pg_easy_replicate:latest pg_easy_replicate start_sync --group-name database-cluster-1 
 ```
 
-## Test Logical Replication
+## Test logical replication
 
-### Query In Target Database
+### Query
 
 Now we can query the target database to get the nearest neighbor of a vector in the `embedding` column of the `test` table. The result is the same as the source database. 
 
@@ -171,7 +171,7 @@ postgres=# SELECT id FROM test ORDER BY embedding <-> '[0.40671515, 0.24202824, 
 (10 rows)
 ```
 
-#### Update Index
+#### Update index
 
 If you insert data into the source database, the data will be synchronized to the target database. Insert data into the source database:
 

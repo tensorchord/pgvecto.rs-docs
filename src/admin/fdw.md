@@ -1,12 +1,12 @@
-# Setting up Foreign Data Wrapper (FDW) reduce the pressure on the primary instance
+# Foreign data wrapper (FDW)
 
-Vector retrieval is a query that consumes CPU and IO, even if there already have an index. If this query is run on the primary instance, it can negatively impact its performance. To alleviate this issue, it is recommended to execute the query on a specific PostgreSQL cluster, which will reduce the pressure on the primary instance.
+[Foreign data wrapper(FDW)](https://wiki.postgresql.org/wiki/Foreign_data_wrappers) is an extension in PostgreSQL that allows you to access and query data stored in remote databases as if they were local tables. FDW provides a way to integrate and interact with different data sources.
 
-[Foreign data wrapper(FDW)](https://wiki.postgresql.org/wiki/Foreign_data_wrappers) is a module that you can use to access and interact with an external data (foreign data) source. They allow you to query foreign objects from remote servers as if they were local objects. Postgres now has a lot of foreign data wrappers available and they work with plenty of different source types: NoSQL databases, platforms like Twitter and Facebook, geospatial data formats, etc. 
+With the FDW extension, you can define foreign tables in your local PostgreSQL database that mirror the structure of tables in remote databases. These foreign tables act as proxies or wrappers for the remote data, enabling you to perform SELECT, INSERT, UPDATE, and DELETE operations on them, just like regular tables in PostgreSQL.
 
 In this tutorial, we will use the [`postgres_fdw`](https://www.postgresql.org/docs/current/postgres-fdw.html) module, which includes the foreign-data wrapper. This wrapper can be used to access data stored in external PostgreSQL servers. This article will explain how to use `postgres_fdw` to access index data in a foreign PostgreSQL cluster that already has the [`pgvecto.rs`](https://github.com/tensorchord/pgvecto.rs) extension installed.
 
-## Deploying PostgreSQL Clusters
+## Deploy local and foreign PostgreSQL clusters
 
 In this tutorial, we will use docker compose to deploy two PostgreSQL clusters.
 
@@ -54,18 +54,18 @@ DROP EXTENSION IF EXISTS "vectors";
 CREATE EXTENSION "vectors";
 ```
 
-## Foreign Database Operations
+## Foreign database operations
 
 First, we need create a table `test` and build an index on it in the foreign db. The `test` table has two columns: `id` and `embedding`. The `embedding` column is a vector column, and its type is `vector(10)`. The `id` column is the primary key of the `test` table.
 
-### Create Table In Foreign DB
+### Create a table
 ```sql
 DROP TABLE IF EXISTS test;
 CREATE TABLE test (id integer PRIMARY KEY, embedding vector(10) NOT NULL);
 INSERT INTO test SELECT i, ARRAY[random(),random(),random(),random(),random(),random(),random(),random(),random(),random()]::real[] FROM generate_series(1, 100) i;
 ```
 
-### Create User In Foreign DB 
+### Create a user
 
 Create a user named `fdw_user` in foreign db, and grant `SELECT`, `INSERT`, `UPDATE`, `DELETE` privileges on table `test` to `fdw_user`.
 
@@ -74,7 +74,7 @@ CREATE USER fdw_user WITH ENCRYPTED PASSWORD 'secret';
 GRANT SELECT,INSERT,UPDATE,DELETE ON TABLE test TO fdw_user;
 ```
 
-### Create Index In Foreign DB
+### Create the index
 
 We create an index on the `embedding` column of the `test` table. The index type is flat, it is a brute force algorithm. We choose `vector_l2_ops` squared Euclidean distance to measure the distance between vectors. Another index type and distance function can be found in [here](https://docs.pgvecto.rs/usage/indexing.html).
 
@@ -82,11 +82,11 @@ We create an index on the `embedding` column of the `test` table. The index type
 CREATE INDEX ON test USING vectors (embedding vector_l2_ops) WITH (options = "[indexing.flat]");
 ```
 
-## Local Database Operations
+## Local database operations
 
 In local database, we need to create a table `local` and a foreign server `foreign_server`. The `local` table has two columns: `id` and `name`. The `id` column is the primary key of the `local` table. The `foreign_server` is a foreign server, which is used to access the foreign db.
 
-### Create Local Table
+### Create local table
 
 ```sql
 DROP TABLE IF EXISTS local;
@@ -94,7 +94,7 @@ CREATE TABLE local (id integer PRIMARY KEY, name VARCHAR(50) NOT NULL);
 INSERT INTO local (id, name) VALUES (1, 'terry'), (2, 'jason'), (3, 'curry');
 ```
 
-### Create User In Local DB
+### create local user
 
 Using superuser, execute the following statement in the local PostgreSQL database to create a regular user named `local_user`.
 
@@ -102,7 +102,7 @@ Using superuser, execute the following statement in the local PostgreSQL databas
 CREATE USER local_user WITH ENCRYPTED PASSWORD 'secret';
 ```
 
-### Create Foreign Server
+### Create the foreign server
 
 To create an external server using the `CREATE SERVER` statement, you need to specify the host, port, and database name of the remote database.
 
@@ -112,7 +112,7 @@ CREATE SERVER foreign_server
     OPTIONS (host '<foreign_db_ip>', port '5432', dbname 'postgres');
 ```
 
-### Create User Mapping
+### Create the user mapping
 
 Use the `CREATE USER MAPPING` statement to create a mapping between remote users and local users, requiring the username and password of the remote user.
 
@@ -121,7 +121,7 @@ CREATE USER MAPPING FOR local_user
     SERVER foreign_server
     OPTIONS (user 'fdw_user', password 'secret');
 ```
-### Create Foreign Table
+### Creat the foreign table
 
 Use the `CREATE FOREIGN TABLE` statement to create a remote table. It is important to note that the types of each column should match those of the actual remote table, and it's best to keep the column names consistent. Otherwise, you will need to use the column_name parameter to specify the column name in the remote table for each individual column.
 
@@ -144,7 +144,7 @@ GRANT USAGE ON FOREIGN SERVER foreign_server TO local_user;
 GRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA public TO local_user;
 ```
 
-## Join Query In Local DB
+## Query
 
 Now we can use join query to access the foreign table in local db.
 ```shell
