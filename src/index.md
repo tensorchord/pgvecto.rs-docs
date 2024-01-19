@@ -20,8 +20,8 @@ hero:
       text: Launch Blog ↗️
       link: https://blog.pgvecto.rs
 features:
-  - title: Fast
-    details: 20x faster than pgvector at 90% recall.
+  - title: Scalable
+    details: Designed to be scalable, supports half-precision and quantization for more vectors
   - title: 100% Rust
     details: pgvecto.rs is implemented in Rust rather than C like many existing Postgres extensions. Rust provides many advantages for an extension like pgvecto.rs.
   - title: Relational + Semantic Search
