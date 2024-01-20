@@ -134,7 +134,7 @@ These steps are needed for a release:
 2. Push these changes to `main` branch.
     * Modify the latest version number in `/README.md` and `/docs/installation.md` to `99.99.99`.
     * Use `cargo pgrx schema` to generate a schema script and upload it to `/sql/vectors--99.99.99.sql`.
-    * Write a schema update script and upload it to `/sql/vectors--98.98.98--99.99.99.sql`.
+    * Write a schema update script and upload it to `/sql/vectors--98.98.98--99.99.99.sql`. You can check the validity of it with the help of `./tools/dump.sh`.
 3. Manually trigger `Release` CI.
 
 These steps are needed for a prerelease:
