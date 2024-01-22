@@ -2,7 +2,7 @@
 
 Here is the schema provided by `pgvecto.rs`.
 
-# List of data types
+## List of data types
 
 | Name              | Description                                                          |
 | ----------------- | -------------------------------------------------------------------- |
@@ -53,6 +53,17 @@ Here is the schema provided by `pgvecto.rs`.
 | ------- | ----- | ----------------------- |
 | vectors | Index | pgvecto.rs vector index |
 
+## List of operator families
+
+| AM      | Operator family | Applicable types |
+| ------- | --------------- | ---------------- |
+| vectors | vector_cos_ops  | vector           |
+| vectors | vector_dot_ops  | vector           |
+| vectors | vector_l2_ops   | vector           |
+| vectors | vecf16_cos_ops  | vecf16           |
+| vectors | vecf16_dot_ops  | vecf16           |
+| vectors | vecf16_l2_ops   | vecf16           |
+
 ## List of operator classes
 
 | AM      | Input type | Operator class | Default? |
@@ -66,6 +77,6 @@ Here is the schema provided by `pgvecto.rs`.
 
 ## List of views
 
-| Name                 | Description                                  |
-| -------------------- | -------------------------------------------- |
-| pg_vector_index_stat | A view provided for vector index statistics. |
+| Name                 | Description                                 |
+| -------------------- | ------------------------------------------- |
+| pg_vector_index_stat | A view provided for vector index statistics |
