@@ -69,15 +69,15 @@ Search options are specified by PostgreSQL GUC. You can use `SET` command to app
 
 Runtime parameters for planning a query:
 
-| Option               | Type    | Default                  | Description                                                                  |
-| -------------------- | ------- | ------------------------ | ---------------------------------------------------------------------------- |
-| vectors.enable_index | boolean | `on`                     | Enables or disables the query planner's use of vector index-scan plan types. |
-| vectors.search_mode  | boolean | `enum("basic", "vbase")` | Search mode.                                                                 |
+| Option               | Type    | Range              | Default   | Description                                                                  |
+| -------------------- | ------- | ------------------ | --------- | ---------------------------------------------------------------------------- |
+| vectors.enable_index | boolean |                    | `on`      | Enables or disables the query planner's use of vector index-scan plan types. |
+| vectors.search_mode  | enum    | `"basic", "vbase"` | `"basic"` | Search mode.                                                                 |
 
 Runtime parameters for executing a query:
 
-| Option                   | Type                     | Default | Description                               |
-| ------------------------ | ------------------------ | ------- | ----------------------------------------- |
-| vectors.enable_prefilter | boolean                  | `on`    | Enables or disables the use of prefilter. |
-| vectors.ivf_nprobe       | integer (`[1, 1000000]`) | `10`    | Number of lists to scan.                  |
-| vectors.hnsw_ef_search   | integer (`[1, 65535]`)   | `100`   | Search scope of HNSW.                     |
+| Option                   | Type    | Range          | Default | Description                               |
+| ------------------------ | ------- | -------------- | ------- | ----------------------------------------- |
+| vectors.enable_prefilter | boolean |                | `on`    | Enables or disables the use of prefilter. |
+| vectors.ivf_nprobe       | integer | `[1, 1000000]` | `10`    | Number of lists to scan.                  |
+| vectors.hnsw_ef_search   | integer | `[1, 65535]`   | `100`   | Search scope of HNSW.                     |

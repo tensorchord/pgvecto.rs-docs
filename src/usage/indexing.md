@@ -20,7 +20,6 @@ SELECT * FROM items ORDER BY embedding <-> '[3,2,1]' LIMIT 5;
 
 :::
 
-
 ## Examples
 
 There are some examples of creating indexes with different algorithms and options. See the [reference](/reference/indexing_options.html) for the full list of options.
