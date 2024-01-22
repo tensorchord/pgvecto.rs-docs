@@ -8,18 +8,7 @@ Assuming there is a table `items` and there is a column named `embedding` of typ
 CREATE INDEX ON items USING vectors (embedding vector_l2_ops);
 ```
 
-The `vector_l2_ops` is an operator class for squared Euclidean distance. There are all operator classes for each vector type and distance type.
-
-| Vector type | Distance type              | Operator class |
-| ----------- | -------------------------- | -------------- |
-| vector      | squared Euclidean distance | vector_l2_ops  |
-| vector      | negative dot product       | vector_dot_ops |
-| vector      | cosine distance            | vector_cos_ops |
-| vecf16      | squared Euclidean distance | vecf16_l2_ops  |
-| vecf16      | negative dot product       | vecf16_dot_ops |
-| vecf16      | cosine distance            | vecf16_cos_ops |
-
-Now you can perform a KNN search with the following SQL again, this time the vector index is used for searching.
+The `vector_l2_ops` is an operator class for squared Euclidean distance. You can find the list of operator classes in the [reference](/reference/schema.html#list-of-operator-classes). Now you can now execute a KNN search using the SQL below, which utilizes the vector index for the query.
 
 ```sql
 SELECT * FROM items ORDER BY embedding <-> '[3,2,1]' LIMIT 5;
@@ -31,89 +20,10 @@ SELECT * FROM items ORDER BY embedding <-> '[3,2,1]' LIMIT 5;
 
 :::
 
-## Options
-
-We utilize [TOML syntax](https://toml.io/en/v1.0.0) to express the index's configuration. Here's what each key in the configuration signifies:
-
-| Key        | Type  | Description                            |
-| ---------- | ----- | -------------------------------------- |
-| segment    | table | Options for segments.                  |
-| optimizing | table | Options for background optimizing.     |
-| indexing   | table | The algorithm to be used for indexing. |
-
-Options for table `segment`.
-
-| Key                      | Type    | Default     | Description                           |
-| ------------------------ | ------- | ----------- | ------------------------------------- |
-| max_growing_segment_size | integer | `20_000`    | Maximum size of unindexed vectors.    |
-| max_sealed_segment_size  | integer | `1_000_000` | Maximum size of vectors for indexing. |
-
-Options for table `optimizing`.
-
-| Key                | Type    | Default                     | Description                   |
-| ------------------ | ------- | --------------------------- | ----------------------------- |
-| optimizing_threads | integer | sqrt of the number of cores | Maximum threads for indexing. |
-| sealing_secs       | integer | `60`                        | See below.                    |
-| sealing_size       | integer | `1`                         | See below.                    |
-
-If a write segment larger than `sealing_size` do not accept new data for `sealing_secs` seconds, the write segment will be turned to a sealed segment.
-
-Options for table `indexing`.
-
-| Key  | Type  | Description                                                             |
-| ---- | ----- | ----------------------------------------------------------------------- |
-| flat | table | If this table is set, brute force algorithm will be used for the index. |
-| ivf  | table | If this table is set, IVF will be used for the index.                   |
-| hnsw | table | If this table is set, HNSW will be used for the index.                  |
-
-You can choose only one algorithm in above indexing algorithms. Default value is `hnsw`.
-
-Options for table `flat`.
-
-| Key          | Type  | Description                                |
-| ------------ | ----- | ------------------------------------------ |
-| quantization | table | The algorithm to be used for quantization. |
-
-Options for table `ivf`.
-
-| Key              | Type    | Default | Description                               |
-| ---------------- | ------- | ------- | ----------------------------------------- |
-| nlist            | integer | `1000`  | Number of cluster units.                  |
-| nsample          | integer | `65536` | Number of samples for K-Means clustering. |
-| least_iterations | integer | `16`    | Least iterations for K-Means clustering.  |
-| iterations       | integer | `500`   | Max iterations for K-Means clustering.    |
-| quantization     | table   |         | The quantization algorithm to be used.    |
-
-Options for table `hnsw`.
-
-| Key             | Type    | Default | Description                            |
-| --------------- | ------- | ------- | -------------------------------------- |
-| m               | integer | `12`    | Maximum degree of the node.            |
-| ef_construction | integer | `300`   | Search scope in building.              |
-| quantization    | table   |         | The quantization algorithm to be used. |
-
-Options for table `quantization`.
-
-| Key     | Type  | Description                                         |
-| ------- | ----- | --------------------------------------------------- |
-| trivial | table | If this table is set, no quantization is used.      |
-| scalar  | table | If this table is set, scalar quantization is used.  |
-| product | table | If this table is set, product quantization is used. |
-
-You can choose only one algorithm in above indexing algorithms. Default value is `trivial`.
-
-Options for table `product`.
-
-| Key    | Type    | Default                                 | Description                          |
-| ------ | ------- | --------------------------------------- | ------------------------------------ |
-| sample | integer | `65535`                                 | Samples to be used for quantization. |
-| ratio  | string  | `enum("x4", "x8", "x16", "x32", "x64")` | Compression ratio for quantization.  |
-
-Compression ratio is how many memory you are saved for saving vectors. For example, `"x4"` is $\frac{1}{4}$ compared to before. If you are creating indexes on `vecf16`, `"x4"` is $\frac{1}{2}$ compared to before.
 
 ## Examples
 
-There are some examples.
+There are some examples of creating indexes with different algorithms and options. See the [reference](/reference/indexing_options.html) for the full list of options.
 
 ```sql
 -- HNSW algorithm, default settings.
@@ -150,3 +60,29 @@ WITH (options = $$
 segment.max_growing_segment_size = 200000
 $$);
 ```
+
+## Suggestions
+
+Choosing the right indexing algorithm and options is important for the performance of the vector search. Here are some suggestions for different scenarios.
+
+### Brute force(FLAT)
+
+If you only perform a few searches(say 1000-10000) or you need guranteed exact results, you can use the [brute force](/reference/indexing_options.html#options-for-table-flat) algorithm.
+
+It provides the baseline for results for the other indexes. It does not compress the vectors, but does not add overhead on top of them. It's simple and easy to use. However, it's not suitable for large datasets.
+
+You can use the quantization to reduce the memory usage. See the [reference](/reference/indexing_options.html#options-for-table-quantization) for the full list of options. If you want to find details about the quantization in the [reference](/usage/quantization.html).
+
+### Inverted file index(IVF)
+
+IVF mainly uses the idea of inverted indexing to store the vectors `(id, vector)` under each cluster center. When querying a vector, it finds the nearest several centers and searches for the vectors under these centers respectively. 
+
+Before searching, you need to train `nlist` cluster centers. And you can set `nsample` for K-Means clustering. The larger the value, the more accurate the clustering, but the longer the training time. Other options can be found in the [reference](/reference/indexing_options.html#options-for-table-ivf).
+
+### Hierarchical navigable small world graph(HNSW)
+
+HNSW combines the idea of [skip list](https://brilliant.org/wiki/skip-lists/) and navigable small world(NSW) graphs. Through layered format, longer edges in the highest layers (for fast search) and shorter edges in the lower layers (for accurate search). 
+
+The search process through a NSW graph. Starting at a pre-defined entry point, the algorithm greedily traverses to connected vertices that are nearer to the query vector. The stopping condition is finding no nearer vertices in our current vertex’s friend list. If we increase [`Maximum degree of the node`](/reference/indexing_options.html#options-for-table-hnsw) minimize the probability of stopping early (and increase recall). But this increases network complexity (longer index build time, higher memory usage and longer search time). So we need to balance the average degree of vertices between recall, search speed and memory usage. The [`ef_construction`](/reference/indexing_options.html#options-for-table-hnsw) controls the nearest neighbors will be returned, increasing this value may increase the recall but also increase the building time.
+
+Smaller `m` values are better for lower-dimensional data or when you require lower recall. Larger `m` values are useful for higher-dimensional data or when high recall is important. Increasing `ef_construction` beyond a certain point offers diminishing returns on index quality but will continue to slow down index construction.
