@@ -1,6 +1,6 @@
 # Indexing
 
-Indexing is the process of building a data structure that allows for efficient search. `pgvecto.rs` supports three indexing algorithms: brute force (FLAT), IVF, and HNSW. The default algorithm is HNSW.
+Indexing is the process of building a data structure that allows for efficient search. `pgvecto.rs` supports three indexing algorithms: brute force (flat), IVF, and HNSW. The default algorithm is HNSW.
 
 Assuming there is a table `items` and there is a column named `embedding` of type `vector(n)`, you can create a vector index for squared Euclidean distance with the following SQL.
 
@@ -64,11 +64,11 @@ $$);
 
 Choosing the right indexing algorithm and options is important for the performance of the vector search. Here are some suggestions for different scenarios.
 
-### Brute force(FLAT)
+### Brute force (flat)
 
-If you only perform a few searches(say 1000-10000) or you need guaranteed exact results, you can use the [brute force](/reference/indexing_options.html#options-for-table-flat) algorithm.
+If you only perform a few searches (say 1000-10000) or you need guaranteed exact results, you can use the [brute force](/reference/indexing_options.html#options-for-table-flat) algorithm.
 
-It provides the baseline for results for the other indexes. It does not compress the vectors, but does not add overhead on top of them. It's simple and easy to use. However, it's not suitable for large datasets.
+It provides the baseline for the other indexes. It does not compress the vectors, but does not add overhead on top of them. It's simple and easy to use. However, it's not suitable for large datasets.
 
 You can use the quantization to reduce the memory usage. See the [reference](/reference/indexing_options.html#options-for-table-quantization) for the full list of options. If you want to find details about the quantization in the [reference](/usage/quantization.html).
 
