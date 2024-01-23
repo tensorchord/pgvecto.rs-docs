@@ -66,7 +66,7 @@ Choosing the right indexing algorithm and options is important for the performan
 
 ### Brute force(FLAT)
 
-If you only perform a few searches(say 1000-10000) or you need guranteed exact results, you can use the [brute force](/reference/indexing_options.html#options-for-table-flat) algorithm.
+If you only perform a few searches(say 1000-10000) or you need guaranteed exact results, you can use the [brute force](/reference/indexing_options.html#options-for-table-flat) algorithm.
 
 It provides the baseline for results for the other indexes. It does not compress the vectors, but does not add overhead on top of them. It's simple and easy to use. However, it's not suitable for large datasets.
 
