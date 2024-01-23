@@ -10,14 +10,17 @@ CREATE INDEX ON items USING vectors (embedding vector_l2_ops);
 
 The `vector_l2_ops` is an operator class for squared Euclidean distance. There are all operator classes for each vector type and distance type.
 
-| Vector type | Distance type              | Operator class |
-| ----------- | -------------------------- | -------------- |
-| vector      | squared Euclidean distance | vector_l2_ops  |
-| vector      | negative dot product       | vector_dot_ops |
-| vector      | cosine distance            | vector_cos_ops |
-| vecf16      | squared Euclidean distance | vecf16_l2_ops  |
-| vecf16      | negative dot product       | vecf16_dot_ops |
-| vecf16      | cosine distance            | vecf16_cos_ops |
+| Vector type | Distance type              | Operator class  |
+| ----------- | -------------------------- | --------------- |
+| vector      | squared Euclidean distance | vector_l2_ops   |
+| vector      | negative dot product       | vector_dot_ops  |
+| vector      | cosine distance            | vector_cos_ops  |
+| vecf16      | squared Euclidean distance | vecf16_l2_ops   |
+| vecf16      | negative dot product       | vecf16_dot_ops  |
+| vecf16      | cosine distance            | vecf16_cos_ops  |
+| svector     | squared Euclidean distance | svector_l2_ops  |
+| svector     | negative dot product       | svector_dot_ops |
+| svector     | cosine distance            | svector_cos_ops |
 
 Now you can perform a KNN search with the following SQL again, this time the vector index is used for searching.
 
@@ -101,6 +104,7 @@ Options for table `quantization`.
 | product | table | If this table is set, product quantization is used. |
 
 You can choose only one algorithm in above indexing algorithms. Default value is `trivial`.
+Sparse vector is only supported for `trivial` quantization now.
 
 Options for table `product`.
 
