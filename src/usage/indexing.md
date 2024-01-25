@@ -101,7 +101,7 @@ Before searching, train `nlist` cluster centers using K-Means clustering with `n
 
 ### Hierarchical navigable small world graph (HNSW)
 
-HNSW merges the concepts of [skip list](https://brilliant.org/wiki/skip-lists/) with navigable small world (NSW) graphs, employing a hierarchical structure that features longer edges on higher layers for rapid searching and shorter edges on lower layers to enhance search precision. 
+HNSW merges the concepts of [skip list](https://en.wikipedia.org/wiki/Skip_list) with navigable small world (NSW) graphs, employing a hierarchical structure that features longer edges on higher layers for rapid searching and shorter edges on lower layers to enhance search precision. 
 
 #### Navigable small world
 
