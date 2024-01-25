@@ -108,6 +108,7 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: 'Schema', link: '/reference/schema' },
+            { text: 'Indexing Options', link: '/reference/indexing_options' },
           ]
         },
         {

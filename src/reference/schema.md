@@ -66,14 +66,14 @@ Here is the schema provided by `pgvecto.rs`.
 
 ## List of operator classes
 
-| AM      | Input type | Operator class | Default? |
-| ------- | ---------- | -------------- | -------- |
-| vectors | vector     | vector_l2_ops  | no       |
-| vectors | vector     | vector_dot_ops | no       |
-| vectors | vector     | vector_cos_ops | no       |
-| vectors | vecf16     | vecf16_l2_ops  | no       |
-| vectors | vecf16     | vecf16_dot_ops | no       |
-| vectors | vecf16     | vecf16_cos_ops | no       |
+| AM      | Input type | Operator class | Default? | Description |
+| ------- | ---------- | -------------- | -------- | ----------- |
+| vectors | vector     | vector_l2_ops  | no       | squared Euclidean distance |
+| vectors | vector     | vector_dot_ops | no       | negative dot product |
+| vectors | vector     | vector_cos_ops | no       | cosine distance |
+| vectors | vecf16     | vecf16_l2_ops  | no       | squared Euclidean distance |
+| vectors | vecf16     | vecf16_dot_ops | no       | negative dot product |
+| vectors | vecf16     | vecf16_cos_ops | no       | cosine distance |
 
 ## List of views
 
