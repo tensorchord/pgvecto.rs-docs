@@ -101,7 +101,7 @@ db = PGVecto_rs.from_documents(
 
 ## Query index
 
-Finally, we can retrieve the most similar vectors in LangChain.
+Finally, we can retrieve the most similar chunks in LangChain.
 
 ```python
 query = "What is pgvecto.rs"

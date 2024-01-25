@@ -2,11 +2,11 @@
 
 LlamaIndex is a simple, flexible data framework for connecting custom data sources to large language models (LLMs).
 
-`pgvecto.rs` provides a llamaindex integration that allows you to retrieve the most similar vectors.
+`pgvecto.rs` provides a LlamaIndex integration that allows you to retrieve the most similar vectors.
 
 ## Install dependencies
 
-Some dependencies are required to use the llamaindex integration:
+Some dependencies are required to use the LlamaIndex integration:
 
 ```sh
 pip install llama-index "pgvecto_rs[sdk]"
@@ -89,7 +89,7 @@ index = VectorStoreIndex.from_documents(
 
 ### Query index
 
-Finally, we can retrieve the most similar vectors.
+Finally, we can retrieve the most similar chunks.
 
 ```python
 # set Logging to DEBUG for more detailed outputs
