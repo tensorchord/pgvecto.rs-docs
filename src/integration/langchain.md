@@ -99,7 +99,7 @@ db = PGVecto_rs.from_documents(
 )
 ```
 
-## Query
+## Query index
 
 Finally, we can retrieve the most similar vectors in LangChain.
 
