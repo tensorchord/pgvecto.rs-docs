@@ -103,7 +103,7 @@ Before searching, train `nlist` cluster centers using K-Means clustering with `n
 
 HNSW merges the concepts of [skip list](https://brilliant.org/wiki/skip-lists/) with navigable small world (NSW) graphs, employing a hierarchical structure that features longer edges on higher layers for rapid searching and shorter edges on lower layers to enhance search precision. 
 
-#### Navigable Small World
+#### Navigable small world
 
 Navigable Small World operate on the premise that each node is accessible from any other through a minimal number of "hops." Once an entry point is chosen—be it random, heuristic-based, or algorithmically determined—the surrounding nodes are examined to identify if they're nearer than the current one. The search progresses to the nearest neighbor and continues until no closer nodes can be found.
 
@@ -113,7 +113,7 @@ The search process navigates through an NSW graph, beginning at a pre-defined en
 
 A limitation of the NSW search is that it opts for the seemingly shortest path to the nearest node, disregarding the graph's overall structure. This "greedy search" approach can result in getting stuck at a local optimum, an issue often referred to as "early stopping."
 
-#### Skip List
+#### Skip list
 
 Skip lists are constructed using a probabilistic approach, where nodes become less likely to appear as you move up the layers, resulting in fewer nodes at higher levels. To search for a node, the algorithm starts at the top layer's "head" and moves to the next node that is greater than or equal to the target. If the node isn't found, it descends to a lower (more fine-grained) layer and continues this pattern until it locates either the desired node or its nearest neighbors.
 
