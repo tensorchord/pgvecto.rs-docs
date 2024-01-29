@@ -1,11 +1,6 @@
 # Upgrading
 
-There are two general steps for upgrading:
-
-* Upgrade schema.
-* Reindex indexes.
-
-## Upgrade schema
+## General Steps
 
 If you update the extension to a new version, let's say it's `999.999.999`. This command helps you to update the schema of extension:
 
@@ -15,51 +10,15 @@ ALTER EXTENSION vectors UPDATE TO '999.999.999';
 
 If you're upgrading from `0.1.x`, please read [Upgrading from 0.1.x](#upgrade-from-01x).
 
-## Reindex indexes
+Execute the following SQL. It helps you do some maintenance work.
 
-After an upgrade, you may need to do manual maintenance, or reindex all vector indexes or just do nothing.
+```sql
+SELECT pgvectors_upgrade();
+```
+
+You need to restart PostgreSQL to take effects.
 
 You could check the status of all vector indexes in this command:
-
-```sql
-SELECT indexname, idx_status FROM pg_vector_index_stat;
-```
-
-* If you see all values in the `idx_status` column are `NORMAL`:
-
-```
- indexname   | idx_status 
--------------+------------
- t_val_idx_1 | NORMAL
- t_val_idx_2 | NORMAL
-```
-
-You need to do nothing. Everything goes well.
-
-* If you see some values in the `idx_status` column are `UPGRADE`:
-
-```
- indexname   | idx_status 
--------------+------------
- t_val_idx_1 | NORMAL
- t_val_idx_2 | UPGRADE
-```
-
-You need to reindex vector indexes that needs upgrading.
-
-```sql
-REINDEX INDEX t_val_idx_2;
-```
-
-* If you see an error: `The extension is upgraded so all index files are outdated.`.
-
-You need to delete the index files created by older versions. The files are in the `pg_vectors` folder under PostgreSQL data directory, or volume directory for Docker users.
-
-```shell
-rm -rf $(psql -U postgres -tAqX -c 'SHOW data_directory')/pg_vectors
-```
-
-Restart PostgreSQL and then get all vector indexes.
 
 ```sql
 SELECT
@@ -70,14 +29,16 @@ SELECT
     WHERE A.amname = 'vectors';
 ```
 
-```
+Let's assume the output is:
+
+```text
  indexname
 -------------
  t_val_idx_1
  t_val_idx_2
 ```
 
-Reindex all vector indexes.
+Then you could reindex all vector indexes.
 
 ```sql
 REINDEX INDEX t_val_idx_1;
