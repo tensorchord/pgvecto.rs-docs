@@ -67,6 +67,7 @@ export default defineConfig({
             { text: 'Search', link: '/usage/search' },
             { text: 'Monitoring', link: '/usage/monitoring' },
             { text: 'Quantization', link: '/usage/quantization' },
+            { text: 'Compatibility', link: '/usage/compatibility' },
           ]
         },
         {
@@ -107,6 +108,7 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: 'Schema', link: '/reference/schema' },
+            { text: 'Indexing Options', link: '/reference/indexing_options' },
           ]
         },
         {
