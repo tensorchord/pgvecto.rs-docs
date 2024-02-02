@@ -10,7 +10,7 @@ With the HNSW index, `pgvecto.rs` can achieve **2.5x** responses per second as `
 
 ![pgvecto.rs_vs_pgvector](./images/2024Jan_pgvectors_compare.png)
 
-With the filter enabled, `pgvecto.rs` can always reach more than **2x** responses per second as `pgvector` can do with different filter probabilities.
+When the vbase mode is enabled, `pgvecto.rs` can achieve over **2x** more responses per second compared to `pgvector` on various filter probabilities.
 
 ![pgvecto.rs_vs_pgvector_filter](./images/2024Jan_pgvectors_filter_compare.png)
 
