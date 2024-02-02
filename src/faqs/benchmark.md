@@ -10,12 +10,12 @@ With the HNSW index, `pgvecto.rs` can achieve **2.5x** responses per second as `
 
 ![pgvecto.rs_vs_pgvector](./images/2024Jan_pgvectors_compare.png)
 
-When the vbase mode is enabled, `pgvecto.rs` can achieve over **2x** more responses per second compared to `pgvector` on various filter probabilities.
+When the `vbase` mode is enabled, `pgvecto.rs` can achieve over **2x** more responses per second compared to `pgvector` on various filter probabilities.
 
 ![pgvecto.rs_vs_pgvector_filter](./images/2024Jan_pgvectors_filter_compare.png)
 
 ## `pgvecto.rs` with different quantization methods
 
-`pgvecto.rs` supports several [quantization methods](../usage/quantization.md). These methods can help to reduce memory usage at different scales. The following figure shows the performance of `pgvecto.rs` with different quantization methods.
+`pgvecto.rs` supports several [quantization methods](../usage/quantization.md) and different low precision [indexing](../usage/indexing.md). These methods can help to reduce memory usage at different scales. The following figure shows the performance of `pgvecto.rs` with different quantization methods.
 
 ![pgvecto.rs_quantization](./images/2024Jan_pgvectors_quantization.png)
