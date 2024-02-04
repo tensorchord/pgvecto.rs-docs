@@ -44,8 +44,8 @@ CREATE TABLE images (
     vector vector(512) NOT NULL -- 3 dimensions
 );
 
-INSERT INTO images (id, embedding) VALUES
-  (1, 'Allen', '[...]');
+INSERT INTO images (author, embedding) VALUES
+  ('Allen', '[...]');
 ```
 
 ### Search for similar images
