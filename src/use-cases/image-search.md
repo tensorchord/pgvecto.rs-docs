@@ -16,7 +16,7 @@ Then you could use vector stores like [pgvecto.rs](https://github.com/tensorchor
 
 ## Example
 
-We will use [CLIP](https://openai.com/research/clip) to generate embeddings for images. Then we will use [pgvecto.rs](https://github.com/tensorchord/pgvecto.rs) to store the embeddings and perform efficient vector search.
+We will leverage [CLIP](https://openai.com/research/clip), a neural network that connects text and images, to generate embeddings for our images. These embeddings capture the visual concepts present in the images. Subsequently, we will utilize [pgvecto.rs](https://github.com/tensorchord/pgvecto.rs), a scalable vector search tool built on Postgres, to store these embeddings and conduct efficient vector searches. By combining the power of CLIP and pgvecto.rs, we can retrieve similar images based on their visual content.
 
 ### Generate embeddings
 
@@ -72,3 +72,104 @@ In `base` mode, you may only get `32` rows since the HNSW algorithm bypasses fil
 You could use the `vbase` search mode to achieve this. In `vbase` mode, **searching results become a stream** and every time the database pulls a row, the vector index computes a row to return. It's quite different from an ordinary vector search if you are using a vector search library, such as *faiss*. The latter always wants to know how many results are needed before searching. The original idea comes from [VBASE: Unifying Online Vector Similarity Search and Relational Queries via Relaxed Monotonicity](https://www.usenix.org/conference/osdi23/presentation/zhang-qianxi).
 
 You can enable `vbase` by a SQL statement `SET vectors.search_mode = vbase;`. Then you can get the correct behavior. This mode is used in [immich](https://immich.app)'s image search feature.
+
+## Real-world applications
+
+Image intelligent search is used in [immich](https://immich.app) to enable users to search for images based on their visual content. The code snippets provided here are inspired by the implementation of the [image search feature](https://github.com/immich-app/immich/blob/bd87eb309c6d7af05db98e5cb08067ee592fc331/server/src/infra/repositories/smart-info.repository.ts#L46-L77) in [immich](https://immich.app).
+
+```sql
+SELECT a.*, s.*, e.*
+FROM asset_entity AS a
+INNER JOIN smart_search AS s ON s.assetId = a.id
+LEFT JOIN exif_info AS e ON e.assetId = a.id
+WHERE a.ownerId IN (:...userIds)
+  AND a.isArchived = false
+  AND a.isVisible = true
+  AND a.fileCreatedAt < NOW()
+ORDER BY s.embedding <=> :embedding
+LIMIT :numResults;
+SET LOCAL vectors.k = :numResults;
+```
+
+The query retrieves data from the `asset_entity`, `smart_search`, and `exif_info` tables based on specified conditions and ordering. Let's break down the query:
+
+```sql
+SELECT a.*, s.*, e.*
+```
+This part of the query specifies the columns to be selected from the tables `asset_entity`, `smart_search`, and `exif_info`. The aliases `a`, `s`, and `e` are used to refer to each table respectively.
+
+```sql
+FROM asset_entity AS a
+INNER JOIN smart_search AS s ON s.assetId = a.id
+LEFT JOIN exif_info AS e ON e.assetId = a.id
+```
+Here, the `asset_entity` table is aliased as `a`, the `smart_search` table as `s`, and the `exif_info` table as `e`. The `INNER JOIN` is used to combine `asset_entity` and `smart_search` based on the condition `s.assetId = a.id`. The `LEFT JOIN` is used to include matching records from the `exif_info` table based on the condition `e.assetId = a.id`.
+
+::: details
+
+The table `asset_entity` has the following schema. 
+
+```sql
+CREATE TABLE asset_entity (
+  id UUID PRIMARY KEY,
+  deviceAssetId VARCHAR NOT NULL,
+  ownerId VARCHAR NOT NULL,
+  libraryId VARCHAR NOT NULL,
+  deviceId VARCHAR NOT NULL,
+  type VARCHAR NOT NULL,
+  originalPath VARCHAR NOT NULL,
+  resizePath VARCHAR,
+  webpPath VARCHAR DEFAULT '',
+  thumbhash BYTEA,
+  encodedVideoPath VARCHAR,
+  createdAt TIMESTAMPTZ NOT NULL,
+  updatedAt TIMESTAMPTZ NOT NULL,
+  deletedAt TIMESTAMPTZ,
+  fileCreatedAt TIMESTAMPTZ NOT NULL,
+  localDateTime TIMESTAMPTZ NOT NULL,
+  fileModifiedAt TIMESTAMPTZ NOT NULL,
+  isFavorite BOOLEAN DEFAULT false,
+  isArchived BOOLEAN DEFAULT false,
+  isExternal BOOLEAN DEFAULT false,
+  isReadOnly BOOLEAN DEFAULT false,
+  isOffline BOOLEAN DEFAULT false,
+  checksum BYTEA NOT NULL,
+  duration VARCHAR,
+  isVisible BOOLEAN DEFAULT true,
+  livePhotoVideoId UUID,
+  originalFileName VARCHAR NOT NULL,
+  sidecarPath VARCHAR,
+  stackId UUID,
+  CONSTRAINT fk_asset_owner FOREIGN KEY (ownerId) REFERENCES user_entity (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_asset_library FOREIGN KEY (libraryId) REFERENCES library_entity (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_asset_live_photo_video FOREIGN KEY (livePhotoVideoId) REFERENCES asset_entity (id) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT fk_asset_stack FOREIGN KEY (stackId) REFERENCES asset_stack_entity (id) ON DELETE SET NULL ON UPDATE CASCADE
+);
+```
+
+:::
+
+```sql
+WHERE a.ownerId IN (:...userIds)
+  AND a.isArchived = false
+  AND a.isVisible = true
+  AND a.fileCreatedAt < NOW()
+```
+In this part, the query applies filters to the `asset_entity` table. It selects rows where the `ownerId` column is among the specified `userIds`, `isArchived` is `false`, `isVisible` is `true`, and `fileCreatedAt` is earlier than the current time (`NOW()`).
+
+```sql
+ORDER BY s.embedding <=> :embedding
+```
+The query orders the results based on the `embedding` column of the `smart_search` table, comparing it to the provided `:embedding` value. The `<=>` operator is used for the comparison.
+
+```sql
+LIMIT :numResults;
+```
+This limits the number of rows returned by the query to the value specified by the `:numResults` parameter.
+
+```sql
+SET LOCAL vectors.k = :numResults;
+```
+Finally, this statement sets the session variable `vectors.k` to the value specified by the `:numResults` parameter.
+
+This is an real-world use case to show how image intelligent search is implemented in a production system.
