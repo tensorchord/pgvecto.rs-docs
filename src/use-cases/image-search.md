@@ -10,7 +10,7 @@ The feature looks like a magic because it allows you to search for images that y
 
 Image intelligent search leverages advanced computer vision techniques and machine learning algorithms to understand the visual characteristics and features within images, allowing users to perform freeform searches without relying on specific keywords or metadata.
 
-The first step is to extract meaningful features from images and generate a vector representation of each image. This is typically done using deep learning models such as [CLIP](https://openai.com/research/clip). The vector representation is called an **embedding**. It is a vector of numbers that represents the image.
+The first step is to extract meaningful features from images and generate a vector representation of each image. This is typically done using deep learning models such as [CLIP](https://openai.com/research/clip). The vector representation is called an **embedding**. It is a list of numbers that represents the image.
 
 Then you could use vector stores like [pgvecto.rs](https://github.com/tensorchord/pgvecto.rs) to store the embeddings and perform efficient vector search.
 
