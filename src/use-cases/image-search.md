@@ -88,7 +88,6 @@ WHERE a.ownerId IN (:...userIds)
   AND a.fileCreatedAt < NOW()
 ORDER BY s.embedding <=> :embedding
 LIMIT :numResults;
-SET LOCAL vectors.k = :numResults;
 ```
 
 The query retrieves data from the `asset_entity`, `smart_search`, and `exif_info` tables based on specified conditions and ordering. Let's break down the query:
@@ -165,11 +164,6 @@ The query orders the results based on the `embedding` column of the `smart_searc
 ```sql
 LIMIT :numResults;
 ```
-This limits the number of rows returned by the query to the value specified by the `:numResults` parameter.
-
-```sql
-SET LOCAL vectors.k = :numResults;
-```
-Finally, this statement sets the session variable `vectors.k` to the value specified by the `:numResults` parameter.
+Finally, limit the number of rows returned by the query to the value specified by the `:numResults` parameter.
 
 This is an real-world use case to show how image intelligent search is implemented in a production system.
