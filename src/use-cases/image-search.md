@@ -67,7 +67,7 @@ SET vectors.hnsw_ef_search = 64;
 SELECT * FROM images ORDER BY embedding <-> '[...]' WHERE author != 'Allen' LIMIT 64;
 ```
 
-In `basic` mode, you may only get `32` rows because the HNSW algorithm does search simply so the filter condition is ignored.
+In `base` mode, you may only get `32` rows since the HNSW algorithm bypasses filter conditions during the search and relies on PostgreSQL to apply filters post-search.
 
 You could use the `vbase` search mode to achieve this. In `vbase` mode, **searching results become a stream** and every time the database pulls a row, the vector index computes a row to return. It's quite different from an ordinary vector search if you are using a vector search library, such as *faiss*. The latter always wants to know how many results are needed before searching. The original idea comes from [VBASE: Unifying Online Vector Similarity Search and Relational Queries via Relaxed Monotonicity](https://www.usenix.org/conference/osdi23/presentation/zhang-qianxi).
 
