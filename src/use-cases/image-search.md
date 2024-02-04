@@ -29,7 +29,7 @@ processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
 model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
 
 def compute_image_embeddings(list_of_images):
-  return model.get_image_features(**processor(images=list_of_images, return_tensors="pt", padding=True))
+    return model.get_image_features(**processor(images=list_of_images, return_tensors="pt", padding=True))
 ```
 
 ### Store embeddings
