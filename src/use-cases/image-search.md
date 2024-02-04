@@ -71,7 +71,7 @@ In `base` mode, you may only get `32` rows since the HNSW algorithm bypasses fil
 
 You could use the `vbase` search mode to achieve this. In `vbase` mode, **searching results become an iterator** that continuously returns results. The database can continuously retrieve results from it until the user's query conditions are met. It's quite different from other vector search library, such as *faiss*. The latter can only return a fixed-size result set, and this size needs to be determined before the search. For queries with filtering conditions, it is not possible to determine the size of the result set in advance. As a result, either insufficient results can be obtained or excessive searching will affect latency. The original idea comes from [VBASE: Unifying Online Vector Similarity Search and Relational Queries via Relaxed Monotonicity](https://www.usenix.org/conference/osdi23/presentation/zhang-qianxi).
 
-You can enable `vbase` by a SQL statement `SET vectors.search_mode = vbase;`. Then you can get the correct behavior. This mode is used in [immich](https://immich.app)'s image search feature.
+You can enable `vbase` by a SQL statement `SET vectors.search_mode = vbase;`. Then you can get the correct behavior. This mode is used in [immich](https://immich.app)'s image search feature. vbase is the default search mode in 0.2.
 
 ## Real-world applications
 
