@@ -74,6 +74,7 @@ export default defineConfig({
           text: 'Use Cases',
           collapsed: false,
           items: [
+            { text: 'Image search', link: '/use-cases/image-search' },
             { text: 'Hybrid search', link: '/use-cases/hybrid-search' },
           ],
         },
