@@ -51,9 +51,9 @@ Here is the schema provided by `pgvecto.rs`.
 
 ## List of functions
 
-| Name                     | Argument type                               | Result type | Description                                                     |
-| ------------------------ | ------------------------------------------- | ----------- | --------------------------------------------------------------- |
-| svector_from_split_array | dims integer, index integer[], value real[] | svector     | construct a sparse vector from two arrays of indexes and values |
+| Name       | Argument type                               | Result type | Description                                                     |
+| ---------- | ------------------------------------------- | ----------- | --------------------------------------------------------------- |
+| to_svector | dims integer, index integer[], value real[] | svector     | construct a sparse vector from two arrays of indexes and values |
 
 ## List of casts
 
