@@ -74,6 +74,7 @@ export default defineConfig({
           text: 'Use Cases',
           collapsed: false,
           items: [
+            { text: 'Image search', link: '/use-cases/image-search' },
             { text: 'Hybrid search', link: '/use-cases/hybrid-search' },
           ],
         },
@@ -109,6 +110,7 @@ export default defineConfig({
           items: [
             { text: 'Schema', link: '/reference/schema' },
             { text: 'Indexing Options', link: '/reference/indexing_options' },
+            { text: 'Search Options', link: '/reference/search_options' },
           ]
         },
         {

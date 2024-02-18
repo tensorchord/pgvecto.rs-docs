@@ -1,8 +1,8 @@
 # `pgvector` compatibility
 
 `pgvecto.rs` is natively compatible with `pgvector` at:
-* `CREATE TABLE` commands, for instance, `CREATE TABLE t (val vector(3))`
-* `INSERT INTO` commands, for instance, `INSERT INTO t (val) VALUES ('[0.6,0.6,0.6]')`
+* `CREATE TABLE` commands, e.g. `CREATE TABLE t (val vector(3))`
+* `INSERT INTO` commands, e.g. `INSERT INTO t (val) VALUES ('[0.6,0.6,0.6]')`
 
 `pgvecto.rs` can be configured to be compatible with `pgvector` at: 
 * Index options, which allows you to create index by `USING hnsw (val vector_ip_ops)`
@@ -20,15 +20,15 @@ For index `ivfflat` and `hnsw` only the following options are available.
 
 Index options for `ivfflat`:
 
-| Key   | Type    | Default | Description               |
-| ----- | ------- | ------- | ------------------------- |
-| lists | integer | `100`   | Number of cluster units.  |
+| Key   | Type    | Range            | Default | Description                            |
+| ----- | ------- | ---------------- | ------- | -------------------------------------- |
+| nlist | integer | `[1, 1_000_000]` | `100`  | Number of cluster units.               |
 
 Query options for `ivfflat`:
 
-| Option           | Type                     | Default | Description                               |
-| ---------------- | ------------------------ | ------- | ----------------------------------------- |
-| ivfflat.probes   | integer (`[1, 1000000]`) | `10`    | Number of lists to scan.                  |
+| Option         | Type    | Range    nn      | Default | Description                               |
+| -------------- | ------- | ---------------- | ------- | ----------------------------------------- |
+| ivfflat.probes | integer | `[1, 1_000_000]` | `10`    | Number of lists to scan.                  |
 
 ::: warning
 Default value of `ivfflat.probes` is `10` instead of `1` from pgvector.
@@ -36,16 +36,16 @@ Default value of `ivfflat.probes` is `10` instead of `1` from pgvector.
 
 Index options for `hnsw`:
 
-| key             | type    | default | description                      |
-| --------------- | ------- | ------- | -------------------------------- |
-| m               | integer | `16`    | Maximum degree of the node.      |
-| ef_construction | integer | `64`    | Search extent in construction.   |
+| Key             | Type    | Range        | Default | Description                            |
+| --------------- | ------- | ------------ | ------- | -------------------------------------- |
+| m               | integer | `[4, 128]`   | `16`    | Maximum degree of the node.            |
+| ef_construction | integer | `[10, 2000]` | `64`    | Search scope in building.              |
 
 Query options for `hnsw`:
 
-| Option         | Type                     | Default | Descrcompatibilitymodeiption                               |
-| -------------- | ------------------------ | ------- | ----------------------------------------- |
-| hnsw.ef_search | integer (`[1, 65535]`)   | `100`   | Search scope of HNSW.                     |
+| Option         | Type    | Range          | Default | Description                               |
+| -------------- | ------- | -------------- | ------- | ----------------------------------------- |
+| hnsw.ef_search | integer | `[1, 65535]`   | `100`   | Search scope of HNSW.                     |
 
 ::: warning
 Default value for `hnsw.ef_search` is `100` instead of `40` from pgvector.
