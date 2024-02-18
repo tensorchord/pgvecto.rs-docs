@@ -51,10 +51,9 @@ Here is the schema provided by `pgvecto.rs`.
 
 ## List of functions
 
-| Name                     | Argument type                               | Result type | Description                                                                         |
-| ------------------------ | ------------------------------------------- | ----------- | ----------------------------------------------------------------------------------- |
-| svector_from_kv_string   | dims integer, input text                    | svector     | construct a sparse vector from a string of key-value pairs, e.x. `[{0: 1}, {1: 1}]` |
-| svector_from_split_array | dims integer, index integer[], value real[] | svector     | construct a sparse vector from two arrays of indexes and values                     |
+| Name                     | Argument type                               | Result type | Description                                                     |
+| ------------------------ | ------------------------------------------- | ----------- | --------------------------------------------------------------- |
+| svector_from_split_array | dims integer, index integer[], value real[] | svector     | construct a sparse vector from two arrays of indexes and values |
 
 ## List of casts
 
