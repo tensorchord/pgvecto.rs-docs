@@ -12,7 +12,7 @@ We will show you how to use logical replication to replicate data from one Postg
 $ echo 'version: "3.7"
 services:
   source_db:
-    image: tensorchord/pgvecto-rs:pg15-v0.1.13 
+    image: tensorchord/pgvecto-rs:pg15-v0.2.0
     ports:
       - "5432:5432"
     environment:
@@ -24,7 +24,7 @@ services:
       localnet:
 
   target_db:
-    image: tensorchord/pgvecto-rs:pg15-v0.1.13 
+    image: tensorchord/pgvecto-rs:pg15-v0.2.0
     ports:
       - "5433:5432"
     environment:
