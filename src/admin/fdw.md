@@ -14,7 +14,7 @@ In this tutorial, we will use docker compose to deploy two PostgreSQL clusters.
 $ echo 'version: "3.7"
 services:
   local_db:
-    image: tensorchord/pgvecto-rs:pg15-v0.1.13 
+    image: tensorchord/pgvecto-rs:pg15-v0.2.0
     ports:
       - "5432:5432"
     environment:
@@ -25,7 +25,7 @@ services:
       localnet:
 
   forigen_db:
-    image: tensorchord/pgvecto-rs:pg15-v0.1.13 
+    image: tensorchord/pgvecto-rs:pg15-v0.2.0
     ports:
       - "5433:5432"
     environment:
