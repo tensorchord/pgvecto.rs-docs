@@ -126,12 +126,12 @@ export default defineConfig({
       ],
       '/tutorial/': [
         {
-          text: 'Community',
+          text: 'Use Cases',
           collapsed: false,
           items: [
-            { text: 'Contributing to pgvecto.rs', link: '/community/contributing' },
-            { text: 'Roadmap', link: '/community/roadmap' },
-            { text: 'Adopters', link: '/community/adopters' },
+            { text: 'Hybrid Search', link: '/tutorial/hybrid-search' },
+            { text: 'Image Search', link: '/tutorial/image-search' },
+            { text: 'Multi Tenancy', link: '/tutorial/multi-tenancy' },
           ],
         },
       ]
