@@ -41,6 +41,7 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Docs', link: '/getting-started/overview' },
+      {text: 'Tutorial', link: '/tutorial/'},
       { text: 'Blog', link: 'https://blog.pgvecto.rs' },
     ],
 
@@ -69,14 +70,6 @@ export default defineConfig({
             { text: 'Quantization', link: '/usage/quantization' },
             { text: 'Compatibility', link: '/usage/compatibility' },
           ]
-        },
-        {
-          text: 'Use Cases',
-          collapsed: false,
-          items: [
-            { text: 'Image search', link: '/use-cases/image-search' },
-            { text: 'Hybrid search', link: '/use-cases/hybrid-search' },
-          ],
         },
         {
           text: 'Integration',
@@ -131,6 +124,17 @@ export default defineConfig({
           ],
         },
       ],
+      '/tutorial/': [
+        {
+          text: 'Use Cases',
+          collapsed: false,
+          items: [
+            { text: 'Hybrid Search', link: '/tutorial/hybrid-search' },
+            { text: 'Image Search', link: '/tutorial/image-search' },
+            { text: 'Multi Tenancy', link: '/tutorial/multi-tenancy' },
+          ],
+        },
+      ]
     },
 
     socialLinks: [
