@@ -70,7 +70,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 6. Install cargo-pgrx.
 
 ```sh
-cargo install cargo-pgrx@$(grep 'pgrx = {' Cargo.toml | cut -d '"' -f 2)
+cargo install cargo-pgrx@$(grep 'pgrx = { version' Cargo.toml | cut -d '"' -f 2)
 cargo pgrx init
 ```
 
