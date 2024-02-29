@@ -49,8 +49,13 @@ Here is the schema provided by `pgvecto.rs`.
 | <=>  | vector        | vector         | real        | cosine distance             |
 | <=>  | vecf16        | vecf16         | real        | cosine distance             |
 | <=>  | bvector       | bvector        | real        | cosine distance             |
+| <~>  | bvector       | bvector        | real        | jaccard distance            |
 
 ## List of functions
+
+| Name     | Argument type | Result type | Description                                                         |
+| -------- | ------------- | ----------- | ------------------------------------------------------------------- |
+| binarize | vector vector | bvector     | Binarize a vector. All positive elements are set to 1, otherwise 0. |
 
 ## List of casts
 
@@ -70,31 +75,33 @@ Here is the schema provided by `pgvecto.rs`.
 
 ## List of operator families
 
-| AM      | Operator family | Applicable types |
-| ------- | --------------- | ---------------- |
-| vectors | vector_cos_ops  | vector           |
-| vectors | vector_dot_ops  | vector           |
-| vectors | vector_l2_ops   | vector           |
-| vectors | vecf16_cos_ops  | vecf16           |
-| vectors | vecf16_dot_ops  | vecf16           |
-| vectors | vecf16_l2_ops   | vecf16           |
-| vectors | bvector_cos_ops | bvector          |
-| vectors | bvector_dot_ops | bvector          |
-| vectors | bvector_l2_ops  | bvector          |
+| AM      | Operator family     | Applicable types |
+| ------- | ------------------- | ---------------- |
+| vectors | vector_cos_ops      | vector           |
+| vectors | vector_dot_ops      | vector           |
+| vectors | vector_l2_ops       | vector           |
+| vectors | vecf16_cos_ops      | vecf16           |
+| vectors | vecf16_dot_ops      | vecf16           |
+| vectors | vecf16_l2_ops       | vecf16           |
+| vectors | bvector_cos_ops     | bvector          |
+| vectors | bvector_dot_ops     | bvector          |
+| vectors | bvector_l2_ops      | bvector          |
+| vectors | bvector_jaccard_ops | bvector          |
 
 ## List of operator classes
 
-| AM      | Input type | Operator class  | Default? | Description                |
-| ------- | ---------- | --------------- | -------- | -------------------------- |
-| vectors | vector     | vector_l2_ops   | no       | squared Euclidean distance |
-| vectors | vector     | vector_dot_ops  | no       | negative dot product       |
-| vectors | vector     | vector_cos_ops  | no       | cosine distance            |
-| vectors | vecf16     | vecf16_l2_ops   | no       | squared Euclidean distance |
-| vectors | vecf16     | vecf16_dot_ops  | no       | negative dot product       |
-| vectors | vecf16     | vecf16_cos_ops  | no       | cosine distance            |
-| vectors | bvector    | bvector_l2_ops  | no       | squared Euclidean distance |
-| vectors | bvector    | bvector_dot_ops | no       | negative dot product       |
-| vectors | bvector    | bvector_cos_ops | no       | cosine distance            |
+| AM      | Input type | Operator class      | Default? | Description                |
+| ------- | ---------- | ------------------- | -------- | -------------------------- |
+| vectors | vector     | vector_l2_ops       | no       | squared Euclidean distance |
+| vectors | vector     | vector_dot_ops      | no       | negative dot product       |
+| vectors | vector     | vector_cos_ops      | no       | cosine distance            |
+| vectors | vecf16     | vecf16_l2_ops       | no       | squared Euclidean distance |
+| vectors | vecf16     | vecf16_dot_ops      | no       | negative dot product       |
+| vectors | vecf16     | vecf16_cos_ops      | no       | cosine distance            |
+| vectors | bvector    | bvector_l2_ops      | no       | squared Euclidean distance |
+| vectors | bvector    | bvector_dot_ops     | no       | negative dot product       |
+| vectors | bvector    | bvector_cos_ops     | no       | cosine distance            |
+| vectors | bvector    | bvector_jaccard_ops | no       | jaccard distance           |
 
 ## List of views
 
