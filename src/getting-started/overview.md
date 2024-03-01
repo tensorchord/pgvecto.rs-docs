@@ -107,6 +107,10 @@ SELECT * FROM items ORDER BY embedding <-> '[3,2,1]' LIMIT 5;
 
 `svector` type is a sparse vector type. It stores a vector in a sparse format. It is suitable for vectors with many zeros. 
 
+### Binary vector
+
+`bvector` type is a binary vector type. It is a fixed-length bit string. Except for above 3 distances, we also support `jaccard` distance `<~>`, which defined as $1 - \frac{|X\cap Y|}{|X\cup Y|}$. And `hamming` distance is the same with squared Euclidean distance, you can use `<->` operator to calculate it. We also provide `binarize` function to construct a `bvector` from a `vector`, which set the positive elements to 1, otherwise 0.
+
 ## Roadmap 🗂️
 
 Please check out [ROADMAP](../community/roadmap).
