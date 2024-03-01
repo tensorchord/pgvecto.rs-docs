@@ -4,11 +4,12 @@ Here is the schema provided by `pgvecto.rs`.
 
 ## List of data types
 
-| Name              | Description                                                          |
-| ----------------- | -------------------------------------------------------------------- |
-| vector            | vector, scalar type of which is “binary32”  defined in IEEE 754-2008 |
-| vecf16            | vector, scalar type of which is “binary16”  defined in IEEE 754-2008 |
-| vector_index_stat | a composite type representing vector index statistics                |
+| Name              | Description                                                                 |
+| ----------------- | --------------------------------------------------------------------------- |
+| vector            | vector, scalar type of which is “binary32”  defined in IEEE 754-2008        |
+| vecf16            | vector, scalar type of which is “binary16”  defined in IEEE 754-2008        |
+| svector           | sparse vector, scalar type of which is “binary32”  defined in IEEE 754-2008 |
+| vector_index_stat | a composite type representing vector index statistics                       |
 
 ## List of operators
 
@@ -16,28 +17,43 @@ Here is the schema provided by `pgvecto.rs`.
 | ---- | ------------- | -------------- | ----------- | --------------------------- |
 | +    | vector        | vector         | vector      | element-wise arithmetic     |
 | +    | vecf16        | vecf16         | vecf16      | element-wise arithmetic     |
+| +    | svector       | svector        | svector     | element-wise arithmetic     |
 | -    | vector        | vector         | vector      | element-wise arithmetic     |
 | -    | vecf16        | vecf16         | vecf16      | element-wise arithmetic     |
+| -    | svector       | svector        | svector     | element-wise arithmetic     |
 | =    | vector        | vector         | boolean     | dictionary order comparison |
 | =    | vecf16        | vecf16         | boolean     | dictionary order comparison |
+| =    | svector       | svector        | boolean     | dictionary order comparison |
 | <>   | vector        | vector         | boolean     | dictionary order comparison |
 | <>   | vecf16        | vecf16         | boolean     | dictionary order comparison |
+| <>   | svector       | svector        | boolean     | dictionary order comparison |
 | <    | vector        | vector         | boolean     | dictionary order comparison |
 | <    | vecf16        | vecf16         | boolean     | dictionary order comparison |
+| <    | svector       | svector        | boolean     | dictionary order comparison |
 | >    | vector        | vector         | boolean     | dictionary order comparison |
 | >    | vecf16        | vecf16         | boolean     | dictionary order comparison |
+| >    | svector       | svector        | boolean     | dictionary order comparison |
 | <=   | vector        | vector         | boolean     | dictionary order comparison |
 | <=   | vecf16        | vecf16         | boolean     | dictionary order comparison |
+| <=   | svector       | svector        | boolean     | dictionary order comparison |
 | >=   | vector        | vector         | boolean     | dictionary order comparison |
 | >=   | vecf16        | vecf16         | boolean     | dictionary order comparison |
+| >=   | svector       | svector        | boolean     | dictionary order comparison |
 | <->  | vector        | vector         | real        | squared Euclidean distance  |
 | <->  | vecf16        | vecf16         | real        | squared Euclidean distance  |
+| <->  | svector       | svector        | real        | squared Euclidean distance  |
 | <#>  | vector        | vector         | real        | negative dot product        |
 | <#>  | vecf16        | vecf16         | real        | negative dot product        |
+| <#>  | svector       | svector        | real        | negative dot product        |
 | <=>  | vector        | vector         | real        | cosine distance             |
 | <=>  | vecf16        | vecf16         | real        | cosine distance             |
+| <=>  | svector       | svector        | real        | cosine distance             |
 
 ## List of functions
+
+| Name       | Argument type                               | Result type | Description                                                     |
+| ---------- | ------------------------------------------- | ----------- | --------------------------------------------------------------- |
+| to_svector | dims integer, index integer[], value real[] | svector     | construct a sparse vector from two arrays of indexes and values |
 
 ## List of casts
 
@@ -46,6 +62,9 @@ Here is the schema provided by `pgvecto.rs`.
 | real[]      | vector      | yes       |
 | vector      | real[]      | yes       |
 | vector      | vecf16      | no        |
+| vecf16      | vector      | no        |
+| vector      | svector     | no        |
+| svector     | vector      | no        |
 
 ## List of access methods
 
@@ -63,17 +82,23 @@ Here is the schema provided by `pgvecto.rs`.
 | vectors | vecf16_cos_ops  | vecf16           |
 | vectors | vecf16_dot_ops  | vecf16           |
 | vectors | vecf16_l2_ops   | vecf16           |
+| vectors | svector_cos_ops | svector          |
+| vectors | svector_dot_ops | svector          |
+| vectors | svector_l2_ops  | svector          |
 
 ## List of operator classes
 
-| AM      | Input type | Operator class | Default? | Description |
-| ------- | ---------- | -------------- | -------- | ----------- |
-| vectors | vector     | vector_l2_ops  | no       | squared Euclidean distance |
-| vectors | vector     | vector_dot_ops | no       | negative dot product |
-| vectors | vector     | vector_cos_ops | no       | cosine distance |
-| vectors | vecf16     | vecf16_l2_ops  | no       | squared Euclidean distance |
-| vectors | vecf16     | vecf16_dot_ops | no       | negative dot product |
-| vectors | vecf16     | vecf16_cos_ops | no       | cosine distance |
+| AM      | Input type | Operator class  | Default? | Description                |
+| ------- | ---------- | --------------- | -------- | -------------------------- |
+| vectors | vector     | vector_l2_ops   | no       | squared Euclidean distance |
+| vectors | vector     | vector_dot_ops  | no       | negative dot product       |
+| vectors | vector     | vector_cos_ops  | no       | cosine distance            |
+| vectors | vecf16     | vecf16_l2_ops   | no       | squared Euclidean distance |
+| vectors | vecf16     | vecf16_dot_ops  | no       | negative dot product       |
+| vectors | vecf16     | vecf16_cos_ops  | no       | cosine distance            |
+| vectors | svector    | svector_l2_ops  | no       | squared Euclidean distance |
+| vectors | svector    | svector_dot_ops | no       | negative dot product       |
+| vectors | svector    | svector_cos_ops | no       | cosine distance            |
 
 ## List of views
 
