@@ -76,6 +76,7 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: 'LangChain', link: '/integration/langchain' },
+            { text: 'LlamaIndex', link: '/integration/llama-index' },
           ],
         },
         {
