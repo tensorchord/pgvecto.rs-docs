@@ -66,6 +66,7 @@ export default defineConfig({
           items: [
             { text: 'Indexing', link: '/usage/indexing' },
             { text: 'Search', link: '/usage/search' },
+            { text: 'Vector Type', link: '/usage/vector-type' },
             { text: 'Monitoring', link: '/usage/monitoring' },
             { text: 'Quantization', link: '/usage/quantization' },
             { text: 'Compatibility', link: '/usage/compatibility' },
