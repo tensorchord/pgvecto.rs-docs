@@ -65,10 +65,13 @@ Here is the schema provided by `pgvecto.rs`.
 
 ## List of functions
 
-| Name       | Argument type                               | Result type | Description                                                         |
-| ---------- | ------------------------------------------- | ----------- | ------------------------------------------------------------------- |
-| to_svector | dims integer, index integer[], value real[] | svector     | Construct a sparse vector from two arrays of indexes and values     |
-| binarize   | vector vector                               | bvector     | Binarize a vector. All positive elements are set to 1, otherwise 0. |
+| Name               | Argument type                               | Result type | Description                                                                                 |
+| ------------------ | ------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------- |
+| pgvectors_upgrade  |                                             | void        | Administration function for upgrading `pgvecto.rs`.                                         |
+| to_svector         | dims integer, index integer[], value real[] | svector     | Construct a sparse vector from two arrays of indexes and values                             |
+| binarize           | vector vector                               | bvector     | Binarize a vector. All positive elements are set to 1, otherwise 0.                         |
+| text2vec_openai    | input text, model text                      | vector      | Embedding function for OpenAI embeddings API.                                               |
+| text2vec_openai_v3 | input text                                  | vector      | Embedding function for OpenAI embeddings API. The model is set to `text-embedding-3-small`. |
 
 ## List of casts
 
