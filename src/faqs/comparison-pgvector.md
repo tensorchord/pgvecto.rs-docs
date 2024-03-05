@@ -5,6 +5,7 @@ This document provides a comprehensive comparison between pgvector and pgvecto.r
 ## Feature Differences
 - Vector Dimension Limit: pgvecto.rs supports vector length up to 65535, while pgvector only support vector length up to 2000
 - Filter Support: pgvecto.rs supports VBASE search mode, ensuring precise and complete results even with applied filters and joins. pgvector may produce incomplete results when filters are applied, potentially missing relevant results ([issue](https://github.com/pgvector/pgvector/issues/244)).
+    ![vbase](./images/vbase.png)
 - Performance: In our benchmark tests, pgvector typically shows superior performance, being approximately 2x faster than pgvecto.rs in most scenarios, and for larger candidate sets, up to 4x faster.
 - Quantization and Memory Efficiency: pgvecto.rs supports fp16 vector storage and indexing with 2x memory saving, while pgvector does not support fp16. pgvecto.rs also supports scalar quantization and product quantization.
 - Deletion Support: pgvector may return less results than expected when vectors are deleted or updated. pgvecto.rs does not have this issue.
