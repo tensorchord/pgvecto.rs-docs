@@ -19,9 +19,12 @@ INSERT INTO items (embedding) VALUES ('[1,0,1]'), ('[0,1,0]');
 
 We support three operators to calculate the distance between two `bvector` values.
 
-- `<->` (`bvector_l2_ops`): squared Euclidean distance, defined as $\Sigma (x_i - y_i) ^ 2$.
+- `<->` (`bvector_l2_ops`): squared Euclidean distance, defined as $\Sigma (x_i - y_i) ^ 2$. The Hamming distance is equivalent to the squared Euclidean distance for binary vectors.
 - `<#>` (`bvector_dot_ops`): negative dot product, defined as $- \Sigma x_iy_i$.
 - `<=>` (`bvector_cos_ops`): cosine distance, defined as $1 - \frac{\Sigma x_iy_i}{\sqrt{\Sigma x_i^2 \Sigma y_i^2}}$.
+- `<~>` (`bvector_jaccard_ops`): Jaccard distance, defined as $1 - \frac{|X\cap Y|}{|X\cup Y|}$.
+
+```sql
 
 Index can be created on `bvector` type as well.
 
