@@ -24,8 +24,6 @@ We support three operators to calculate the distance between two `bvector` value
 - `<=>` (`bvector_cos_ops`): cosine distance, defined as $1 - \frac{\Sigma x_iy_i}{\sqrt{\Sigma x_i^2 \Sigma y_i^2}}$.
 - `<~>` (`bvector_jaccard_ops`): Jaccard distance, defined as $1 - \frac{|X\cap Y|}{|X\cup Y|}$.
 
-```sql
-
 Index can be created on `bvector` type as well.
 
 ```sql
