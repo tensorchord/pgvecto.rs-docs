@@ -44,6 +44,6 @@ Here are some performance benchmarks for the `bvector` type. We use the [dbpedia
 
 We upsert 1M binary vectors into the table and then run a KNN query for each embedding. It only takes about 600MB memory to index 1M binary vectors.
 
-![bvector](../usage/images/bvector.png)
+![bvector](./images/bvector.png)
 
 We can see that the `bvector`'s accuracy is not as good as the `vector` type, but it exceeds 95%  if we adopt adaptive retrieval.
