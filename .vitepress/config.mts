@@ -97,7 +97,7 @@ export default defineConfig({
           items: [
             { text: 'pgvecto.rs vs. pgvector', link: '/faqs/comparison-pgvector' },
             { text: 'pgvecto.rs vs. specialized vectordb', link: '/faqs/comparison-with-specialized-vectordb' },
-            { text: `benchmark`, link: '/faqs/benchmark' },
+            { text: `Benchmarks`, link: '/faqs/benchmark' },
           ]
         },
         {
