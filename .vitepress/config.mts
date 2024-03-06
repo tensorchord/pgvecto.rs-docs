@@ -13,6 +13,9 @@ export default defineConfig({
     config: (md) => {
       md.use(mathjax3);
     },
+  },  
+  sitemap: {
+    hostname: 'https://docs.pgvecto.rs'
   },
   head: [
     // Google Analytics
