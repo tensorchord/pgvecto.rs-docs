@@ -44,7 +44,7 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Docs', link: '/getting-started/overview' },
-      {text: 'Tutorial', link: '/tutorial/'},
+      {text: 'Reference', link: '/reference/'},
       { text: 'Blog', link: 'https://blog.pgvecto.rs' },
     ],
 
@@ -54,6 +54,17 @@ export default defineConfig({
     },
 
     sidebar: {
+      '/reference/': [
+        {
+          text: 'Reference',
+          collapsed: false,
+          items: [
+            { text: 'Schema', link: '/reference/schema' },
+            { text: 'Indexing Options', link: '/reference/indexing_options' },
+            { text: 'Search Options', link: '/reference/search_options' },
+          ],
+        },
+      ],
       '/': [
         {
           text: 'Getting Started',
@@ -74,6 +85,16 @@ export default defineConfig({
             { text: 'Quantization', link: '/usage/quantization' },
             { text: 'Compatibility', link: '/usage/compatibility' },
           ]
+        },
+        {
+          text: 'Use Cases',
+          collapsed: false,
+          items: [
+            { text: 'Hybrid search', link: '/use-case/hybrid-search' },
+            { text: 'Adaptive retrieval', link: '/use-case/adaptive-retrieval' },
+            { text: 'Image search', link: '/use-case/image-search' },
+            { text: 'Multi tenancy', link: '/use-case/multi-tenancy' },
+          ],
         },
         {
           text: 'Integration',
@@ -104,17 +125,8 @@ export default defineConfig({
           ]
         },
         {
-          text: 'Reference',
-          collapsed: false,
-          items: [
-            { text: 'Schema', link: '/reference/schema' },
-            { text: 'Indexing Options', link: '/reference/indexing_options' },
-            { text: 'Search Options', link: '/reference/search_options' },
-          ]
-        },
-        {
           text: 'Community',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Contributing to pgvecto.rs', link: '/community/contributing' },
             { text: 'Roadmap', link: '/community/roadmap' },
@@ -123,23 +135,13 @@ export default defineConfig({
         },
         {
           text: 'Developers',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Development tutorial', link: '/developers/development' },
           ],
         },
       ],
-      '/tutorial/': [
-        {
-          text: 'Use Cases',
-          collapsed: false,
-          items: [
-            { text: 'Hybrid Search', link: '/tutorial/hybrid-search' },
-            { text: 'Image Search', link: '/tutorial/image-search' },
-            { text: 'Multi Tenancy', link: '/tutorial/multi-tenancy' },
-          ],
-        },
-      ]
+      
     },
 
     socialLinks: [
