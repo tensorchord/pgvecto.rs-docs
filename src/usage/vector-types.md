@@ -38,8 +38,8 @@ The `bvector` type is optimized for storage and performance. It uses a bit-packe
 
 Here are some performance benchmarks for the `bvector` type. We use the [dbpedia-entities-openai3-text-embedding-3-large-3072-1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-3072-1M) dataset for the benchmark. The VM is n2-standard-8 (8 vCPUs, 32 GB memory) on Google Cloud.
 
-We upsert 1M binary vectors into the table and then run a KNN query for each embedding. It only takes about 600MB memory to index 1M binary vectors.
+We upsert 1M binary vectors into the table and then run a KNN query for each embedding. It only takes about 600MB memory to index 1M binary vectors, while the `vector` type takes about 18GB memory to index the same number of vectors.
 
 ![bvector](./images/bvector.png)
 
-We can see that the `bvector`'s accuracy is not as good as the `vector` type, but it exceeds 95%  if we adopt adaptive retrieval.
+We can see that the `bvector`'s accuracy is not as good as the `vector` type, but it exceeds 95%  if we adopt [adaptive retrieval](/use-case/adaptive-retrieval).
