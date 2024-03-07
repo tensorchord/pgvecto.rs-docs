@@ -84,6 +84,16 @@ export default defineConfig({
           ]
         },
         {
+          text: 'Use Cases',
+          collapsed: false,
+          items: [
+            { text: 'Hybrid search', link: '/use-case/hybrid-search' },
+            { text: 'Adaptive retrieval', link: '/use-case/adaptive-retrieval' },
+            { text: 'Image search', link: '/use-case/image-search' },
+            { text: 'Multi tenancy', link: '/use-case/multi-tenancy' },
+          ],
+        },
+        {
           text: 'Integration',
           collapsed: false,
           items: [
@@ -100,16 +110,6 @@ export default defineConfig({
             { text: 'Logical replication', link: '/admin/logical_replication' },
             { text: 'Foreign data wrapper (FDW)', link: '/admin/fdw' },
             { text: 'Kubernetes', link: '/admin/kubernetes' },
-          ],
-        },
-        {
-          text: 'Use Cases',
-          collapsed: false,
-          items: [
-            { text: 'Hybrid search', link: '/use-case/hybrid-search' },
-            { text: 'Shortening embedding', link: '/use-case/adaptive-retrieval' },
-            { text: 'Image search', link: '/use-case/image-search' },
-            { text: 'Multi tenancy', link: '/use-case/multi-tenancy' },
           ],
         },
         {

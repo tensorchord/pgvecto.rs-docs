@@ -174,11 +174,7 @@ The logic behind adaptive retrieval is really simple. Let's take `get top 100 ca
 
 ![](./adaptive-retrieval/adaptive-retrieval.svg)
 
-The reranking step is a bit slower than the initial query, but it is still much faster than querying the full dimension index.
-
-::: details
-
-It could be done in the pgvecto.rs:
+The reranking step is a bit slower than the initial query, but it is still much faster than querying the full dimension index. It could be done in the pgvecto.rs:
 
 ```sql
 CREATE OR REPLACE FUNCTION match_documents_adaptive(
@@ -204,8 +200,6 @@ $$;
 The `match_documents_adaptive` function accepts a query embedding and a match count as input parameters. It first retrieves `match_count * 2` candidates from the 1 million embeddings using the 256-dimensional index. Then, it reranks the candidates using a KNN query to retrieve the top `match_count` candidates.
 
 The function for binary vector and 1024-dimensional embeddings can be implemented in a similar manner.
-
-:::
 
 We conduct the benchmark again with the adaptive retrieval technique. We tag the adaptive retrieval technique as `Adaptive Retrieval` in the following figure.
 
