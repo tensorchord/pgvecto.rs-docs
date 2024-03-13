@@ -1,6 +1,6 @@
 # Installation
 
-There are three ways to install `pgvecto.rs`.
+There are four ways to install `pgvecto.rs`.
 
 ## Docker
 
@@ -34,7 +34,9 @@ To achieve full performance, please mount the volume to pg data directory by add
 
 You can configure PostgreSQL by the reference of the parent image in https://hub.docker.com/_/postgres/.
 
-## From release
+## From Debian package
+
+Debian packages(.deb) are used in distributions based on Debian, such as Ubuntu and many others. They can be easily installed by `dpkg` or `apt-get`.
 
 1. Download the deb package in the release page, and type `sudo apt install vectors-pg15-*.deb` to install the deb package.
 
@@ -48,6 +50,69 @@ sudo systemctl restart postgresql.service   # for pgvecto.rs running with system
 ```
 
 3. Connect to the database and enable the extension.
+
+```sql
+DROP EXTENSION IF EXISTS vectors;
+CREATE EXTENSION vectors;
+```
+
+## From ZIP package
+
+For systems that are not Debian based and cannot run a Docker container, please follow these steps to install:
+
+1. Before install, make sure that you have the necessary packages installed, including `PostgreSQL`, `pg_config`, `unzip`, `wget`.
+
+```sh
+# Example for RHEL9 dnf
+# Please check your package manager
+sudo dnf install -y unzip wget libpq-devel
+sudo dnf module install -y postgresql:15/server
+sudo postgresql-setup --initdb
+sudo systemctl start postgresql.service
+sudo systemctl enable postgresql.service
+```
+
+2. Verify whether `$pkglibdir` and `$shardir` have been set by `PostgreSQL`. 
+
+```sh
+pg_config --pkglibdir
+# Print something similar to:
+# /usr/lib/postgresql/15/lib or
+# /usr/lib64/pgsql
+
+pg_config --sharedir
+# Print something similar to:
+# /usr/share/postgresql/15 or
+# /usr/share/pgsql
+```
+
+3. Download the zip package in the release page and extract it to a temporary directory.
+
+```sh
+wget https://github.com/tensorchord/pgvecto.rs/releases/download/v0.2.1/vectors-pg15_x86_64-unknown-linux-gnu_0.2.1.zip -O vectors.zip
+unzip vectors.zip -d vectors
+```
+
+4. Copy the extension files to the PostgreSQL directory.
+
+```sh
+# Copy library to `$pkglibdir`
+sudo cp vectors/vectors.so $(pg_config --pkglibdir)/
+# Copy schema to `$shardir`
+sudo cp vectors/vectors--* $(pg_config --sharedir)/extension/
+sudo cp vectors/vectors.control $(pg_config --sharedir)/extension/
+```
+
+5. Configure your PostgreSQL by modifying the `shared_preload_libraries` and `search_path` to include the extension.
+
+```sh
+psql -U postgres -c 'ALTER SYSTEM SET shared_preload_libraries = "vectors.so"'
+psql -U postgres -c 'ALTER SYSTEM SET search_path TO "$user", public, vectors'
+# You need restart the PostgreSQL cluster to take effects.
+sudo systemctl restart postgresql.service   # for pgvecto.rs running with systemd
+```
+
+6. Connect to the database and enable the extension.
 
 ```sql
 DROP EXTENSION IF EXISTS vectors;
