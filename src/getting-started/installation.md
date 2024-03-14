@@ -37,7 +37,7 @@ You can configure PostgreSQL by the reference of the parent image in https://hub
 ## From Debian package
 
 ::: tip
-Installation from the Debian package requires a dependency on `GLIBC >= 2.29`, e.g:
+Installation from the Debian package requires a dependency on `GLIBC >= 2.31`, e.g:
 - `Ubuntu 20.04` or later
 - `Debian Bullseye` or later
 :::
@@ -65,7 +65,7 @@ CREATE EXTENSION vectors;
 ## From ZIP package
 
 ::: tip
-Installation from the ZIP package requires a dependency on `GLIBC >= 2.29`, e.g:
+Installation from the ZIP package requires a dependency on `GLIBC >= 2.31`, e.g:
 - `RHEL 9` or later
 :::
 
