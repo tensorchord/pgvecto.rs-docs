@@ -36,6 +36,12 @@ You can configure PostgreSQL by the reference of the parent image in https://hub
 
 ## From Debian package
 
+::: tip
+Installation from the Debian package requires a dependency on `GLIBC >= 2.29`, e.g:
+- `Ubuntu 20.04` or later
+- `Debian Bullseye` or later
+:::
+
 Debian packages(.deb) are used in distributions based on Debian, such as Ubuntu and many others. They can be easily installed by `dpkg` or `apt-get`.
 
 1. Download the deb package in the release page, and type `sudo apt install vectors-pg15-*.deb` to install the deb package.
@@ -58,12 +64,17 @@ CREATE EXTENSION vectors;
 
 ## From ZIP package
 
+::: tip
+Installation from the ZIP package requires a dependency on `GLIBC >= 2.29`, e.g:
+- `RHEL 9` or later
+:::
+
 For systems that are not Debian based and cannot run a Docker container, please follow these steps to install:
 
 1. Before install, make sure that you have the necessary packages installed, including `PostgreSQL`, `pg_config`, `unzip`, `wget`.
 
 ```sh
-# Example for RHEL9 dnf
+# Example for RHEL 9 dnf
 # Please check your package manager
 sudo dnf install -y unzip wget libpq-devel
 sudo dnf module install -y postgresql:15/server
@@ -72,7 +83,7 @@ sudo systemctl start postgresql.service
 sudo systemctl enable postgresql.service
 ```
 
-2. Verify whether `$pkglibdir` and `$shardir` have been set by `PostgreSQL`. 
+2. Verify whether `$pkglibdir` and `$shardir` have been set by PostgreSQL. 
 
 ```sh
 pg_config --pkglibdir
