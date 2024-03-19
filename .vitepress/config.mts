@@ -94,6 +94,7 @@ export default defineConfig({
             { text: 'Adaptive retrieval', link: '/use-case/adaptive-retrieval' },
             { text: 'Image search', link: '/use-case/image-search' },
             { text: 'Multi tenancy', link: '/use-case/multi-tenancy' },
+            { text: 'Sparse vector', link: '/use-case/sparse-vector' },
           ],
         },
         {
