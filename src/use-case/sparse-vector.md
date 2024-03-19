@@ -130,7 +130,7 @@ docker run \
   --name pgvecto-rs-demo \
   -e POSTGRES_PASSWORD=mysecretpassword \
   -p 5432:5432 \
-  -d tensorchord/pgvecto-rs:pg16-v0.2.1
+  -d tensorchord/pgvecto-rs:pg16-v0.3.0
 ```
 
 Now the only necessary dependency is installed. Let's create a table to store the vectors.
@@ -216,7 +216,7 @@ dense_embedding, sparse_embedding = embedding("The text you want to search...")
 
 with psycopg.connect(URL) as conn:
 	cur = conn.execute(
-            "SELECT text FROM documents ORDER BY sparse <-> %s LIMIT 50;",
+            "SELECT text FROM documents ORDER BY sparse <#> %s LIMIT 50;",
             (sparse_embedding,),
         )
     dense_result = cur.fetchall()
