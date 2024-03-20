@@ -16,7 +16,7 @@ These operators are used for distance metrics:
 | <#>   | negative dot product       |
 | <=>   | cosine distance            |
 
-For their definitions, see [overview](../getting-started/overview).
+For their definitions, see [overview](../getting-started/overview#quick-start).
 
 ## Filter
 

@@ -13,7 +13,7 @@ export default defineConfig({
     config: (md) => {
       md.use(mathjax3);
     },
-  },  
+  },
   sitemap: {
     hostname: 'https://docs.pgvecto.rs'
   },
@@ -44,7 +44,7 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Docs', link: '/getting-started/overview' },
-      {text: 'Reference', link: '/reference/'},
+      { text: 'Reference', link: '/reference/' },
       { text: 'Blog', link: 'https://blog.pgvecto.rs' },
     ],
 
@@ -62,6 +62,15 @@ export default defineConfig({
             { text: 'Schema', link: '/reference/schema' },
             { text: 'Indexing Options', link: '/reference/indexing_options' },
             { text: 'Search Options', link: '/reference/search_options' },
+            {
+              text: 'Vector Types', link: '/reference/vector-types', items: [
+                { text: 'Half-Precision Vector', link: '/reference/vector-types/vecf16' },
+                { text: '8-Bit Integer Vector', link: '/reference/vector-types/veci8' },
+                { text: 'Sparse Vector', link: '/reference/vector-types/svector' },
+                { text: 'Binary Vector', link: '/reference/vector-types/bvector' },
+
+              ]
+            },
           ],
         },
       ],
@@ -80,7 +89,6 @@ export default defineConfig({
           items: [
             { text: 'Indexing', link: '/usage/indexing' },
             { text: 'Search', link: '/usage/search' },
-            { text: 'Vector Types', link: '/usage/vector-types' },
             { text: 'Monitoring', link: '/usage/monitoring' },
             { text: 'Quantization', link: '/usage/quantization' },
             { text: 'Compatibility', link: '/usage/compatibility' },
@@ -142,12 +150,15 @@ export default defineConfig({
           ],
         },
       ],
-      
+
     },
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/tensorchord/pgvecto.rs' },
       { icon: 'discord', link: 'https://discord.gg/KqswhpVgdU' }
-    ]
+    ],
+    search: {
+      provider: 'local'
+    }
   }
 })

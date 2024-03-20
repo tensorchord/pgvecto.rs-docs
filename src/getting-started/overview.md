@@ -103,19 +103,19 @@ SELECT * FROM items ORDER BY embedding <-> '[3,2,1]' LIMIT 5;
 
 `vecf16` type is the same with `vector` in anything but the scalar type. It stores 16-bit floating point numbers. If you want to reduce the memory usage to get better performance, you can try to replace `vector` type with `vecf16` type.
 
-For more usage of `vecf16`, please refer to [vector types](../usage/vector-types.html#vecf16-half-precision-vector).
+For more usage of `vecf16`, please refer to [vector types](../reference/vector-types.html#vecf16-half-precision-vector).
 
 ### Sparse vector
 
 `svector` type is a sparse vector type. It stores a vector in a sparse format. It is suitable for vectors with many zeros.
 
-For more usage of `svector`, please refer to [vector types](../usage/vector-types.html#svector-sparse-vector).
+For more usage of `svector`, please refer to [vector types](../reference/vector-types.html#svector-sparse-vector).
 
 ### Binary vector
 
 `bvector` type is a binary vector type. It is a fixed-length bit string. Except for above 3 distances, we also support `jaccard` distance `<~>`, which defined as $1 - \frac{|X\cap Y|}{|X\cup Y|}$. And `hamming` distance is the same with squared Euclidean distance, you can use `<->` operator to calculate it. We also provide `binarize` function to construct a `bvector` from a `vector`, which set the positive elements to 1, otherwise 0.
 
-For more usage of `bvector`, please refer to [vector types](../usage/vector-types.html#bvector-binary-vector).
+For more usage of `bvector`, please refer to [vector types](../reference/vector-types.html#bvector-binary-vector).
 
 ## Roadmap 🗂️
 

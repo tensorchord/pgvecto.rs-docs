@@ -62,7 +62,7 @@ DROP EXTENSION IF EXISTS vectors;
 CREATE EXTENSION vectors;
 ```
 
-## From ZIP package
+## From ZIP package <Badge type="tip" text="since v0.2.1" />
 
 ::: tip
 Installation from the ZIP package requires a dependency on `GLIBC >= 2.31`, e.g:
