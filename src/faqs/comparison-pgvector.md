@@ -69,7 +69,7 @@ pgvecto.rs utilizes the SIMD (Single Instruction, Multiple Data) instructions av
 
 ### Binary Vector
 
-The [`bvector`](https://docs.pgvecto.rs/usage/vector-types.html#bvector-binary-vector) type is a binary vector type in [pgvecto.rs](http://pgvecto.rs). It represents a binary vector, which is a vector where each component can take on two possible values, typically 0 and 1.
+The [`bvector`](https://docs.pgvecto.rs/reference/vector-types.html#bvector-binary-vector) type is a binary vector type in [pgvecto.rs](http://pgvecto.rs). It represents a binary vector, which is a vector where each component can take on two possible values, typically 0 and 1.
 
 ```sql
 CREATE TABLE items (
@@ -94,7 +94,7 @@ We upsert 1M binary vectors into the table and then run a KNN query for each emb
 
 ### FP16/INT8
 
-Besides binary vectors, [pgvecto.rs](http://pgvecto.rs) also provides support for [FP16 (16-bit floating point)](https://docs.pgvecto.rs/usage/vector-types.html#vecf16-half-precision-vector) and INT8 (8-bit integer) data types.
+Besides binary vectors, [pgvecto.rs](http://pgvecto.rs) also provides support for [FP16 (16-bit floating point)](https://docs.pgvecto.rs/reference/vector-types.html#vecf16-half-precision-vector) and INT8 (8-bit integer) data types.
 
 ## Indexing
 

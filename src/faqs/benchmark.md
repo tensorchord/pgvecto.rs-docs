@@ -38,7 +38,7 @@ However, the accuracy of the shortened embeddings surpasses 95% when [adaptive r
 
 ## Binary vectors
 
-`pgvecto.rs` supports [binary vectors](/usage/vector-types.html#bvector-binary-vector). The `bvector` type is optimized for storage and performance. It uses a bit-packed representation to store the binary vector. The distance calculation is also optimized for binary vectors.
+`pgvecto.rs` supports [binary vectors](/reference/vector-types.html#bvector-binary-vector). The `bvector` type is optimized for storage and performance. It uses a bit-packed representation to store the binary vector. The distance calculation is also optimized for binary vectors.
 
 Here are some performance benchmarks for the `bvector` type. We use the [dbpedia-entities-openai3-text-embedding-3-large-3072-1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-3072-1M) dataset for the benchmark. The VM is n2-standard-8 (8 vCPUs, 32 GB memory) on Google Cloud.
 

@@ -2,7 +2,23 @@
 
 Indexing is the process of building a data structure that allows for efficient search. `pgvecto.rs` supports three indexing algorithms: brute force (flat), IVF, and HNSW. The default algorithm is HNSW.
 
-Assuming there is a table `items` and there is a column named `embedding` of type `vector(n)`, you can create a vector index for squared Euclidean distance with the following SQL.
+To construct an index for vectors, first create a table named `items` with a column named `embedding` of type `vector(n)`. Then, populate the table with generated data.
+
+```sql
+CREATE TABLE items (val vector(3));
+INSERT INTO items (val) SELECT ARRAY[random(), random(), random()]::real[] FROM generate_series(1, 1000);
+```
+
+::: tip
+`vector` is the suitable data type for most situations. `pgvecto.rs` also supports other specific [vector types](../reference/vector-types), including:
+- [Half-Precision Vector](../reference/vector-types/vecf16)
+- [8-Bit Integer Vector](../reference/vector-types/veci8) <Badge type="tip" text="since v0.3.0" />
+- [Sparse Vector](../reference/vector-types/svector) <Badge type="tip" text="since v0.3.0" />
+- [Binary Vector](../reference/vector-types/bvector) <Badge type="tip" text="since v0.3.0" />
+
+:::
+
+You can create a vector index for squared Euclidean distance with the following SQL.
 
 ```sql
 CREATE INDEX ON items USING vectors (embedding vector_l2_ops);
