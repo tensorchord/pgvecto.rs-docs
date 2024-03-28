@@ -137,6 +137,8 @@ Before building from source, you could refer to the [development guide](/develop
 1. Then you could build and install the extension.
 
 ```sh
+sed -e "s/@CARGO_VERSION@/0.0.0/g" ./vectors.control  # 0.0.0 here is the version number that you need
+sudo cp -a ./sql/upgrade/. $(pg_config --sharedir)/extension
 cargo pgrx install --sudo --release
 ```
 

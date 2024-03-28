@@ -1,12 +1,12 @@
 # Development
 
-## Environment
+## Set up development environment
 
-You can setup development environment simply using [`envd`](https://github.com/tensorchord/envd). It will create a docker container and install all the dependencies for you.
+You can set up development environment simply using [`envd`](https://github.com/tensorchord/envd). It will create a docker container and install all the dependencies for you.
 
 ```sh
 pip install envd
-git clone https://github.com/tensorchord/pgvecto.rs.git # or `git clone git@github.com:tensorchord/pgvecto.rs.git`
+git clone https://github.com/tensorchord/pgvecto.rs.git
 cd pgvecto.rs
 envd up
 ```
@@ -36,23 +36,7 @@ sudo apt install -y \
     zlib1g-dev
 ```
 
-2. Clone the Repository.
-
-```sh
-git clone https://github.com/tensorchord/pgvecto.rs.git # or `git clone git@github.com:tensorchord/pgvecto.rs.git`
-cd pgvecto.rs
-```
-
-3. Install PostgreSQL and its headers. We assume you may install PostgreSQL 15. Feel free to replace `15` to any other major version number you need.
-
-```sh
-sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-sudo apt-get update
-sudo apt-get install -y --no-install-recommends libpq-dev postgresql-15 postgresql-server-dev-15
-```
-
-4. Install clang-16. We do not support other versions of clang.
+2. Install `clang-16`. Other versions of `clang` are not supported.
 
 ```sh
 sudo sh -c 'echo "deb http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolchain-$(lsb_release -cs)-16 main" >> /etc/apt/sources.list'
@@ -61,83 +45,60 @@ sudo apt-get update
 sudo apt-get install -y --no-install-recommends clang-16
 ```
 
-5. Install Rust. The following command will install Rustup, the Rust toolchain installer for your user. Do not install rustc using package manager.
+3. Install Rust. Do not install `rustc` using a package manager.
 
 ```sh
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-6. Install cargo-pgrx.
+4. Clone the Repository.
 
 ```sh
-cargo install cargo-pgrx@$(grep 'pgrx = { version' Cargo.toml | cut -d '"' -f 2)
+git clone https://github.com/tensorchord/pgvecto.rs.git
+cd pgvecto.rs
+```
+
+5. Install `cargo-pgrx`.
+
+```sh
+cargo install cargo-pgrx --version $(grep -o 'pgrx = { version = "=[^"]*' Cargo.toml | cut -d = -f 4)
 cargo pgrx init
 ```
 
 `cargo-pgrx` is a helpful tool to develop a PostgreSQL extension. You can read the document in https://docs.rs/crate/cargo-pgrx/latest.
 
-7. The following command is helpful if you are struggling with permission issues.
-
-```sh
-sudo chmod 777 /usr/share/postgresql/15/extension/
-sudo chmod 777 /usr/lib/postgresql/15/lib/
-```
-
 ### Cross compilation
 
-Assuming that you build target for aarch64 in a x86_64 host environment, you can follow these steps:
+Assuming that you build binary and schema for `aarch64` target in `x86_64` host environment, you can follow these steps:
 
 1. Install cross compilation toolchain.
 
 ```sh
 sudo apt install crossbuild-essential-arm64
+sudo apt install qemu-user-static
 ```
 
-2. Get PostgreSQL header files on target architecture.
+Set environment variables.
 
 ```sh
-apt download postgresql-server-dev-15:arm64
+LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/aarch64-linux-gnu/lib:/usr/aarch64-linux-gnu/lib64"
 ```
 
-3. Set right linker and sysroot for Rust by adding the following section to the end of `~/.cargo/config.toml`.
+Set emulator, linker and sysroot for Rust by adding the following section to the end of `~/.cargo/config.toml`.
 
 ```toml
 [target.aarch64-unknown-linux-gnu]
+runner = ["qemu-aarch64-static", "-L", "/usr/aarch64-linux-gnu"]
 linker = "aarch64-linux-gnu-gcc"
 
 [env]
 BINDGEN_EXTRA_CLANG_ARGS_aarch64_unknown_linux_gnu = "-isystem /usr/aarch64-linux-gnu/include/ -ccc-gcc-name aarch64-linux-gnu-gcc"
 ```
 
+2. Generate PostgreSQL header files on target architecture. It can be done with `cargo-pgrx` and you can also take advantages of files under `vendor/pgrx_config` and `vendor/pgrx_binding`. For details, please refer to the documentation of `pgrx`.
+
 ## Debug
 
 Debug information included in the compiled binary even in release mode so you can always use `gdb` for debugging.
 
 For a debug build, backtrace is printed when a thread in background worker process panics, but not for a session process error. For a release build, backtrace is never printed. But if you set environment variable `RUST_BACKTRACE` to `1`, all backtraces are printed. It's recommended for you to debug a release build with the command `RUST_BACKTRACE=1 cargo pgrx run --release`.
-
-## Pull request
-
-### Version
-
-`pgvecto.rs` uses `pg_vectors` directory under PostgreSQL data directory for storage. To reduce the unnecessary rebuilding indexes when upgrade, we record version number of persistent data. If you modify the structure of persistent data, you need to bump the `VERSION` (if it's a breaking change) or `SOFT_VERSION` (if a newer version can still read old data).
-
-The version number is saved in these two files:
-
-1. `/crates/service/src/worker/metadata.rs` (if the structure of persistent data you modified is outside an index).
-2. `/crates/service/src/instance/metadata.rs` (if the structure of persistent data you modified is inside an index).
-
-## Release
-
-These steps are needed for a release:
-
-1. Get a new version number. Let's say it's `99.99.99` and its former version number is `98.98.98`.
-2. Push these changes to `main` branch.
-    * Modify the latest version number in `/README.md` and `/docs/installation.md` to `99.99.99`.
-    * Use `cargo pgrx schema` to generate a schema script and upload it to `/sql/vectors--99.99.99.sql`.
-    * Write a schema update script and upload it to `/sql/vectors--98.98.98--99.99.99.sql`. You can check the validity of it with the help of `./tools/dump.sh`.
-3. Manually trigger `Release` CI.
-
-These steps are needed for a prerelease:
-
-1. Get a new version number. Let's say it's `99.99.99-alpha`.
-2. Manually trigger `Release` CI with checkbox `prerelease` checked.
