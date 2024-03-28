@@ -73,19 +73,18 @@ sentences = ["What is BM25?", "Definition of BM25"]
 
 output = model.encode(sentences, return_dense=True, return_sparse=True)
 
-dense_embedding = output['dense_vecs']
-
 # The dense embedding of the two texts above:
-print(dense_embedding)
+dense_embedding = output['dense_vecs']
 # [[-0.02501617 -0.04525582 -0.01972856 ... -0.0099566   0.01677509
 #   0.01292699]
 # [-0.0106499  -0.04731942 -0.01477693 ... -0.0149255   0.01040097
 #   0.00965083]
 
-sparse_weight = model.convert_id_to_token(output['lexical_weights'])
+sparse_weight_id = output['lexical_weights']
 
 # You can see the weight for each token:
-print(sparse_weight)
+# print(model.convert_id_to_token(sparse_weight_id))
+# 
 # [{'What': 0.10430284, 'is': 0.10090457, 'BM': 0.2635918, '25': 0.3382988, '?': 0.052101523}, 
 # {'Definition': 0.14298248, 'of': 0.076763615, 'BM': 0.2577639, '25': 0.33806682}]
 ```
@@ -107,16 +106,16 @@ By feeding text into sparse embedding models like `BGE-M3`, we can easily obtain
 
 import numpy as np
 
-# Vocabulary size = 32000 for BGE-M3
-# equals to len(vocabs)
-vocabs = ["What", "is", "BM", "25", "Definition", "of", ...]
-vocab_rev = {v:i for i, v in enumerate(vocabs)}
-
-sparse_embedding = np.zeros(len(vocabs))
-index = np.array([vocab_rev[v] for v in sparse_weight.keys()])
-value = np.array(list(sparse_weight.values()))
 # Sparse vector embedding of text
-sparse_embedding[index] = value
+sparse_indices = [[int(token_id) for token_id in text] for text in sparse_weight_id]
+# [[4865, 83, 90017, 2588, 32], [155455, 111, 90017, 2588]]
+sparse_values = [[float(text[token_id]) for token_id in text] for text in sparse_weight_id]
+# [[0.10430284, 0.10090457, 0.2635918, 0.3382988, 0.052101523], [0.14298248, 0.076763615, 0.2577639, 0.33806682]]
+
+# Sparse indexes must be ascending for each pgvecto.rs
+for i in range(len(sparse_weight_id)):
+    sparse_values[i] = [x for _, x in sorted(zip(sparse_indices[i], sparse_values[i]))]
+    sparse_indices[i] = sorted(sparse_indices[i])
 ```
 
 Now we have both the sparse and dense embeddings. It's time to insert them into the vector database.
@@ -140,20 +139,29 @@ Now the only necessary dependency is installed. Let's create a table to store th
 - `vector` for dense vector
 - `svector` for sparse vector
 
-In this example, we create a table named `documents` with four columns: an ID column(`id`), a text column(`text`) and two vector columns(`sparse` for sparse vector and `dense` for dense vector). 
-
-The `BGE-M3` model has a dense embedding dimension of 1024. The sparse embedding dimension is 32000, which matches the size of the LLama vocabulary.
+The `BGE-M3` model has a dense embedding dimension of 1024. The sparse embedding dimension is 250002, which matches the size of tokenizer vocabulary.
 
 ```python
+print(len(model.tokenizer))
+# 250002
+```
+
+In this example, we create a table named `documents` with four columns: an ID column(`id`), a text column(`text`) and two vector columns(`sparse` for sparse vector and `dense` for dense vector). 
+
+```python
+# pip install -U psycopg
+
+import psycopg
 URL = "postgresql://postgres:mysecretpassword@localhost:5432/postgres"
 
 with psycopg.connect(URL) as conn:
-    conn.execute("""
+    conn.execute("DROP TABLE IF EXISTS documents;")
+    conn.execute(f"""
         CREATE TABLE documents (
             id SERIAL PRIMARY KEY, 
             text TEXT NOT NULL,
-            dense vector(1024) NOT NULL
-            sparse svector(32000) NOT NULL);
+            dense vector(1024) NOT NULL,
+            sparse svector({len(model.tokenizer)}) NOT NULL);
     """
     )
 ```
@@ -161,9 +169,19 @@ with psycopg.connect(URL) as conn:
 With the table created, we can now insert embeddings into the table and create indexes for vector columns.
 
 ```python
+# pip install -U pgvecto_rs
+
+import psycopg
+from pgvecto_rs.psycopg import register_vector
+URL = "postgresql://postgres:mysecretpassword@localhost:5432/postgres"
+
 with psycopg.connect(URL) as conn:
-    for text, sparse, dense in zip(sentences, sparse_embedding, dense_embedding):
-        conn.execute("INSERT INTO documents (text, dense, sparse) VALUES (%s, %s, %s);", (text, emb, dense))
+    register_vector(conn)
+    for text, dense, sparse_ind, sparse_val in zip(sentences, dense_embedding, sparse_indices, sparse_values):
+        conn.execute(
+            "INSERT INTO documents (text, dense, sparse) VALUES (%s, %s, to_svector(%s, %s::real[]::int[], %s::real[]));",
+            (text, dense, len(model.tokenizer), sparse_ind, sparse_val),
+        )
     conn.execute("""
         CREATE INDEX ON documents 
         USING vectors (sparse svector_dot_ops) 
@@ -195,40 +213,42 @@ With the vectors stored in the database, we can efficiently query them using the
 This process is identical to the one described in the previous chapter:
 
 ```python
-def embedding(sentence: str):
+def embedding(sentence: str) -> tuple[np.ndarray, list[list[int]], list[list[float]]]:
     """
     Create dense and sparse embeddings from text
     """
-    output = model.encode(sentence, return_dense=True, return_sparse=True, return_sparse_embedding=False)
+    output = model.encode(sentence, return_dense=True, return_sparse=True, return_colbert_vecs=False)
     dense_embedding = output['dense_vecs']
-    sparse_weight = model.convert_id_to_token(output['lexical_weights'])
-    sparse_embedding = np.zeros(len(vocabs))
-    index = np.array([vocab_rev[v] for v in sparse_weight.keys()])
-    value = np.array(list(sparse_weight.values()))
-    sparse_embedding[index] = value
-    return dense_embedding, sparse_embedding
+    sparse_weight_id = output['lexical_weights']
+    sparse_indices = [int(token_id) for token_id in sparse_weight_id]
+    sparse_values = [float(sparse_weight_id[token_id]) for token_id in sparse_weight_id]
+
+    sparse_values = [x for _, x in sorted(zip(sparse_indices, sparse_values))]
+    sparse_indices = sorted(sparse_indices)
+    return dense_embedding, sparse_indices, sparse_values
 ```
 
 The `pgvecto.rs` extension provides a simple `SELECT` statement to get sparse and dense vectors like this:
 
 ```python
-dense_embedding, sparse_embedding = embedding("The text you want to search...")
+dense_embedding, sparse_indices, sparse_values = embedding("The text you want to search...")
 
 with psycopg.connect(URL) as conn:
-	cur = conn.execute(
-            "SELECT text FROM documents ORDER BY sparse <#> %s LIMIT 50;",
-            (sparse_embedding,),
-        )
+    register_vector(conn)
+    cur = conn.execute(
+        "SELECT text FROM documents ORDER BY sparse <#> to_svector(%s, %s::real[]::int[], %s::real[]) LIMIT 50;",
+        (len(model.tokenizer), sparse_indices, sparse_values),
+    )
+    sparse_result = cur.fetchall()
+      
+    cur = conn.execute(
+              "SELECT text FROM documents ORDER BY dense <-> %s LIMIT 50;",
+              (dense_embedding,),
+          )
     dense_result = cur.fetchall()
     
-    cur = conn.execute(
-            "SELECT text FROM documents ORDER BY dense <-> %s LIMIT 50;",
-            (dense_embedding,),
-        )
-    sparse_result = cur.fetchall()
-    
-    # Merge sparse and dense vector search results
-    mix_text = set([r[0] for r in dense_result]).union([r[0] for r in sparse_result])
+# Merge sparse and dense vector search results
+mix_text = set([r[0] for r in dense_result]).union([r[0] for r in sparse_result])
 ```
 
 To rerank the merged result, you can use popular fusion methods such as Reciprocal Ranked Fusion (RRF). However, to make better use of `BGE-M3`, let's introduce the `Reranker` model of `BGE-M3`. Unlike the embedding model, `Reranker` uses text input and directly outputs their similarity or score.
