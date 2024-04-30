@@ -5,8 +5,8 @@ Indexing is the process of building a data structure that allows for efficient s
 To construct an index for vectors, first create a table named `items` with a column named `embedding` of type `vector(n)`. Then, populate the table with generated data.
 
 ```sql
-CREATE TABLE items (val vector(3));
-INSERT INTO items (val) SELECT ARRAY[random(), random(), random()]::real[] FROM generate_series(1, 1000);
+CREATE TABLE items (embedding vector(3));
+INSERT INTO items (embedding) SELECT ARRAY[random(), random(), random()]::real[] FROM generate_series(1, 1000);
 ```
 
 ::: tip
