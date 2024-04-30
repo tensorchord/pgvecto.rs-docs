@@ -200,7 +200,7 @@ D_{L2} = \Sigma (x_i - y_i) ^ 2
 $$
 For sparse vectors, `vector_dot_ops` calculates the dot product, which is a more efficient method.
 $$
-D_{dot} = - \Sigma x_iy_i
+D_{dot} = - \Sigma x_i y_i
 $$
 
 
