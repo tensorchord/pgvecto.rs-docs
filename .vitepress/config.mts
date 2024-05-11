@@ -95,6 +95,52 @@ export default defineConfig({
           ]
         },
         {
+          text: 'Cloud',
+          collapsed: false,
+          items: [
+            {
+              text: 'Getting Started',
+              collapsed: false,
+              items: [
+                { text: 'Sign Up', link: '/cloud/getting-started/sign-up' },
+                { text: 'Quick Start', link: '/cloud/getting-started/quick-start' },
+              ],
+            },
+            {
+              text: 'Connect',
+              collapsed: false,
+              items: [
+                { text: 'Connect with psql', link: '/cloud/connect/connect-with-psql' },
+                { text: 'From any application', link: '/cloud/connect/connect-from-any-app' },
+              ],
+            },
+            {
+              text: 'Manage',
+              collapsed: true,
+              items: [
+                { text: 'Overview', link: '/cloud/manage/overview' },
+                { text: 'Projects', link: '/cloud/manage/project' },
+                { text: 'Clusters', link: '/cloud/manage/cluster' },
+              ],
+            },
+            {
+              text: 'Payment & Billing',
+              collapsed: true,
+              items: [
+                { text: 'Credit Card', link: '/cloud/payment/credit-card' },
+                { text: 'View Invoice', link: '/cloud/payment/view-invoice' },
+              ],
+            },
+            {
+              text: 'Limits & Restrictions',
+              collapsed: true,
+              items: [
+                { text: 'Cloud Limits', link: '/cloud/limit/cloud-limit' },
+              ],
+            },
+          ],
+        },
+        {
           text: 'Use Cases',
           collapsed: false,
           items: [
@@ -151,7 +197,6 @@ export default defineConfig({
           ],
         },
       ],
-
     },
 
     socialLinks: [
