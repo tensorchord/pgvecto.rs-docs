@@ -111,7 +111,13 @@ export default defineConfig({
               collapsed: false,
               items: [
                 { text: 'Connect with psql', link: '/cloud/connect/connect-with-psql' },
-                { text: 'From any application', link: '/cloud/connect/connect-from-any-app' },
+              ],
+            },
+            {
+              text: 'Monitoring',
+              collapsed: true,
+              items: [
+                { text: 'Monitoring', link: '/cloud/monitoring/monitoring' },
               ],
             },
             {

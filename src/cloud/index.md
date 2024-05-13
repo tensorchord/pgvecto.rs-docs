@@ -7,17 +7,16 @@
 ## Connect
 
 - [Connect with psql](/cloud/connect/connect-with-psql)
-- [Connect from any application](/cloud/connect/connect-from-any-app)
 
-## RAG
+## Monitoring
 
-- [Hybrid Search](/use-case/hybrid-search)
+- [Monitoring](/cloud/monitoring/monitoring)
 
 ## Manage
+
 - [Overview](/cloud/manage/overview)
 - [Projects](link: /cloud/manage/project)
 - [Cluster](/cloud/manage/cluster)
-
 
 ## Payment & Billing
 
