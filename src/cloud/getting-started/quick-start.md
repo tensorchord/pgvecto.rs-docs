@@ -10,7 +10,7 @@ To create a new cluster, navigate to the pgvecto.rs Cloud Console and click on t
 
 You need to specify the following information:
 - **Cluster Name**: A unique name for your cluster.
-- **Plan**: The plan you want to use for your cluster, for information about Cloud's paid plan options, see [Cloud plans](../pricing/price_plan).
+- **Plan**: The plan you want to use for your cluster, for information about Cloud's paid plan options, see [Cloud plans](../pricing/price-plan).
 - **Cloud Provider**: The cloud provider where your cluster will be deployed.
 - **Region**: The region where your cluster will be deployed.
 - **Database Name**: The name of the database that you will store vector data in. 

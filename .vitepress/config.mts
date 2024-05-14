@@ -130,9 +130,10 @@ export default defineConfig({
               ],
             },
             {
-              text: 'Payment & Billing',
+              text: 'Pricing & Billing',
               collapsed: true,
               items: [
+                { text: 'Cloud Pricing', link: '/cloud/pricing/price-plan' },
                 { text: 'Credit Card', link: '/cloud/payment/credit-card' },
                 { text: 'View Invoice', link: '/cloud/payment/view-invoice' },
               ],

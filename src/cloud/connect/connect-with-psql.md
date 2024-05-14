@@ -17,7 +17,7 @@ We provide two types of connection endpoints:
 From your terminal or command prompt, run the psql client with the connection endpoint copied from the **Dashboard**.
 
 ```shell
-$ psql postgres://[user]:[password]@[neon_hostname]/[dbname]
+$ psql postgres://[user]:[password]@[hostname]/[dbname]
 ```
 
 ::: warning

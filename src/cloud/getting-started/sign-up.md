@@ -2,7 +2,7 @@
 
 Sign up for pgvecto.rs Cloud in just a few seconds and start for free.
 
-For information about what's included with the Cloud Free Tier, see [Cloud Free Tier](../pricing/price_plan#free-tier). For information about Cloud's paid plan options, see [Cloud plans](../pricing/price_plan).
+For information about what's included with the Cloud Free Tier, see [Cloud Free Tier](../pricing/price-plan#free-tier). For information about Cloud's paid plan options, see [Cloud plans](../pricing/price-plan).
 
 ## Sign up
 
