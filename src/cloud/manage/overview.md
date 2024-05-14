@@ -1,7 +1,7 @@
 # Overview of the cloud object hierarchy
 
 Managing your Pgvecto.rs Cloud project requires an understanding of the object hierarchy. The following diagram shows how objects in cloud are related. See below for a description of each object.
-![](../images/cloud_object_hierachy.png)
+![](../images/cloud_object_hierarchy.png)
 
 ## Pgvecto.rs Cloud Account
 
