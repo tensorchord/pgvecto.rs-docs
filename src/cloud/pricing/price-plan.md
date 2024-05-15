@@ -2,7 +2,7 @@
 
 ## Free Tier
 
-In Pgvecto.rs Cloud, we provide a free tier that allows you learn and explore fully-managed Pgvecto.rs services in a cloud environment. Every user can use the free tier to create **only one** cluster and store vector data in it. There are some limitations in the free tier:
+In PGVecto.rs Cloud, we provide a free tier that allows you learn and explore fully-managed PGVecto.rs services in a cloud environment. Every user can use the free tier to create **only one** cluster and store vector data in it. There are some limitations in the free tier:
 - Shared resources
 - Limited storage for WAL (5Gi)
 - Only support AWS T3 XLarge instance type

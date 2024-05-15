@@ -1,10 +1,10 @@
 # Quick Start
 
-This guide will help you get started with pgvecto.rs Cloud. First, you need to sign up for a pgvecto.rs Cloud account. If you haven't done so already, you can sign up for a free account [here](../getting-started/sign-up.md).
+This guide will help you get started with PGVecto.rs Cloud. First, you need to sign up for a PGVecto.rs Cloud account. If you haven't done so already, you can sign up for a free account [here](../getting-started/sign-up.md).
 
 ## Create a cluster
 
-To create a new cluster, navigate to the pgvecto.rs Cloud Console and click on the "Create Cluster" button.
+To create a new cluster, navigate to the PGVecto.rs Cloud Console and click on the "Create Cluster" button.
 
 ![](../images/after_login_in.png)
 
@@ -31,7 +31,7 @@ We provide two types of connection endpoints:
 
 ## Connect to the cluster
 
-To connect to the cluster, you can use the provided connection strings. You can connect to the cluster using the `psql` command-line tool. For detailed instructions on how to connect to the cluster, see [Connect to pgvecto.rs Cloud with psql](../connect/connect-with-psql.md). After connecting to the cluster, we can execute the following SQL query `dx` to validate you have successfully installed the vectors extension.
+To connect to the cluster, you can use the provided connection strings. You can connect to the cluster using the `psql` command-line tool. For detailed instructions on how to connect to the cluster, see [Connect to PGVecto.rs Cloud with psql](../connect/connect-with-psql.md). After connecting to the cluster, we can execute the following SQL query `dx` to validate you have successfully installed the vectors extension.
 
 ```shell
 $ psql 'postgres://vector_user:56Cu2dtBt8WI@test-prgg3conlto0iayt.modelz.tech:5432/vector?sslmode=require'

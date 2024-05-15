@@ -4,7 +4,7 @@ One or more clusters can be created in a project. A cluster is a collection of n
 
 ## Create a cluster
 
-To create a new cluster, navigate to the pgvecto.rs Cloud Console and click on the "Create Cluster" button.
+To create a new cluster, navigate to the PGVecto.rs Cloud Console and click on the "Create Cluster" button.
 
 ![](../images/after_login_in.png)
 
@@ -19,7 +19,7 @@ You need to specify the following information:
 
 ## Delete a cluster
 
-If you want to delete a cluster, navigate to the pgvecto.rs Cloud Console and click on the "Delete" button.
+If you want to delete a cluster, navigate to the PGVecto.rs Cloud Console and click on the "Delete" button.
 
 ![](../images/delete_cluster.png)
 

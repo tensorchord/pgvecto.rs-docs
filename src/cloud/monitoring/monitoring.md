@@ -1,6 +1,6 @@
 # Monitoring
 
-The pgvecto.rs Cloud provides several graphs for monitoring system and database metrics. You can access the **Monitoring** dashboard from the cluster details in the pgvecto.rs Cloud Console. Observable metrics include:
+The PGVecto.rs Cloud provides several graphs for monitoring system and database metrics. You can access the **Monitoring** dashboard from the cluster details in the PGVecto.rs Cloud Console. Observable metrics include:
 - [RAM](#ram)
 - [CPU](#cpu)
 - [Index](#vector)
