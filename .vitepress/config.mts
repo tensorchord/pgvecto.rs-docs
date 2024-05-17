@@ -135,7 +135,7 @@ export default defineConfig({
               items: [
                 { text: 'Cloud Pricing', link: '/cloud/pricing/price-plan' },
                 { text: 'Credit Card', link: '/cloud/payment/credit-card' },
-                { text: 'View Invoice', link: '/cloud/payment/view-invoice' },
+                { text: 'Invoice', link: '/cloud/payment/invoice' },
               ],
             },
             {

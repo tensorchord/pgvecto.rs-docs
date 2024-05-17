@@ -4,6 +4,10 @@ This guide will help you get started with PGVecto.rs Cloud. First, you need to s
 
 ## Create a cluster
 
+::: tip
+You can only create Enterprise plan after you bind a [credit card](../payment/credit-card.md).
+:::
+
 To create a new cluster, navigate to the PGVecto.rs Cloud Console and click on the "Create Cluster" button.
 
 ![](../images/after_login_in.png)

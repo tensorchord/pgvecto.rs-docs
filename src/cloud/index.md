@@ -21,7 +21,7 @@
 ## Payment & Billing
 
 - [Credit Card](/cloud/payment/credit-card)
--[View Invoice](/cloud/payment/view-invoice)
+- [Invoice](/cloud/payment/invoice)
 
 
 ## Limits & Restrictions
