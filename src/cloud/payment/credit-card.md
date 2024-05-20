@@ -4,7 +4,7 @@
 Billing is for the project, not the user. There are separate invoices for each project, and you must add the payment method separately.
 :::
 
-Pgvecto.rs Cloud supports credit card payments. You can add multiple credit cards or remove some of them by clicking `Delete`. Already added credit cards will be displayed on the billing page.
+PGVecto.rs Cloud supports credit card payments. You can add multiple credit cards or remove some of them by clicking `Delete`. Already added credit cards will be displayed on the billing page.
 
 ![](../images/billing_page.png)
 
