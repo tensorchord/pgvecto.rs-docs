@@ -44,6 +44,7 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Docs', link: '/getting-started/overview' },
+      { text: 'Cloud Guides', link: '/cloud/' },
       { text: 'Reference', link: '/reference/' },
       { text: 'Blog', link: 'https://blog.pgvecto.rs' },
     ],
@@ -68,7 +69,6 @@ export default defineConfig({
                 { text: '8-Bit Integer Vector', link: '/reference/vector-types/veci8' },
                 { text: 'Sparse Vector', link: '/reference/vector-types/svector' },
                 { text: 'Binary Vector', link: '/reference/vector-types/bvector' },
-
               ]
             },
           ],
@@ -93,59 +93,6 @@ export default defineConfig({
             { text: 'Quantization', link: '/usage/quantization' },
             { text: 'Compatibility', link: '/usage/compatibility' },
           ]
-        },
-        {
-          text: 'Cloud',
-          collapsed: false,
-          items: [
-            {
-              text: 'Getting Started',
-              collapsed: false,
-              items: [
-                { text: 'Sign Up', link: '/cloud/getting-started/sign-up' },
-                { text: 'Quick Start', link: '/cloud/getting-started/quick-start' },
-              ],
-            },
-            {
-              text: 'Connect',
-              collapsed: false,
-              items: [
-                { text: 'Connect with psql', link: '/cloud/connect/connect-with-psql' },
-              ],
-            },
-            {
-              text: 'Monitoring',
-              collapsed: true,
-              items: [
-                { text: 'Monitoring', link: '/cloud/monitoring/monitoring' },
-              ],
-            },
-            {
-              text: 'Manage',
-              collapsed: true,
-              items: [
-                { text: 'Overview', link: '/cloud/manage/overview' },
-                { text: 'Projects', link: '/cloud/manage/project' },
-                { text: 'Clusters', link: '/cloud/manage/cluster' },
-              ],
-            },
-            {
-              text: 'Pricing & Billing',
-              collapsed: true,
-              items: [
-                { text: 'Cloud Pricing', link: '/cloud/pricing/price-plan' },
-                { text: 'Credit Card', link: '/cloud/payment/credit-card' },
-                { text: 'Invoice', link: '/cloud/payment/invoice' },
-              ],
-            },
-            {
-              text: 'Limits & Restrictions',
-              collapsed: true,
-              items: [
-                { text: 'Cloud Limits', link: '/cloud/limit/cloud-limit' },
-              ],
-            },
-          ],
         },
         {
           text: 'Use Cases',
@@ -204,6 +151,56 @@ export default defineConfig({
           ],
         },
       ],
+      '/cloud/':
+        [
+          {
+            text: 'Getting Started',
+            collapsed: false,
+            items: [
+              { text: 'Sign Up', link: '/cloud/getting-started/sign-up' },
+              { text: 'Quick Start', link: '/cloud/getting-started/quick-start' },
+            ],
+          },
+          {
+            text: 'Connect',
+            collapsed: false,
+            items: [
+              { text: 'Connect with psql', link: '/cloud/connect/connect-with-psql' },
+            ],
+          },
+          {
+            text: 'Monitoring',
+            collapsed: true,
+            items: [
+              { text: 'Monitoring', link: '/cloud/monitoring/monitoring' },
+            ],
+          },
+          {
+            text: 'Manage',
+            collapsed: true,
+            items: [
+              { text: 'Overview', link: '/cloud/manage/overview' },
+              { text: 'Projects', link: '/cloud/manage/project' },
+              { text: 'Clusters', link: '/cloud/manage/cluster' },
+            ],
+          },
+          {
+            text: 'Pricing & Billing',
+            collapsed: true,
+            items: [
+              { text: 'Cloud Pricing', link: '/cloud/pricing/price-plan' },
+              { text: 'Credit Card', link: '/cloud/payment/credit-card' },
+              { text: 'Invoice', link: '/cloud/payment/invoice' },
+            ],
+          },
+          {
+            text: 'Limits & Restrictions',
+            collapsed: true,
+            items: [
+              { text: 'Cloud Limits', link: '/cloud/limit/cloud-limit' },
+            ],
+          },
+        ],
     },
 
     socialLinks: [
