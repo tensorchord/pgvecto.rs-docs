@@ -6,7 +6,7 @@ The following instructions require a working installation of [psql](https://www.
 Cluster instance runs Postgres, which means that any Postgres application or standard utility such as psql is compatible with PGVecto.rs Cloud. You can also use Postgres client libraries and drivers to connect. However, please be aware that some older client libraries and drivers, including older psql executables, are built without [Server Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) support and require a workaround.
 :::
 
-The easiest way to connect to PGVecto.rs Cloud using psql is with a connection endpoint. You can obtain a connection endpoint from the **cluster details** on the dashboard. 
+The easiest way to connect to PGVecto.rs Cloud using psql is to use a connection endpoint. You can obtain a connection endpoint from the **cluster details** on the dashboard. 
 
 ![](../images/two_types_connections.png)
 
