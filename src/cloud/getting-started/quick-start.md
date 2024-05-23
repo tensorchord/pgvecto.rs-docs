@@ -27,9 +27,7 @@ After creating a cluster, you will be directed to the cluster info page. Here yo
 
 ![](../images/cluster_info.png)
 
-We provide two types of connection endpoints:
-- Super User Endpoint: This connection string is used to connect to the cluster as a superuser(postgres). You can use this connection string to create databases, users, and manage the cluster.
-- Vector User Endpoint: This connection string is used to connect to the cluster as a vector user. You can use this connection string to store and query vector data.
+We provide two types of connection endpoints, `Super User Endpoint` and `Vector User Endpoint` respectively. For more information about the two types of connections, see [Connecting with psql](../connect/connect-with-psql.md).
 
 ![](../images/two_types_connections.png)
 
@@ -64,7 +62,7 @@ vector=> CREATE TABLE test (id integer PRIMARY KEY, embedding vector(3) NOT NULL
 CREATE TABLE
 vector=> INSERT INTO test SELECT i, ARRAY[random(), random(), random()]::real[] FROM generate_series(1, 100) i;
 INSERT 0 100
-vector=> CREATE INDEX ON test USING vectors (embedding vector_l2_ops) WITH (options = "[indexing.flat]");
+vector=> CREATE INDEX ON test USING vectors (embedding vector_l2_ops) WITH (options = "[indexing.hnsw]");
 CREATE INDEX
 vector=> SELECT * FROM test ORDER BY embedding <-> '[0.40671515, 0.24202824, 0.37059402]' LIMIT 10;
  id |              embedding

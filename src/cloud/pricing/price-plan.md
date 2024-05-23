@@ -6,7 +6,7 @@ In PGVecto.rs Cloud, we provide a free tier that allows you learn and explore fu
 - Shared resources
 - Limited storage for WAL (5Gi)
 - Only support AWS T3 XLarge instance type
-- Capacity of 100k vectors with 1024 dimensions 
+- Capacity of 100k vectors with 1024 dimensions, this is an estimate, and you can also insert 25k vectors with 4096 dimensions.
 
 ## Enterprise
 
