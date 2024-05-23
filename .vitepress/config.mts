@@ -176,7 +176,7 @@ export default defineConfig({
             ],
           },
           {
-            text: 'Manage',
+            text: 'Management',
             collapsed: true,
             items: [
               { text: 'Overview', link: '/cloud/manage/overview' },
