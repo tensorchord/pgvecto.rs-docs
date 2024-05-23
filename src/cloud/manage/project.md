@@ -1,6 +1,6 @@
 # Projects
 
-With PGVecto.rs Cloud, everything starts with the project. It is the top-level object in the hierarchy. A project can hold as many `Postgres` cluster needs. The maximum number you can create and join to a project is 5. 
+With PGVecto.rs Cloud, everything starts with the project. It is the top-level object in the hierarchy. A project can hold as many `Postgres` clusters as needed. The maximum number of projects you can create and join is 5. 
 
 Learn more about projects and how to manage them in these sections:
 - [Project Setting](#project-setting)
