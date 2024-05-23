@@ -165,7 +165,7 @@ export default defineConfig({
             text: 'Connect',
             collapsed: false,
             items: [
-              { text: 'Connect with psql', link: '/cloud/connect/connect-with-psql' },
+              { text: 'Connecting with psql', link: '/cloud/connect/connect-with-psql' },
             ],
           },
           {
