@@ -44,7 +44,7 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Docs', link: '/getting-started/overview' },
-      { text: 'Cloud Guides', link: '/cloud/' },
+      { text: 'Cloud', link: '/cloud/' },
       { text: 'Reference', link: '/reference/' },
       { text: 'Blog', link: 'https://blog.pgvecto.rs' },
     ],
