@@ -24,6 +24,6 @@ This graph shows the details of the vector index, including following metrics:
 - Index Dimension: The dimension of the vectors in the index.
 - Index Vector Count: The number of vectors in the index.
 - Index Options: Details of the index options can be found in the [Index Options](../../reference/indexing_options.md)
-- Indexing: If `True`, meanings the index is in the process of indexing the data. 
+- Indexing: If `True`, it means the index is in the process of indexing the data. 
 
 ![](../images/indexes.png)
