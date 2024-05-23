@@ -162,7 +162,7 @@ export default defineConfig({
             ],
           },
           {
-            text: 'Connect',
+            text: 'Connecting to the cluster',
             collapsed: false,
             items: [
               { text: 'Connecting with psql', link: '/cloud/connect/connect-with-psql' },
