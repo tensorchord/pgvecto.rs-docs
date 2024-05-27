@@ -7,15 +7,15 @@ The PGVecto.rs Cloud provides several graphs for monitoring system and database 
 
 ## RAM
 
-This graph shows the average memory usage percentage of the Postgres instance in past 5 minutes. 
+This graph shows the average memory usage of the Postgres instance, the unit is in MB. 
 
 ![](../images/memory_usage.png)
 
 ## CPU
 
-This graph shows the average CPU usage percentage of the Postgres instance in past 5 minutes.
+This graph shows the average CPU utilization percentage of the Postgres instance in past 5 minutes.
 
-![](../images/cpu_usage.png)
+![](../images/cpu_utilization.png)
 
 ## Vector
 

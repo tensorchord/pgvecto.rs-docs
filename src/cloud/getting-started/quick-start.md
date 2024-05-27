@@ -36,7 +36,7 @@ We provide two types of connection endpoints, `Super User Endpoint` and `Vector 
 To connect to the cluster, you can use the provided connection strings. You can connect to the cluster using the `psql` command-line tool. For detailed instructions on how to connect to the cluster, see [Connect to PGVecto.rs Cloud with psql](../connect/connect-with-psql.md). After connecting to the cluster, we can execute the following SQL query `\dx` to validate you have successfully installed the vectors extension.
 
 ```shell
-$ psql 'postgres://vector_user:56Cu2dtBt8WI@test-prgg3conlto0iayt.modelz.tech:5432/vector?sslmode=require'
+$ psql 'postgres://test_user:3UBmPZWty34m@test-tdndsdi9nn8xhc55.us-east-1.aws.pgvecto.rs:5432/test?sslmode=require'
 psql (15.3, server 16.2 (Debian 16.2-1.pgdg110+2))
 WARNING: psql major version 15, server major version 16.
          Some psql features might not work.
