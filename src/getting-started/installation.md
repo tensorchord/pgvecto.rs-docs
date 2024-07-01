@@ -44,7 +44,7 @@ Installation from the Debian package requires a dependency on `GLIBC >= 2.31`, e
 
 Debian packages(.deb) are used in distributions based on Debian, such as Ubuntu and many others. They can be easily installed by `dpkg` or `apt-get`.
 
-1. Download the deb package in the release page, and type `sudo apt install vectors-pg15-*.deb` to install the deb package.
+1. Download the deb package in [the release page](https://github.com/tensorchord/pgvecto.rs/releases/latest), and type `sudo apt install vectors-pg15-*.deb` to install the deb package.
 
 2. Configure your PostgreSQL by modifying the `shared_preload_libraries` and `search_path` to include the extension.
 
@@ -97,7 +97,7 @@ pg_config --sharedir
 # /usr/share/pgsql
 ```
 
-3. Download the zip package in the release page and extract it to a temporary directory.
+3. Download the zip package in [the release page](https://github.com/tensorchord/pgvecto.rs/releases/latest) and extract it to a temporary directory.
 
 ```sh
 wget https://github.com/tensorchord/pgvecto.rs/releases/download/v0.2.1/vectors-pg15_x86_64-unknown-linux-gnu_0.2.1.zip -O vectors.zip
