@@ -103,6 +103,7 @@ export default defineConfig({
             { text: 'Image search', link: '/use-case/image-search' },
             { text: 'Multi tenancy', link: '/use-case/multi-tenancy' },
             { text: 'Sparse vector', link: '/use-case/sparse-vector' },
+            { text: 'Generative Question-Answering', link: '/use-case/question-answering' },
           ],
         },
         {
