@@ -1,7 +1,7 @@
 # Generative Question-Answering
 Vector search can also be used to provide context to generative models such as OpenAI's GPT series, improving the quality of the outputs. 
 
-This post will explore the use of `pgvecto.rs` in building and retrieving from a vector knowledge base to bolster the performance of generative models in question-answering tasks. 
+This post will explore the use of `pgvecto.rs` in building and retrieving from a vector knowledge base to bolster the performance of generative models in question-answering tasks. A knowledge base serves as "long-term memory" for generative models, providing them persistent, curated, and accurate information as **context** to draw from when generating an answer to a question. This results in answers that are more accurate, reduces the possibility of the model producing "hallucinations" (statements with no basis in reality), and increases user trust in the outputs. This technique is known as Retrieval-Augmented Generation, or RAG: see [this post](https://ai.meta.com/blog/retrieval-augmented-generation-streamlining-the-creation-of-intelligent-natural-language-processing-models/) or the [related paper](https://arxiv.org/abs/2005.11401v4) for more information. 
 
 ## Overview of the Question-Answering task
 The generative model question-answering (QA) task is a method of **Information Retrieval**. The model is presented with a question, and generates an answer based on some context: typically, documents or other information sources the model can look at to retrieve the information necessary to answer the question. 
@@ -68,7 +68,9 @@ There are two options for allowing the model to better answer our question:
 We will be taking the second option in this post.  
 
 ## Building the Knowledge Base
-Let's build a knowledge base of movies to retrieve relevant information from, using the [vishnupriyavr/wiki-movie-plots-with-summaries-faiss-embeddings](https://huggingface.co/datasets/vishnupriyavr/wiki-movie-plots-with-summaries-faiss-embeddings) Huggingface dataset. Start by loading the data: 
+Let's build a knowledge base of movies to retrieve relevant information from, using the [vishnupriyavr/wiki-movie-plots-with-summaries-faiss-embeddings](https://huggingface.co/datasets/vishnupriyavr/wiki-movie-plots-with-summaries-faiss-embeddings) Huggingface dataset. This dataset contains titles, release years, casts, Wikipedia pages, plot summaries/lengths, and vector embeddings of this information for 33,155 movies. Each movie also has `text` data, which encompasses title, release year, cast, and plot summary in one. We will be using the `text` and `embeddings` data for this application. 
+
+Start by loading the data: 
 ```python
 # pip install -U datasets
 from datasets import load_dataset
