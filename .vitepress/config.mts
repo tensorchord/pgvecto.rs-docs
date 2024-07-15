@@ -182,6 +182,7 @@ export default defineConfig({
               { text: 'Overview', link: '/cloud/manage/overview' },
               { text: 'Projects', link: '/cloud/manage/project' },
               { text: 'Clusters', link: '/cloud/manage/cluster' },
+              { text: 'Terraform', link: '/cloud/manage/terraform' },
             ],
           },
           {
