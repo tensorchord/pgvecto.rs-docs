@@ -18,7 +18,11 @@ You need to specify the following information:
 - **Cloud Provider**: The cloud provider where your cluster will be deployed.
 - **Region**: The region where your cluster will be deployed.
 - **Database Name**: The name of the database that you will store vector data in. 
-
+- **Image**: We provide a tag in a semantic version format, for example 16-v0.3.0-alpha4-vectors:
+  - 16 indicates the version number of Postgres major
+  - v0.3.0-alpha4 indicates pgvecto.rs version number
+  - vectors indicates the installation location of pgvecto.rs scheme, optional vectors, extensions, public. Please choose public if you want to use PGVecto.rs Cloud on AWS RDS. If you're going to use fdw on Supabase, please choose extensions.
+- **Disk Size**: Postgres PGData disk size
 ![](../images/create_cluster.png)
 
 ## Cluster Info 
