@@ -82,9 +82,11 @@ To migrate from a pgvector vector column, the first step is to create a PGVecto.
 Here provides the conversion path for each vector type of `pgvector`:
 
 - `vector(pgvector) -> real[] -> vector(PGVecto.rs)`
-- `halfvec -> vector(pgvector) -> real[] -> vector(PGVecto.rs) -> vecf16` 
-- `sparsevec -> vector(pgvector) -> real[] -> vector(PGVecto.rs) -> svector`
+- `halfvec -> vector(pgvector) -> real[] -> vector(PGVecto.rs) -> vecf16`
 - `bit -> text[] -> real[] -> vector(PGVecto.rs) -> bvector`
+
+This vector type is not supported for migration yet:
+- `sparsevec`
 
 **Method 1: Conversion after validation**
 
@@ -106,10 +108,6 @@ UPDATE items SET migrate_embedding = embedding::real[]::vectors.vector;
 -- From halfvec type
 ALTER TABLE items ADD COLUMN migrate_embedding vectors.vecf16(3);
 UPDATE items SET migrate_embedding = embedding::vector::real[]::vectors.vector::vectors.vecf16;
-
--- From sparsevec type
-ALTER TABLE items ADD COLUMN migrate_embedding vectors.svector(6);
-UPDATE items SET migrate_embedding = embedding::vector::real[]::vectors.vector::vectors.svector;
 
 -- For bit type
 ALTER TABLE items ADD COLUMN migrate_embedding vectors.bvector(3);
@@ -142,9 +140,6 @@ ALTER TABLE items ALTER COLUMN embedding TYPE vectors.vector(3) USING embedding:
 
 -- From halfvec type
 ALTER TABLE items ALTER COLUMN embedding TYPE vectors.vecf16(3) USING embedding::vector::real[]::vectors.vector::vectors.vecf16;
-
--- From sparsevec type
-ALTER TABLE items ALTER COLUMN embedding TYPE vectors.svector(3) USING embedding::vector::real[]::vectors.vector::vectors.svector;
 
 -- For bit type
 ALTER TABLE items ALTER COLUMN embedding TYPE vectors.bvector(3) USING string_to_array(embedding::text, NULL)::real[]::vectors.vector::vectors.bvector;
