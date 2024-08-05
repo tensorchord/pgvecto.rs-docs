@@ -123,6 +123,7 @@ export default defineConfig({
             { text: 'Logical replication', link: '/admin/logical_replication' },
             { text: 'Foreign data wrapper (FDW)', link: '/admin/fdw' },
             { text: 'Kubernetes', link: '/admin/kubernetes' },
+            { text: 'Migration', link: '/admin/migration' },
           ],
         },
         {
