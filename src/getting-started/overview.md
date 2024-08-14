@@ -102,6 +102,10 @@ You can search for a vector simply like this.
 SELECT * FROM items ORDER BY embedding <-> '[3,2,1]' LIMIT 5;
 ```
 
+### A simple Question-Answering application
+
+Please check out the [Question-Answering application](https://docs.pgvecto.rs/use-case/question-answering.html) tutorial.
+
 ### Half-precision floating-point
 
 `vecf16` type is the same with `vector` in anything but the scalar type. It stores 16-bit floating point numbers. If you want to reduce the memory usage to get better performance, you can try to replace `vector` type with `vecf16` type.
