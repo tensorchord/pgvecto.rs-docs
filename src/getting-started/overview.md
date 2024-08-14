@@ -6,16 +6,19 @@ An introduction to the `pgvecto.rs`.
 
 `pgvecto.rs` is a Postgres extension that provides vector similarity search functions. It is written in Rust and based on [pgrx](https://github.com/tcdi/pgrx). It is currently in the beta status, we invite you to try it out in production and provide us with feedback. Read more at [📝our launch blog](https://blog.pgvecto.rs/pgvectors-02-unifying-relational-queries-and-vector-search-in-postgresql).
 
-## Why use `pgvecto.rs`
+## Comparison with pgvector
 
-- 💃 **User-Friendly**: Effortlessly incorporate `pgvecto.rs` into your existing database as a Postgres extension, streamlining integration with your current workflows and applications.
-- 🥅 **Join and Filter without Limitation**: Elevate your search capabilities in `pgvecto.rs` with VBASE filtering. Apply any filter conditions and join with other tables, achieving high recall and low latency, a distinctive edge over other vector databases.
-- 🌓 **Efficient FP16 Support**: Optimize your data storage with `pgvecto.rs`, supporting FP16 vector type to cut memory and storage usage by half, and boosting throughput.
-- 🧮 **Advanced Quantization**: Utilize scalar and product quantization in `pgvecto.rs` for up to 64x compression. Achieve up to 4x memory savings with less than 2% recall loss with scalar quantization.
-- 🔍 **Hybrid Search**: Leverage the full-text search functionality in PostgreSQL with `pgvecto.rs` to search text and vector data within a single query.
-- 🔗 **Async indexing**: The `pgvecto.rs` index is built asynchronously by background threads, allowing non-blocking inserts and always ready for new queries.
-- ⬆️ **Extended Vector Length**: `pgvecto.rs` supports vector length up to 65535, suitable for the latest models.
-- 🦀 **Rust-Powered Reliability**: Rust's strict compile-time checks ensure memory safety, reducing the risk of bugs and security issues commonly associated with C extensions.
+Checkout [pgvecto.rs vs pgvector](https://docs.pgvecto.rs/faqs/comparison-pgvector.html) for more details.
+
+| Feature | pgvecto.rs | pgvector |
+| --- | --- | --- |
+| Filtering | Introduces VBASE method for vector search and relational query (e.g. Single-Vector TopK + Filter + Join). | When filters are applied, the results may be incomplete. For example, if you originally intended to limit the results to 10, you might end up with only 5 results with filters. |
+| Sparse Vector Search | Supports both dense and sparse vector search. | Supports dense vector search. |
+| Vector Dimensions | Supports up to 65535 dimensions. | Supports up to 2000 dimensions. |
+| SIMD | SIMD instructions are dynamically dispatched at runtime to maximize performance based on the capabilities of the specific machine. | Added CPU dispatching for distance functions on Linux x86-64" in 0.7.0. |
+| Data Types | Introduces additional data types: binary vectors, FP16 (16-bit floating point), and INT8 (8-bit integer). | \- |
+| Indexing | Handles the storage and memory of indexes separately from PostgreSQL | Relies on the native storage engine of PostgreSQL |
+| WAL Support | Provides Write-Ahead Logging (WAL) support for data, index support is working in progress. | Provides Write-Ahead Logging (WAL) support for index and data. |      
 
 ## Quick start
 
@@ -98,6 +101,10 @@ You can search for a vector simply like this.
 -- query the similar embeddings
 SELECT * FROM items ORDER BY embedding <-> '[3,2,1]' LIMIT 5;
 ```
+
+### A simple Question-Answering application
+
+Please check out the [Question-Answering application](https://docs.pgvecto.rs/use-case/question-answering.html) tutorial.
 
 ### Half-precision floating-point
 
