@@ -70,6 +70,8 @@ We will be taking the second option in this post.
 ## Building the Knowledge Base
 Let's build a knowledge base of movies to retrieve relevant information from, using the [vishnupriyavr/wiki-movie-plots-with-summaries-faiss-embeddings](https://huggingface.co/datasets/vishnupriyavr/wiki-movie-plots-with-summaries-faiss-embeddings) Huggingface dataset. This dataset contains titles, release years, casts, Wikipedia pages, plot summaries/lengths, and vector embeddings of this information for 33,155 movies. Each movie also has `text` data, which encompasses title, release year, cast, and plot summary in one. We will be using the `text` and `embeddings` data for this application. 
 
+### Load the Data
+
 Start by loading the data: 
 ```python
 # pip install -U datasets
@@ -77,18 +79,40 @@ from datasets import load_dataset
 dataset = load_dataset("vishnupriyavr/wiki-movie-plots-with-summaries-faiss-embeddings", split='train')
 
 texts = dataset['train']['text']
-embeddings = dataset['train']['embeddings']
-
-# Optional: 
-# release_years = dataset['train']['Release Year']
-# titles = dataset['train']['Title']
-# casts = dataset['train']['Cast']
-# wiki_pages = dataset['train']['Wiki Page']
-# plots = dataset['train']['Plot']
-# plot_lens = dataset['train']['plot_length']
+# texts[0]
+# 'Alice in Wonderland \n  starring May Clark \n  released in the year1903 \n  with the following plot  \n Alice follows a large white rabbit down a "Rabbit-hole". She finds a tiny door. When she finds a bottle labeled "Drink me", she does, and shrinks, but not enough to pass through the door. She then eats something labeled "Eat me" and grows larger. She finds a fan when enables her to shrink enough to get into the "Garden" and try to get a "Dog" to play with her. She enters the "White Rabbit\'s tiny House," but suddenly resumes her normal size. In order to get out, she has to use the "magic fan."\r\nShe enters a kitchen, in which there is a cook and a woman holding a baby. She persuades the woman to give her the child and takes the infant outside after the cook starts throwing things around. The baby then turns into a pig and squirms out of her grip. "The Duchess\'s Cheshire Cat" appears and disappears a couple of times to Alice and directs her to the Mad Hatter\'s "Mad Tea-Party." After a while, she leaves.\r\nThe Queen invites Alice to join the "ROYAL PROCESSION": a parade of marching playing cards and others headed by the White Rabbit. When Alice "unintentionally offends the Queen", the latter summons the "Executioner". Alice "boxes the ears", then flees when all the playing cards come for her. Then she wakes up and realizes it was all a dream.'
 ```
+
+### Generate Embeddings
+
+This particular dataset comes with embeddings, so you can skip this step and use the embeddings directly.  
+
+```python
+embeddings = dataset['train']['embeddings']
+```
+
+If you want to generate embeddings from the text data, you can use the OpenAI, Cohere or other embeddings APIs. We provide an example using the Cohere API: 
+```python
+# pip install cohere
+import getpass
+import os
+import cohere
+
+if not os.getenv("COHERE_API_KEY"):
+    os.environ["COHERE_API_KEY"] = getpass.getpass("Enter your Cohere API key: ")
+
+co = cohere.Client()
+# embedding model can refer to this documentation: https://docs.cohere.com/docs/cohere-embed
+embed = co.embed(
+    texts=texts,
+    input_type="search_query",
+    model="embed-english-v3.0"
+)
+embeddings = embed.embeddings
+```
+
 :::info
-This particular dataset comes with embeddings. In other cases, you will have to create embeddings yourself from the data. The embeddings in this dataset are dense vectors. For creating sparse vectors, you can see [this page](/use-case/sparse-vector.html#how-to-create-a-vector-embedding).
+The embeddings in this user case are dense vectors. For creating sparse vectors, you can see [this page](/use-case/sparse-vector.html#how-to-create-a-vector-embedding).
 :::
 
 A deployed `pgvecto.rs` instance is required for vector storage and retrieval. We can use the official `pgvecto-rs` Docker image:
