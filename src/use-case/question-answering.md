@@ -91,7 +91,7 @@ This particular dataset comes with embeddings, so you can skip this step and use
 embeddings = dataset['train']['embeddings']
 ```
 
-If you want to generate embeddings from the text data, you can use the OpenAI, Cohere or other embeddings APIs. We provide an example using the Cohere API: 
+If you want to generate embeddings from the text data, you can use the OpenAI, Cohere or other embeddings APIs. We provide an example using the Cohere API, you can get Cohere API key from [here](https://dashboard.cohere.com/api-keys). 
 ```python
 # pip install cohere
 import getpass
