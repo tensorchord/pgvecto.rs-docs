@@ -115,6 +115,8 @@ embeddings = embed.embeddings
 The embeddings in this user case are dense vectors. For creating sparse vectors, you can see [this page](/use-case/sparse-vector.html#how-to-create-a-vector-embedding).
 :::
 
+### Insert Data into the Database
+
 A deployed `pgvecto.rs` instance is required for vector storage and retrieval. We can use the official `pgvecto-rs` Docker image:
 
 ```bash
@@ -178,6 +180,9 @@ with psycopg.connect(URL) as conn:
 :::warning
 This may take a while, depending on how much data is to be inserted. 
 :::
+
+### Create Index
+
 ```python
 import psycopg
 URL = "postgresql://postgres:mysecretpassword@localhost:5432/postgres"
