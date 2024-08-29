@@ -23,9 +23,7 @@ If the invited user does not have a PGVecto.rs Cloud account, they will need to 
 
 ![](../images/invite_member.png)
 
-We provide two types of roles for the project: `Owner` and `Member`. 
-- `Owner`: The owner has full access to the project. The owner can invite members, create or delete clusters, and view the billing information.
-- `Member`: The member has read-only access to the project. The member can view the cluster information, but cannot create or delete clusters.
+For more information on access levels of each role, see [Authorization](./authorization.md).
 
 ## Project Billing
 

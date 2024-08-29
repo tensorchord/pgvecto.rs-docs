@@ -15,8 +15,12 @@
 ## Manage
 
 - [Overview](/cloud/manage/overview)
-- [Projects](link: /cloud/manage/project)
+- [Projects](/cloud/manage/project)
 - [Cluster](/cloud/manage/cluster)
+- [Authorization](/cloud/manage/authorization)
+- [Backup & Restore](/cloud/manage/backup-restore)
+- [API Key](/cloud/manage/apikey)
+- [Terraform](/cloud/manage/terraform)
 
 ## Payment & Billing
 

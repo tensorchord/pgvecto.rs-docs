@@ -7,7 +7,7 @@ This guide walks you through the process of installing and configuring the PGVet
 Before you begin, ensure you have the following:
 1. Terraform Installed: Download and install Terraform from [here](https://www.terraform.io/downloads.html) by following the provided instructions.
 
-2. PGVecto.rs Cloud Account: Access to PGVecto.rs Cloud and your API Key are essential. Go to the [PGVecto.rs Cloud Console](https://cloud.pgvecto.rs) and create an API key. The API key must have the `ProjectOwner` permissions。
+2. PGVecto.rs Cloud Account: Access to PGVecto.rs Cloud and your API Key are essential. Go to the [PGVecto.rs Cloud Console](https://cloud.pgvecto.rs) and create an API key. The API key must have the `ProjectOwner` permissions. For more information, see [API Key](./apikey.md).
 
 
 ## 2. Download PGVecto.rs Cloud Terraform Provider
