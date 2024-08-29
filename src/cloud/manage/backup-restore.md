@@ -10,8 +10,8 @@ Once you delete this cluster or your project, all data including WAL in Postgres
 
 ### Concepts
 
-**WAL archive**: a location containing the WAL files (transactional logs) that are continuously written by Postgres and archived for data durability
-**Physical base backups**: a copy of all the files that PostgreSQL uses to store the data in the database (primarily the PGDATA and any tablespace)
+- **WAL archive**: a location containing the WAL files (transactional logs) that are continuously written by Postgres and archived for data durability
+- **Physical base backups**: a copy of all the files that PostgreSQL uses to store the data in the database (primarily the PGDATA and any tablespace)
 
 ### Automatic Backups
 
