@@ -50,7 +50,7 @@ We provide two types of connection endpoints, `Super User Endpoint` and `Vector 
 
 ![](../images/two_types_connections.png)
 
-If you enable pooler connection, you can get the pooler connection endpoint via clicking the `Show Pooler Endpoint` button.
+If `Enable Connection Pooler` is selected when create cluster, you can get the pooler connection endpoint via clicking the `Show Pooler Endpoint` button.
 
 ![](../images/two_types_pooler_connections.png)
 

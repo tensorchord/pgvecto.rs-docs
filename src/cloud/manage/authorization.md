@@ -12,7 +12,7 @@ We provide two types of roles for the project: `Owner` and `Member`.
 
 API Key provide more fine-grained control over access to resources by assigning roles with specific permissions to users within the projects. We provide two types of roles for the API Key: `Owner` and `Member`.
 - `Owner`: The owner has full access to the project cluster.
-- `Member`: The member has read-only access to the project cluster, but you can specify clusters full access.
+- `Member`: The member has read-only access to the project cluster. However, you can specify clusters to which the member has full access.
 
 ![](../images/apikey-rbac.png)
 

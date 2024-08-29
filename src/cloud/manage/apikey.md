@@ -18,7 +18,7 @@ To create an API key, follow these steps:
 - Enter a name for the API key.
 - Select the role for the API key.
     - **Owner**: The owner has full access to the project cluster.
-    - **Member**: The member has read-only access to the project cluster, but you can specify clusters full access.
+    - **Member**: The member has read-only access to the project cluster. However, you can specify clusters to which the member has full access.
 - Click the **Create** button.
 
 ![](../images/apikey-create.png)
@@ -42,5 +42,5 @@ To view the list of API keys, follow these steps:
 - You can view the list of API keys with their respective roles.
 
 ::: warning
-If you are not the owner of the project, you will not be able to view the list of API keys.
+If you are not the project owner, you will not have access to the list of API keys.
 :::

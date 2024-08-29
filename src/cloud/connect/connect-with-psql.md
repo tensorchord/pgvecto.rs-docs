@@ -14,7 +14,7 @@ We provide two types of connection endpoints:
 - Super User Endpoint: This connection string is used to connect to the cluster as a superuser(postgres). You can use this connection string to create databases, users, and manage the cluster.
 - Vector User Endpoint: This connection string is used to connect to the cluster as a vector user. You can use this connection string to store and query vector data.
 
-If you enable pooler connection, you can get the pooler connection endpoint via clicking the `Show Pooler Endpoint` button.
+If `Enable Connection Pooler` is selected when create cluster, you can get the pooler connection endpoint via clicking the `Show Pooler Endpoint` button.
 
 ![](../images/two_types_pooler_connections.png)
 
