@@ -112,6 +112,7 @@ export default defineConfig({
           items: [
             { text: 'LangChain', link: '/integration/langchain' },
             { text: 'LlamaIndex', link: '/integration/llama-index' },
+            { text: 'Citus', link: '/integration/citus' },
           ],
         },
         {
