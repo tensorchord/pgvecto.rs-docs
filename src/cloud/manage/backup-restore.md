@@ -73,6 +73,6 @@ If you want to restore from an on-demand backup, you can follow the steps below:
 
 
 ::: warning
-The cluster you are restoring to should have the same image and database name as the backup or cluster.
+The cluster you are restoring to should have the same image,database name and region as the backup, but recovery from the cluster can cross regions.
 :::
 
