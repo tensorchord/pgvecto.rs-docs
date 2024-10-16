@@ -176,6 +176,7 @@ export default defineConfig({
             collapsed: true,
             items: [
               { text: 'Monitoring', link: '/cloud/monitoring/monitoring' },
+              { text: 'Collect Metrics', link: '/cloud/monitoring/collect-metrics' },
             ],
           },
           {
