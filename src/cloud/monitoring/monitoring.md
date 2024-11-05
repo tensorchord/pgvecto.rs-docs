@@ -1,9 +1,15 @@
 # Monitoring
 
 The PGVecto.rs Cloud provides several graphs for monitoring system and database metrics. You can access the **Metrics** dashboard from the cluster details in the PGVecto.rs Cloud Console. Observable metrics include:
+- [Storage Usage](#storage-usage)
 - [RAM](#ram)
 - [CPU](#cpu)
 - [Index](#vector)
+
+## Storage Usage
+
+This graph shows the total and usage of the storage of Postgres instance.
+![](../images/storage-usage.png )
 
 ## RAM
 
