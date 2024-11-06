@@ -188,8 +188,10 @@ export default defineConfig({
               { text: 'Clusters', link: '/cloud/manage/cluster' },
               { text: 'Authorization', link: '/cloud/manage/authorization' },
               { text: 'Backup & Restore', link: '/cloud/manage/backup-restore' },
+              { text: 'Upgrade', link: '/cloud/manage/upgrade' },
               { text: 'API Keys', link: '/cloud/manage/apikey' },
               { text: 'Terraform', link: '/cloud/manage/terraform' },
+              { text: 'Regions', link: '/cloud/manage/regions' },
             ],
           },
           {
