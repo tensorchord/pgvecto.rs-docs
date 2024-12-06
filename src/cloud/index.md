@@ -11,6 +11,7 @@
 ## Monitoring
 
 - [Monitoring](/cloud/monitoring/monitoring)
+- [Collect Metrics](/cloud/monitoring/collect-metrics)
 
 ## Manage
 
@@ -21,13 +22,20 @@
 - [Backup & Restore](/cloud/manage/backup-restore)
 - [API Key](/cloud/manage/apikey)
 - [Terraform](/cloud/manage/terraform)
+- [Upgrade](/cloud/manage/upgrade)
+- [Regions](/cloud/manage/regions)
 
-## Payment & Billing
+## Payment & Billing & Pricing
 
 - [Credit Card](/cloud/payment/credit-card)
 - [Invoice](/cloud/payment/invoice)
+- [Pricing](/cloud/pricing/price-plan)
 
 
 ## Limits & Restrictions
 
 - [Cloud Limits](/cloud/limit/cloud-limit)
+
+## Troubleshooting
+
+- [Troubleshooting](/cloud/troubleshooting/troubleshooting)

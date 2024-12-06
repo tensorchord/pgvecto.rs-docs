@@ -25,3 +25,7 @@ For enterprise plan, you can own a dedicated cluster with the following features
 ### Enterprise
 
 ![](../images/enterprise_server_resources.png)
+
+:::warning
+You may have noticed that there are two 4c 32G instances, and the difference between them is that one has an NVMe SSD.
+:::

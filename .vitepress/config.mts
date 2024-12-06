@@ -210,6 +210,13 @@ export default defineConfig({
               { text: 'Cloud Limits', link: '/cloud/limit/cloud-limit' },
             ],
           },
+          {
+            text: 'Troubleshooting',
+            collapsed: true,
+            items: [
+              { text: 'Troubleshooting', link: '/cloud/troubleshooting/troubleshooting' },
+            ],
+          },
         ],
     },
 
