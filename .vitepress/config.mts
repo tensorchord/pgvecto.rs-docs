@@ -166,6 +166,13 @@ export default defineConfig({
             { text: 'Installation', link: '/vectorchord/getting-started/installation' },
           ],
         },
+        {
+          text: 'Usage',
+          collapsed: false,
+          items: [
+            { text: 'Indexing', link: '/vectorchord/usage/indexing' },
+          ]
+        },
       ],
       '/cloud/':
         [
