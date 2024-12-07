@@ -1,3 +1,4 @@
+import footnote from 'markdown-it-footnote'
 import { defineConfig } from 'vitepress'
 
 import mathjax3 from 'markdown-it-mathjax3';
@@ -12,6 +13,7 @@ export default defineConfig({
   markdown: {
     config: (md) => {
       md.use(mathjax3);
+      md.use(footnote);
     },
   },
   sitemap: {
@@ -43,7 +45,8 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Docs', link: '/getting-started/overview' },
+      { text: 'VectorChord Docs', link: '/vectorchord/getting-started/overview' },
+      { text: 'pgvecto.rs Docs', link: '/getting-started/overview' },
       { text: 'Cloud', link: '/cloud/' },
       { text: 'Reference', link: '/reference/' },
       { text: 'Blog', link: 'https://blog.pgvecto.rs' },
@@ -152,6 +155,23 @@ export default defineConfig({
           items: [
             { text: 'Development tutorial', link: '/developers/development' },
           ],
+        },
+      ],
+      '/vectorchord/': [
+        {
+          text: 'Getting Started',
+          collapsed: false,
+          items: [
+            { text: 'VectorChord overview', link: '/vectorchord/getting-started/overview' },
+            { text: 'Installation', link: '/vectorchord/getting-started/installation' },
+          ],
+        },
+        {
+          text: 'Usage',
+          collapsed: false,
+          items: [
+            { text: 'Indexing', link: '/vectorchord/usage/indexing' },
+          ]
         },
       ],
       '/cloud/':
