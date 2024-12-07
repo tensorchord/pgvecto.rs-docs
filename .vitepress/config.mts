@@ -163,6 +163,7 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: 'VectorChord overview', link: '/vectorchord/getting-started/overview' },
+            { text: 'Installation', link: '/vectorchord/getting-started/installation' },
           ],
         },
       ],
