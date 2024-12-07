@@ -1,3 +1,4 @@
+import footnote from 'markdown-it-footnote'
 import { defineConfig } from 'vitepress'
 
 import mathjax3 from 'markdown-it-mathjax3';
@@ -12,6 +13,7 @@ export default defineConfig({
   markdown: {
     config: (md) => {
       md.use(mathjax3);
+      md.use(footnote);
     },
   },
   sitemap: {
@@ -43,7 +45,8 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Docs', link: '/getting-started/overview' },
+      { text: 'VectorChord Docs', link: '/vectorchord/getting-started/overview' },
+      { text: 'pgvecto.rs Docs', link: '/getting-started/overview' },
       { text: 'Cloud', link: '/cloud/' },
       { text: 'Reference', link: '/reference/' },
       { text: 'Blog', link: 'https://blog.pgvecto.rs' },
@@ -151,6 +154,94 @@ export default defineConfig({
           collapsed: true,
           items: [
             { text: 'Development tutorial', link: '/developers/development' },
+          ],
+        },
+      ],      '/': [
+        {
+          text: 'Getting Started',
+          collapsed: false,
+          items: [
+            { text: 'Overview', link: '/getting-started/overview' },
+            { text: 'Installation', link: '/getting-started/installation' },
+          ],
+        },
+        {
+          text: 'Usage',
+          collapsed: false,
+          items: [
+            { text: 'Indexing', link: '/usage/indexing' },
+            { text: 'Search', link: '/usage/search' },
+            { text: 'Monitoring', link: '/usage/monitoring' },
+            { text: 'Quantization', link: '/usage/quantization' },
+            { text: 'Compatibility', link: '/usage/compatibility' },
+          ]
+        },
+        {
+          text: 'Use Cases',
+          collapsed: false,
+          items: [
+            { text: 'Hybrid search', link: '/use-case/hybrid-search' },
+            { text: 'Adaptive retrieval', link: '/use-case/adaptive-retrieval' },
+            { text: 'Image search', link: '/use-case/image-search' },
+            { text: 'Multi tenancy', link: '/use-case/multi-tenancy' },
+            { text: 'Sparse vector', link: '/use-case/sparse-vector' },
+            { text: 'Generative Question-Answering', link: '/use-case/question-answering' },
+          ],
+        },
+        {
+          text: 'Integration',
+          collapsed: false,
+          items: [
+            { text: 'LangChain', link: '/integration/langchain' },
+            { text: 'LlamaIndex', link: '/integration/llama-index' },
+            { text: 'Citus', link: '/integration/citus' },
+          ],
+        },
+        {
+          text: 'Administration',
+          collapsed: false,
+          items: [
+            { text: 'Configuration', link: '/admin/configuration' },
+            { text: 'Upgrading', link: '/admin/upgrading' },
+            { text: 'Logical replication', link: '/admin/logical_replication' },
+            { text: 'Foreign data wrapper (FDW)', link: '/admin/fdw' },
+            { text: 'Kubernetes', link: '/admin/kubernetes' },
+            { text: 'Migration', link: '/admin/migration' },
+          ],
+        },
+        {
+          text: 'FAQs',
+          collapsed: false,
+          items: [
+            { text: 'General FAQ', link: '/faqs/general' },
+            { text: 'pgvecto.rs vs. pgvector', link: '/faqs/comparison-pgvector' },
+            { text: 'pgvecto.rs vs. specialized vectordb', link: '/faqs/comparison-with-specialized-vectordb' },
+            { text: `Benchmarks`, link: '/faqs/benchmark' },
+          ]
+        },
+        {
+          text: 'Community',
+          collapsed: true,
+          items: [
+            { text: 'Contributing to pgvecto.rs', link: '/community/contributing' },
+            { text: 'Roadmap', link: '/community/roadmap' },
+            { text: 'Adopters', link: '/community/adopters' },
+          ],
+        },
+        {
+          text: 'Developers',
+          collapsed: true,
+          items: [
+            { text: 'Development tutorial', link: '/developers/development' },
+          ],
+        },
+      ],
+      '/vectorchord/': [
+        {
+          text: 'Getting Started',
+          collapsed: false,
+          items: [
+            { text: 'VectorChord overview', link: '/vectorchord/getting-started/overview' },
           ],
         },
       ],
