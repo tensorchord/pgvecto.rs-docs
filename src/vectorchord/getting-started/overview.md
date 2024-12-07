@@ -181,7 +181,7 @@ table = 'public.centroids'
 $$);
 ```
 
-To simplify the workflow, we provide end-to-end scripts for external index pre-computation, see [scripts](./scripts/README.md#run-external-index-precomputation-toolkit).
+To simplify the workflow, we provide end-to-end scripts for external index pre-computation, see [scripts](https://github.com/tensorchord/VectorChord/tree/main/scripts#run-external-index-precomputation-toolkit).
 
 ### Installing From Source
 Install pgrx according to [pgrx's instruction](https://github.com/pgcentralfoundation/pgrx?tab=readme-ov-file#getting-started).
@@ -198,4 +198,5 @@ cargo pgrx install --release --sudo # To install the extension into the system p
 
 
 ## License
-This project is licensed under the [GNU Affero General Public License v3.0](./LICENSE) and as commercial software. For commercial licensing, please contact us at support@tensorchord.ai.
+
+This project is licensed under the [GNU Affero General Public License v3.0](https://github.com/tensorchord/VectorChord/blob/main/LICENSE) and as commercial software. For commercial licensing, please contact us at support@tensorchord.ai.
