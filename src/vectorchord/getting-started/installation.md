@@ -78,7 +78,7 @@ CREATE EXTENSION vchord CASCADE;
 ## From ZIP package
 
 ::: tip
-Installation from the ZIP package requires a dependency on `GLIBC >= 2.31`, e.g:
+Installation from the ZIP package requires a dependency on `GLIBC >= 2.35`, e.g:
 - `RHEL 9` or later
 :::
 
