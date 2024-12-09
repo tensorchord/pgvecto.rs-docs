@@ -50,8 +50,8 @@ $$);
 ## From Debian package
 
 ::: tip
-Installation from the Debian package requires a dependency on `GLIBC >= 2.31`, e.g:
-- `Ubuntu 20.04` or later
+Installation from the Debian package requires a dependency on `GLIBC >= 2.35`, e.g:
+- `Ubuntu 22.04` or later
 - `Debian Bullseye` or later
 :::
 
