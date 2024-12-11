@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      markdown-it-footnote:
+        specifier: ^4.0.0
+        version: 4.0.0
       markdown-it-katex:
         specifier: ^2.0.3
         version: 2.0.3
@@ -17,7 +20,7 @@ importers:
     devDependencies:
       vitepress:
         specifier: 1.0.2
-        version: 1.0.2(@algolia/client-search@4.22.0)(markdown-it-mathjax3@4.3.2)(search-insights@2.13.0)
+        version: 1.0.2(@algolia/client-search@4.22.0)(markdown-it-mathjax3@4.3.2)(postcss@8.4.38)(search-insights@2.13.0)
 
 packages:
 
@@ -565,6 +568,9 @@ packages:
   mark.js@8.11.1:
     resolution: {integrity: sha512-1I+1qpDt4idfgLQG+BNWmrqku+7/2bi5nLf4YwF8y8zXvmfiTBY3PV3ZibfrjBueCByROpuBjLLFCajqkgYoLQ==}
 
+  markdown-it-footnote@4.0.0:
+    resolution: {integrity: sha512-WYJ7urf+khJYl3DqofQpYfEYkZKbmXmwxQV8c8mO/hGIhgZ1wOe7R4HLFNwqx7TjILbnC98fuyeSsin19JdFcQ==}
+
   markdown-it-katex@2.0.3:
     resolution: {integrity: sha512-nUkkMtRWeg7OpdflamflE/Ho/pWl64Lk9wNBKOmaj33XkQdumhXAIYhI0WO03GeiycPCsxbmX536V5NEXpC3Ng==}
 
@@ -884,6 +890,7 @@ snapshots:
       '@algolia/autocomplete-preset-algolia': 1.9.3(@algolia/client-search@4.22.0)(algoliasearch@4.22.0)
       '@docsearch/css': 3.6.0
       algoliasearch: 4.22.0
+    optionalDependencies:
       search-insights: 2.13.0
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -1114,8 +1121,9 @@ snapshots:
     dependencies:
       '@vueuse/core': 10.9.0(vue@3.4.21)
       '@vueuse/shared': 10.9.0(vue@3.4.21)
-      focus-trap: 7.5.4
       vue-demi: 0.14.7(vue@3.4.21)
+    optionalDependencies:
+      focus-trap: 7.5.4
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -1285,6 +1293,8 @@ snapshots:
 
   mark.js@8.11.1: {}
 
+  markdown-it-footnote@4.0.0: {}
+
   markdown-it-katex@2.0.3:
     dependencies:
       katex: 0.6.0
@@ -1406,7 +1416,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  vitepress@1.0.2(@algolia/client-search@4.22.0)(markdown-it-mathjax3@4.3.2)(search-insights@2.13.0):
+  vitepress@1.0.2(@algolia/client-search@4.22.0)(markdown-it-mathjax3@4.3.2)(postcss@8.4.38)(search-insights@2.13.0):
     dependencies:
       '@docsearch/css': 3.6.0
       '@docsearch/js': 3.6.0(@algolia/client-search@4.22.0)(search-insights@2.13.0)
@@ -1419,11 +1429,13 @@ snapshots:
       '@vueuse/integrations': 10.9.0(focus-trap@7.5.4)(vue@3.4.21)
       focus-trap: 7.5.4
       mark.js: 8.11.1
-      markdown-it-mathjax3: 4.3.2
       minisearch: 6.3.0
       shiki: 1.2.3
       vite: 5.2.7
       vue: 3.4.21
+    optionalDependencies:
+      markdown-it-mathjax3: 4.3.2
+      postcss: 8.4.38
     transitivePeerDependencies:
       - '@algolia/client-search'
       - '@types/node'
