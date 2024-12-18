@@ -173,6 +173,13 @@ export default defineConfig({
             { text: 'Indexing', link: '/vectorchord/usage/indexing' },
           ]
         },
+        {
+          text: 'Administration',
+          collapsed: false,
+          items: [
+            { text: 'Migration', link: '/vectorchord/admin/migration' },
+          ]
+        },
       ],
       '/cloud/':
         [
