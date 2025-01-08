@@ -10,7 +10,9 @@ ALTER EXTENSION vectors UPDATE;
 ALTER EXTENSION vectors UPDATE TO 'a.b.c';
 ```
 
-If you're upgrading from `0.1.x`, please read [Upgrading from 0.1.x](#upgrade-from-01x).
+If you're upgrading from `0.1.x`, please read [Upgrading from 0.1.x](#upgrade-from-0-1-x).
+
+If you're upgrading to `0.4.0`, please read [Upgrading to 0.4.0](#upgrade-to-0-4-0).
 
 Execute the following SQL. It helps you do some maintenance work.
 
@@ -45,6 +47,33 @@ Then you could reindex all vector indexes.
 ```sql
 REINDEX INDEX t_val_idx_1;
 REINDEX INDEX t_val_idx_2;
+```
+
+## Upgrade to 0.4.0
+
+You may get this error if some [indexes](../usage/indexing.md) were created before upgrading `pgvecto.rs` to 0.4.0:
+
+```
+ERROR:  index public.this_is_index depends on operator class vector_cos_ops for access method vectors
+index public.this_is_index depends on operator class vector_cos_ops for access method vectorscannot drop operator class vector_cos_ops for access method vectors because other objects depend on it 
+
+ERROR:  cannot drop operator class vector_cos_ops for access method vectors because other objects depend on it
+SQL state: 2BP01
+Detail: index public.that_is_also_index depends on operator class vector_cos_ops for access method vectors
+index public.that_is_also_index depends on operator class vector_cos_ops for access method vectors
+Hint: Use DROP ... CASCADE to drop the dependent objects too.
+```
+
+You can simply drop these indexes, and then upgrade the extension:
+
+```sql
+DROP INDEX this_is_index;
+DROP INDEX that_is_also_index;
+
+ALTER EXTENSION vectors UPDATE;
+
+-- CREATE INDEX this_is_index ...
+-- CREATE INDEX that_is_also_index ...
 ```
 
 ## Upgrade from 0.1.x
