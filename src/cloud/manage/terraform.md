@@ -1,4 +1,4 @@
-# Terraform Integration Overview with PGVecto.rs Cloud
+# Terraform Integration Overview with VectorChord Cloud
 
 This guide walks you through the process of installing and configuring the PGVetco.rs Cloud provider.
 
@@ -7,12 +7,12 @@ This guide walks you through the process of installing and configuring the PGVet
 Before you begin, ensure you have the following:
 1. Terraform Installed: Download and install Terraform from [here](https://www.terraform.io/downloads.html) by following the provided instructions.
 
-2. PGVecto.rs Cloud Account: Access to PGVecto.rs Cloud and your API Key are essential. Go to the [PGVecto.rs Cloud Console](https://cloud.pgvecto.rs) and create an API key. The API key must have the `ProjectOwner` permissions. For more information, see [API Key](./apikey.md).
+2. VectorChord Cloud Account: Access to VectorChord Cloud and your API Key are essential. Go to the [VectorChord Cloud Console](https://cloud.vectorchord.ai) and create an API key. The API key must have the `ProjectOwner` permissions. For more information, see [API Key](./apikey.md).
 
 
-## 2. Download PGVecto.rs Cloud Terraform Provider
+## 2. Download VectorChord Cloud Terraform Provider
 
-Start by configuring the PGVecto.rs Cloud provider within your Terraform configuration file (`main.tf`). Follow these steps:
+Start by configuring the VectorChord Cloud provider within your Terraform configuration file (`main.tf`). Follow these steps:
 
 ```hcl
 terraform {
@@ -50,9 +50,9 @@ commands will detect it and remind you to do so if necessary.
 
 Terraform will download the `pgvecto-rs-cloud` provider and install it in a hidden subdirectory of your current working directory, named `.terraform`.
 
-### 4. Authenticate PGVecto.rs Cloud Terraform Provider
+### 4. Authenticate VectorChord Cloud Terraform Provider
 
-Your PGVecto.rs Cloud API Key is required to use the Terraform Provider. There are two ways to configure this.
+Your VectorChord Cloud API Key is required to use the Terraform Provider. There are two ways to configure this.
 
 #### Option 1: Specify API Key in Provider Block
 
@@ -64,7 +64,7 @@ provider "pgvecto-rs-cloud" {
 }
 ```
 
-Replace `<your-api-key>` with your PGVecto.rs Cloud API Key.
+Replace `<your-api-key>` with your VectorChord Cloud API Key.
 
 #### Option 2: Use Environment Variable
 
@@ -81,9 +81,9 @@ provider "pgvecto-rs-cloud" {
 }
 ```
 
-By following these steps, you should have the PGVecto.rs Cloud Terraform provider configured and ready to move on to the next steps.
+By following these steps, you should have the VectorChord Cloud Terraform provider configured and ready to move on to the next steps.
 
-## 4. Manage PGVecto.rs Cloud Cluster
+## 4. Manage VectorChord Cloud Cluster
 
 ### Create a Enterprise Plan
 The following example demonstrates how to create a PostgreSQL cluster with the Enterprise plan. For more information about the options, refer to the [Resource Schema](https://registry.terraform.io/providers/tensorchord/pgvecto-rs-cloud/latest/docs/resources/cluster).
@@ -102,7 +102,7 @@ resource "pgvecto-rs-cloud_cluster" "enterprise_plan_cluster" {
 }
 
 output "psql_endpoint_enterprise" {
-  description = "Endpoint for the PGVecto.rs Cloud Enterprise PostgreSQL database"
+  description = "Endpoint for the VectorChord Cloud Enterprise PostgreSQL database"
   value       = pgvecto-rs-cloud_cluster.enterprise_plan_cluster.connect_endpoint
 }
 ```
@@ -204,13 +204,13 @@ Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-psql_endpoint_enterprise = "postgres://test_user:plvpx1YvXmBu@enterprise-plan-cluster-hp2goemtvtd5q0ew.eu-west-1-dev.aws.pgvecto.rs:5432/test?sslmode=require"
+psql_endpoint_enterprise = "postgres://test_user:plvpx1YvXmBu@enterprise-plan-cluster-hp2goemtvtd5q0ew.eu-west-1-dev.aws.vectorchord.com:5432/test?sslmode=require"
 ```
 
 ### Connect to the cluster
 
 ```shell
-$ psql "postgres://test_user:plvpx1YvXmBu@enterprise-plan-cluster-hp2goemtvtd5q0ew.eu-west-1-dev.aws.pgvecto.rs:5432/test?sslmode=require"
+$ psql "postgres://test_user:plvpx1YvXmBu@enterprise-plan-cluster-hp2goemtvtd5q0ew.eu-west-1-dev.aws.vectorchord.com:5432/test?sslmode=require"
 psql (15.3, server 15.8 (Debian 15.8-1.pgdg120+1))
 SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, compression: off)
 Type "help" for help.
@@ -269,7 +269,7 @@ Terraform will perform the following actions:
 
   # pgvecto-rs-cloud_cluster.enterprise_plan_cluster will be updated in-place
   ~ resource "pgvecto-rs-cloud_cluster" "enterprise_plan_cluster" {
-      ~ connect_endpoint           = "postgres://test_user:q7SdfHYVqkGB@enterprise-plan-cluster-tiqmlrllv36fmh4h.eu-west-1-dev.aws.pgvecto.rs:5432/test?sslmode=require" -> (known after apply)
+      ~ connect_endpoint           = "postgres://test_user:q7SdfHYVqkGB@enterprise-plan-cluster-tiqmlrllv36fmh4h.eu-west-1-dev.aws.vectorchord.com:5432/test?sslmode=require" -> (known after apply)
       ~ first_recoverability_point = "2024-09-20T03:53:04Z" -> (known after apply)
         id                         = "bbfb4ed2-b434-4e20-994f-6627e8f3785b"
       ~ last_archived_wal_time     = "2024-09-20T03:53:07Z" -> (known after apply)
@@ -283,7 +283,7 @@ Terraform will perform the following actions:
 Plan: 0 to add, 1 to change, 0 to destroy.
 
 Changes to Outputs:
-  ~ psql_endpoint_enterprise = "postgres://test_user:q7SdfHYVqkGB@enterprise-plan-cluster-tiqmlrllv36fmh4h.eu-west-1-dev.aws.pgvecto.rs:5432/test?sslmode=require" -> (known after apply)
+  ~ psql_endpoint_enterprise = "postgres://test_user:q7SdfHYVqkGB@enterprise-plan-cluster-tiqmlrllv36fmh4h.eu-west-1-dev.aws.vectorchord.com:5432/test?sslmode=require" -> (known after apply)
 
 Do you want to perform these actions?
   Terraform will perform the actions described above.
@@ -303,7 +303,7 @@ Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
 
 Outputs:
 
-psql_endpoint_enterprise = "postgres://test_user:q7SdfHYVqkGB@enterprise-plan-cluster-tiqmlrllv36fmh4h.eu-west-1-dev.aws.pgvecto.rs:5432/test?sslmode=require"
+psql_endpoint_enterprise = "postgres://test_user:q7SdfHYVqkGB@enterprise-plan-cluster-tiqmlrllv36fmh4h.eu-west-1-dev.aws.vectorchord.com:5432/test?sslmode=require"
 ```
 
 ### Destroy the cluster
@@ -323,7 +323,7 @@ Terraform will perform the following actions:
       - account_id                 = "8364ded2-5580-45c4-a394-edfa582e35a0" -> null
       - cluster_name               = "enterprise-plan-cluster" -> null
       - cluster_provider           = "aws" -> null
-      - connect_endpoint           = "postgres://test_user:q7SdfHYVqkGB@enterprise-plan-cluster-tiqmlrllv36fmh4h.eu-west-1-dev.aws.pgvecto.rs:5432/test?sslmode=require" -> null
+      - connect_endpoint           = "postgres://test_user:q7SdfHYVqkGB@enterprise-plan-cluster-tiqmlrllv36fmh4h.eu-west-1-dev.aws.vectorchord.com:5432/test?sslmode=require" -> null
       - database_name              = "test" -> null
       - first_recoverability_point = "2024-09-20T03:53:04Z" -> null
       - id                         = "bbfb4ed2-b434-4e20-994f-6627e8f3785b" -> null
@@ -340,7 +340,7 @@ Terraform will perform the following actions:
 Plan: 0 to add, 0 to change, 1 to destroy.
 
 Changes to Outputs:
-  - psql_endpoint_enterprise = "postgres://test_user:q7SdfHYVqkGB@enterprise-plan-cluster-tiqmlrllv36fmh4h.eu-west-1-dev.aws.pgvecto.rs:5432/test?sslmode=require" -> null
+  - psql_endpoint_enterprise = "postgres://test_user:q7SdfHYVqkGB@enterprise-plan-cluster-tiqmlrllv36fmh4h.eu-west-1-dev.aws.vectorchord.com:5432/test?sslmode=require" -> null
 
 Do you really want to destroy all resources?
   Terraform will destroy all your managed infrastructure, as shown above.
@@ -380,7 +380,7 @@ terraform {
 
 provider "pgvecto-rs-cloud" {
   api_key = "pgrs-57cc0d484e7e1d00444201ee846455b5"
-  api_url = "https://cloud-dev.pgvecto.rs/api/v1"
+  api_url = "https://cloud-dev.vectorchord.ai/api/v1"
 }
 
 resource "pgvecto-rs-cloud_cluster" "enterprise_plan_cluster" {
@@ -398,7 +398,7 @@ resource "pgvecto-rs-cloud_cluster" "enterprise_plan_cluster" {
 }
 
 output "psql_endpoint_enterprise" {
-  description = "Endpoint for the PGVecto.rs Cloud Enterprise PostgreSQL database"
+  description = "Endpoint for the VectorChord Cloud Enterprise PostgreSQL database"
   value       = pgvecto-rs-cloud_cluster.enterprise_plan_cluster.connect_endpoint
 }
 ```
@@ -509,7 +509,7 @@ terraform {
 
 provider "pgvecto-rs-cloud" {
   api_key = "pgrs-57cc0d484e7e1d00444201ee846455b5"
-  api_url = "https://cloud-dev.pgvecto.rs/api/v1"
+  api_url = "https://cloud-dev.vectorchord.ai/api/v1"
 }
 
 resource "pgvecto-rs-cloud_cluster" "enterprise_plan_cluster" {
@@ -528,7 +528,7 @@ resource "pgvecto-rs-cloud_cluster" "enterprise_plan_cluster" {
 }
 
 output "psql_endpoint_enterprise" {
-  description = "Endpoint for the PGVecto.rs Cloud Enterprise PostgreSQL database"
+  description = "Endpoint for the VectorChord Cloud Enterprise PostgreSQL database"
   value       = pgvecto-rs-cloud_cluster.enterprise_plan_cluster.connect_endpoint
 }
 ```
@@ -581,7 +581,7 @@ pgvecto-rs-cloud_cluster.enterprise_plan_cluster: Still creating... [10s elapsed
 pgvecto-rs-cloud_cluster.enterprise_plan_cluster: Still creating... [5m20s elapsed]
 
 # you can check the table and index
-$ psql 'postgres://test_user:RKC4wr7MRcwm@enterprise-plan-cluster-4paxqvbzwxudmvja.eu-west-1-dev.aws.pgvecto.rs:5432/test?sslmode=require'
+$ psql 'postgres://test_user:RKC4wr7MRcwm@enterprise-plan-cluster-4paxqvbzwxudmvja.eu-west-1-dev.aws.vectorchord.com:5432/test?sslmode=require'
 psql (15.3, server 15.8 (Debian 15.8-1.pgdg120+1))
 SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, compression: off)
 Type "help" for help.

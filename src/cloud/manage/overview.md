@@ -1,11 +1,11 @@
 # Overview of the cloud object hierarchy
 
-Managing your PGVecto.rs Cloud project requires an understanding of the object hierarchy. The following diagram shows how objects in cloud are related. See below for a description of each object.
+Managing your VectorChord Cloud project requires an understanding of the object hierarchy. The following diagram shows how objects in cloud are related. See below for a description of each object.
 ![](../images/cloud_object_hierarchy.png)
 
-## PGVecto.rs Cloud Account
+## VectorChord Cloud Account
 
-This is the account you used to sign up with PGVecto.rs Cloud. Now supports signing up with an GitHub account.
+This is the account you used to sign up with VectorChord Cloud. Now supports signing up with an GitHub account.
 
 ## Projects
 

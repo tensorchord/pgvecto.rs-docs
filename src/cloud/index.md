@@ -24,6 +24,7 @@
 - [Terraform](/cloud/manage/terraform)
 - [Upgrade](/cloud/manage/upgrade)
 - [Regions](/cloud/manage/regions)
+- [Workflow](/cloud/manage/workflow)
 
 ## Payment & Billing & Pricing
 

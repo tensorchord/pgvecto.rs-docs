@@ -1,10 +1,10 @@
 # API Keys
 
-On PGVecto.rs Cloud, every project comes with a set of API keys. These keys are essential authentication tokens required for initiating terraform operations.
+On VectorChord Cloud, every project comes with a set of API keys. These keys are essential authentication tokens required for initiating terraform operations.
 
 ## Role-based Access Control (RBAC)
 
-Role-based Access Control (RBAC) is a crucial security mechanism in PGVecto.rs Cloud, applicable to managing API calls. This system allows for fine-grained control over access to resources by assigning roles with specific permissions to users within the projects.
+Role-based Access Control (RBAC) is a crucial security mechanism in VectorChord Cloud, applicable to managing API calls. This system allows for fine-grained control over access to resources by assigning roles with specific permissions to users within the projects.
 
 For more information on access levels of each role, see [Authorization](./authorization.md).
 
