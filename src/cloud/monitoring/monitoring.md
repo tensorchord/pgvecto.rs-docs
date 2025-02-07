@@ -1,6 +1,6 @@
 # Monitoring
 
-The PGVecto.rs Cloud provides several graphs for monitoring system and database metrics. You can access the **Metrics** dashboard from the cluster details in the PGVecto.rs Cloud Console. Observable metrics include:
+The VectorChord Cloud provides several graphs for monitoring system and database metrics. You can access the **Metrics** dashboard from the cluster details in the VectorChord Cloud Console. Observable metrics include:
 - [Storage Usage](#storage-usage)
 - [RAM](#ram)
 - [CPU](#cpu)

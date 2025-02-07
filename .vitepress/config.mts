@@ -219,6 +219,7 @@ export default defineConfig({
               { text: 'API Keys', link: '/cloud/manage/apikey' },
               { text: 'Terraform', link: '/cloud/manage/terraform' },
               { text: 'Regions', link: '/cloud/manage/regions' },
+              { text: 'Workflow', link: '/cloud/manage/workflow' },
             ],
           },
           {

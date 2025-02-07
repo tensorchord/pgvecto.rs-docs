@@ -2,7 +2,7 @@
 
 ## Free Tier
 
-In PGVecto.rs Cloud, we provide a free tier that allows you learn and explore fully-managed PGVecto.rs services in a cloud environment. Every user can use the free tier to create **only one** cluster and store vector data in it. There are some limitations in the free tier:
+In VectorChord Cloud, we provide a free tier that allows you learn and explore fully-managed VectorChord services in a cloud environment. Every user can use the free tier to create **only one** cluster and store vector data in it. There are some limitations in the free tier:
 - Shared resources
 - Limited storage for WAL(Write-Ahead Log) and PGData (5Gi)
 - Only support AWS T3 XLarge instance type
@@ -24,8 +24,8 @@ For enterprise plan, you can own a dedicated cluster with the following features
 
 ### Enterprise
 
-![](../images/enterprise_server_resources.png)
+**Performance**: Optimized for query performance.
+![](../images/enterprise_server_resources-perf.png)
 
-:::warning
-You may have noticed that there are two 4c 32G instances, and the difference between them is that one has an NVMe SSD.
-:::
+**Capacity**: Optimized for storage capacity.
+![](../images/enterprise_server_resources-capacity.png)

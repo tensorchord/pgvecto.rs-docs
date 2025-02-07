@@ -3,10 +3,10 @@
 The following instructions require a working installation of [psql](https://www.postgresql.org/download/). The psql client is the native command-line client for Postgres. It provides an interactive session for sending commands to Postgres and running ad-hoc queries. For more information about psql, refer to the [psql reference](https://www.postgresql.org/docs/15/app-psql.html), in the PostgreSQL Documentation.
 
 ::: warning
-Cluster instance runs Postgres, which means that any Postgres application or standard utility such as psql is compatible with PGVecto.rs Cloud. You can also use Postgres client libraries and drivers to connect. However, please be aware that some older client libraries and drivers, including older psql executables, are built without [Server Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) support and require a workaround.
+Cluster instance runs Postgres, which means that any Postgres application or standard utility such as psql is compatible with VectorChord Cloud. You can also use Postgres client libraries and drivers to connect. However, please be aware that some older client libraries and drivers, including older psql executables, are built without [Server Name Indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) support and require a workaround.
 :::
 
-The easiest way to connect to PGVecto.rs Cloud using psql is to use a connection endpoint. You can obtain a connection endpoint from the **cluster details** on the dashboard. 
+The easiest way to connect to VectorChord Cloud using psql is to use a connection endpoint. You can obtain a connection endpoint from the **cluster details** on the dashboard. 
 
 ![](../images/two_types_connections.png)
 
@@ -25,5 +25,5 @@ $ psql postgres://[user]:[password]@[hostname]/[dbname]
 ```
 
 ::: warning
-PGVecto.rs Cloud requires that all connections use SSL/TLS encryption, but you can increase the level of protection by appending an sslmode parameter setting to your connection string. 
+VectorChord Cloud requires that all connections use SSL/TLS encryption, but you can increase the level of protection by appending an sslmode parameter setting to your connection string. 
 :::

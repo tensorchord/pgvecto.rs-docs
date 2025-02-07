@@ -1,6 +1,6 @@
 # Authorization
 
-Topics related to role-based access control (RBAC) on your PGVecto.rs Cloud clusters.
+Topics related to role-based access control (RBAC) on your VectorChord Cloud clusters.
 
 ## User Roles
 

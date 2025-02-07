@@ -1,6 +1,6 @@
 # View Invoice
 
-Currently, the PGVecto.rs Cloud has Orb as its billing provider. From the Billing page, you can click `View invoices in Orb` to go to the Orb `Customer Portal`. On this external page you can do the following:
+Currently, the VectorChord Cloud has Orb as its billing provider. From the Billing page, you can click `View invoices in Orb` to go to the Orb `Customer Portal`. On this external page you can do the following:
 
 - Review your compute resource and storage usage
 - Review your invoices, both paid, issued, and draft
@@ -29,7 +29,7 @@ Each row can be clicked on to view the details of the invoice.
 
 ## Manually pay uncharged invoices
 
-For each invoice that is due, PGVecto.rs Cloud will automatically try to charge 3 times within a week. If all attempts fail, your project will be suspended:
+For each invoice that is due, VectorChord Cloud will automatically try to charge 3 times within a week. If all attempts fail, your project will be suspended:
 
 - You will receive an email informing you that the project has been suspended
 - You will not be able to create new clusters of the project

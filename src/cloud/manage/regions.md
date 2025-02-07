@@ -2,7 +2,7 @@
 
 ## Deploying to Regions
 
-With PGVecto.rs Cloud, you can deploy clusters to different Regions. When creating an cluster, pick a Region using the drop-down selector.
+With VectorChord Cloud, you can deploy clusters to different Regions. When creating an cluster, pick a Region using the drop-down selector.
 
 ![](../images/supported-regions.png)
 

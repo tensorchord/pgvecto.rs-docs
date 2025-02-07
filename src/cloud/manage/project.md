@@ -1,6 +1,6 @@
 # Projects
 
-With PGVecto.rs Cloud, everything starts with the project. It is the top-level object in the hierarchy. A project can hold as many `Postgres` clusters as needed. The maximum number of projects you can create and join is 5. 
+With VectorChord Cloud, everything starts with the project. It is the top-level object in the hierarchy. A project can hold as many `Postgres` clusters as needed. The maximum number of projects you can create and join is 5. 
 
 Learn more about projects and how to manage them in these sections:
 - [Project Setting](#project-setting)
@@ -18,7 +18,7 @@ In project setting, you can view and edit the project information. You can switc
 You can invite other users to your project by clicking the `Invite` button. You can invite users by their email address. The invited user will receive an email with an invitation link. The invited user can accept the invitation by clicking the link. 
 
 ::: warning
-If the invited user does not have a PGVecto.rs Cloud account, they will need to sign up for an account before they can accept the invitation.
+If the invited user does not have a VectorChord Cloud account, they will need to sign up for an account before they can accept the invitation.
 :::
 
 ![](../images/invite_member.png)
