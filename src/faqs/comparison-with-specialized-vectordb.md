@@ -1,6 +1,6 @@
 # Why not a specialty vector database?
 
-Read our complete blog at [modelz.ai/blog/pgvector](https://modelz.ai/blog/pgvector)
+Read our complete blog at [Do we really need a specialized vector database? (2023) | vectorchord.ai](https://blog.vectorchord.ai/do-we-really-need-a-specialized-vector-database-2023).
 
 Imagine this, your existing data is stored in a Postgres database, and you want to use a vector database to do some vector similarity search. You have to move your data from Postgres to the vector database, and you have to maintain two databases at the same time. This is not a good idea.
 
