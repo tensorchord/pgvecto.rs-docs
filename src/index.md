@@ -18,7 +18,7 @@ hero:
     #   link: /api-examples
     - theme: alt
       text: Launch Blog ↗️
-      link: https://blog.pgvecto.rs
+      link: https://blog.vectorchord.ai/
 features:
   - title: Scalable
     details: Designed to be scalable, supports half-precision and quantization for more vectors

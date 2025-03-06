@@ -72,7 +72,7 @@ CREATE TABLE test (id integer PRIMARY KEY, embedding vector(10) NOT NULL);
 
 #### Create the index
 
-We create an index on the `embedding` column of the `test` table in source database and target database. The index type is flat, it is a brute force algorithm. We choose `vector_l2_ops` squared Euclidean distance to measure the distance between vectors. Another index type and distance function can be found in [here](https://docs.pgvecto.rs/usage/indexing.html).
+We create an index on the `embedding` column of the `test` table in source database and target database. The index type is flat, it is a brute force algorithm. We choose `vector_l2_ops` squared Euclidean distance to measure the distance between vectors. Another index type and distance function can be found in [here](https://docs.vectorchord.ai/usage/indexing.html).
 
 ```sql
 CREATE INDEX ON test USING vectors (embedding vector_l2_ops) WITH (options = "[indexing.flat]");
