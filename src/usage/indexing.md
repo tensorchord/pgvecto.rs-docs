@@ -138,7 +138,7 @@ Skip lists are constructed using a probabilistic approach, where nodes become le
 
 Constructing this multi-layered graph begins with a foundational layer that encapsulates the entire dataset. Moving up the hierarchy, each successive layer provides a streamlined summary of its predecessor, featuring fewer nodes and functioning as fast tracks for making broader leaps within the graph.
 
-Smaller [`m`](/reference/indexing_options.html#options-for-table-hnsw)) values are better for lower-dimensional data or when you require lower recall. Larger `m` values are useful for higher-dimensional data or when high recall is important. 
+Smaller [`m`](/reference/indexing_options.html#options-for-table-hnsw) values are better for lower-dimensional data or when you require lower recall. Larger `m` values are useful for higher-dimensional data or when high recall is important. 
 
 The [`ef_construction`](/reference/indexing_options.html#options-for-table-hnsw) parameter determines the dynamic candidate list size when adding new nodes; increasing this value may enhance recall but could extend index construction time.
 

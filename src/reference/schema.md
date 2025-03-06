@@ -77,13 +77,19 @@ Here is the schema provided by `pgvecto.rs`.
 
 ## List of functions
 
-| Name               | Argument type                               | Result type | Description                                                                                 |
-| ------------------ | ------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------- |
-| pgvectors_upgrade  |                                             | void        | Administration function for upgrading `pgvecto.rs`.                                         |
-| to_svector         | dims integer, index integer[], value real[] | svector     | Construct a sparse vector from two arrays of indexes and values                             |
-| binarize           | vector vector                               | bvector     | Binarize a vector. All positive elements are set to 1, otherwise 0.                         |
-| text2vec_openai    | input text, model text                      | vector      | Embedding function for OpenAI embeddings API.                                               |
-| text2vec_openai_v3 | input text                                  | vector      | Embedding function for OpenAI embeddings API. The model is set to `text-embedding-3-small`. |
+| Name               | Argument type                               | Result type | Description                                                                                                       |
+| ------------------ | ------------------------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------- |
+| pgvectors_upgrade  |                                             | void        | Administration function for upgrading `pgvecto.rs`.                                                               |
+| to_svector         | dims integer, index integer[], value real[] | svector     | Construct a sparse vector from two arrays of indexes and values                                                   |
+| binarize           | vector vector                               | bvector     | Binarize a vector. All positive elements are set to 1, otherwise 0.                                               |
+| text2vec_openai    | input text, model text                      | vector      | Embedding function for OpenAI embeddings API.                                                                     |
+| text2vec_openai_v3 | input text                                  | vector      | Embedding function for OpenAI embeddings API. The model is set to `text-embedding-3-small`.                       |
+| vector_dims        | vector                                      | integer     | Get the dimension of given vector.                                                                                |
+| vector_norm        | vector                                      | real        | Calculates the Euclidean norm of a given vector.                                                                  |
+| avg                | vector[]                                    | vector      | Aggregate Function. Calculates the average of given vectors. $Result[j] = \frac{\sum_{i \in 1..n}{vec[i][j]}}{n}$ |
+| sum                | vector[]                                    | vector      | Aggregate Function. Calculates the sum of given vectors.   $Result[j] = \sum_{i \in 1..n}{vec[i][j]}$             |
+
+
 
 ## List of casts
 
@@ -116,9 +122,9 @@ Here is the schema provided by `pgvecto.rs`.
 | vectors | vecf16_cos_ops      | vecf16           |
 | vectors | vecf16_dot_ops      | vecf16           |
 | vectors | vecf16_l2_ops       | vecf16           |
-| vectors | veci8_cos_ops       | veci8           |
-| vectors | veci8_dot_ops       | veci8           |
-| vectors | veci8_l2_ops        | veci8           |
+| vectors | veci8_cos_ops       | veci8            |
+| vectors | veci8_dot_ops       | veci8            |
+| vectors | veci8_l2_ops        | veci8            |
 | vectors | svector_cos_ops     | svector          |
 | vectors | svector_dot_ops     | svector          |
 | vectors | svector_l2_ops      | svector          |
