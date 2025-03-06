@@ -161,4 +161,4 @@ Name   | Version |   Schema   |                                         Descript
  vectors | 0.1.13  | public     | vectors: Vector database plugin for Postgres, written in Rust, specifically designed for LLM
 ```
 
-The `vectors` extension is installed successfully. You can try [quick-start](https://docs.vectorchord.ai/getting-started/overview.html) without installition.
+The `vectors` extension is installed successfully. You can try [quick-start](https://docs.vectorchord.ai/getting-started/overview.html) without installation.
