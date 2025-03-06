@@ -109,3 +109,6 @@ demo.py
 
 # VSCode config file
 .vscode
+
+# macOS trash
+.DS_Store

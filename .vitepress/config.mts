@@ -7,7 +7,7 @@ const customElements = ['mjx-container'];
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "pgvecto.rs",
+  title: "VectorChord",
   description: "Scalable Vector Search in Postgres",
   srcDir: 'src',
   markdown: {
@@ -17,7 +17,7 @@ export default defineConfig({
     },
   },
   sitemap: {
-    hostname: 'https://docs.pgvecto.rs'
+    hostname: 'https://docs.vectorchord.ai/'
   },
   head: [
     // Google Analytics
@@ -49,7 +49,7 @@ export default defineConfig({
       { text: 'pgvecto.rs Docs', link: '/getting-started/overview' },
       { text: 'Cloud', link: '/cloud/' },
       { text: 'Reference', link: '/reference/' },
-      { text: 'Blog', link: 'https://blog.pgvecto.rs' },
+      { text: 'Blog', link: 'https://blog.vectorchord.ai/' },
     ],
 
     editLink: {
