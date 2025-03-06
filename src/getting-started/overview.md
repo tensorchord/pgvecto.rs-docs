@@ -4,11 +4,11 @@ An introduction to the `pgvecto.rs`.
 
 ## What is `pgvecto.rs`
 
-`pgvecto.rs` is a Postgres extension that provides vector similarity search functions. It is written in Rust and based on [pgrx](https://github.com/tcdi/pgrx). It is currently in the beta status, we invite you to try it out in production and provide us with feedback. Read more at [📝our launch blog](https://blog.pgvecto.rs/pgvectors-02-unifying-relational-queries-and-vector-search-in-postgresql).
+`pgvecto.rs` is a Postgres extension that provides vector similarity search functions. It is written in Rust and based on [pgrx](https://github.com/tcdi/pgrx). It is currently in the beta status, we invite you to try it out in production and provide us with feedback. Read more at [📝our launch blog](https://blog.vectorchord.ai/pgvectors-02-unifying-relational-queries-and-vector-search-in-postgresql).
 
 ## Comparison with pgvector
 
-Checkout [pgvecto.rs vs pgvector](https://docs.pgvecto.rs/faqs/comparison-pgvector.html) for more details.
+Checkout [pgvecto.rs vs pgvector](https://docs.vectorchord.ai/faqs/comparison-pgvector.html) for more details.
 
 | Feature | pgvecto.rs | pgvector |
 | --- | --- | --- |
@@ -103,7 +103,7 @@ SELECT * FROM items ORDER BY embedding <-> '[3,2,1]' LIMIT 5;
 
 ### A simple Question-Answering application
 
-Please check out the [Question-Answering application](https://docs.pgvecto.rs/use-case/question-answering.html) tutorial.
+Please check out the [Question-Answering application](https://docs.vectorchord.ai/use-case/question-answering.html) tutorial.
 
 ### Half-precision floating-point
 

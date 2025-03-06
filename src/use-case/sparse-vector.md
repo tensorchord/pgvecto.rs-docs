@@ -204,7 +204,7 @@ D_{dot} = - \Sigma x_i y_i
 $$
 
 
-For more information about index types in `pgvecto.rs`, please [check out our documentation](https://docs.pgvecto.rs/getting-started/overview.html).
+For more information about index types in `pgvecto.rs`, please [check out our documentation](https://docs.vectorchord.ai/getting-started/overview.html).
 
 ## Retrieving and Mixing Results
 
