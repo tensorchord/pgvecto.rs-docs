@@ -6,143 +6,159 @@ There are four ways to install VectorChord.
 
 <a href="https://hub.docker.com/r/tensorchord/vchord-postgres"><img src="https://img.shields.io/docker/pulls/tensorchord/vchord-postgres" /></a>
 
-
 The easiest way to try VectorChord is to run it from a ready-to use [Docker image](https://hub.docker.com/r/tensorchord/vchord-postgres).
+
+1. Launch a VectorChord container in Docker.
 
 ```sh
 docker run \
-  --name pgvecto-rs-demo \
+  --name vchord-demo \
   -e POSTGRES_PASSWORD=mysecretpassword \
   -p 5432:5432 \
-  -d tensorchord/vchord-postgres:pg17-v0.1.0
+  -d tensorchord/vchord-postgres:pg17-v0.2.2
 ```
 
-Then you can connect to the database using the `psql` command line tool. The default username is `postgres`, and the default password is `mysecretpassword`.
+2. Connect to the database using the `psql` command line tool. The default username is `postgres`.
 
 ```sh
 psql postgresql://postgres:mysecretpassword@localhost:5432/postgres
 ```
 
-Run the following SQL to ensure the extension is enabled.
+3. Run the following SQL to ensure the extension is enabled.
 
-```SQL
+```sql
 CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 ```
 
-And make sure to add `vchord.so` to the `shared_preload_libraries` in `postgresql.conf`.
+::: tip
 
-```SQL
--- Add vchord and pgvector to shared_preload_libraries --
-ALTER SYSTEM SET shared_preload_libraries = 'vchord.so';
-```
+To achieve full performance, please mount the volume to PostgreSQL data directory by adding the option like `-v $PWD/pgdata:/var/lib/postgresql/data`
 
-To create the VectorChord RaBitQ(vchordrq) index, you can use the following SQL.
+You can configure PostgreSQL by the reference of the parent image in https://hub.docker.com/_/postgres/.
 
-```SQL
-CREATE INDEX ON gist_train USING vchordrq (embedding vector_l2_ops) WITH (options = $$
-residual_quantization = true
-[build.internal]
-lists = [4096]
-spherical_centroids = false
-$$);
-```
+:::
 
-## From Debian package
+## Debian packages
 
 ::: tip
-Installation from the Debian package requires a dependency on `GLIBC >= 2.35`, e.g:
+
+Installation from Debian packages requires a dependency on `GLIBC >= 2.35`, so only the following distributions are supported:
+
+- `Debian 12 (Bookworm)` or later
 - `Ubuntu 22.04` or later
-- `Debian Bullseye` or later
+
 :::
 
-Debian packages(.deb) are used in distributions based on Debian, such as Ubuntu and many others. They can be easily installed by `dpkg` or `apt-get`.
+Debian packages are used for Debian-based Linux distributions, including Debian and Ubuntu. They can be easily installed by `apt`. It's supported on Linux and x86_64/aarch64.
 
-1. Download the deb package in [the release page](https://github.com/tensorchord/vectorchord/releases/latest), and type `sudo apt install vchord-pg15-*.deb` to install the deb package.
+1. Download Debian packages in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and install them by `apt`.
 
-2. Configure your PostgreSQL by modifying the `shared_preload_libraries` and `search_path` to include the extension.
+```sh
+wget https://github.com/tensorchord/VectorChord/releases/download/0.2.2/postgresql-17-vchord_0.2.2-1_$(dpkg --print-architecture).deb
+sudo apt install ./postgresql-17-vchord_0.2.2-1_$(dpkg --print-architecture).deb
+```
+
+2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension.
 
 ```sh
 psql -U postgres -c 'ALTER SYSTEM SET shared_preload_libraries = "vchord.so"'
-psql -U postgres -c 'ALTER SYSTEM SET search_path TO "$user", public, vchord'
-# You need restart the PostgreSQL cluster to take effects.
-sudo systemctl restart postgresql.service   # for vectorchord running with systemd
+sudo systemctl restart postgresql.service
 ```
 
-3. Connect to the database and enable the extension.
+3. Run the following SQL to ensure the extension is enabled.
 
 ```sql
-DROP EXTENSION IF EXISTS vchord;
-CREATE EXTENSION vchord CASCADE;
+CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 ```
 
-## From ZIP package
+## Prebuilt binaries
 
 ::: tip
-Installation from the ZIP package requires a dependency on `GLIBC >= 2.35`, e.g:
-- `RHEL 9` or later
+
+Installation from prebuilt binaries requires a dependency on `GLIBC >= 2.35`, so only the following distributions are supported:
+
+- `Debian 12 (Bookworm)` or later
+- `Ubuntu 22.04` or later
+- `Red Hat Enterprise 10.0` or later
+- `Fedora 36` or later
+- `openSUSE 15.6` or later
+
 :::
 
-For systems that are not Debian based and cannot run a Docker container, please follow these steps to install:
+Prebuilt binaries are used for other Linux distributions. You can consider repackaging the precompiled binaries. It's supported on Linux and x86_64/aarch64.
 
-1. Before install, make sure that you have the necessary packages installed, including `PostgreSQL`, `pg_config`, `unzip`, `wget`.
+1. Download prebuilt binaries in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and repackage it referring to your distribution's documentation. Then install it by system package manager.
 
-```sh
-# Example for RHEL 9 dnf
-# Please check your package manager
-sudo dnf install -y unzip wget libpq-devel
-sudo dnf module install -y postgresql:15/server
-sudo postgresql-setup --initdb
-sudo systemctl start postgresql.service
-sudo systemctl enable postgresql.service
-```
-
-2. Verify whether `$pkglibdir` and `$shardir` have been set by PostgreSQL. 
-
-```sh
-pg_config --pkglibdir
-# Print something similar to:
-# /usr/lib/postgresql/15/lib or
-# /usr/lib64/pgsql
-
-pg_config --sharedir
-# Print something similar to:
-# /usr/share/postgresql/15 or
-# /usr/share/pgsql
-```
-
-3. Download the zip package in [the release page](https://github.com/tensorchord/vectorchord/releases/latest) and extract it to a temporary directory.
-
-```sh
-wget https://github.com/tensorchord/VectorChord/releases/download/0.1.0/vchord-pg15_x86_64-unknown-linux-gnu_0.1.0.zip -O vchord.zip
-unzip vchord.zip -d vchord
-```
-
-4. Copy the extension files to the PostgreSQL directory.
-
-```sh
-# Copy library to `$pkglibdir`
-sudo cp vchord/vchord.so $(pg_config --pkglibdir)/
-# Copy schema to `$shardir`
-sudo cp vchord/vchord--* $(pg_config --sharedir)/extension/
-sudo cp vchord/vchord.control $(pg_config --sharedir)/extension/
-```
-
-5. Configure your PostgreSQL by modifying the `shared_preload_libraries` and `search_path` to include the extension.
+2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension.
 
 ```sh
 psql -U postgres -c 'ALTER SYSTEM SET shared_preload_libraries = "vchord.so"'
-psql -U postgres -c 'ALTER SYSTEM SET search_path TO "$user", public, vchord'
-# You need restart the PostgreSQL cluster to take effects.
-sudo systemctl restart postgresql.service   # for vectorchord running with systemd
+sudo systemctl restart postgresql.service
 ```
 
-6. Connect to the database and enable the extension.
+3. Run the following SQL to ensure the extension is enabled.
 
 ```sql
-DROP EXTENSION IF EXISTS vchord;
-CREATE EXTENSION vchord CASCADE;
+CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 ```
 
-## From source
+## Source
 
-TODO
+::: tip
+
+VectorChord supports UNIX-like operating systems. Please report an issue if you cannot compile.
+
+VectorChord supports little-endian architectures but only provides performance advantages on x86_64 and aarch64.
+
+:::
+
+You may need to install VectorChord from source. Please follow these steps.
+
+1. Clone the repository and checkout the branch.
+
+```sh
+git clone https://github.com/tensorchord/VectorChord.git
+cd VectorChord
+git checkout "0.2.2"
+```
+
+2. Install a C compiler and Rust. For GCC, the version must be 14 or higher. For Clang, the version must be 16 or higher. Other C compilers are not supported. For Rust, the version must be the same as that recorded in `rust-toolchain.toml`.
+
+You could download Clang from https://github.com/llvm/llvm-project/releases.
+
+You could setup Rust with Rustup. See https://rustup.rs/.
+
+3. Install the devtool `cargo-pgrx` and set up it.
+
+```sh
+cargo install cargo-pgrx@$(sed -n 's/.*pgrx = { version = "\(=.*\)",.*/\1/p' Cargo.toml) --locked
+cargo pgrx init --pg17=$(which pg_config)
+```
+
+4. Install the extension to your system.
+
+```sh
+sed -i -e "s/@CARGO_VERSION@/0.2.2/g" ./vchord.control
+cargo pgrx install --sudo --release
+sudo cp -a ./sql/upgrade/. $(pg_config --sharedir)/extension
+```
+
+5. Run the following SQL to add the extension to `shared_preload_libraries`. Then restart the PostgreSQL cluster.
+
+```sql
+ALTER SYSTEM SET shared_preload_libraries = "vchord.so";
+```
+
+6. Run the following SQL to ensure the extension is enabled.
+
+```sql
+CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
+```
+
+::: tip
+
+By default, `VectorChord` only finds `clang` in `PATH` as the C compiler.
+
+If you need to use GCC, please set the environment variable CC to `gcc`.
+
+:::
