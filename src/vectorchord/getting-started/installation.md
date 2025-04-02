@@ -49,7 +49,7 @@ Installation from Debian packages requires a dependency on `GLIBC >= 2.35`, so o
 
 :::
 
-Debian packages are used for Debian-based Linux distributions, including Debian and Ubuntu. They can be easily installed by `apt`. It's supported on Linux and x86_64/aarch64.
+Debian packages are used for Debian-based Linux distributions, including Debian and Ubuntu. They can be easily installed by `apt`. You can use this installation method on x86_64 Linux and aarch64 Linux.
 
 1. Download Debian packages in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and install them by `apt`.
 
@@ -85,7 +85,7 @@ Installation from prebuilt binaries requires a dependency on `GLIBC >= 2.35`, so
 
 :::
 
-Prebuilt binaries are used for other Linux distributions. You can consider repackaging the precompiled binaries. It's supported on Linux and x86_64/aarch64.
+Prebuilt binaries are used for other Linux distributions. You can consider repackaging the precompiled binaries. You can use this installation method on x86_64 Linux and aarch64 Linux.
 
 1. Download prebuilt binaries in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and repackage it referring to your distribution's documentation. Then install it by system package manager.
 

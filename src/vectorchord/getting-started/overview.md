@@ -1,36 +1,43 @@
 # Overview
 
-VectorChord (vchord) is a PostgreSQL extension designed for scalable, high-performance, and disk-efficient vector similarity search, and serves as the successor to [pgvecto.rs](https://github.com/tensorchord/pgvecto.rs).
+VectorChord (vchord) is a PostgreSQL extension designed for scalable, high-performance, and disk-efficient vector similarity search.
 
-With VectorChord, you can store 400,000 vectors for just $1, enabling significant savings: 6x more vectors compared to Pinecone's optimized storage and 26x more than pgvector / pgvecto.rs for the same price[^1]. For further insights, check out our [launch blog post](https://blog.vectorchord.ai/vectorchord-store-400k-vectors-for-1-in-postgresql).
-
-[^1]: Based on [MyScale Benchmark](https://myscale.github.io/benchmark/#/) with 768-dimensional vectors and 95% recall.
+With VectorChord, you can store 400,000 vectors for just $1, enabling significant savings: 6x more vectors compared to Pinecone's optimized storage and 26x more than pgvector/pgvecto.rs for the same price[^1]. For further insights, check out our [launch blog post](https://blog.vectorchord.ai/vectorchord-store-400k-vectors-for-1-in-postgresql).
 
 ## Features
 
 VectorChord introduces remarkable enhancements over pgvecto.rs and pgvector:
 
-**⚡ Enhanced Performance**: Delivering optimized operations with up to 5x faster queries, 16x higher insert throughput, and 16x quicker[^3] index building compared to pgvector's HNSW implementation.
+**⚡ Enhanced Performance**: Delivering optimized operations with up to 5x faster queries, 16x higher insert throughput, and 16x quicker[^1] index building compared to pgvector's HNSW implementation.
 
-[^3]: Based on [MyScale Benchmark](https://myscale.github.io/benchmark/#/) with 768-dimensional vectors. Please checkout our [blog post](https://blog.vectorchord.ai/vectorchord-store-400k-vectors-for-1-in-postgresql) for more details.
+[^1]: Based on [MyScale Benchmark](https://myscale.github.io/benchmark/#/) with 768-dimensional vectors and 95% recall. Please checkout our [blog post](https://blog.vectorchord.ai/vectorchord-store-400k-vectors-for-1-in-postgresql) for more details.
 
 **💰 Affordable Vector Search**: Query 100M 768-dimensional vectors using just 32GB of memory, achieving 35ms P50 latency with top10 recall@95%, helping you keep infrastructure costs down while maintaining high search quality.
 
 **🔌 Seamless Integration**: Fully compatible with pgvector data types and syntax while providing optimal defaults out of the box - no manual parameter tuning needed. Just drop in VectorChord for enhanced performance.
 
-**🔧 External Index Build**: Leverage IVF to build indexes externally (e.g., on GPU) for faster KMeans clustering, combined with RaBitQ[^2] compression to efficiently store vectors while maintaining search quality through autonomous reranking.
+**🔧 Accelerated Index Build**: Leverage IVF to build indexes externally (e.g., on GPU) for faster KMeans clustering, combined with RaBitQ[^2] compression to efficiently store vectors while maintaining search quality through autonomous reranking.
 
 [^2]: Gao, Jianyang, and Cheng Long. "RaBitQ: Quantizing High-Dimensional Vectors with a Theoretical Error Bound for Approximate Nearest Neighbor Search." Proceedings of the ACM on Management of Data 2.3 (2024): 1-27.
 
+**📏 Long Vector Support**: Store and search vectors up to 60,000[^3] dimensions, enabling the use of the best high-dimensional models like text-embedding-3-large with ease.
+
+[^3]: There is a [limitation](https://github.com/pgvector/pgvector#vector-type) at pgvector of 16,000 dimensions now. If you really have a large dimension(`16,000<dim<60,000`), consider changing [VECTOR_MAX_DIM](https://github.com/pgvector/pgvector/blob/fef635c9e5512597621e5669dce845c744170822/src/vector.h#L4) and compile pgvector yourself.
+
+**🌐 Scale As You Want**: Based on horizontal expansion, the query of 5M / 100M 768-dimensional vectors can be easily scaled to 10000+ QPS with top10 recall@90% at a competitive cost[^4]
+
+[^4]: Please check our [blog post](https://blog.vectorchord.ai/vector-search-at-10000-qps-in-postgresql-with-vectorchord)  for more details, the PostgreSQL scalability is powered by [CloudNative-PG](https://github.com/cloudnative-pg/cloudnative-pg).
+
 ## Quick Start
 
-For new users, we recommend using the Docker image to get started quickly.
+For new users, we recommend using the Docker image to get started quickly. If you do not prefer Docker, please read [installation guide](./installation) for other installation methods.
+
 ```bash
 docker run \
   --name vectorchord-demo \
   -e POSTGRES_PASSWORD=mysecretpassword \
   -p 5432:5432 \
-  -d tensorchord/vchord-postgres:pg17-v0.1.0
+  -d tensorchord/vchord-postgres:pg17-v0.2.2
 ```
 
 Then you can connect to the database using the `psql` command line tool. The default username is `postgres`, and the default password is `mysecretpassword`.
@@ -38,165 +45,47 @@ Then you can connect to the database using the `psql` command line tool. The def
 ```bash
 psql -h localhost -p 5432 -U postgres
 ```
-Run the following SQL to ensure the extension is enabled.
 
-```SQL
-CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
+Now you can play with VectorChord!
+
+VectorChord depends on pgvector, including the vector representation. Since you can use them directly, your application can be easily migrated without pain!
+
+Similar to pgvector, you can create a table with vector column and insert some rows to it.
+
+```sql
+CREATE TABLE items (id bigserial PRIMARY KEY, embedding vector(3));
+INSERT INTO items (embedding) SELECT ARRAY[random(), random(), random()]::real[] FROM generate_series(1, 1000);
 ```
 
-And make sure to add `vchord.so` to the `shared_preload_libraries` in `postgresql.conf`.
+With VectorChord, you can create `vchordrq` indexes.
 
 ```SQL
--- Add vchord and pgvector to shared_preload_libraries --
-ALTER SYSTEM SET shared_preload_libraries = 'vchord.so';
-```
-
-To create the VectorChord RaBitQ(vchordrq) index, you can use the following SQL.
-
-```SQL
-CREATE INDEX ON gist_train USING vchordrq (embedding vector_l2_ops) WITH (options = $$
+CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $$
 residual_quantization = true
 [build.internal]
-lists = [4096]
-spherical_centroids = false
+lists = []
 $$);
 ```
 
-## Documentation
+And then perform a vector search using `SELECT ... ORDER BY ... LIMIT ...`.
 
-### Query
-
-The query statement is exactly the same as pgvector. VectorChord supports any filter operation and WHERE/JOIN clauses like pgvecto.rs with VBASE.
 ```SQL
+SET vchordrq.probes TO '';
 SELECT * FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 5;
 ```
-Supported distance functions are:
-- <-> - L2 distance
-- <#> - (negative) inner product
-- <=> - cosine distance
 
-<!-- ### Range Query
+For more usage, please read:
 
-> [!NOTE]  
-> Due to the limitation of postgresql query planner, we cannot support the range query like `SELECT embedding <-> '[3,1,2]' as distance WHERE distance < 0.1 ORDER BY distance` directly.
-
-To query vectors within a certain distance range, you can use the following syntax.
-```SQL
--- Query vectors within a certain distance range
--- sphere(center, radius) means the vectors within the sphere with the center and radius, aka range query
--- <<->> is L2 distance, <<#>> is inner product, <<=>> is cosine distance
-SELECT vec FROM t WHERE vec <<->> sphere('[0.24, 0.24, 0.24]'::vector, 0.012) 
-``` -->
-
-### Query Performance Tuning
-You can fine-tune the search performance by adjusting the `probes` and `epsilon` parameters:
-
-```sql
--- Set probes to control the number of lists scanned. 
--- Recommended range: 3%–10% of the total `lists` value.
-SET vchordrq.probes = 100;
-
--- Set epsilon to control the reranking precision.
--- Larger value means more rerank for higher recall rate.
--- Don't change it unless you only have limited memory.
--- Recommended range: 1.0–1.9. Default value is 1.9.
-SET vchordrq.epsilon = 1.9;
-
--- vchordrq relies on a projection matrix to optimize performance.
--- Add your vector dimensions to the `prewarm_dim` list to reduce latency.
--- If this is not configured, the first query will have higher latency as the matrix is generated on demand.
--- Default value: '64,128,256,384,512,768,1024,1536'
--- Note: This setting requires a database restart to take effect.
-ALTER SYSTEM SET vchordrq.prewarm_dim = '64,128,256,384,512,768,1024,1536';
-```
-
-And for postgres's setting
-```SQL
--- If using SSDs, set `effective_io_concurrency` to 200 for faster disk I/O.
-SET effective_io_concurrency = 200;
-
--- Disable JIT (Just-In-Time Compilation) as it offers minimal benefit (1–2%) 
--- and adds overhead for single-query workloads.
-SET jit = off;
-
--- Allocate at least 25% of total memory to `shared_buffers`. 
--- For disk-heavy workloads, you can increase this to up to 90% of total memory. You may also want to disable swap with network storage to avoid io hang.
--- Note: A restart is required for this setting to take effect.
-ALTER SYSTEM SET shared_buffers = '8GB';
-```
-
-### Indexing prewarm
-To prewarm the index, you can use the following SQL. It will significantly improve performance when using limited memory.
-```SQL
--- vchordrq_prewarm(index_name::regclass) to prewarm the index into the shared buffer
-SELECT vchordrq_prewarm('gist_train_embedding_idx'::regclass)"
-```
-
-
-### Index Build Time
-Index building can parallelized, and with external centroid precomputation, the total time is primarily limited by disk speed. Optimize parallelism using the following settings:
-
-```SQL
--- Set this to the number of CPU cores available for parallel operations.
-SET max_parallel_maintenance_workers = 8;
-SET max_parallel_workers = 8;
-
--- Adjust the total number of worker processes. 
--- Note: A restart is required for this setting to take effect.
-ALTER SYSTEM SET max_worker_processes = 8;
-```
-
-### Indexing Progress
-You can check the indexing progress by querying the `pg_stat_progress_create_index` view.
-```SQL
-SELECT phase, round(100.0 * blocks_done / nullif(blocks_total, 0), 1) AS "%" FROM pg_stat_progress_create_index;
-```
-
-### External Index Precomputation
-
-Unlike pure SQL, an external index precomputation will first do clustering outside and insert centroids to a PostgreSQL table. Although it might be more complicated, external build is definitely much faster on larger dataset (>5M).
-
-To get started, you need to do a clustering of vectors using `faiss`, `scikit-learn` or any other clustering library.
-
-The centroids should be preset in a table of any name with 3 columns:
-- id(integer): id of each centroid, should be unique
-- parent(integer, nullable): parent id of each centroid, should be NULL for normal clustering
-- vector(vector): representation of each centroid, `pgvector` vector type
-
-And example could be like this:
-
-```sql
--- Create table of centroids
-CREATE TABLE public.centroids (id integer NOT NULL UNIQUE, parent integer, vector vector(768));
--- Insert centroids into it
-INSERT INTO public.centroids (id, parent, vector) VALUES (1, NULL, '{0.1, 0.2, 0.3, ..., 0.768}');
-INSERT INTO public.centroids (id, parent, vector) VALUES (2, NULL, '{0.4, 0.5, 0.6, ..., 0.768}');
-INSERT INTO public.centroids (id, parent, vector) VALUES (3, NULL, '{0.7, 0.8, 0.9, ..., 0.768}');
--- ...
-
--- Create index using the centroid table
-CREATE INDEX ON gist_train USING vchordrq (embedding vector_l2_ops) WITH (options = $$
-[build.external]
-table = 'public.centroids'
-$$);
-```
-
-To simplify the workflow, we provide end-to-end scripts for external index pre-computation, see [scripts](https://github.com/tensorchord/VectorChord/tree/main/scripts#run-external-index-precomputation-toolkit).
-
-### Installing From Source
-Install pgrx according to [pgrx's instruction](https://github.com/pgcentralfoundation/pgrx?tab=readme-ov-file#getting-started).
-```bash
-cargo install --locked cargo-pgrx
-cargo pgrx init --pg17 $(which pg_config) # To init with system postgres, with pg_config in PATH
-cargo pgrx install --release --sudo # To install the extension into the system postgres with sudo
-```
-
-## Limitations
-- Data Type Support: Currently, only the `f32` data type is supported for vectors.
-- Architecture Compatibility: The fast-scan kernel is optimized for x86_64 architectures. While it runs on aarch64, performance may be lower.
-- KMeans Clustering: The built-in KMeans clustering is not yet fully optimized and may require substantial memory. We strongly recommend using external centroid precomputation for efficient index construction.
-
+* [Indexing](../usage/indexing)
+* [Performance Tuning](../usage/performance-tuning)
+* [Advanced Features](../usage/advanced-features)
 
 ## License
 
-This project is licensed under the [GNU Affero General Public License v3.0](https://github.com/tensorchord/VectorChord/blob/main/LICENSE) and as commercial software. For commercial licensing, please contact us at support@tensorchord.ai.
+This software is licensed under a dual license model:
+
+1. **GNU Affero General Public License v3 (AGPLv3)**: You may use, modify, and distribute this software under the terms of the AGPLv3.
+
+2. **Elastic License v2 (ELv2)**: You may also use, modify, and distribute this software under the Elastic License v2, which has specific restrictions.
+
+You may choose either license based on your needs. We welcome any commercial collaboration or support, so please email us <vectorchord-inquiry@tensorchord.ai> with any questions or requests regarding the licenses.
