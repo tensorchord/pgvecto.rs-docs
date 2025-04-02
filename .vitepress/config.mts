@@ -162,7 +162,7 @@ export default defineConfig({
           text: 'Getting Started',
           collapsed: false,
           items: [
-            { text: 'VectorChord overview', link: '/vectorchord/getting-started/overview' },
+            { text: 'Overview', link: '/vectorchord/getting-started/overview' },
             { text: 'Installation', link: '/vectorchord/getting-started/installation' },
           ],
         },
@@ -171,6 +171,8 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: 'Indexing', link: '/vectorchord/usage/indexing' },
+            { text: 'Performance Tuning', link: '/vectorchord/usage/performance-tuning' },
+            { text: 'Advanced Features', link: '/vectorchord/usage/advanced-features' },
           ]
         },
         {
