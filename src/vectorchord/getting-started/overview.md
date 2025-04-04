@@ -77,6 +77,7 @@ SELECT * FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 5;
 For more usage, please read:
 
 * [Indexing](../usage/indexing)
+* [Indexing on MaxSim Operators](../usage/indexing-on-maxsim-operators)
 * [Performance Tuning](../usage/performance-tuning)
 * [Advanced Features](../usage/advanced-features)
 
