@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: "pgvecto.rs"
+  name: "VectorChord"
   text: "Scalable Vector Search in Postgres"
   tagline: Revolutionize Vector Search, not Database
   image:
@@ -12,7 +12,7 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /getting-started/overview
+      link: /vectorchord/getting-started/overview
     # - theme: alt
     #   text: API Reference
     #   link: /api-examples
