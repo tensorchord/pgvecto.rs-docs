@@ -30,6 +30,13 @@ export default defineConfig({
     ],
     [
       'script',
+      {
+        "type": "text/javascript"
+      },
+      '(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, document, "clarity", "script", "qypum3ti3k");'
+    ],
+    [
+      'script',
       {},
       "window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());\ngtag('config', 'G-YGY455DH2T');"
     ],
@@ -251,7 +258,7 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/tensorchord/pgvecto.rs' },
+      { icon: 'github', link: 'https://github.com/tensorchord/VectorChord' },
       { icon: 'discord', link: 'https://discord.gg/KqswhpVgdU' }
     ],
     search: {
