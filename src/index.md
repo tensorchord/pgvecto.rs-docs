@@ -23,7 +23,10 @@ features:
   - title: Scalable
     details: Designed to be scalable, supports half-precision and quantization for more vectors
   - title: 100% Rust
-    details: pgvecto.rs is implemented in Rust rather than C like many existing Postgres extensions. Rust provides many advantages for an extension like pgvecto.rs.
+    details: VectorChord is implemented in Rust rather than C like many existing Postgres extensions.
   - title: Relational + Semantic Search
-    details: pgvecto.rs allows you to use the same SQL interface for both relational and semantic search (and even combine them).
+    details: VectorChord allows you to use the same SQL interface for both relational and semantic search (and even combine them).
+  - title: BM25 Search
+    link: https://github.com/tensorchord/VectorChord-bm25
+    details: Use VectorChord-bm25 for BM25 ranking in PostgreSQL
 ---

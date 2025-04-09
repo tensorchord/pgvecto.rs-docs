@@ -20,6 +20,7 @@ export default defineConfig({
     hostname: 'https://docs.vectorchord.ai/'
   },
   head: [
+    ['link', { rel: 'icon', href: '/favicon.ico' }],
     // Google Analytics
     [
       'script',
