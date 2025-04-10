@@ -49,9 +49,9 @@ In addition to the base image with the VectorChord extension, we provide an all-
 1. Launch container
 
 ```sh
-docker run   \           
-  --name vchord-suite  \
-  -e POSTGRES_PASSWORD=postgres  \
+docker run \
+  --name vchord-suite \
+  -e POSTGRES_PASSWORD=postgres \
   -p 5432:5432 \
   -d tensorchord/vchord-suite:pg17-20250408
   # If you want to use ghcr image, you can change the image to `ghcr.io/tensorchord/vchord-suite:pg17-20250408`.
