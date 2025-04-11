@@ -8,6 +8,10 @@ outline: [2,3]
 Most of VectorChord's vector types are supported by `pgvector`. 
 Therefore, migrating from PGVecto.rs to VectorChord is a simple inversion of [migrating from pgvector to PGVecto.rs](../../admin/migration).
 
+:::tip
+We provide migration image [modelzai/pgvectors-vchord](https://hub.docker.com/repository/docker/modelzai/pgvectors-vchord/tags) for pgvecto.rs to VectorChord and vice versa.
+:::
+
 ### Prerequisites
 
 Let's suppose that you have a table with vector data, and the extension `PGVecto.rs` installed. A simple example would be:
@@ -119,7 +123,7 @@ This step will cause some downtime, due to:
 DROP INDEX IF EXISTS index_vector;
 
 -- From vector type
-ALTER TABLE table_vector ALTER COLUMN vec_f32 TYPE public.vector USING vec_f32::real[]::public.vector;
+ALTER TABLE table_vector ALTER COLUMN vec_f32 TYPE public.vector(3) USING vec_f32::real[]::public.vector;
 
 -- From halfvec type
 ALTER TABLE table_float16 ALTER COLUMN vec_f16 TYPE public.halfvec(3) USING vec_f16::vectors.vector::real[]::public.halfvec;
