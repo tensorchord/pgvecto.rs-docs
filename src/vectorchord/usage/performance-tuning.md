@@ -14,6 +14,12 @@ SET max_parallel_workers = 8;
 ALTER SYSTEM SET max_worker_processes = 16;
 ```
 
+The number of parallel workers also depends on the table's configuration. By default, this is automatically determined by PostgreSQL. If PostgreSQL identifies it as disabled, parallel index builds will not take effect. You can override PostgreSQL's behavior by adjusting the table's `parallel_workers` setting to enable parallel builds.
+
+```sql
+ALTER TABLE t set (parallel_workers = 8);
+```
+
 When building an index on a table with more than 10 million vectors, you can choose to consume more memory to accelerate the process by setting `build.pin` to `true`:
 
 ```sql

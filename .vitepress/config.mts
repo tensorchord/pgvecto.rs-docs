@@ -179,6 +179,7 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: 'Indexing', link: '/vectorchord/usage/indexing' },
+            { text: 'Indexing with MaxSim Operators', link: '/vectorchord/usage/indexing-with-maxsim-operators' },
             { text: 'Performance Tuning', link: '/vectorchord/usage/performance-tuning' },
             { text: 'Advanced Features', link: '/vectorchord/usage/advanced-features' },
           ]
