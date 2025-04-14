@@ -4,6 +4,8 @@ There are four ways to install VectorChord.
 
 ## Docker
 
+### VectorChord Image
+
 <a href="https://hub.docker.com/r/tensorchord/vchord-postgres"><img src="https://img.shields.io/docker/pulls/tensorchord/vchord-postgres" /></a>
 
 The easiest way to try VectorChord is to run it from a ready-to use [Docker image](https://hub.docker.com/r/tensorchord/vchord-postgres).
@@ -37,6 +39,26 @@ To achieve full performance, please mount the volume to PostgreSQL data director
 You can configure PostgreSQL by the reference of the parent image in https://hub.docker.com/_/postgres/.
 
 :::
+
+### VectorChord Suite Image
+
+<a href="https://hub.docker.com/r/tensorchord/vchord-suite"><img src="https://img.shields.io/docker/pulls/tensorchord/vchord-suite"/></a>
+
+In addition to the base image with the VectorChord extension, we provide an all-in-one image, `tensorchord/vchord-suite:pg17-latest`. This comprehensive image includes all official TensorChord extensions. Developers should select an image tag that is compatible with their extension's version, as indicated in [the support matrix](https://github.com/tensorchord/VectorChord-images?tab=readme-ov-file#support-matrix).
+
+1. Launch container
+
+```sh
+docker run \
+  --name vchord-suite \
+  -e POSTGRES_PASSWORD=postgres \
+  -p 5432:5432 \
+  -d tensorchord/vchord-suite:pg17-20250408
+  # If you want to use ghcr image, you can change the image to `ghcr.io/tensorchord/vchord-suite:pg17-20250408`.
+  # if you want to use the latest version, you can use the tag `pg17-latest`.
+```
+
+Other sections may align with the above.
 
 ## Debian packages
 
