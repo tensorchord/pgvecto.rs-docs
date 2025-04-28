@@ -180,6 +180,7 @@ export default defineConfig({
           items: [
             { text: 'Indexing', link: '/vectorchord/usage/indexing' },
             { text: 'Indexing with MaxSim Operators', link: '/vectorchord/usage/indexing-with-maxsim-operators' },
+            { text: 'Search', link: '/vectorchord/usage/search' },
             { text: 'Performance Tuning', link: '/vectorchord/usage/performance-tuning' },
             { text: 'Advanced Features', link: '/vectorchord/usage/advanced-features' },
           ]
