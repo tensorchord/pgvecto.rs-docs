@@ -48,10 +48,20 @@ The indexing mechanism for `MaxSim` operators works similarly to other vector op
 
 There are a few extra options used by maxsim indexes.
 
-### GUC Parameter `vchordrq.maxsim_refine`
+- `vchordrq.maxsim_refine`:
+    - Description: This GUC parameter `vchordrq.maxsim_refine` makes the index rerank the results, replacing RaBitQ’s estimated distances with actual distances, until the distances of the top-k nearest vectors have all been recalculated. The default value is `0`, meaning the index always uses RaBitQ's estimated distances.
+    - Type: Integer
+    - Default: `0`
+    - Example:
+        - `SET vchordrq.maxsim_refine = 0` means that the index always uses RaBitQ's estimated distances.
+        - `SET vchordrq.maxsim_refine = 1024` means that the index reranks the results, replacing RaBitQ’s estimated distances with actual distances, until the distances of the top-1024 nearest vectors have all been recalculated.
+    - Note: The acceptable range is from `0` to `2,147,483,647`.
+- `vchordrq.maxsim_threshold`:
+    - Description: This GUC parameter `vchordrq.maxsim_threshold` enables more aggressive estimation of missing values. With this setting, the index identifies the first cluster in the lowest-level lists whose cumulative size meets or exceeds `vchordrq.maxsim_threshold`, and uses its distance to the query vector for estimating the missing values. The default value of `vchordrq.maxsim_threshold` is `0`, meaning this more aggressive estimation strategy is not enabled by default.
+    - Type: Integer
+    - Default: `0`
+    - Example:
+        - `SET vchordrq.maxsim_threshold = 0` means that the more aggressive estimation strategy is not enabled by default.
+        - `SET vchordrq.maxsim_threshold = 1024` means that the index identifies the first cluster in the lowest-level lists whose cumulative size meets or exceeds `vchordrq.maxsim_threshold`, and uses its distance to the query vector for estimating the missing values.
+    - Note: The acceptable range is from `0` to `2,147,483,647`.
 
-Generally, the default index settings already offer great performance and acceptable accuracy. However, if you prefer great accuracy, you can do so by adjusting the GUC parameter `vchordrq.maxsim_refine`. This parameter makes the index rerank the results, replacing RaBitQ’s estimated distances with actual distances, until the distances of the top-k nearest vectors have all been recalculated. The default value is `0`, meaning the index always uses RaBitQ's estimated distances. The acceptable range is from `0` to `2,147,483,647`.
-
-### GUC Parameter `vchordrq.maxsim_threshold`
-
-As certain vectors are missing from the search results, the results cannot be directly merged. The `MaxSim` index estimates the missing values using the maximum distance of all distances. The GUC parameter `vchordrq.maxsim_threshold` enables more aggressive estimation of missing values. With this setting, the index identifies the first cluster in the lowest-level lists whose cumulative size meets or exceeds `vchordrq.maxsim_threshold`, and uses its distance to the query vector for estimating the missing values. The default value of `vchordrq.maxsim_threshold` is `0`, meaning this more aggressive estimation strategy is not enabled by default. The acceptable range is from `0` to `2,147,483,647`.
