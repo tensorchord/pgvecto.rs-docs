@@ -68,7 +68,7 @@ SELECT 1 FROM items WHERE category_id = 1 ORDER BY embedding <#> '[0.5,0.5,0.5]'
     - Example:
         - `SET vchordrq.io_rerank = 'prefetch_buffer'` to optimize for disk-based vector search on PostgreSQL versions before 17.
         - `SET vchordrq.io_rerank = 'read_stream'` to use the optimized strategy available on PostgreSQL 17.
-- `vchordrq.early_filter`
+- `vchordrq.prererank_filtering`
     - Description: This GUC parameter controls whether to evaluate WHERE expressions before reranking. When set to true, rows that don't match the WHERE clause are discarded and reranking is skipped for these rows, which can improve search performance for queries with filtering conditions.
     - Type: Boolean
     - Default: `false`
