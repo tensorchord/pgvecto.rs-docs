@@ -38,7 +38,7 @@ SELECT 1 FROM items WHERE category_id = 1 ORDER BY embedding <#> '[0.5,0.5,0.5]'
     - Type: Float
     - Default: `1.9`
     - Example:
-        - `SET vchordrq.epsilon = 0.1` means you not need a very high accuracy. 
+        - `SET vchordrq.epsilon = 0.1` indicates that high accuracy is not required.  
         - `SET vchordrq.epsilon = 4.0` means you need a very high accuracy.
     - Note: The default value is `1.9`. The acceptable range is from `0.0` to `4.0`.
 
@@ -60,11 +60,6 @@ SELECT 1 FROM items WHERE category_id = 1 ORDER BY embedding <#> '[0.5,0.5,0.5]'
         - `read_buffer`: Indicates a preference for ReadBuffer.
         - `prefetch_buffer`: Indicates a preference for both PrefetchBuffer and ReadBuffer. This option is optimized for disk vector search and is the default on PostgreSQL 13, 14, 15, 16.
         - `read_stream`: Indicates a preference for read_stream. This option is optimized for disk vector search and is only available in PostgreSQL 17. It's the default on PostgreSQL 17.
-    - Notes:
-        - The prefetching distance of `prefetch_buffer` depends on the compile-time constant `WINDOW_SIZE`.
-        - The prefetching distance of `read_stream` depends on the GUC parameter `effective_io_concurrency`.
-        - Prefetching for the bit vector has not been implemented.
-        - Prefetching for the centroid has been implemented, but is currently disabled.
     - Example:
         - `SET vchordrq.io_rerank = 'prefetch_buffer'` to optimize for disk-based vector search on PostgreSQL versions before 17.
         - `SET vchordrq.io_rerank = 'read_stream'` to use the optimized strategy available on PostgreSQL 17.
