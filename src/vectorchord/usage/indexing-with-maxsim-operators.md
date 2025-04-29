@@ -49,7 +49,7 @@ The indexing mechanism for `MaxSim` operators works similarly to other vector op
 There are a few extra options used by maxsim indexes.
 
 - `vchordrq.maxsim_refine`:
-    - Description: This GUC parameter `vchordrq.maxsim_refine` makes the index rerank the results, replacing RaBitQ’s estimated distances with actual distances, until the distances of the top-k nearest vectors have all been recalculated. The default value is `0`, meaning the index always uses RaBitQ's estimated distances.
+    - Description: This GUC parameter `vchordrq.maxsim_refine` makes the index rerank the results, replacing RaBitQ’s estimated distances with actual distances, until the distances of the top-k nearest vectors have all been recalculated.
     - Type: Integer
     - Default: `0`
     - Example:
