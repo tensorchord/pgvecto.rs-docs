@@ -44,7 +44,7 @@ SELECT 1 FROM items WHERE category_id = 1 ORDER BY embedding <#> '[0.5,0.5,0.5]'
 
     You can refer to [performance tuning](../usage/performance-tuning#query-performance) for more information about tuning the query performance.
 - `vchordrq.prewarm_dim`
-    - Description: The `vchordrq.prewarm_dim` GUC parameter is used to prewarm the projection matrix for the specified dimensions. This can help to reduce the latency of the first query after the database is restarted. The default value is `64,128,256,384,512,768,1024,1536`, which means that the projection matrix will be prewarmed for these dimensions.
+    - Description: The `vchordrq.prewarm_dim` GUC parameter is used to prewarm the projection matrix for the specified dimensions. This can help to reduce the latency of the first query after the database is restarted. The default value is `64,128,256,384,512,768,1024,1536`, which means that the projection matrix will be prewarmed for these dimensions when PostgreSQL starts.
     - Type: String
     - Default: `64,128,256,384,512,768,1024,1536`
     - Example:
