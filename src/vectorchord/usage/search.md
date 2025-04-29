@@ -40,7 +40,7 @@ SELECT 1 FROM items WHERE category_id = 1 ORDER BY embedding <#> '[0.5,0.5,0.5]'
     - Example:
         - `SET vchordrq.epsilon = 0.1` means you not need a very high accuracy. 
         - `SET vchordrq.epsilon = 4.0` means you need a very high accuracy.
-    - Note: The default value is `1.9`. The acceptable range is from `0` to `4`.
+    - Note: The default value is `1.9`. The acceptable range is from `0.0` to `4.0`.
 
     You can refer to [performance tuning](../usage/performance-tuning#query-performance) for more information about tuning the query performance.
 - `vchordrq.prewarm_dim`
