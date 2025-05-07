@@ -53,11 +53,16 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'VectorChord Docs', link: '/vectorchord/getting-started/overview' },
-      { text: 'pgvecto.rs Docs', link: '/getting-started/overview' },
+      { text: 'Docs', link: '/vectorchord/' },
       { text: 'Cloud', link: '/cloud/' },
-      { text: 'Reference', link: '/reference/' },
       { text: 'Blog', link: 'https://blog.vectorchord.ai/' },
+      {
+        text: 'Others',
+        items: [
+          { text: 'pgvecto.rs Docs', link: '/getting-started/overview' },
+          { text: 'Reference', link: '/reference/' },
+        ]
+      }
     ],
 
     editLink: {
@@ -184,6 +189,13 @@ export default defineConfig({
             { text: 'Performance Tuning', link: '/vectorchord/usage/performance-tuning' },
             { text: 'Advanced Features', link: '/vectorchord/usage/advanced-features' },
           ]
+        },
+        {
+          text: 'Use Cases',
+          collapsed: false,
+          items: [
+            { text: 'Hybrid search', link: '/vectorchord/use-case/hybrid-search' },
+          ],
         },
         {
           text: 'Administration',
