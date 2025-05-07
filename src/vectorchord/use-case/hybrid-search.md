@@ -171,7 +171,7 @@ cursor.execute(
 
 Let me explain this operation in detail. The `tokenize` function is used to tokenize the text with the specified tokenizer. In this case, we used the **Unicode tokenizer**. The output of the `tokenize` function is a BM25 vector, which is a sparse vector that stores the vocabulary ID and frequency of each word in the text. For example, `1035:7` means the word with vocabulary ID `1035` appears 7 times in the text.
 
-```pgsql
+```SQL
 postgres=# select bm25 from fiqa_corpus limit 1;
 -- Output: {1035:7, 1041:1, 1996:1, 1997:1, 1999:3, 2010:3, 2015:7, 2019:1, 2022:1, 2028:4, 2036:2, 2041:1, 2051:2, 2054...
 ```
