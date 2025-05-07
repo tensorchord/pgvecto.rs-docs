@@ -41,64 +41,81 @@ The table below shows the operator classes for types and operator in the index.
 | inner product (`<#>`)   | `vector_ip_ops`     | `halfvec_ip_ops`     |
 | cosine distance (`<=>`) | `vector_cosine_ops` | `halfvec_cosine_ops` |
 
+## Important Usage Recommendations
+
+When dealing with large datasets (>1M vectors), please follow these guidelines for optimal performance:
+
+1. First insert all vectors into the table before building the index
+2. Select an appropriate number of lists (`build.internal.lists` parameter) based on your dataset size
+3. Failure to follow these steps may result in significantly increased query latency
+
 ## Indexing Options
 
-- `residual_quantization`
-    - Description: This index parameter determines whether residual quantization is used. If you not familiar with residual quantization, you can read this [blog](https://drscotthawley.github.io/blog/posts/2023-06-12-RVQ.html) for more information. Shortly, residual quantization is a technique that improves the accuracy of vector search by quantizing the residuals of the vectors.
-    - Type: Boolean
-    - Default: `false`
-    - Example:
-        - `residual_quantization = false` means that residual quantization is not used.
-        - `residual_quantization = true` means that residual quantization is used.
-    - Note: set `residual_quantization` to `true` if your model generates embeddings where the metric is Euclidean distance.
+#### `residual_quantization`
+    
+- Description: This index parameter determines whether residual quantization is used. If you not familiar with residual quantization, you can read this [blog](https://drscotthawley.github.io/blog/posts/2023-06-12-RVQ.html) for more information. Shortly, residual quantization is a technique that improves the accuracy of vector search by quantizing the residuals of the vectors.
+- Type: Boolean
+- Default: `false`
+- Example:
+    - `residual_quantization = false` means that residual quantization is not used.
+    - `residual_quantization = true` means that residual quantization is used.
+- Note: set `residual_quantization` to `true` if your model generates embeddings where the metric is Euclidean distance.
 
 ### Internal Build Parameters
 
 The internal build parameters are specified in the `options` using [TOML: Tom's Obvious Minimal Language](https://toml.io/) string of the index. The following parameters are available:
 
-- `build.internal.lists`
-    - Description: This index parameter determines the hierarchical structure of the vector space partitioning.
-    - Type: List of integers
-    - Default: `[]`
-    - Example:
-        - `build.internal.lists = []` means that the vector space is not partitioned.
-        - `build.internal.lists = [4096]` means the vector space is divided into $4096$ cells.
-        - `build.internal.lists = [4096, 262144]` means the vector space is divided into $4096$ cells, and those cells are further divided into $262144$ smaller cells.
-    - Note: The index partitions the vector space into multiple Voronoi cells using centroids, iteratively creating a hierarchical space partition tree. Each leaf node in this tree represents a region with an associated list storing vectors in that region. During insertion, vectors are placed in lists corresponding to their appropriate leaf nodes. For queries, the index optimizes search by excluding lists whose leaf nodes are distant from the query vector, effectively pruning the search space. 
-- `build.internal.spherical_centroids`
-    - Description: This index parameter determines whether perform spherical k-means -- the centroids are L2 normalized after each iteration, you can refer to option `spherical` in [here](https://github.com/facebookresearch/faiss/wiki/Faiss-building-blocks:-clustering,-PCA,-quantization#additional-options).
-    - Type: Boolean
-    - Default: `false`
-    - Example:
-        - `build.internal.spherical_centroids = false` means that the centroids are not spherical.
-        - `build.internal.spherical_centroids = true` means that the centroids are spherical.
-    - Note: Set this to `false` if your model generates embeddings where the metric is cosine similarity.
-- `build.internal.sampling_factor`
-    - Description: This index parameter determines the number of vectors sampled by K-means algorithm. The higher this value, the slower the build, the greater the memory consumption, and the better search performance.
-    - Type: Integer
-    - Default: `256`
-    - Example:
-        - `build.internal.sampling_factor = 256` means that the K-means algorithm samples $256$ vectors.
-        - `build.internal.sampling_factor = 1024` means that the K-means algorithm samples $1024$ vectors.
-    - Note: The K-means algorithm is a clustering algorithm that partitions the data into $k$ clusters. The `sampling_factor` parameter controls the number of vectors sampled by the K-means algorithm. A higher value means that more vectors are sampled, which can lead to better search performance, but also increases the build time and memory consumption.
-- `build.internal.kmeans_iterations`
-    - Description: This index parameter determines the number of iterations for K-means algorithm. The higher this value, the slower the build.
-    - Type: Integer
-    - Default: `10`
-    - Example:
-        - `build.internal.kmeans_iterations = 10` means that the K-means algorithm runs for $10$ iterations.
-        - `build.internal.kmeans_iterations = 100` means that the K-means algorithm runs for $100$ iterations.
-    - Note: The K-means algorithm is an iterative algorithm that converges to a local minimum. The `kmeans_iterations` parameter controls the number of iterations for the K-means algorithm. A higher value means that more iterations are performed, which can lead to better search performance, but also increases the build time. Possible values: any integer between `0` and `1024`.
-- `build.internal.build_threads`
-    - Description: This index parameter determines the number of threads used by K-means algorithm. The higher this value, the faster the build.
-    - Type: Integer
-    - Default: `1`
-    - Example:
-        - `build.internal.build_threads = 1` means that the K-means algorithm uses $1$ thread.
-        - `build.internal.build_threads = 4` means that the K-means algorithm uses $4$ threads.
-    - Note: The K-means algorithm is a parallelizable algorithm. The `build_threads` parameter controls the number of threads used by the K-means algorithm. A higher value means that more threads are used, which can lead to faster build times. Possible values: any integer between `1` and `255`
+#### `build.internal.lists`
     
+- Description: This index parameter determines the hierarchical structure of the vector space partitioning.
+- Type: List of integers
+- Default: `[]`
+- Example:
+    - `build.internal.lists = []` means that the vector space is not partitioned.
+    - `build.internal.lists = [4096]` means the vector space is divided into $4096$ cells.
+    - `build.internal.lists = [4096, 262144]` means the vector space is divided into $4096$ cells, and those cells are further divided into $262144$ smaller cells.
+- Note: The index partitions the vector space into multiple Voronoi cells using centroids, iteratively creating a hierarchical space partition tree. Each leaf node in this tree represents a region with an associated list storing vectors in that region. During insertion, vectors are placed in lists corresponding to their appropriate leaf nodes. For queries, the index optimizes search by excluding lists whose leaf nodes are distant from the query vector, effectively pruning the search space. The `lists` option should be no less than `4 * sqrt(vectors)`, `vectors` is the number of vectors in the table. 
 
+#### `build.internal.spherical_centroids`
+
+- Description: This index parameter determines whether perform spherical k-means -- the centroids are L2 normalized after each iteration, you can refer to option `spherical` in [here](https://github.com/facebookresearch/faiss/wiki/Faiss-building-blocks:-clustering,-PCA,-quantization#additional-options).
+- Type: Boolean
+- Default: `false`
+- Example:
+    - `build.internal.spherical_centroids = false` means that the centroids are not spherical.
+    - `build.internal.spherical_centroids = true` means that the centroids are spherical.
+- Note: Set this to `false` if your model generates embeddings where the metric is cosine similarity.
+
+#### `build.internal.sampling_factor`
+    
+- Description: This index parameter determines the number of vectors sampled by K-means algorithm. The higher this value, the slower the build, the greater the memory consumption, and the better search performance.
+- Type: Integer
+- Default: `256`
+- Example:
+    - `build.internal.sampling_factor = 256` means that the K-means algorithm samples $256$ vectors.
+    - `build.internal.sampling_factor = 1024` means that the K-means algorithm samples $1024$ vectors.
+- Note: The K-means algorithm is a clustering algorithm that partitions the data into $k$ clusters. The `sampling_factor` parameter controls the number of vectors sampled by the K-means algorithm. A higher value means that more vectors are sampled, which can lead to better search performance, but also increases the build time and memory consumption.
+
+#### `build.internal.kmeans_iterations`
+    
+- Description: This index parameter determines the number of iterations for K-means algorithm. The higher this value, the slower the build.
+- Type: Integer
+- Default: `10`
+- Example:
+    - `build.internal.kmeans_iterations = 10` means that the K-means algorithm runs for $10$ iterations.
+    - `build.internal.kmeans_iterations = 100` means that the K-means algorithm runs for $100$ iterations.
+- Note: The K-means algorithm is an iterative algorithm that converges to a local minimum. The `kmeans_iterations` parameter controls the number of iterations for the K-means algorithm. A higher value means that more iterations are performed, which can lead to better search performance, but also increases the build time. Possible values: any integer between `0` and `1024`.
+
+#### `build.internal.build_threads`
+    
+- Description: This index parameter determines the number of threads used by K-means algorithm. The higher this value, the faster the build.
+- Type: Integer
+- Default: `1`
+- Example:
+    - `build.internal.build_threads = 1` means that the K-means algorithm uses $1$ thread.
+    - `build.internal.build_threads = 4` means that the K-means algorithm uses $4$ threads.
+- Note: The K-means algorithm is a parallelizable algorithm. The `build_threads` parameter controls the number of threads used by the K-means algorithm. A higher value means that more threads are used, which can lead to faster build times. Possible values: any integer between `1` and `255`
+    
 ### External Build Parameters
 
 To reduce the computational load on your database server during index building, refer to the [External Index Precomputation Toolkit](https://github.com/tensorchord/VectorChord/tree/main/scripts#run-external-index-precomputation-toolkit) for more information.
