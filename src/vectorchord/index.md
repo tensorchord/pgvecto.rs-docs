@@ -16,6 +16,7 @@
 ## Use Cases
 
 - [Hybrid Search](/vectorchord/use-case/hybrid-search)
+- [ColBERT Rerank](/vectorchord/use-case/colbert-rerank)
 
 ## Admin
 
