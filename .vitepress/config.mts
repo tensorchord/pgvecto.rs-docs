@@ -60,7 +60,6 @@ export default defineConfig({
         text: 'Others',
         items: [
           { text: 'pgvecto.rs Docs', link: '/getting-started/overview' },
-          { text: 'Reference', link: '/reference/' },
         ]
       }
     ],
@@ -71,25 +70,6 @@ export default defineConfig({
     },
 
     sidebar: {
-      '/reference/': [
-        {
-          text: 'Reference',
-          collapsed: false,
-          items: [
-            { text: 'Schema', link: '/reference/schema' },
-            { text: 'Indexing Options', link: '/reference/indexing_options' },
-            { text: 'Search Options', link: '/reference/search_options' },
-            {
-              text: 'Vector Types', link: '/reference/vector-types', items: [
-                { text: 'Half-Precision Vector', link: '/reference/vector-types/vecf16' },
-                { text: '8-Bit Integer Vector', link: '/reference/vector-types/veci8' },
-                { text: 'Sparse Vector', link: '/reference/vector-types/svector' },
-                { text: 'Binary Vector', link: '/reference/vector-types/bvector' },
-              ]
-            },
-          ],
-        },
-      ],
       '/': [
         {
           text: 'Getting Started',
@@ -154,6 +134,23 @@ export default defineConfig({
           ]
         },
         {
+          text: 'Reference',
+          collapsed: false,
+          items: [
+            { text: 'Schema', link: '/reference/schema' },
+            { text: 'Indexing Options', link: '/reference/indexing_options' },
+            { text: 'Search Options', link: '/reference/search_options' },
+            {
+              text: 'Vector Types', link: '/reference/vector-types', items: [
+                { text: 'Half-Precision Vector', link: '/reference/vector-types/vecf16' },
+                { text: '8-Bit Integer Vector', link: '/reference/vector-types/veci8' },
+                { text: 'Sparse Vector', link: '/reference/vector-types/svector' },
+                { text: 'Binary Vector', link: '/reference/vector-types/bvector' },
+              ]
+            },
+          ],
+        },
+        {
           text: 'Community',
           collapsed: true,
           items: [
@@ -197,14 +194,6 @@ export default defineConfig({
             { text: 'Hybrid search', link: '/vectorchord/use-case/hybrid-search' },
             { text: 'ColBERT Rerank', link: '/vectorchord/use-case/colbert-rerank' },
             { text: 'ColQwen2 & Modal', link: '/vectorchord/use-case/colqwen2-modal' },
-          ],
-        },
-        {
-          text: 'Benchmark',
-          collapsed: false,
-          items: [
-            { text: 'Pricing', link: '/vectorchord/benchmark/pricing' },
-            { text: 'Performance', link: '/vectorchord/benchmark/performance' },
           ],
         },
         {
