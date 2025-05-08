@@ -1,6 +1,3 @@
 [default]
 extend-ignore-re = ['\$.+\$']
 extend-ignore-identifiers-re = ['\$.+\$']
-
-[default.extend-words]
-Rabit = "Rabit"

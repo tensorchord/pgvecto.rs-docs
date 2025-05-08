@@ -28,7 +28,7 @@ SELECT 1 FROM items WHERE category_id = 1 ORDER BY embedding <#> '[0.5,0.5,0.5]'
 #### `vchordrq.probes`
     
 - Description: This GUC parameter `vchordrq.probes` controls how the vector space assists in query pruning. The more probes, the more accurate the search, but also the slower it is.
-- Type: Integer
+- Type: integer
 - Default: ``
 - Example:
     - `SET vchordrq.probes = 1` means that only one probe is used.
@@ -38,7 +38,7 @@ SELECT 1 FROM items WHERE category_id = 1 ORDER BY embedding <#> '[0.5,0.5,0.5]'
 #### `vchordrq.epsilon`
     
 - Description: Even after pruning, the number of retrieved vectors remains substantial. The index employs the RaBitQ algorithm to convert vectors into bit vectors, which require just $\frac{1}{32}$ the memory of single-precision floating-point vectors. With minimal floating-point operations, most computations are integer-based, leading to faster processing. Unlike typical quantization algorithms, RaBitQ not only estimates distances but also their lower bounds. The index computes the lower bound for each vector and dynamically adjusts the number of vectors needing recalculated distances, based on the query count, thus balancing performance and accuracy. The GUC parameter `vchordrq.epsilon` controls the conservativeness of the lower bounds of distances. The higher the value, the higher the accuracy, but the worse the performance. The default value provides unnecessarily high accuracy for most indexes, so you can try lowering this parameter to achieve better performance.
-- Type: Float
+- Type: float
 - Default: `1.9`
 - Example:
     - `SET vchordrq.epsilon = 0.1` indicates that high accuracy is not required.  
@@ -59,7 +59,7 @@ You can refer to [performance tuning](../usage/performance-tuning#query-performa
 #### `vchordrq.io_rerank`
     
 - Description: This GUC parameter controls the I/O prefetching strategy for vector search, which can significantly impact search performance on disk-based vectors.
-- Type: String
+- Type: string
 - Default: Depends on PostgreSQL version
     - PostgreSQL 13, 14, 15, 16: `prefetch_buffer`
     - PostgreSQL 17: `read_stream`
