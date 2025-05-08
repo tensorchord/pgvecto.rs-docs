@@ -86,6 +86,7 @@ Let's assume your `pgvecto.rs` version is `0.1.x` (replace `x` with a number).
 CREATE SCHEMA IF NOT EXISTS vectors;
 UPDATE pg_catalog.pg_extension SET extversion = '0.1.x' where extname = 'vectors';
 UPDATE pg_catalog.pg_extension SET extrelocatable = true where extname = 'vectors';
+CREATE SCHEMA vectors;
 ALTER EXTENSION vectors SET SCHEMA vectors;
 UPDATE pg_catalog.pg_extension SET extrelocatable = false where extname = 'vectors';
 ALTER EXTENSION vectors UPDATE;
