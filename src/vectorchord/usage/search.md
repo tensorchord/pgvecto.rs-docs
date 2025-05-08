@@ -65,7 +65,7 @@ You can refer to [performance tuning](../usage/performance-tuning#query-performa
     - PostgreSQL 17: `read_stream`
 - Possible values:
     - `read_buffer`: Indicates a preference for ReadBuffer.
-    - `prefetch_buffer`: Indicates a preference for both PrefetchBuffer and ReadBuffer. This option is optimized for disk vector search and is the default on PostgreSQL 13, 14, 15, 16.
+    - `prefetch_buffer`: Indicates a preference for both `PrefetchBuffer` and `ReadBuffer`. This option is optimized for disk vector search and is the default on PostgreSQL 13, 14, 15, 16.
     - `read_stream`: Indicates a preference for `read_stream`. This option is optimized for disk vector search and is only available in PostgreSQL 17. It's the default on PostgreSQL 17.
 - Example:
     - `SET vchordrq.io_rerank = 'prefetch_buffer'` to optimize for disk-based vector search on PostgreSQL versions before 17.
