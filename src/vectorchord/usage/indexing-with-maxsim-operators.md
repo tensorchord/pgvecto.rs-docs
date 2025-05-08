@@ -51,7 +51,7 @@ There are a few extra options used by maxsim indexes.
 #### `vchordrq.maxsim_refine`
     
 - Description: This GUC parameter `vchordrq.maxsim_refine` makes the index rerank the results, replacing RaBitQ’s estimated distances with actual distances, until the distances of the top-k nearest vectors have all been recalculated.
-- Type: Integer
+- Type: integer
 - Default: `0`
 - Example:
     - `SET vchordrq.maxsim_refine = 0` means that the index always uses RaBitQ's estimated distances.
