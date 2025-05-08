@@ -54,7 +54,7 @@ When dealing with large datasets (>1M vectors), please follow these guidelines f
 #### `residual_quantization`
     
 - Description: This index parameter determines whether residual quantization is used. If you not familiar with residual quantization, you can read this [blog](https://drscotthawley.github.io/blog/posts/2023-06-12-RVQ.html) for more information. Shortly, residual quantization is a technique that improves the accuracy of vector search by quantizing the residuals of the vectors.
-- Type: Boolean
+- Type: boolean
 - Default: `false`
 - Example:
     - `residual_quantization = false` means that residual quantization is not used.
@@ -79,7 +79,7 @@ The internal build parameters are specified in the `options` using [TOML: Tom's 
 #### `build.internal.spherical_centroids`
 
 - Description: This index parameter determines whether perform spherical k-means -- the centroids are L2 normalized after each iteration, you can refer to option `spherical` in [here](https://github.com/facebookresearch/faiss/wiki/Faiss-building-blocks:-clustering,-PCA,-quantization#additional-options).
-- Type: Boolean
+- Type: boolean
 - Default: `false`
 - Example:
     - `build.internal.spherical_centroids = false` means that the centroids are not spherical.
@@ -89,7 +89,7 @@ The internal build parameters are specified in the `options` using [TOML: Tom's 
 #### `build.internal.sampling_factor`
     
 - Description: This index parameter determines the number of vectors sampled by K-means algorithm. The higher this value, the slower the build, the greater the memory consumption, and the better search performance.
-- Type: Integer
+- Type: integer
 - Default: `256`
 - Example:
     - `build.internal.sampling_factor = 256` means that the K-means algorithm samples $256$ vectors.
@@ -99,22 +99,24 @@ The internal build parameters are specified in the `options` using [TOML: Tom's 
 #### `build.internal.kmeans_iterations`
     
 - Description: This index parameter determines the number of iterations for K-means algorithm. The higher this value, the slower the build.
-- Type: Integer
+- Type: integer
+- Domain: `[0, 1024]`
 - Default: `10`
 - Example:
     - `build.internal.kmeans_iterations = 10` means that the K-means algorithm runs for $10$ iterations.
     - `build.internal.kmeans_iterations = 100` means that the K-means algorithm runs for $100$ iterations.
-- Note: The K-means algorithm is an iterative algorithm that converges to a local minimum. The `kmeans_iterations` parameter controls the number of iterations for the K-means algorithm. A higher value means that more iterations are performed, which can lead to better search performance, but also increases the build time. Possible values: any integer between `0` and `1024`.
+- Note: The K-means algorithm is an iterative algorithm that converges to a local minimum. The `kmeans_iterations` parameter controls the number of iterations for the K-means algorithm. A higher value means that more iterations are performed, which can lead to better search performance, but also increases the build time. 
 
 #### `build.internal.build_threads`
     
 - Description: This index parameter determines the number of threads used by K-means algorithm. The higher this value, the faster the build.
-- Type: Integer
+- Type: integer
+- Domain: `[1, 255]`
 - Default: `1`
 - Example:
     - `build.internal.build_threads = 1` means that the K-means algorithm uses $1$ thread.
     - `build.internal.build_threads = 4` means that the K-means algorithm uses $4$ threads.
-- Note: The K-means algorithm is a parallelizable algorithm. The `build_threads` parameter controls the number of threads used by the K-means algorithm. A higher value means that more threads are used, which can lead to faster build times. Possible values: any integer between `1` and `255`
+- Note: The K-means algorithm is a parallelizable algorithm. The `build_threads` parameter controls the number of threads used by the K-means algorithm. A higher value means that more threads are used, which can lead to faster build times. 
     
 ### External Build Parameters
 

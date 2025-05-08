@@ -115,7 +115,7 @@ The data process and embedding generation code can be found [here](https://githu
 
 ### Semantic Search with VectorChord
 
-For semantic search, we utilize the [RabitQ](https://dev.to/gaoj0017/quantization-in-the-counterintuitive-high-dimensional-space-4feg) algorithm, which is highly optimized in the VectorChord PostgreSQL extension. RabitQ is a quantization algorithm for high-dimensional spaces, designed to improve the storage and retrieval efficiency of high-dimensional data, such as embedded vectors.
+For semantic search, we utilize the [RaBitQ](https://dev.to/gaoj0017/quantization-in-the-counterintuitive-high-dimensional-space-4feg) algorithm, which is highly optimized in the VectorChord PostgreSQL extension. RaBitQ is a quantization algorithm for high-dimensional spaces, designed to improve the storage and retrieval efficiency of high-dimensional data, such as embedded vectors.
 
 It achieves this by mapping high-dimensional vectors to a low-dimensional discrete space while preserving the similarity information of the original vectors. This process reduces storage requirements and computational costs while maintaining high retrieval accuracy.
 
