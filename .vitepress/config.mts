@@ -200,6 +200,14 @@ export default defineConfig({
           ],
         },
         {
+          text: 'Benchmark',
+          collapsed: false,
+          items: [
+            { text: 'Pricing', link: '/vectorchord/benchmark/pricing' },
+            { text: 'Performance', link: '/vectorchord/benchmark/performance' },
+          ],
+        },
+        {
           text: 'Administration',
           collapsed: false,
           items: [
