@@ -20,7 +20,7 @@ As always, VectorChord consistently achieves higher QPS at high recall levels (e
 
 <img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1743503547507/9847a9c4-fcaa-4d76-bf82-3f5c5e959ef4.png?auto=compress,format&format=webp" alt="All About Index Building" style="width: 100%; height: auto; margin: 0 auto; display: block;" />
 
-VectorChord maximizes CPU usage, reduces memory consumption, and shortens index-building time compared to pgvectorsale.
+VectorChord maximizes CPU usage, reduces memory consumption, and shortens index-building time compared to pgvectorscale.
 
 ## Insertion Time
 
