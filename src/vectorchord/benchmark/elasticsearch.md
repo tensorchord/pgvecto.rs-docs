@@ -1,6 +1,6 @@
 # Benchmark with Elasticsearch
 
-Here we present a comprehensive benchmark comparing our implementation of VectorChord-BM25 with ElasticSearch, focusing on two key metrics: QPS (Queries Per Second) and NDCG@10 (Normalized Discounted Cumulative Gain at rank 10). If you are interested in the details of our implementation, please refer out blog [VectorChord-BM25: Revolutionize PostgreSQL Search with BM25 Ranking — 3x Faster Than ElasticSearch](https://blog.vectorchord.ai/vectorchord-bm25-revolutionize-postgresql-search-with-bm25-ranking-3x-faster-than-elasticsearch).
+Here we present a comprehensive benchmark comparing our implementation of VectorChord-BM25 with ElasticSearch, focusing on two key metrics: QPS (Queries Per Second) and NDCG@10 (Normalized Discounted Cumulative Gain at rank 10). If you are interested in the details of our implementation, please refer to our blog [VectorChord-BM25: Revolutionize PostgreSQL Search with BM25 Ranking — 3x Faster Than ElasticSearch](https://blog.vectorchord.ai/vectorchord-bm25-revolutionize-postgresql-search-with-bm25-ranking-3x-faster-than-elasticsearch).
 
 ## RPS
 
