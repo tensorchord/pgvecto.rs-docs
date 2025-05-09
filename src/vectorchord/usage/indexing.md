@@ -68,7 +68,7 @@ The internal build parameters are specified in the `options` using [TOML: Tom's 
 #### `build.internal.lists`
     
 - Description: This index parameter determines the hierarchical structure of the vector space partitioning.
-- Type: List of integers
+- Type: list of integers
 - Default: `[]`
 - Example:
     - `build.internal.lists = []` means that the vector space is not partitioned.
