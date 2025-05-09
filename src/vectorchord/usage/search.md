@@ -29,7 +29,7 @@ SELECT 1 FROM items WHERE category_id = 1 ORDER BY embedding <#> '[0.5,0.5,0.5]'
     
 - Description: This GUC parameter `vchordrq.probes` controls how the vector space assists in query pruning. The more probes, the more accurate the search, but also the slower it is.
 - Type: integer
-- Default: ``
+- Default: ` `
 - Example:
     - `SET vchordrq.probes = 1` means that only one probe is used.
     - `SET vchordrq.probes = 10` means that ten probes are used.
