@@ -60,10 +60,13 @@ You can refer to [performance tuning](../usage/performance-tuning#query-performa
     
 - Description: This GUC parameter controls the I/O prefetching strategy for vector search, which can significantly impact search performance on disk-based vectors.
 - Type: string
+- Domain: Depends on PostgreSQL version
+    - PostgreSQL 13, 14, 15, 16: `{"read_buffer", "prefetch_buffer"}`
+    - PostgreSQL 17: `{"read_buffer", "prefetch_buffer", "read_stream"}`
 - Default: Depends on PostgreSQL version
     - PostgreSQL 13, 14, 15, 16: `prefetch_buffer`
     - PostgreSQL 17: `read_stream`
-- Possible values:
+- Description:
     - `read_buffer`: Indicates a preference for `ReadBuffer`.
     - `prefetch_buffer`: Indicates a preference for both `PrefetchBuffer` and `ReadBuffer`. This option is optimized for disk vector search and is the default on PostgreSQL 13, 14, 15, 16.
     - `read_stream`: Indicates a preference for `read_stream`. This option is optimized for disk vector search and is only available in PostgreSQL 17. It's the default on PostgreSQL 17.
