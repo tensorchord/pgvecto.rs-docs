@@ -55,7 +55,7 @@ CREATE EXTENSION vchord CASCADE;
 
 ::: info
 
-This will install vectorchord and pgvector at public schame, if other schema is picked, please subsititue `public` with your schema at the migration command.
+This will install vectorchord and pgvector at public schema, if other schema is picked, please subsititue `public` with your schema at the migration command.
 
 :::
 
