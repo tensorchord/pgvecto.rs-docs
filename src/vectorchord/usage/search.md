@@ -33,7 +33,7 @@ SELECT 1 FROM items WHERE category_id = 1 ORDER BY embedding <#> '[0.5,0.5,0.5]'
 - Example:
     - `SET vchordrq.probes = 1` means that only one probe is used.
     - `SET vchordrq.probes = 10` means that ten probes are used.
-- Note: The default value is `1`, which means that only one probe is used. This is the fastest search, but also the least accurate. If you want to improve the accuracy of the search, you can increase the number of probes. However, this will also slow down the search.
+- Note: The default value is ` `, which means that only one probe is used. This is the fastest search, but also the least accurate. If you want to improve the accuracy of the search, you can increase the number of probes. However, this will also slow down the search.
 
 #### `vchordrq.epsilon`
     
