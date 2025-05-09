@@ -18,7 +18,7 @@ residual_quantization = true
 lists = [1000]
 spherical_centroids = false
 sampling_factor = 512
-kmeans_iterations = 25
+kmeans_iterations = 10
 build_threads = 16
 $$);
 ```
@@ -59,11 +59,11 @@ When dealing with large datasets (>1M vectors), please follow these guidelines f
 - Example:
     - `residual_quantization = false` means that residual quantization is not used.
     - `residual_quantization = true` means that residual quantization is used.
-- Note: set `residual_quantization` to `true` if your model generates embeddings where the metric is Euclidean distance.
+- Note: set `residual_quantization` to `true` if your model generates embeddings where the metric is Euclidean distance. This option only works for L2 distance. Using it with other distance metrics will result in an error in building.
 
 ### Internal Build Parameters
 
-The internal build parameters are specified in the `options` using [TOML: Tom's Obvious Minimal Language](https://toml.io/) string of the index. The following parameters are available:
+All build parameters are specified in the `options` using [TOML: Tom's Obvious Minimal Language](https://toml.io/) string of the index. The following parameters are available:
 
 #### `build.internal.lists`
     
@@ -116,7 +116,7 @@ The internal build parameters are specified in the `options` using [TOML: Tom's 
 - Example:
     - `build.internal.build_threads = 1` means that the K-means algorithm uses $1$ thread.
     - `build.internal.build_threads = 4` means that the K-means algorithm uses $4$ threads.
-- Note: The K-means algorithm is a parallelizable algorithm. The `build_threads` parameter controls the number of threads used by the K-means algorithm. A higher value means that more threads are used, which can lead to faster build times. 
+- Note: The K-means algorithm is a parallelizable algorithm. The `build_threads` parameter controls the number of threads used by the K-means algorithm. A higher value means that more threads are used, which can lead to faster build times and greater load on the server.
     
 ### External Build Parameters
 
