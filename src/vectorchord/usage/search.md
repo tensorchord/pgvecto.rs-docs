@@ -42,8 +42,8 @@ SELECT 1 FROM items WHERE category_id = 1 ORDER BY embedding <#> '[0.5,0.5,0.5]'
 - Default: `1.9`
 - Domain: `[0.0, 4.0]`
 - Example:
-    - `SET vchordrq.epsilon = 0.1` indicates that high accuracy is not required.  
-    - `SET vchordrq.epsilon = 4.0` means you need a very high accuracy.
+    - `SET vchordrq.epsilon = 0.1` indicates you are using a very optimistic lower bound estimation. You set it this way because your dataset is not sensitive to the lower bound estimation, for the precision you need.
+    - `SET vchordrq.epsilon = 4.0` indicates you are using a very pessimistic lower bound estimation. You set it this way because your dataset is not very sensitive to the lower bound estimation, for the precision you need.
 - Note: The default value is `1.9`. The acceptable range is from `0.0` to `4.0`.
 
 You can refer to [performance tuning](../usage/performance-tuning#query-performance) for more information about tuning the query performance.
