@@ -54,7 +54,7 @@ You can refer to [performance tuning](../usage/performance-tuning#query-performa
 - Type: list of integers
 - Default: `64,128,256,384,512,768,1024,1536`
 - Example:
-    - `ALTER SYSTEM SET vchordrq.prewarm_dim = '64,128'` means that the projection matrix will be prewarmed for dimensions 64 and 128.
+    - `ALTER SYSTEM SET vchordrq.prewarm_dim = '64,128'` means that the projection matrix will be precomputed for dimensions 64 and 128.
 - Note: This setting requires a database restart to take effect.
 
 #### `vchordrq.io_rerank`
