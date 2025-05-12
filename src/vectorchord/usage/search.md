@@ -40,6 +40,7 @@ SELECT 1 FROM items WHERE category_id = 1 ORDER BY embedding <#> '[0.5,0.5,0.5]'
 - Description: Even after pruning, the number of retrieved vectors remains substantial. The index employs the RaBitQ algorithm to convert vectors into bit vectors, which require just $\frac{1}{32}$ the memory of single-precision floating-point vectors. With minimal floating-point operations, most computations are integer-based, leading to faster processing. Unlike typical quantization algorithms, RaBitQ not only estimates distances but also their lower bounds. The index computes the lower bound for each vector and dynamically adjusts the number of vectors needing recalculated distances, based on the query count, thus balancing performance and accuracy. The GUC parameter `vchordrq.epsilon` controls the conservativeness of the lower bounds of distances. The higher the value, the higher the accuracy, but the worse the performance. The default value provides unnecessarily high accuracy for most indexes, so you can try lowering this parameter to achieve better performance.
 - Type: float
 - Default: `1.9`
+- Domain: `[0.0, 4.0]`
 - Example:
     - `SET vchordrq.epsilon = 0.1` indicates that high accuracy is not required.  
     - `SET vchordrq.epsilon = 4.0` means you need a very high accuracy.
