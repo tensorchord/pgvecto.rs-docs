@@ -40,11 +40,22 @@ The table below shows the operator classes for types and operator in the index.
 
 ## Important Usage Recommendations
 
-When dealing with large datasets (>1M vectors), please follow these guidelines for optimal performance:
+When dealing with large datasets (> $10^6$ vectors), please follow these guidelines for optimal performance:
 
 1. First insert all vectors into the table before building the index
 2. Select an appropriate number of lists (`build.internal.lists` parameter) based on your dataset size
-3. Failure to follow these steps may result in significantly increased query latency
+3. The `lists` option should be configured based on the number of vectors. Below is a table to assist with your selection
+4. Failure to follow these steps may result in significantly increased query latency
+
+> [!NOTE]
+> VectorChord's index leverages statistical properties of your dataset to optimize search performance. If you significantly update your vector data after building the index, the index efficiency may degrade. In such cases, rebuilding the index is recommended to restore optimal performance.
+
+| vectors Range | List Calculation Formula       | Example Result   |
+| ------------- | ------------------------------ | ---------------- |
+| <128k         | list = 1                       | 1                |
+| ≥128k and <2M | list = (2 * vectors) / 1000    | [256, 4000]      |
+| ≥2M and <100M | list ∈ [4√vectors, 8√vectors]  | \[4000, 80000]   |
+| ≥100M         | list ∈ [8√vectors, 16√vectors] | \[80000, 160000] |
 
 ## Indexing Options
 
@@ -60,7 +71,7 @@ When dealing with large datasets (>1M vectors), please follow these guidelines f
 
 ### Internal Build Parameters
 
-All build parameters are specified in the `options` using [TOML: Tom's Obvious Minimal Language](https://toml.io/) string of the index. The following parameters are available:
+The following parameters are available:
 
 #### `build.internal.lists`
     

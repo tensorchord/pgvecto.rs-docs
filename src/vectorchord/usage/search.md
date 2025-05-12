@@ -29,11 +29,11 @@ SELECT 1 FROM items WHERE category_id = 1 ORDER BY embedding <#> '[0.5,0.5,0.5]'
     
 - Description: This GUC parameter `vchordrq.probes` controls how the vector space assists in query pruning. The more probes, the more accurate the search, but also the slower it is.
 - Type: integer
-- Default: ` `
+- Default: `empty`
 - Example:
     - `SET vchordrq.probes = 1` means that only one probe is used.
     - `SET vchordrq.probes = 10` means that ten probes are used.
-- Note: The default value is ` `, which means that only one probe is used. This is the fastest search, but also the least accurate. If you want to improve the accuracy of the search, you can increase the number of probes. However, this will also slow down the search.
+- Note: The default value is `empty`, which means that only one probe is used. This is the fastest search, but also the least accurate. If you want to improve the accuracy of the search, you can increase the number of probes. However, this will also slow down the search.
 
 #### `vchordrq.epsilon`
     
@@ -56,21 +56,3 @@ You can refer to [performance tuning](../usage/performance-tuning#query-performa
 - Example:
     - `ALTER SYSTEM SET vchordrq.prewarm_dim = '64,128'` means that the projection matrix will be precomputed for dimensions 64 and 128.
 - Note: This setting requires a database restart to take effect.
-
-#### `vchordrq.io_rerank`
-    
-- Description: This GUC parameter controls the I/O prefetching strategy for vector search, which can significantly impact search performance on disk-based vectors.
-- Type: string
-- Domain: Depends on PostgreSQL version
-    - PostgreSQL 13, 14, 15, 16: `{"read_buffer", "prefetch_buffer"}`
-    - PostgreSQL 17: `{"read_buffer", "prefetch_buffer", "read_stream"}`
-- Default: Depends on PostgreSQL version
-    - PostgreSQL 13, 14, 15, 16: `prefetch_buffer`
-    - PostgreSQL 17: `read_stream`
-- Description:
-    - `read_buffer`: Indicates a preference for `ReadBuffer`.
-    - `prefetch_buffer`: Indicates a preference for both `PrefetchBuffer` and `ReadBuffer`. This option is optimized for disk vector search and is the default on PostgreSQL 13, 14, 15, 16.
-    - `read_stream`: Indicates a preference for `read_stream`. This option is optimized for disk vector search and is only available in PostgreSQL 17. It's the default on PostgreSQL 17.
-- Example:
-    - `SET vchordrq.io_rerank = 'prefetch_buffer'` to optimize for disk-based vector search on PostgreSQL versions before 17.
-    - `SET vchordrq.io_rerank = 'read_stream'` to use the optimized strategy available on PostgreSQL 17.
