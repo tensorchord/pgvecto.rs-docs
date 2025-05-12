@@ -2,13 +2,13 @@
 
 In this section, we compare VectorChord with pgvector, a PostgreSQL extension that provides vector similarity search capabilities. We will focus on four key metrics: QPS (Queries Per Second), Recall@100, Index Building Time, and Insertion Time. If you are interested in the details of our implementation, please refer to our blog [Vector Search Over PostgreSQL: A Comparative Analysis of Memory and Disk Solutions](https://blog.vectorchord.ai/vector-search-over-postgresql-a-comparative-analysis-of-memory-and-disk-solutions).
 
-## QPS && Recall
+## QPS & Recall
 
 <img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1733288263095/3f2dcc75-a3e9-4d86-9515-7ab120f73c0c.png" alt="QPS on GIST 1m, Top 10" style="width: 100%; height: auto; margin: 0 auto; display: block;" />
 
 Here are some initial benchmark results for the GIST dataset, which consists of 1 million vectors in 960 dimensions. With equivalent recall, VectorChord's QPS could be twice that of pgvector. More details will be provided in the Benchmark section.
 
-## Index Build Time && Insert Time && Query Completion Time
+## Index Build Time & Insert Time & Query Completion Time
 
 <img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1733302602422/57f0e7d6-5f48-484f-ac2a-5e999b7cd0fe.png" alt="Index Build Time && Insert Time && Query Completion Time on GIST 1m" style="width: 100%; height: auto; margin: 0 auto; display: block;" />
 
