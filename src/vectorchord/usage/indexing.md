@@ -16,9 +16,6 @@ CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $
 residual_quantization = true
 [build.internal]
 lists = [1000]
-spherical_centroids = false
-sampling_factor = 512
-kmeans_iterations = 10
 build_threads = 16
 $$);
 ```
