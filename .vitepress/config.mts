@@ -191,6 +191,13 @@ export default defineConfig({
             { text: 'Migration', link: '/vectorchord/admin/migration' },
           ]
         },
+        {
+          text: 'Customer Stories',
+          collapsed: false,
+          items: [
+            { text: 'Earthgenome', link: '/vectorchord/customer-stories/earthgenome' },
+          ]
+        },
       ],
       '/cloud/':
         [
