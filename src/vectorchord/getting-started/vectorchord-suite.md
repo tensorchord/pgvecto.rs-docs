@@ -109,7 +109,7 @@ Leveraging the VectorChord Suite within PostgreSQL offers significant advantages
 
 The VectorChord Suite transforms PostgreSQL into a powerful, production-ready platform for building advanced RAG solutions. By integrating high-performance vector search (`VectorChord`), sophisticated keyword ranking (`VectorChord-bm25`), and flexible text processing (`pg_tokenizer`), you can implement cutting-edge techniques like hybrid search and OCR-free multi-modal retrieval directly within your database. Simplify your architecture, enhance retrieval accuracy, and unlock the full potential of RAG with VectorChord in PostgreSQL.
 
-## Previous Blog Post
+## Blog Posts
 
 In our previous blog, we shared some user cases where all images can be replaced with VectorChord Suite image.
 
