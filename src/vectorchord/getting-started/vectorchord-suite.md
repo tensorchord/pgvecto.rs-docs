@@ -30,23 +30,23 @@ You can use the `tensorchord/vchord-suite` Docker image to run multiple extensio
 - `vector`
 
 ```shell
-docker run   \           
-  --name vchord-suite  \
-  -e POSTGRES_PASSWORD=postgres  \
+docker run \
+  --name vchord-suite \
+  -e POSTGRES_PASSWORD=postgres \
   -p 5432:5432 \
   -d tensorchord/vchord-suite:pg17-latest
 
 # If you want to use ghcr image, you can change the image to `ghcr.io/tensorchord/vchord-suite:pg17-latest`.
-docker run   \           
-  --name vchord-suite  \
-  -e POSTGRES_PASSWORD=postgres  \
+docker run \ 
+  --name vchord-suite \
+  -e POSTGRES_PASSWORD=postgres \
   -p 5432:5432 \
   -d tensorchord/vchord-suite:pg17-latest
   
 # If you want to use the specific version, you can use the tag `pg17-20250414`, supported version can be found in the support matrix.
-docker run   \           
-  --name vchord-suite  \
-  -e POSTGRES_PASSWORD=postgres  \
+docker run \   
+  --name vchord-suite \
+  -e POSTGRES_PASSWORD=postgres \
   -p 5432:5432 \
   -d tensorchord/vchord-suite:pg17-20250414
 ```
