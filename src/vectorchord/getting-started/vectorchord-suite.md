@@ -85,7 +85,7 @@ This is now achievable by combining:
 
 1. **Multi-Modal Vision Language Models (VLMs):** Models like ColQwen2 can process images (document pages) and generate embeddings that capture *both* textual content and visual layout information.
     
-2. **VectorChord's Multi-Vector Capabilities:** VectorChord can efficiently store and search *multiple* vectors per document within Postgres – allowing you to store embeddings representing different aspects (e.g., text content, visual layout).
+2. **VectorChord's Multi-Vector Capabilities:** VectorChord can efficiently store and search *multiple* vectors per document within PostgreSQL – allowing you to store embeddings representing different aspects (e.g., text content, visual layout).
     
 
 With this setup, you can query your document database using prompts that reference visual elements ("Find documents with a bar chart comparing sales figures") or combined textual and visual cues, directly within PostgreSQL. This simplifies your RAG stack, potentially boosts retrieval accuracy by preserving visual context, and eliminates the bottlenecks associated with traditional OCR pipelines.
