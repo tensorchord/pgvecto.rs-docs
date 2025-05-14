@@ -122,7 +122,6 @@ The following parameters are available:
 - Example:
     - `build.internal.build_threads = 1` means that the K-means algorithm uses $1$ thread.
     - `build.internal.build_threads = 4` means that the K-means algorithm uses $4$ threads.
-- Note: The K-means algorithm is a parallelizable algorithm. The `build_threads` parameter controls the number of threads used by the K-means algorithm. A higher value means that more threads are used, which can lead to faster build times and greater load on the server.
     
 ### External Build Parameters
 
