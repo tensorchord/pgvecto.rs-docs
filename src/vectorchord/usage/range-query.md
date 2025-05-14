@@ -16,7 +16,7 @@ However, if you have created the index,
 CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops);
 </code>
 
-The expression `embedding <<->> sphere('[0.24, 0.24, 0.24]'::vector, 0.012)` can be correctly handled by the index, while the expression `embedding <-> '[0.24, 0.24, 0.24]' < 0.012` cann't.
+The expression `embedding <<->> sphere('[0.24, 0.24, 0.24]'::vector, 0.012)` can be correctly handled by the index, while the expression `embedding <-> '[0.24, 0.24, 0.24]' < 0.012` can't.
 
 The table below shows the operator classes for types and operator in the index.
 
