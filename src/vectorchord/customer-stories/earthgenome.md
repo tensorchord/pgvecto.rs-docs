@@ -37,7 +37,7 @@ Here are some examples of how Earth Index is being used:
     
 * **Monitoring Resource Extraction:** **Radio Free Europe** utilized Earth Index to identify over 1300 quarries across the Balkans, revealing that roughly half lacked proper permits, highlighting potential environmental damage and unregulated extraction. This approach can monitor fracking wellpads, rubber processing plants, or other industrial facilities.
     
-* **Protecting Water Quality and Ecosystems:** Earth Index can locate Concentrated Animal Feeding Operations (CAFOs) near sensitive waterways to assess runoff risks or identify expansions of shrimp farming into vital mangrove ecosystems.
+* **Protecting Water Quality and Ecosystems:** Earth Index can locate Concentrated Animal Feeding Operations near sensitive waterways to assess runoff risks or identify expansions of shrimp farming into vital mangrove ecosystems.
     
 * **Tracking Agricultural Expansion:** The tool helps monitor the conversion of natural habitats into agricultural land by searching for patterns associated with new clearings or specific crop types.
     
