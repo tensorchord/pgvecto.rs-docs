@@ -6,7 +6,17 @@ To query vectors within a certain distance range, you can use the following synt
 SELECT * FROM items WHERE embedding <<->> sphere('[0.24, 0.24, 0.24]'::vector, 0.012);
 ```
 
-In this expression, `vec <<->> sphere('[0.24, 0.24, 0.24]'::vector, 0.012)` is equal to `vec <-> '[0.24, 0.24, 0.24]' < 0.012`. However, the latter one will trigger a **exact nearest neighbor search** as the grammar could not be pushed down.
+The expression `sphere('[0.24, 0.24, 0.24]'::vector, 0.012)` refers to a spherical region with its center at `'[0.24, 0.24, 0.24]'` and a radius of `0.012`.
+
+The expression `embedding <<->> sphere('[0.24, 0.24, 0.24]'::vector, 0.012)` evaluates to `true` if the embedding is within the spherical region. Semantically, this is equivalent to `embedding <-> '[0.24, 0.24, 0.24]' < 0.012`.
+
+However, if you have created the index,
+
+<code lang="sql">
+CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops);
+</code>
+
+The expression `embedding <<->> sphere('[0.24, 0.24, 0.24]'::vector, 0.012)` can be correctly handled by the index, while the expression `embedding <-> '[0.24, 0.24, 0.24]' < 0.012` cann't.
 
 The table below shows the operator classes for types and operator in the index.
 
