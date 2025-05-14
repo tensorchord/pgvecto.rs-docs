@@ -90,8 +90,8 @@ The following parameters are available:
 - Type: boolean
 - Default: `false`
 - Example:
-    - `build.internal.spherical_centroids = false` means that the centroids are not spherical.
-    - `build.internal.spherical_centroids = true` means that the centroids are spherical.
+    - `build.internal.spherical_centroids = false` means that spherical k-means is not performed.
+    - `build.internal.spherical_centroids = true` means that spherical k-means is performed.
 - Note: Set this to `false` if your model generates embeddings where the metric is cosine similarity.
 
 #### `build.internal.sampling_factor`
