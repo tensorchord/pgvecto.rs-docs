@@ -111,7 +111,7 @@ The VectorChord Suite transforms PostgreSQL into a powerful, production-ready pl
 
 ## Blog Posts
 
-In our previous blog, we shared some user cases where all images can be replaced with VectorChord Suite image.
+In our recent blog posts, we shared some user cases where all Docker images can be replaced with VectorChord Suite image.
 
 * [Supercharge vector search with ColBERT rerank in PostgreSQL](https://blog.vectorchord.ai/supercharge-vector-search-with-colbert-rerank-in-postgresql)
     
