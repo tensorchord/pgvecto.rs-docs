@@ -186,6 +186,7 @@ export default defineConfig({
             { text: 'Search', link: '/vectorchord/usage/search' },
             { text: 'Performance Tuning', link: '/vectorchord/usage/performance-tuning' },
             { text: 'Advanced Features', link: '/vectorchord/usage/advanced-features' },
+            { text: 'Range Query', link: '/vectorchord/usage/range-query' },
           ]
         },
         {

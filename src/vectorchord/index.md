@@ -13,6 +13,7 @@
 - [Search](/vectorchord/usage/search)
 - [Performance Tuning](/vectorchord/usage/performance-tuning)
 - [Advanced Features](/vectorchord/usage/advanced-features)
+- [Range Query](/vectorchord/usage/range-query)
 
 ## Use Cases
 
