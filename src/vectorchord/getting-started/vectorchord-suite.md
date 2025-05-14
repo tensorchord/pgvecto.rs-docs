@@ -23,7 +23,7 @@ By combining these extensions, you unlock powerful capabilities for building adv
 
 ## How to Use the VectorChord Suite
 
-You can use the `tensorchord/vchord-suite` image to run multiple extensions which are provided by TensorChord. The image is based on the official Postgres image and includes the following extensions:
+You can use the `tensorchord/vchord-suite` Docker image to run multiple extensions which are provided by TensorChord. The image is based on the Docker official PostgreSQL image and includes the following extensions:
 
 ```powershell
 docker run   \           
