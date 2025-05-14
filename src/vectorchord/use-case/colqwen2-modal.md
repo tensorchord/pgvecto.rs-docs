@@ -255,7 +255,7 @@ Run the indexer script, vechord handles table creation, index creation, and data
 
 The final step is crucial: evaluating retrieval performance. Does this OCR-free system deliver accurate results, and can it be fast? We'll use vechord to run queries against our indexed data and look at NDCG@10 and Recall@10. We'll also test the impact of VectorChord's **WARP optimization**, which accelerates MaxSim calculations. In this tutorial, we will use [vidore/arxivqa\_test\_subsampled](https://huggingface.co/datasets/vidore/arxivqa_test_subsampled) dataset for evaluation queries, the data are shown below.
 
-<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1743483589729/4bc711ae-666c-4bf8-ac3c-63be23ce3071.png" alt="Evaluation Queries" width="600" height="400"/>
+<img src="../images/arxivqa-dataset.jpeg" alt="Evaluation Queries" width="600" height="400"/>
 
 ```python
 TOP_K = 10

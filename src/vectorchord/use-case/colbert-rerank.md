@@ -2,7 +2,7 @@
 
 Traditional vector search methods typically employ sentence embeddings to locate similar content. However, generating sentence embeddings through pooling token embeddings can potentially sacrifice fine-grained details present at the token level. [ColBERT](https://github.com/stanford-futuredata/ColBERT) overcomes this by representing text as token-level multi-vectors rather than a single, aggregated vector. This approach, leveraging contextual late interaction at the token level, allows ColBERT to retain more nuanced information and improve search accuracy compared to methods relying solely on sentence embeddings.
 
-<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1736414634494/e50e0b90-74da-49d9-813d-5c5ec00317ee.jpeg" alt="ColBERT structure (from the original paper)" width="600" height="400" />
+<img src="../images/maxsim.jpeg" alt="ColBERT structure (from the original paper)" width="600" height="400" />
 
 As illustrated in the above image, ColBERT encodes each document/query into a list of token vectors and computes the MaxSim during the query time.
 

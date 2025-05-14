@@ -8,7 +8,7 @@ All related benchmark codes can be found [here](https://github.com/xieydd/vector
 
 ## Hybrid Search Explained
 
-<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1741269653573/b0e91529-52dc-4072-a7cb-f5410fdc43f3.jpeg" alt="Hybrid Search" width="600" align="center"/>
+<img src="../images/hybrid-search-1.jpeg" alt="Hybrid Search" width="600" align="center"/>
 
 Hybrid Search merges the results from vector search and keyword search. Vector search is based on the semantic similarity between the query and the documents, while keyword search relies on the BM25 ranking algorithm. However, it is important to note that BM25 itself is only responsible for scoring documents, while the broader keyword search process also includes steps such as **tokenization**, **indexing**, and **query parsing**. Hybrid Search utilizes reranker or fuses the results from both methods. Fuses include RRF (Reciprocal Rank Fusion) or weighted scoring for multiple recall strategies. Model-based rerank includes cross encoder models like `bge-reranker-v2-m3` and multi-vector representation model `ColBERT`.
 
@@ -32,7 +32,7 @@ In our previous blog post, [*VectorChord-BM25: Revolutionizing PostgreSQL Search
 
 ## Tutorial: Use VectorChord-BM25 and VectorChord implement Hybrid Search
 
-<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1741271200353/52e0faba-1d9d-4a61-972c-219df22f1922.jpeg" alt="Hybrid Search 1" width="600" align="center"/>
+<img src="../images/hybrid-search.jpeg" alt="Hybrid Search 1" width="600" align="center"/>
 
 In this tutorial, we will guide you through the steps to implement Hybrid Search using VectorChord-BM25 and VectorChord in PostgreSQL. We will cover the following topics:
 
@@ -223,7 +223,7 @@ for rank, (query_id, doc_id, _) in enumerate(result, start=1):
 
 2. Cross-Encoder model Rerank
     
-<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1741785632054/96d3b52b-5370-40ba-bfef-01b0c8af8dd9.jpeg" alt="Cross-Encoder" width="600" align="center"/>
+<img src="../images/cross-encoder.jpeg" alt="Cross-Encoder" width="600" align="center"/>
 
 In semantic search, we already use Bi-Encoder vectorized the documents and queries separately. But this independent encoding leads to a lack of interaction between the query and the document. Cross-Encoder model will input the query and document as a whole into the model, the model will see the content of both at the same time, capturing the fine-grained semantic relationship between them through the Transformer layer. Compared with RRF, Cross-Encoder model can capture the fine-grained semantic relationship between the query and the document, and it can be more accurate but slower.
 

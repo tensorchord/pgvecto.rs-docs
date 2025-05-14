@@ -50,7 +50,7 @@ vector       | 0.8.0   | public            | vector data type and ivfflat and hn
 
 ### Use Case 1: Powerful Hybrid Search with Native BM25 and VectorChord
 
-<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1744643437495/b57592c9-e1c2-4940-ae59-751ff93e37a3.jpeg" alt="Hybrid Search" width="600" align="center"/>
+<img src="../images/hybrid-search.jpeg" alt="Hybrid Search" width="600" align="center"/>
 
 In the RAG era, effective retrieval is paramount. Neither keyword search nor vector search alone is perfect:
 
