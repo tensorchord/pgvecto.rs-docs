@@ -115,7 +115,7 @@ The following parameters are available:
 
 #### `build.internal.build_threads`
     
-- Description: This index parameter determines the number of threads used by K-means algorithm. The higher this value, the faster the build.
+- Description: This index parameter determines the number of threads used by K-means algorithm. The higher this value, the faster the build, and greater load on the server in building.
 - Type: integer
 - Domain: `[1, 255]`
 - Default: `1`
