@@ -18,5 +18,5 @@ The table below shows the operator classes for types and operator in the index.
 | cosine distance (`<<=>>`) | `vector_cosine_ops` | `halfvec_cosine_ops` |
 
 :::warning
-MaxSim operator does not support range query yet.
+MaxSim search does not support range query yet.
 :::
