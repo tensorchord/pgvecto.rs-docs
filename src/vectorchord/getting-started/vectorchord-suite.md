@@ -59,7 +59,7 @@ In the RAG era, effective retrieval is paramount. Neither keyword search nor vec
 * **Vector Search:** Captures deep semantic meaning and relationships between concepts, allowing it to find relevant information even if the exact keywords aren't present. However, it can sometimes lack precision for queries demanding specific term matches. (Leverages `VectorChord`).
     
 
-**The Solution: Hybrid Search.** By combining the strengths of both approaches within Postgres, the VectorChord Suite bridges this gap. You can run a query that leverages:
+**The Solution: Hybrid Search.** By combining the strengths of both approaches within PostgreSQL, the VectorChord Suite bridges this gap. You can run a query that leverages:
 
 * `VectorChord-bm25` (powered by `pg_tokenizer`) for keyword precision.
     
