@@ -200,6 +200,7 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: 'Migration', link: '/vectorchord/admin/migration' },
+            { text: 'Scalability', link: '/vectorchord/admin/scalability' },
           ]
         },
       ],
