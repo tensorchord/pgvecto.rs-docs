@@ -29,7 +29,7 @@ You can use the `tensorchord/vchord-suite` Docker image to run multiple extensio
 - `vchord_bm25`
 
 ```powershell
-docker run   \           
+docker run \
   --name vchord-suite  \
   -e POSTGRES_PASSWORD=postgres  \
   -p 5432:5432 \
