@@ -38,7 +38,7 @@ The table below shows the operator classes for types and operator in the index.
 | inner product (`<#>`)   | `vector_ip_ops`     | `halfvec_ip_ops`     |
 | cosine distance (`<=>`) | `vector_cosine_ops` | `halfvec_cosine_ops` |
 
-## Important Usage Recommendations
+## Recommendations
 
 When dealing with large datasets (> $10^6$ vectors), please follow these guidelines for optimal performance:
 
