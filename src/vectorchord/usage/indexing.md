@@ -82,7 +82,7 @@ The following parameters are available:
     - `build.internal.lists = []` means that the vector space is not partitioned.
     - `build.internal.lists = [4096]` means the vector space is divided into $4096$ cells.
     - `build.internal.lists = [4096, 262144]` means the vector space is divided into $4096$ cells, and those cells are further divided into $262144$ smaller cells.
-- Note: The index partitions the vector space into multiple Voronoi cells using centroids, iteratively creating a hierarchical space partition tree. Each leaf node in this tree represents a region with an associated list storing vectors in that region. During insertion, vectors are placed in lists corresponding to their appropriate leaf nodes. For queries, the index optimizes search by excluding lists whose leaf nodes are distant from the query vector, effectively pruning the search space. The `lists` option should be no less than `4 * sqrt(vectors)`, `vectors` is the number of vectors in the table. 
+- Note: The index partitions the vector space into multiple Voronoi cells using centroids, iteratively creating a hierarchical space partition tree. Each leaf node in this tree represents a region with an associated list storing vectors in that region. During insertion, vectors are placed in lists corresponding to their appropriate leaf nodes. For queries, the index optimizes search by excluding lists whose leaf nodes are distant from the query vector, effectively pruning the search space. The `lists` option should be no less than $4 * \sqrt{N}$, where $N$ is the number of vectors in the table. 
 
 #### `build.internal.spherical_centroids`
 
