@@ -86,7 +86,7 @@ The following parameters are available:
 
 #### `build.internal.spherical_centroids`
 
-- Description: This index parameter determines whether perform spherical k-means -- the centroids are L2 normalized after each iteration, you can refer to option `spherical` in [here](https://github.com/facebookresearch/faiss/wiki/Faiss-building-blocks:-clustering,-PCA,-quantization#additional-options).
+- Description: This index parameter determines whether perform spherical K-means -- the centroids are L2 normalized after each iteration, you can refer to option `spherical` in [here](https://github.com/facebookresearch/faiss/wiki/Faiss-building-blocks:-clustering,-PCA,-quantization#additional-options).
 - Type: boolean
 - Default: `false`
 - Example:
