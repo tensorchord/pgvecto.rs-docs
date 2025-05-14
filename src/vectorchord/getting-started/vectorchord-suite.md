@@ -16,7 +16,7 @@ The suite comprises three key PostgreSQL extensions working in concert:
     
 2. [**VectorChord-bm25:**](https://github.com/tensorchord/VectorChord-bm25) This extension implements the sophisticated BM25 ranking algorithm directly inside PostgreSQL, leveraging efficient Block-WeakAnd algorithms. BM25 is a standard for relevance ranking based on keyword frequency and document characteristics.
     
-3. [**pg\_**](https://github.com/tensorchord/pg_tokenizer.rs)[**tokenizer.rs**](http://tokenizer.rs)[**:**](https://github.com/tensorchord/pg_tokenizer.rs) Provides essential text tokenization capabilities needed for effective full-text search, enabling fine-grained control over how text is processed for full-text search.
+3. [**pg_tokenizer.rs:**](https://github.com/tensorchord/pg_tokenizer.rs) Provides essential text tokenization capabilities needed for effective full-text search, enabling fine-grained control over how text is processed for full-text search.
     
 
 By combining these extensions, you unlock powerful capabilities for building advanced RAG systems entirely within PostgreSQL.
@@ -24,6 +24,9 @@ By combining these extensions, you unlock powerful capabilities for building adv
 ## How to Use the VectorChord Suite
 
 You can use the `tensorchord/vchord-suite` Docker image to run multiple extensions which are provided by TensorChord. The image is based on the Docker official PostgreSQL image and includes the following extensions:
+- `vchord`
+- `pg_tokenizer` 
+- `vchord_bm25`
 
 ```powershell
 docker run   \           

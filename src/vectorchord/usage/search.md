@@ -28,12 +28,15 @@ SELECT 1 FROM items WHERE category_id = 1 ORDER BY embedding <#> '[0.5,0.5,0.5]'
 #### `vchordrq.probes`
     
 - Description: This GUC parameter `vchordrq.probes` controls how the vector space assists in query pruning. The more probes, the more accurate the search, but also the slower it is.
-- Type: integer
-- Default: `empty`
+- Type: List of integers
+- Default: `[]`
 - Example:
     - `SET vchordrq.probes = 1` means that only one probe is used.
     - `SET vchordrq.probes = 10` means that ten probes are used.
-- Note: The default value is `empty`, which means that only one probe is used. This is the fastest search, but also the least accurate. If you want to improve the accuracy of the search, you can increase the number of probes. However, this will also slow down the search.
+- Note: The default value is an empty list. The length of this option must match the length of `lists`. 
+    - If `lists = []`, then probes must be an empty list.
+    - If `lists = [11, 22]`, then probes can be 2,4 or 4,8, but it must not be an empty list, `3`, `7,8,9`, or `5,5,5,5`.
+
 
 #### `vchordrq.epsilon`
     
