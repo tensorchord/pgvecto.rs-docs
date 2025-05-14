@@ -112,7 +112,6 @@ The following parameters are available:
 - Example:
     - `build.internal.kmeans_iterations = 10` means that the K-means algorithm performs $10$ iterations.
     - `build.internal.kmeans_iterations = 100` means that the K-means algorithm performs $100$ iterations.
-- Note: The K-means algorithm is an iterative algorithm that converges to a local minimum. The `kmeans_iterations` parameter controls the number of iterations for the K-means algorithm. A higher value means that more iterations are performed, which can lead to better search performance, but also increases the build time. 
 
 #### `build.internal.build_threads`
     
