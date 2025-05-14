@@ -102,7 +102,7 @@ Leveraging the VectorChord Suite within PostgreSQL offers significant advantages
     
 * **Transactional Integrity:** Benefit from PostgreSQL's robust ACID compliance.
     
-* **Rich Ecosystem:** Access the wide array of tools and features available within the Postgres ecosystem.
+* **Rich Ecosystem:** Access the wide array of tools and features available within the PostgreSQL ecosystem.
     
 
 ## Conclusion
