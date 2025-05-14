@@ -92,7 +92,7 @@ With this setup, you can query your document database using prompts that referen
 
 ## Why Build RAG in PostgreSQL?
 
-Leveraging the VectorChord Suite within Postgres offers significant advantages:
+Leveraging the VectorChord Suite within PostgreSQL offers significant advantages:
 
 * **Unified Data:** Keep your source data, text, metadata, and vector embeddings all in one place.
     
