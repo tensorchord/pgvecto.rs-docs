@@ -98,7 +98,7 @@ Leveraging the VectorChord Suite within PostgreSQL offers significant advantages
     
 * **Reduced Complexity:** Eliminate the need for separate vector databases and synchronization pipelines.
     
-* **Leverage Existing Infrastructure:** Utilize your existing Postgres expertise, tooling, and operational practices.
+* **Leverage Existing Infrastructure:** Utilize your existing PostgreSQL expertise, tooling, and operational practices.
     
 * **Transactional Integrity:** Benefit from PostgreSQL's robust ACID compliance.
     
