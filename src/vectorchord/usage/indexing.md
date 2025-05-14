@@ -102,7 +102,6 @@ The following parameters are available:
 - Example:
     - `build.internal.sampling_factor = 256` means that the K-means algorithm samples $256$ vectors.
     - `build.internal.sampling_factor = 1024` means that the K-means algorithm samples $1024$ vectors.
-- Note: The K-means algorithm is a clustering algorithm that partitions the data into $k$ clusters. The `sampling_factor` parameter controls the number of vectors sampled by the K-means algorithm. A higher value means that more vectors are sampled, which can lead to better search performance, but also increases the build time and memory consumption.
 
 #### `build.internal.kmeans_iterations`
     
