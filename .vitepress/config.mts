@@ -192,7 +192,7 @@ export default defineConfig({
           text: 'Use Cases',
           collapsed: false,
           items: [
-            { text: 'Hybrid search', link: '/vectorchord/use-case/hybrid-search' },
+            { text: 'Hybrid Search', link: '/vectorchord/use-case/hybrid-search' },
             { text: 'ColBERT Rerank', link: '/vectorchord/use-case/colbert-rerank' },
             { text: 'ColQwen2 & Modal', link: '/vectorchord/use-case/colqwen2-modal' },
           ],
