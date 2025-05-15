@@ -10,11 +10,11 @@ The expression `sphere('[0.24, 0.24, 0.24]'::vector, 0.012)` refers to a spheric
 
 The expression `embedding <<->> sphere('[0.24, 0.24, 0.24]'::vector, 0.012)` evaluates to `true` if the embedding is within the spherical region. Semantically, this is equivalent to `embedding <-> '[0.24, 0.24, 0.24]' < 0.012`.
 
-However, if you have created the index,
+However, if you have created the index like this:
 
-<code lang="sql">
+```SQL
 CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops);
-</code>
+```
 
 The expression `embedding <<->> sphere('[0.24, 0.24, 0.24]'::vector, 0.012)` can be correctly handled by the index, while the expression `embedding <-> '[0.24, 0.24, 0.24]' < 0.012` can't.
 
