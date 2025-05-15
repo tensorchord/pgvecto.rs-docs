@@ -185,10 +185,22 @@ export default defineConfig({
           ]
         },
         {
+          text: 'Benchmarks',
+          collapsed: false,
+          items: [
+            { text: 'Price', link: '/vectorchord/benchmark/price' },
+            { text: 'Performance', link: '/vectorchord/benchmark/performance' },
+            { text: 'Benchmarks with pgvector', link: '/vectorchord/benchmark/pgvector' },
+            { text: 'Benchmarks with Elasticsearch', link: '/vectorchord/benchmark/elasticsearch' },
+            { text: 'Benchmarks with pgvectorscale', link: '/vectorchord/benchmark/pgvectorscale' },
+          ]
+        },
+        {
           text: 'Administration',
           collapsed: false,
           items: [
             { text: 'Migration', link: '/vectorchord/admin/migration' },
+            { text: 'Scalability', link: '/vectorchord/admin/scalability' },
           ]
         },
       ],
