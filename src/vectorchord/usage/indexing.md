@@ -1,8 +1,8 @@
 # Indexing
 
-Similar to [ivfflat](https://github.com/pgvector/pgvector#ivfflat), the index type of VectorChord, RaBitQ(vchordrq) also divides vectors into lists, and then searches a subset of those lists that are closest to the query vector. It inherits the advantages of `ivfflat`, such as fast build times and less memory usage, but has [much better performance](https://blog.vectorchord.ai/vectorchord-store-400k-vectors-for-1-in-postgresql#heading-ivf-vs-hnsw) than hnsw and ivfflat.
+Similar to [ivfflat](https://github.com/pgvector/pgvector#ivfflat), VectorChord's index type RaBitQ(vchordrq) also divides vectors into lists and searches only a subset of lists closest to the query vector. It preserves the advantages of `ivfflat`, such as fast build times and lower memory consumption, while delivering [significantly better performance](https://blog.vectorchord.ai/vectorchord-store-400k-vectors-for-1-in-postgresql#heading-ivf-vs-hnsw) than both hnsw and ivfflat.
 
-To construct an index for vectors, first create a table named `items` with a column named `embedding` of type `vector(n)`. Then, populate the table with generated data.
+To build a vector index, start by creating a table named `items` with an `embedding` column of type `vector(n)`, then populate it with sample data.
 
 ```sql
 CREATE TABLE items (embedding vector(3));
@@ -16,13 +16,12 @@ CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $
 residual_quantization = true
 [build.internal]
 lists = [1000]
-spherical_centroids = false
+build_threads = 16
 $$);
 ```
 
 > [!NOTE]
-> - `options` are specified using a [TOML: Tom's Obvious Minimal Language](https://toml.io/) string.
-> - The recommended `lists` could be rows / 1000 for up to 1M rows and 4 * sqrt(rows) for over 1M rows
+> - `options` are specified using a [TOML: Tom's Obvious Minimal Language](https://toml.io/) string. You can refer to [#Index Options](#indexing-options) for more information.
 
 Then the index will be built internally, and you can perform a vector search with the index.
 
@@ -39,29 +38,94 @@ The table below shows the operator classes for types and operator in the index.
 | inner product (`<#>`)   | `vector_ip_ops`     | `halfvec_ip_ops`     |
 | cosine distance (`<=>`) | `vector_cosine_ops` | `halfvec_cosine_ops` |
 
-## Options
+## Recommendations
 
-### Build Parameter `build.internal.lists` and GUC Parameter `vchordrq.probes`
+When dealing with large datasets (> $10^6$ vectors), please follow these guidelines for optimal performance:
 
-The index divides the vector space into multiple Voronoi cells with multiple centroids, repeating this process until a space partition tree is constructed. The tree partitions the space into multiple regions, and each leaf node is associated with a list that stores the vectors within that region. When a vector is inserted, the index finds the corresponding leaf node and inserts the vector into its list. When a vector is searched, the index excludes lists whose corresponding leaf nodes are far from the vector, effectively pruning the search space.
+1. First insert all vectors into the table before building the index
+2. Select an appropriate number of lists (`build.internal.lists` parameter) based on your dataset size
+3. The `lists` option should be configured based on the number of vectors. Below is a table to assist with your selection
+4. Failure to follow these steps may result in significantly increased query latency
 
-The index parameter `build.internal.lists` controls the shape of the tree that the vector space is divided into, while the GUC parameter `vchordrq.probes` controls how the vector space assists in query pruning.
+> [!NOTE]
+> VectorChord's index leverages statistical properties of your dataset to optimize search performance. If you significantly update your vector data after building the index, the index efficiency may degrade. In such cases, rebuilding the index is recommended to restore optimal performance.
 
-* `build.internal.lists = []` means that the vector space is not partitioned. `vchordrq.probes = ''` means no pruning is performed. It's also default of these two values.
-* `build.internal.lists = [4096]` means the vector space is divided into $4096$ cells. vchordrq.probes = '64' means only $64$ cells out of the $4096$ are searched. So vectors within lists of those $64$ cells are searched.
-* `build.internal.lists = [4096, 262144]` means the vector space is divided into $4096$ cells, and those cells are further divided into $262144$ smaller cells. `vchordrq.probes = '64, 4096'` means that within children of the root, only $64$ cells out of the $4096$ are searched, and within grandchildren of the root, only $4096$ cells out of the $262144$ are searched. So vectors within lists of those $4096$ cells are searched.
+| vectors Range | List Calculation Formula       | Example Result   |
+| ------------- | ------------------------------ | ---------------- |
+| <128k         | list = 1                       | 1                |
+| ≥128k and <2M | list = (2 * vectors) / 1000    | [256, 4000]      |
+| ≥2M and <100M | list ∈ [4√vectors, 8√vectors]  | \[4000, 80000]   |
+| ≥100M         | list ∈ [8√vectors, 16√vectors] | \[80000, 160000] |
 
-### Other Build Parameters
+## Indexing Options
 
-In order to partition the vector space into appropriate cells, the index uses K-means clustering during construction. Read [Index Internal Build](./performance-tuning.md#index-internal-build) for more information. In simple terms,
+#### `residual_quantization`
+    
+- Description: This index parameter determines whether residual quantization is used. If you not familiar with residual quantization, you can read this [blog](https://drscotthawley.github.io/blog/posts/2023-06-12-RVQ.html) for more information. Shortly, residual quantization is a technique that improves the accuracy of vector search by quantizing the residuals of the vectors.
+- Type: boolean
+- Default: `false`
+- Example:
+    - `residual_quantization = false` means that residual quantization is not used.
+    - `residual_quantization = true` means that residual quantization is used.
+- Note: set `residual_quantization` to `true` if your model generates embeddings where the metric is Euclidean distance. This option only works for L2 distance. Using it with other distance metrics will result in an error in building.
 
-* set `build.internal.spherical_centroids` to `false` if your model generates embeddings where the metric is cosine similarity.
-* set `residual_quantization` to `true` if your model generates embeddings where the metric is Euclidean distance.
+### Internal Build Parameters
 
-This process can be performed outside the database, reducing the load on the database server. Read [Run External Index Precomputation Toolkit](https://github.com/tensorchord/VectorChord/tree/main/scripts#run-external-index-precomputation-toolkit) for more information.
+The following parameters are available:
 
-### GUC Parameter `vchordrq.epsilon`
+#### `build.internal.lists`
+    
+- Description: This index parameter determines the hierarchical structure of the vector space partitioning.
+- Type: list of integers
+- Default: `[]`
+- Example:
+    - `build.internal.lists = []` means that the vector space is not partitioned.
+    - `build.internal.lists = [4096]` means the vector space is divided into $4096$ cells.
+    - `build.internal.lists = [4096, 262144]` means the vector space is divided into $4096$ cells, and those cells are further divided into $262144$ smaller cells.
+- Note: The index partitions the vector space into multiple Voronoi cells using centroids, iteratively creating a hierarchical space partition tree. Each leaf node in this tree represents a region with an associated list storing vectors in that region. During insertion, vectors are placed in lists corresponding to their appropriate leaf nodes. For queries, the index optimizes search by excluding lists whose leaf nodes are distant from the query vector, effectively pruning the search space. If the length of `lists` is 1,the `lists` option should be no less than $4 * \sqrt{N}$, where $N$ is the number of vectors in the table.
 
-Even after pruning, the number of retrieved vectors remains large. The index uses the RaBitQ algorithm to quantize vectors into bit vectors, which occupy only $\frac{1}{32}$ of the memory compared to single-precision floating-point vectors. Since bit vectors involve almost no floating-point operations, most of the relevant computations are integer-based, resulting in faster computation. Unlike other quantization algorithms, RaBitQ not only estimates distances but also estimates the lower bounds of these distances. The index calculates the lower bound for each vector and adaptively determines how many vectors need to have their distances recalculated based on the number of query vectors, achieving both great performance and great accuracy.
+#### `build.internal.spherical_centroids`
 
-The GUC parameter `vchordrq.epsilon` controls the conservativeness of the lower bounds of distances. The higher the value, the higher the accuracy, but the worse the performance. The default value is `1.9`. The acceptable range is from `0` to `4`. The default value provides unnecessarily high accuracy for most indexes, so you can try lowering this parameter to achieve better performance.
+- Description: This index parameter determines whether perform spherical K-means -- the centroids are L2 normalized after each iteration, you can refer to option `spherical` in [here](https://github.com/facebookresearch/faiss/wiki/Faiss-building-blocks:-clustering,-PCA,-quantization#additional-options).
+- Type: boolean
+- Default: `false`
+- Example:
+    - `build.internal.spherical_centroids = false` means that spherical k-means is not performed.
+    - `build.internal.spherical_centroids = true` means that spherical k-means is performed.
+- Note: Set this to `true` if your model generates embeddings where the metric is cosine similarity.
+
+#### `build.internal.sampling_factor`
+    
+- Description: This index parameter determines the number of vectors sampled by K-means algorithm. The higher this value, the slower the build, the greater the memory consumption in building, and the better search performance.
+- Type: integer
+- Domain: `[0, 1024]`
+- Default: `256`
+- Example:
+    - `build.internal.sampling_factor = 256` means that the K-means algorithm samples $256$ vectors.
+    - `build.internal.sampling_factor = 1024` means that the K-means algorithm samples $1024$ vectors.
+
+#### `build.internal.kmeans_iterations`
+    
+- Description: This index parameter determines the number of iterations for K-means algorithm. The higher this value, the slower the build.
+- Type: integer
+- Domain: `[0, 1024]`
+- Default: `10`
+- Example:
+    - `build.internal.kmeans_iterations = 10` means that the K-means algorithm performs $10$ iterations.
+    - `build.internal.kmeans_iterations = 100` means that the K-means algorithm performs $100$ iterations.
+
+#### `build.internal.build_threads`
+    
+- Description: This index parameter determines the number of threads used by K-means algorithm. The higher this value, the faster the build, and greater load on the server in building.
+- Type: integer
+- Domain: `[1, 255]`
+- Default: `1`
+- Example:
+    - `build.internal.build_threads = 1` means that the K-means algorithm uses $1$ thread.
+    - `build.internal.build_threads = 4` means that the K-means algorithm uses $4$ threads.
+    
+### External Build Parameters
+
+To reduce the computational load on your database server during index building, refer to the [External Index Precomputation Toolkit](https://github.com/tensorchord/VectorChord/tree/main/scripts#run-external-index-precomputation-toolkit) for more information.
+
+You can refer to [performance tuning](../usage/performance-tuning#index-build-time) for more information about the performance tuning of the index.

@@ -53,11 +53,15 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'VectorChord Docs', link: '/vectorchord/getting-started/overview' },
-      { text: 'pgvecto.rs Docs', link: '/getting-started/overview' },
+      { text: 'Docs', link: '/vectorchord/' },
       { text: 'Cloud', link: '/cloud/' },
-      { text: 'Reference', link: '/reference/' },
       { text: 'Blog', link: 'https://blog.vectorchord.ai/' },
+      {
+        text: 'Others',
+        items: [
+          { text: 'pgvecto.rs Docs', link: '/getting-started/overview' },
+        ]
+      }
     ],
 
     editLink: {
@@ -66,25 +70,6 @@ export default defineConfig({
     },
 
     sidebar: {
-      '/reference/': [
-        {
-          text: 'Reference',
-          collapsed: false,
-          items: [
-            { text: 'Schema', link: '/reference/schema' },
-            { text: 'Indexing Options', link: '/reference/indexing_options' },
-            { text: 'Search Options', link: '/reference/search_options' },
-            {
-              text: 'Vector Types', link: '/reference/vector-types', items: [
-                { text: 'Half-Precision Vector', link: '/reference/vector-types/vecf16' },
-                { text: '8-Bit Integer Vector', link: '/reference/vector-types/veci8' },
-                { text: 'Sparse Vector', link: '/reference/vector-types/svector' },
-                { text: 'Binary Vector', link: '/reference/vector-types/bvector' },
-              ]
-            },
-          ],
-        },
-      ],
       '/': [
         {
           text: 'Getting Started',
@@ -149,6 +134,23 @@ export default defineConfig({
           ]
         },
         {
+          text: 'Reference',
+          collapsed: false,
+          items: [
+            { text: 'Schema', link: '/reference/schema' },
+            { text: 'Indexing Options', link: '/reference/indexing_options' },
+            { text: 'Search Options', link: '/reference/search_options' },
+            {
+              text: 'Vector Types', link: '/reference/vector-types', items: [
+                { text: 'Half-Precision Vector', link: '/reference/vector-types/vecf16' },
+                { text: '8-Bit Integer Vector', link: '/reference/vector-types/veci8' },
+                { text: 'Sparse Vector', link: '/reference/vector-types/svector' },
+                { text: 'Binary Vector', link: '/reference/vector-types/bvector' },
+              ]
+            },
+          ],
+        },
+        {
           text: 'Community',
           collapsed: true,
           items: [
@@ -172,6 +174,7 @@ export default defineConfig({
           items: [
             { text: 'Overview', link: '/vectorchord/getting-started/overview' },
             { text: 'Installation', link: '/vectorchord/getting-started/installation' },
+            { text: 'VectorChord Suite', link: '/vectorchord/getting-started/vectorchord-suite' },
           ],
         },
         {
@@ -180,9 +183,20 @@ export default defineConfig({
           items: [
             { text: 'Indexing', link: '/vectorchord/usage/indexing' },
             { text: 'Indexing with MaxSim Operators', link: '/vectorchord/usage/indexing-with-maxsim-operators' },
+            { text: 'Search', link: '/vectorchord/usage/search' },
             { text: 'Performance Tuning', link: '/vectorchord/usage/performance-tuning' },
             { text: 'Advanced Features', link: '/vectorchord/usage/advanced-features' },
+            { text: 'Range Query', link: '/vectorchord/usage/range-query' },
           ]
+        },
+        {
+          text: 'Use Cases',
+          collapsed: false,
+          items: [
+            { text: 'Hybrid Search', link: '/vectorchord/use-case/hybrid-search' },
+            { text: 'ColBERT Rerank', link: '/vectorchord/use-case/colbert-rerank' },
+            { text: 'ColQwen2 & Modal', link: '/vectorchord/use-case/colqwen2-modal' },
+          ],
         },
         {
           text: 'Benchmarks',
