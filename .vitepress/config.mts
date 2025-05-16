@@ -217,6 +217,13 @@ export default defineConfig({
             { text: 'Scalability', link: '/vectorchord/admin/scalability' },
           ]
         },
+        {
+          text: 'Customer Stories',
+          collapsed: false,
+          items: [
+            { text: 'Earthgenome', link: '/vectorchord/customer-stories/earthgenome' },
+          ]
+        },
       ],
       '/cloud/':
         [
