@@ -2,7 +2,7 @@
 
 Late interaction models embed documents and queries as vector arrays separately and compute similarity through an operator called `MaxSim`. The definition of the `MaxSim` operator is $\sum_i \max_j q_i \cdot d_j$, meaning that for each vector in the query vector array, the closest vector in the document vector array is found, their dot product is calculated, and the results are summed.
 
-In VectorChord, the symbol for this operator is `@#`. Left operand is the document vector array, and right operand is the query vector array. The original operator is based on similarity, while the operator in VectorChord is based on distance. Therefore, the operator `#@` is actually the negation of the result from `MaxSim`.
+In VectorChord, the symbol for this operator is `@#`. Left operand is the document vector array, and right operand is the query vector array. The original operator is based on similarity, while the operator in VectorChord is based on distance. Therefore, the operator `@#` is actually the negation of the result from `MaxSim`.
 
 To construct an index for vector arrays, first create a table named `items` with a column named `embeddings` of type `vector(n)[]`. Then, populate the table with generated data.
 
