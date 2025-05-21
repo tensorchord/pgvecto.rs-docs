@@ -195,7 +195,7 @@ export default defineConfig({
           text: 'Customer Stories',
           collapsed: false,
           items: [
-            { text: 'Earthgenome', link: '/vectorchord/customer-stories/earthgenome' },
+            { text: 'Earth Genome', link: '/vectorchord/customer-stories/earthgenome' },
           ]
         },
       ],
