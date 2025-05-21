@@ -1,4 +1,4 @@
-# Earth Genome's Earth Index & VectorChord
+# Leveraging 3 Billion PostgreSQL Vectors: Earth Genome's Earth Index & VectorChord for Planetary Protection
 
 Monitoring the health of our planet is one of the most critical challenges of our time. Our planet faces immense environmental pressures, and understanding these changes requires sifting through an unimaginable amount of satellite data – petabytes of pixels captured constantly. From tracking deforestation in the Amazon to identifying illegal mining operations in remote regions or monitoring agricultural impacts on sensitive ecosystems, turning this data into actionable intelligence is paramount.
 
