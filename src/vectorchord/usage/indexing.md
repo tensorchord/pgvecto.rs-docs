@@ -67,7 +67,6 @@ When dealing with large datasets (> $10^6$ vectors), please follow these guideli
 - Example:
     - `residual_quantization = false` means that residual quantization is not used.
     - `residual_quantization = true` means that residual quantization is used.
-- Note: set `residual_quantization` to `true` if your model generates embeddings where the metric is Euclidean distance. This option only works for L2 distance. Using it with other distance metrics will result in an error in building.
 
 ### Internal Build Parameters
 
