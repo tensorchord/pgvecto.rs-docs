@@ -12,16 +12,6 @@ To improve performance for the first query, you can try the following SQL that p
 SELECT vchordrq_prewarm('gist_train_embedding_idx')
 ```
 
-The indexing of each specific dimension in VectorChord requires preprocessing, which can increase the latency of the first query. This can be mitigated by modifying GUC `vchordrq.prewarm_dim` to perform the preprocessing ahead of time during PostgreSQL cluster startup.
-
-```SQL
--- Add your vector dimensions to the `prewarm_dim` list to reduce latency.
--- If this is not configured, the first query will have higher latency as the matrix is generated on demand.
--- Default value: '64,128,256,384,512,768,1024,1536'
--- Note: This setting requires a database restart to take effect.
-ALTER SYSTEM SET vchordrq.prewarm_dim = '64,128,256,384,512,768,1024,1536';
-```
-
 ## Indexing Progress
 
 You can check the indexing progress by querying the `pg_stat_progress_create_index` view.

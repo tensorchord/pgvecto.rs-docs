@@ -43,13 +43,6 @@ SET vchordrq.probes = 100;
 -- If you need a less precise query, setting it to 1.0 may be appropriate.
 -- Recommended range: 1.0–1.9. Default value is 1.9.
 SET vchordrq.epsilon = 1.9;
-
--- vchordrq relies on a projection matrix to optimize performance.
--- Add your vector dimensions to the `prewarm_dim` list to reduce latency.
--- If this is not configured, the first query will have higher latency as the matrix is generated on demand.
--- Default value: '64,128,256,384,512,768,1024,1536'
--- Note: This setting requires a database restart to take effect.
-ALTER SYSTEM SET vchordrq.prewarm_dim = '64,128,256,384,512,768,1024,1536';
 ```
 
 And for postgres's setting
