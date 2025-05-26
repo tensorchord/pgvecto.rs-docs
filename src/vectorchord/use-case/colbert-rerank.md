@@ -184,11 +184,11 @@ Vector search and full-text search with ColBERT rerank can further improve perfo
 ### References
 
 * [https://www.answer.ai/posts/colbert-pooling.html](https://www.answer.ai/posts/colbert-pooling.html)
-    
+
 * [https://github.com/stanford-futuredata/ColBERT](https://github.com/stanford-futuredata/ColBERT)
-    
+
 * [https://github.com/tensorchord/vectorChord/](https://github.com/tensorchord/vectorChord/)
-    
+
 * [https://github.com/tensorchord/VectorChord-bm25](https://github.com/tensorchord/VectorChord-bm25)
-    
+
 * [https://huggingface.co/blog/manu/colpali](https://huggingface.co/blog/manu/colpali)

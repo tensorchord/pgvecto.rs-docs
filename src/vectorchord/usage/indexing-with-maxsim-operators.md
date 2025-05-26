@@ -1,4 +1,4 @@
-# Indexing with MaxSim Operators
+# Indexing with MaxSim Operators <badge type="tip" text="since v0.3.0" />
 
 Late interaction models embed documents and queries as vector arrays separately and compute similarity through an operator called `MaxSim`. The definition of the `MaxSim` operator is $\sum_i \max_j q_i \cdot d_j$, meaning that for each vector in the query vector array, the closest vector in the document vector array is found, their dot product is calculated, and the results are summed.
 
@@ -49,7 +49,7 @@ The indexing mechanism for `MaxSim` operators works similarly to other vector op
 There are a few extra options used by maxsim indexes.
 
 #### `vchordrq.maxsim_refine`
-    
+
 - Description: This GUC parameter `vchordrq.maxsim_refine` makes the index rerank the results, replacing RaBitQ’s estimated distances with actual distances, until the distances of the top-k nearest vectors have all been recalculated.
 - Type: integer
 - Domain: `[0, 2147483647]`

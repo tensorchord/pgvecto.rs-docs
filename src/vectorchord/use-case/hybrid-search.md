@@ -37,16 +37,16 @@ In our previous blog post, [*VectorChord-BM25: Revolutionizing PostgreSQL Search
 In this tutorial, we will guide you through the steps to implement Hybrid Search using VectorChord-BM25 and VectorChord in PostgreSQL. We will cover the following topics:
 
 * **Semantic Search with VectorChord**
-    
+
 * **Keyword Search with VectorChord-BM25**
-    
+
 * **Rerank**
-    
+
 
 ### Prerequisites
 
 1. Postgres with VectorChord-BM25 and VectorChord
-    
+
 
 If you want to reproduce the tutorial quickly, you can use the `tensorchord/vchord-suite` image to run multiple extensions which are provided by TensorChord.
 
@@ -194,7 +194,7 @@ with self.conn.cursor() as cursor:
 Once you obtain the results from both semantic search and keyword search, you can use a **fuse or rerank** process to merge the results.
 
 1. Fuse (**Reciprocal Rank Fusion (RRF)**)
-    
+
 
 The advantage of **RRF** lies in its independence from specific score units; it is based on ranking for fusion, making it suitable for sorting systems with different scoring criteria.
 
@@ -203,13 +203,13 @@ $$\text{RRF}(d) = \sum_{i=1}^{n} \frac{1}{k + \text{rank}_i(d)}$$
 Among them:
 
 * `d` is the document.
-    
+
 * `n` is the number of ranking systems.
-    
+
 * `rank` is the ranking in the sorting system.
-    
+
 * `k` is the adjustment parameter, the value is usually 60 (empirical value), used to control the impact of ranking on scores.
-    
+
 
 ```python
 for rank, (query_id, doc_id, _) in enumerate(result, start=1):
@@ -222,7 +222,7 @@ for rank, (query_id, doc_id, _) in enumerate(result, start=1):
 ```
 
 2. Cross-Encoder model Rerank
-    
+
 <img src="../images/cross-encoder.jpeg" alt="Cross-Encoder" width="600" align="center"/>
 
 In semantic search, we already use Bi-Encoder vectorized the documents and queries separately. But this independent encoding leads to a lack of interaction between the query and the document. Cross-Encoder model will input the query and document as a whole into the model, the model will see the content of both at the same time, capturing the fine-grained semantic relationship between them through the Transformer layer. Compared with RRF, Cross-Encoder model can capture the fine-grained semantic relationship between the query and the document, and it can be more accurate but slower.
@@ -256,9 +256,8 @@ We have tested the **NDCG@10** with those methods on several BEIR datasets. Here
 The table above demonstrates several conclusions:
 
 * Compared to BM25 and semantic search, the cross-encoder model rerank can significantly improve search performance across different datasets.
-    
+
 * On some datasets, RRF may lead the performance decrease. Please conduct verification tests before deciding whether to use RRF. If effective, choosing RRF will be a very economical choice, as it is much, much faster than reranking with the cross-encoder model, and almost no resource consumption.
-    
 
 All related benchmark codes can be found [here](https://github.com/xieydd/vectorchord-hybrid-search). If you have any questions, please feel free to contact us on [Discord](https://discord.gg/KqswhpVgdU) or email us at [vectorchord-inquiry@tensorchord.ai](https://mailto:vectorchord-inquiry@tensorchord.ai/).
 
@@ -267,20 +266,13 @@ All related benchmark codes can be found [here](https://github.com/xieydd/vector
 The results highlight the great potential of the hybrid search method. In the future, we will focus on the following aspects to advance RAG:
 
 * **Improve the reranking method**: Explore the other model-based rerank, such as ColBERT or ColPali, to enhance reranking performance.
-    
 * **Integrate graph search**: Investigate the use of the [**Apache AGE**](https://github.com/apache/age) extension for graph search and integrate it with the hybrid search method to further improve search performance.
-    
 
 ## References
 
 * [https://github.com/tensorchord/vectorChord/](https://github.com/tensorchord/vectorChord/)
-    
 * [https://github.com/tensorchord/VectorChord-bm25](https://github.com/tensorchord/VectorChord-bm25)
-    
 * [https://techcommunity.microsoft.com/blog/adforpostgresql/introducing-the-graphrag-solution-for-azure-database-for-postgresql/4299871](https://techcommunity.microsoft.com/blog/adforpostgresql/introducing-the-graphrag-solution-for-azure-database-for-postgresql/4299871)
-    
 * [https://www.pinecone.io/learn/hybrid-search-intro/](https://www.pinecone.io/learn/hybrid-search-intro/)
-    
 * [https://www.pinecone.io/learn/series/rag/rerankers/](https://www.pinecone.io/learn/series/rag/rerankers/)
-    
 * [https://blog.vespa.ai/improving-zero-shot-ranking-with-vespa-part-two/](https://blog.vespa.ai/improving-zero-shot-ranking-with-vespa-part-two/)

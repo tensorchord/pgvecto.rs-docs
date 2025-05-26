@@ -60,7 +60,7 @@ When dealing with large datasets (> $10^6$ vectors), please follow these guideli
 ## Indexing Options
 
 #### `residual_quantization`
-    
+
 - Description: This index parameter determines whether residual quantization is used. If you not familiar with residual quantization, you can read this [blog](https://drscotthawley.github.io/blog/posts/2023-06-12-RVQ.html) for more information. Shortly, residual quantization is a technique that improves the accuracy of vector search by quantizing the residuals of the vectors.
 - Type: boolean
 - Default: `false`
@@ -68,15 +68,26 @@ When dealing with large datasets (> $10^6$ vectors), please follow these guideli
     - `residual_quantization = false` means that residual quantization is not used.
     - `residual_quantization = true` means that residual quantization is used.
 
+#### `build.pin` <badge type="tip" text="since v0.2.1" />
+
+- Description: This index parameter determines whether shared memory is used for indexing. For large datasets, you can choose to enable this option to speed up the build process.
+- Type: boolean
+- Default: `false`
+- Example:
+    - `build.pin = false` means that shared memory is not used.
+    - `build.pin = true` means that shared memory is used.
+
 ### Internal Build Parameters
 
 The following parameters are available:
 
 #### `build.internal.lists`
-    
+
 - Description: This index parameter determines the hierarchical structure of the vector space partitioning.
 - Type: list of integers
-- Default: `[]`
+- Default:
+    - `[]` <badge type="tip" text="since v0.3.0" />
+    - `[1000]` <badge type="tip" text="until v0.2.2: implicit behavior is not ideal" />
 - Example:
     - `build.internal.lists = []` means that the vector space is not partitioned.
     - `build.internal.lists = [4096]` means the vector space is divided into $4096$ cells.
@@ -93,8 +104,8 @@ The following parameters are available:
     - `build.internal.spherical_centroids = true` means that spherical k-means is performed.
 - Note: Set this to `true` if your model generates embeddings where the metric is cosine similarity.
 
-#### `build.internal.sampling_factor`
-    
+#### `build.internal.sampling_factor` <badge type="tip" text="since v0.2.0" />
+
 - Description: This index parameter determines the number of vectors sampled by K-means algorithm. The higher this value, the slower the build, the greater the memory consumption in building, and the better search performance.
 - Type: integer
 - Domain: `[0, 1024]`
@@ -103,8 +114,8 @@ The following parameters are available:
     - `build.internal.sampling_factor = 256` means that the K-means algorithm samples $256$ vectors.
     - `build.internal.sampling_factor = 1024` means that the K-means algorithm samples $1024$ vectors.
 
-#### `build.internal.kmeans_iterations`
-    
+#### `build.internal.kmeans_iterations` <badge type="tip" text="since v0.2.2" />
+
 - Description: This index parameter determines the number of iterations for K-means algorithm. The higher this value, the slower the build.
 - Type: integer
 - Domain: `[0, 1024]`
@@ -114,7 +125,7 @@ The following parameters are available:
     - `build.internal.kmeans_iterations = 100` means that the K-means algorithm performs $100$ iterations.
 
 #### `build.internal.build_threads`
-    
+
 - Description: This index parameter determines the number of threads used by K-means algorithm. The higher this value, the faster the build, and greater load on the server in building.
 - Type: integer
 - Domain: `[1, 255]`
@@ -122,7 +133,7 @@ The following parameters are available:
 - Example:
     - `build.internal.build_threads = 1` means that the K-means algorithm uses $1$ thread.
     - `build.internal.build_threads = 4` means that the K-means algorithm uses $4$ threads.
-    
+
 ### External Build Parameters
 
 To reduce the computational load on your database server during index building, refer to the [External Index Precomputation Toolkit](https://github.com/tensorchord/VectorChord/tree/main/scripts#run-external-index-precomputation-toolkit) for more information.
