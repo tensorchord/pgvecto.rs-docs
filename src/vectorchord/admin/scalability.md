@@ -9,24 +9,24 @@ High queries per second (QPS) vector search is essential for real-time applicati
 Using VectorChord on a multi-node cluster is more difficult than on a single machine. As with other services, a reliable distributed vector search usually has the following requirements:
 
 * **Usability**: Declarative configuration management
-    
+
 * **Elasticity**: Automatic scaling for nodes based on QPS requirements
-    
+
 * **Load Balancing**: Requests are handled effectively across different replica instances
-    
+
 * **High Availability**: Having multiple copies of the database and automatically recovering from a replica in case of failure
-    
+
 * **Durability:** Secure, persistent storage to ensure data integrity and prevent loss in the event of failures
-    
+
 
 Therefore, we deploy VectorChord services on AWS EKS with OpenTofu and CloudNativePG to manage the infrastructure that provides the above capabilities. Here are some modules to build the example clusters:
 
 * [OpenTofu](https://opentofu.org/): Open source alternative of terraform, used for infrastructure as code (IaC) on AWS EKS
-    
+
 * [CloudNativePG](https://cloudnative-pg.io/): Manage the full lifecycle of a highly available PostgreSQL database cluster with a primary/standby architecture
-    
+
 * [PGBouncer](https://www.pgbouncer.org/): Lightweight connection pooler for PostgreSQL, provided by module [Pooler](https://cloudnative-pg.io/documentation/1.25/connection_pooling/) of CloudNativePG
-    
+
 <img src="../images/scalability-architecture.png" alt="Architecture" width="100%" />
 
 Similar to [DiskANN](https://proceedings.neurips.cc/paper_files/paper/2019/file/09853c7fb1d3f8ee67a61b6bf4a7f8e6-Paper.pdf), VectorChord can fully utilize disk resources and still maintain competitive performance when memory is insufficient. Besides, VectorChord can also cache indexes in memory to achieve higher query performance.
@@ -47,9 +47,9 @@ In the following table, we provide the appropriate machine which can hold everyt
 As outlined in [our documentation](https://github.com/tensorchord/VectorChord#query-performance-tuning), VectorChord accepts two key parameters: `nprob` and `epsilon`. Here, `nprob` defines the number of candidate vectors to scan during a query, while `epsilon` serves as the threshold for determining whether to rerank results. Both parameters play a critical role in influencing both **QPS** and **recall**, allowing users to fine-tune the balance between search speed and accuracy.
 
 * Lower `nprob` will result in higher QPS and lower recall.
-    
+
 * Lower `epsilon` will result in higher **but more unstable** QPS and lower recall.
-    
+
 If these parameters are fixed, the precision of each experiment will remain consistent. However, the QPS will still vary depending on the CPU and I/O performance of the underlying hardware. To ensure the precision stays above 0.9, we configured the parameters based on earlier experiments conducted with smaller datasets.
 
 | **dataset** | **nprob / epsilon** | **recall** |

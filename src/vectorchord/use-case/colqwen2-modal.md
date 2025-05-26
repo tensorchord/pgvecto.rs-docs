@@ -7,11 +7,11 @@ This post is your guide to building exactly that: an **OCR-free RAG system** dir
 We'll cover:
 
 * What ColQwen2 is and why it's a game-changer.
-    
+
 * How VectorChord makes advanced vector search possible in Postgres.
-    
+
 * A step-by-step tutorial to build and evaluate the system.
-    
+
 
 ## What is ColQwen2? The Power of Visual Understanding
 
@@ -20,9 +20,9 @@ To grasp ColQwen2, let's first look at its foundation: **ColPali**. As introduce
 Think about the limitations of traditional OCR: complex layouts get mangled, tables become gibberish, and images are often ignored entirely. It's like trying to understand a book by only reading a flawed transcript. ColPali avoids this by using a powerful VLM (originally PaliGemma) to create embeddings that capture the document's holistic visual nature. Two key concepts make it shine:
 
 1. **Contextualized Vision Embeddings:** Generating rich embeddings directly from the document image using a VLM.
-    
+
 2. **Late Interaction:** This clever technique allows the *query's* textual meaning to directly interact with the *document's* detailed visual features *at search time*. It's not just matching text summaries; it's comparing the query concept against the visual evidence within the document page.
-    
+
 <img src="https://cdn-uploads.huggingface.co/production/uploads/60f2e021adf471cbdf8bb660/La8vRJ_dtobqs6WQGKTzB.png" alt="ColPali Architecture" width="600" height="400"/>
 
 
@@ -37,13 +37,13 @@ This is where **VectorChord** becomes the crucial piece of the puzzle, bringing 
 Calculating MaxSim – finding the highest similarity score between any vector in the query set and any vector in the document set – can be computationally brutal, especially across millions of document vectors. VectorChord tackles this head-on:
 
 * **Native Multi-Vector Support:** It's designed from the ground up to handle multi-vector data efficiently within Postgres.
-    
+
 * **Optimized MaxSim:** Drawing inspiration from the [**WARP paper**](https://arxiv.org/abs/2501.17788), VectorChord uses techniques like dynamic similarity imputation to dramatically speed up MaxSim calculations, making large-scale visual document retrieval feasible.
-    
+
 * **Hybrid Search Ready:** Beyond multi-vector, it also supports dense, sparse, and hybrid search (check out our [**previous post**](https://blog.vectorchord.ai/hybrid-search-with-postgres-native-bm25-and-vectorchord)!).
-    
+
 * **Scalable & Disk-Friendly:** Designed for performance without demanding excessive resources.
-    
+
 
 In short, VectorChord transforms PostgreSQL into a powerhouse capable of handling the advanced vector search techniques required by models like ColQwen2 or ColPali.
 
@@ -56,9 +56,9 @@ Alright, theory's great, but let's roll up our sleeves and build this thing! We'
 Before we start, ensure you have:
 
 * A PostgreSQL instance (Docker recommended) with the VectorChord extension installed OR a [**VectorChord Cloud**](https://cloud.vectorchord.ai/) cluster.
-    
+
 * A [**Modal**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fmodal.com%2F) account (free tier available). Modal's fast GPU provisioning and scaling are perfect for the embedding generation step. To efficiently process a large volume of documents using the ColQwen2 model, it's crucial to leverage Modal's rapid startup and GPU expansion features. This approach will significantly reduce the time required for local processing.
-    
+
 
 If you want to reproduce the tutorial quickly, you can use the `tensorchord/vchord-suite` image to run multiple extensions that TensorChord provides.
 
@@ -106,7 +106,7 @@ app = modal.App(image=image)
 def download_dataset(cache=False) -> None:
     from datasets import load_dataset
     from tqdm import tqdm
-    
+
     collection_dataset_names = get_collection_dataset_names("vidore/vidore-benchmark-667173f98e70a1c0fa4db00d") 
     for dataset_name in tqdm(collection_dataset_names, desc="vidore benchmark dataset(s)"):
         dataset = load_dataset(dataset_name, split="test",num_proc=10)
@@ -130,9 +130,9 @@ Modal handles building the environment and running the script in the cloud.
 This is the heavy lifting: converting document images into ColQwen2 multi-vector embeddings. Doing this locally for many documents would be slow. Modal shines here:
 
 * **Easy GPU Access & Autoscaling**: Launch a ColQwen2 model service on Modal and use it to generate the image embeddings and query embeddings for the dataset. The decision to implement an HTTP service instead of using the SDK directly was made to ensure seamless auto-scaling during large-scale embedding operations. If you want to deploy the embedding service as a persistent web endpoint, you can directly change `modal.cls` to `modal.web_server` for ColPaliServer and running `modal deploy`.
-    
+
 * **Recovery:** We checkpoint progress to a separate Modal Volume, allowing us to resume embedding generation if interrupted.
-    
+
 
 ```python
 # embedding.py (Illustrative - keep original code)
@@ -316,11 +316,11 @@ Total execution time: 41 seconds # Dramatic WARP Speed Boost
 **Analysis:**
 
 * **High Baseline Accuracy:** First, let's look at the baseline performance without WARP optimization. The system achieves an excellent NDCG@10 of **0.8615** and Recall@10 of **0.92**. This confirms the fundamental effectiveness of ColQwen2 embeddings paired with VectorChord's precise MaxSim search, delivering state-of-the-art results for visual document retrieval *even without* speed optimizations.
-    
+
 * **Dramatic WARP Speed Boost:** Now, observe the impact of enabling VectorChord's **WARP optimization**. The total execution time plummets from a substantial 810 seconds down to just **41 seconds**! This represents a massive **~18.7x speedup** for the evaluation query set. This clearly demonstrates WARP's power in dramatically accelerating the computationally intensive MaxSim operations required for late-interaction models like ColQwen2.
-    
+
 * **Minimal Accuracy Trade-off:** Impressively, this significant speed gain comes at the cost of only a very minor dip in retrieval accuracy. The NDCG@10 slightly decreases to **0.8353** (a difference of less than 0.3), and Recall@10 reduces minimally to **0.9** (a difference of only 0.02).
-    
+
 
 ## Conclusion: Visual RAG Made Simpler in Postgres
 
@@ -331,20 +331,20 @@ The ability to seamlessly integrate this visual dimension into your RAG system d
 Ready to try it yourself?
 
 * **Explore the Code:** [https://github.com/xieydd/vectorchord-colqwen2](https://github.com/xieydd/vectorchord-colqwen2)
-    
+
 * **Dive Deeper into VectorChord:** Check out the [**VectorChord documentation**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fdocs.vectorchord.ai%2F) or try the hassle-free [**VectorChord Cloud**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fcloud.vectorchord.ai%2F).
-    
+
 * **Experiment:** Try different VLMs or datasets.
-    
+
 * **Share Your Thoughts:** Let us know your experiences or questions in the comments below!
-    
+
 
 This approach represents a significant step towards simpler, more robust, and visually-aware document retrieval systems.
 
 ## References
 
 * [https://huggingface.co/vidore/colqwen2-v1.0](https://huggingface.co/vidore/colqwen2-v1.0)
-    
+
 * [https://huggingface.co/blog/manu/colpali](https://huggingface.co/blog/manu/colpali)
-    
+
 * [https://blog.vespa.ai/scaling-colpali-to-billions/](https://blog.vespa.ai/scaling-colpali-to-billions/)

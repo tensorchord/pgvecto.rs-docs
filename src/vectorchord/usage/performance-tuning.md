@@ -20,11 +20,10 @@ The number of parallel workers also depends on the table's configuration. By def
 ALTER TABLE t set (parallel_workers = 8);
 ```
 
-When building an index on a table with more than 10 million vectors, you can choose to consume more memory to accelerate the process by setting `build.pin` to `true`:
+When building an index on a table with more than 10 million vectors, you can choose to consume more shared memory to accelerate the process by setting `build.pin` to `true`:
 
 ```sql
 CREATE INDEX ON items USING vchordrq (embedding vector_cosine_ops) WITH (options = $$
-residual_quantization = false
 build.pin = true
 $$);
 ```
