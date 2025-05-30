@@ -17,7 +17,7 @@ docker run \
   --name vchord-demo \
   -e POSTGRES_PASSWORD=mysecretpassword \
   -p 5432:5432 \
-  -d tensorchord/vchord-postgres:pg17-v0.3.0
+  -d tensorchord/vchord-postgres:pg17-v0.4.2
 ```
 
 2. Connect to the database using the `psql` command line tool. The default username is `postgres`.
@@ -109,7 +109,12 @@ Installation from prebuilt binaries requires a dependency on `GLIBC >= 2.35`, so
 
 Prebuilt binaries are used for other Linux distributions. You can consider repackaging the precompiled binaries. You can use this installation method on x86_64 Linux and aarch64 Linux.
 
-1. Download prebuilt binaries in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and repackage it referring to your distribution's documentation. Then install it by system package manager.
+1. Download prebuilt binaries in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and repackage it referring to your distribution's documentation. Then install it by system package manager. We do not recommend doing this, but if you wish, you can also manually copy the files to the system directory.
+
+```sh
+cp -r ./pkglibdir/. $(pg_config --pkglibdir)
+cp -r ./sharedir/. $(pg_config --sharedir)
+```
 
 2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension.
 
@@ -122,6 +127,14 @@ sudo systemctl restart postgresql.service
 
 ```sql
 CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
+```
+
+## PGXN
+
+Install VectorChord from [PostgreSQL Extension Network](https://pgxn.org/dist/vchord) with:
+
+```sh
+pgxnclient install vchord # or `pgxnclient install vchord --sudo`
 ```
 
 ## Source
@@ -141,7 +154,7 @@ You may need to install VectorChord from source. Please follow these steps.
 ```sh
 git clone https://github.com/tensorchord/VectorChord.git
 cd VectorChord
-git checkout "0.3.0"
+git checkout "0.4.2"
 ```
 
 2. Install a C compiler and Rust. For GCC, the version must be 14 or higher. For Clang, the version must be 16 or higher. Other C compilers are not supported. For Rust, the version must be the same as that recorded in `rust-toolchain.toml`.
@@ -150,24 +163,42 @@ You could download Clang from https://github.com/llvm/llvm-project/releases.
 
 You could setup Rust with Rustup. See https://rustup.rs/.
 
-3. Install the devtool `cargo-pgrx` and set up it.
+3. Build it.
 
 ```sh
-cargo install cargo-pgrx@$(sed -n 's/.*pgrx = { version = "\(=.*\)",.*/\1/p' Cargo.toml) --locked
-cargo pgrx init --pg17=$(which pg_config)
+make build
 ```
 
-4. Install the extension to your system.
+4. Install it.
 
 ```sh
-cargo pgrx install --sudo --release
-sudo cp -a ./sql/upgrade/. $(pg_config --sharedir)/extension
+make install # or `sudo make install`
 ```
 
-5. Run the following SQL to add the extension to `shared_preload_libraries`. Then restart the PostgreSQL cluster.
+5. Add the extension to `shared_preload_libraries`. Then restart the PostgreSQL cluster.
+
+If the operating system is Linux, run the following SQL:
 
 ```sql
 ALTER SYSTEM SET shared_preload_libraries = "vchord.so";
+```
+
+If the operating system is MacOS and PostgreSQL version is 13, 14 or 15, run the following SQL:
+
+```sql
+ALTER SYSTEM SET shared_preload_libraries = "vchord.so";
+```
+
+If the operating system is MacOS, and PostgreSQL version is 16 or 17, run the following SQL:
+
+```sql
+ALTER SYSTEM SET shared_preload_libraries = "vchord.dylib";
+```
+
+If the operating system is Windows, run the following SQL:
+
+```sql
+ALTER SYSTEM SET shared_preload_libraries = "vchord.dll";
 ```
 
 6. Run the following SQL to ensure the extension is enabled.
