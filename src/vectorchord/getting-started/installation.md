@@ -129,7 +129,7 @@ sudo systemctl restart postgresql.service
 CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 ```
 
-## PGXN
+## PGXN <Badge type="tip" text="since v0.4.2" />
 
 Install VectorChord from [PostgreSQL Extension Network](https://pgxn.org/dist/vchord) with:
 
