@@ -24,7 +24,7 @@ You can create a vector index for squared Euclidean distance with the following 
 CREATE INDEX ON items USING vectors (embedding vector_l2_ops);
 ```
 
-The `vector_l2_ops` operator class calculates squared Euclidean distance. Refer to the [documentation](/reference/schema.html#list-of-operator-classes) for a list of operator classes.
+The `vector_l2_ops` operator class calculates squared Euclidean distance. Refer to the [documentation](../reference/schema.html#list-of-operator-classes) for a list of operator classes.
 
 To switch the indexing algorithm from the default HNSW to IVF, execute the SQL command below. For additional examples of usage, refer to the [documentation](#examples).
 
@@ -49,7 +49,7 @@ SELECT * FROM items ORDER BY embedding <-> '[3,2,1]' LIMIT 5;
 
 ## Examples
 
-Here are some examples of how to create indexes using various algorithms and settings. For a complete list of options, please consult the [reference guide](/reference/indexing_options.html).
+Here are some examples of how to create indexes using various algorithms and settings. For a complete list of options, please consult the [reference guide](../reference/indexing_options.html).
 
 ```sql
 -- HNSW algorithm, default settings.
@@ -101,11 +101,11 @@ $$);
 Selecting the appropriate indexing algorithm and settings is crucial for vector search performance. Below are recommendations tailored to various use cases.
 
 ### Brute force (flat)
-If you're conducting a limited number of searches (between 1,000 and 10,000) or require precise results, the [brute force](/reference/indexing_options.html#options-for-table-flat) algorithm is a viable option.
+If you're conducting a limited number of searches (between 1,000 and 10,000) or require precise results, the [brute force](../reference/indexing_options.html#options-for-table-flat) algorithm is a viable option.
 
 This algorithm sets the standard for other indexing methods. It retains vectors in their original form without compression and avoids additional overhead. While straightforward and user-friendly, it's not ideal for processing large datasets.
 
-In addition, you can use quantization to reduce memory usage. For a complete list of all options, please refer to the [documentation](/reference/indexing_options.html#options-for-table-quantization). Detailed information about quantization can also be found [there](/usage/quantization.html).
+In addition, you can use quantization to reduce memory usage. For a complete list of all options, please refer to the [documentation](../reference/indexing_options.html#options-for-table-quantization). Detailed information about quantization can also be found [there](../usage/quantization.html).
 
 ### Inverted file index (IVF)
 
@@ -113,7 +113,7 @@ IVF mainly uses the idea of inverted indexing to store the vectors `(id, vector)
 
 Before you begin your search, it's necessary to train nlist cluster centers. You also have the option to set nsample for K-Means clustering; a higher value yields more precise clusters but increases training time. For additional settings, please consult the reference guide.
 
-Before searching, train `nlist` cluster centers using K-Means clustering with `nsample` points. A higher value yields more precise clustering but requires longer training time. For additional settings, please consult the [reference guide](/reference/indexing_options.html#options-for-table-ivf).
+Before searching, train `nlist` cluster centers using K-Means clustering with `nsample` points. A higher value yields more precise clustering but requires longer training time. For additional settings, please consult the [reference guide](../reference/indexing_options.html#options-for-table-ivf).
 
 ### Hierarchical navigable small world graph (HNSW)
 
@@ -138,8 +138,8 @@ Skip lists are constructed using a probabilistic approach, where nodes become le
 
 Constructing this multi-layered graph begins with a foundational layer that encapsulates the entire dataset. Moving up the hierarchy, each successive layer provides a streamlined summary of its predecessor, featuring fewer nodes and functioning as fast tracks for making broader leaps within the graph.
 
-Smaller [`m`](/reference/indexing_options.html#options-for-table-hnsw)) values are better for lower-dimensional data or when you require lower recall. Larger `m` values are useful for higher-dimensional data or when high recall is important. 
+Smaller [`m`](../reference/indexing_options.html#options-for-table-hnsw)) values are better for lower-dimensional data or when you require lower recall. Larger `m` values are useful for higher-dimensional data or when high recall is important. 
 
-The [`ef_construction`](/reference/indexing_options.html#options-for-table-hnsw) parameter determines the dynamic candidate list size when adding new nodes; increasing this value may enhance recall but could extend index construction time.
+The [`ef_construction`](../reference/indexing_options.html#options-for-table-hnsw) parameter determines the dynamic candidate list size when adding new nodes; increasing this value may enhance recall but could extend index construction time.
 
 The HNSW index is resource-intensive, requiring additional RAM and an adjustment to the `maintenance_work_mem` setting for larger datasets. If you're seeking performance that's markedly faster than IVF, with a high recall rate and scalability that matches dataset size, HNSW is an excellent option.
