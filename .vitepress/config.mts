@@ -70,82 +70,82 @@ export default defineConfig({
     },
 
     sidebar: {
-      '/': [
+      '/pgvecto_rs/': [
         {
           text: 'Getting Started',
           collapsed: false,
           items: [
-            { text: 'Overview', link: '/getting-started/overview' },
-            { text: 'Installation', link: '/getting-started/installation' },
+            { text: 'Overview', link: '/pgvecto_rs/getting-started/overview' },
+            { text: 'Installation', link: '/pgvecto_rs/getting-started/installation' },
           ],
         },
         {
           text: 'Usage',
           collapsed: false,
           items: [
-            { text: 'Indexing', link: '/usage/indexing' },
-            { text: 'Search', link: '/usage/search' },
-            { text: 'Monitoring', link: '/usage/monitoring' },
-            { text: 'Quantization', link: '/usage/quantization' },
-            { text: 'Compatibility', link: '/usage/compatibility' },
+            { text: 'Indexing', link: '/pgvecto_rs/usage/indexing' },
+            { text: 'Search', link: '/pgvecto_rs/usage/search' },
+            { text: 'Monitoring', link: '/pgvecto_rs/usage/monitoring' },
+            { text: 'Quantization', link: '/pgvecto_rs/usage/quantization' },
+            { text: 'Compatibility', link: '/pgvecto_rs/usage/compatibility' },
           ]
         },
         {
           text: 'Use Cases',
           collapsed: false,
           items: [
-            { text: 'Hybrid search', link: '/use-case/hybrid-search' },
-            { text: 'Adaptive retrieval', link: '/use-case/adaptive-retrieval' },
-            { text: 'Image search', link: '/use-case/image-search' },
-            { text: 'Multi tenancy', link: '/use-case/multi-tenancy' },
-            { text: 'Sparse vector', link: '/use-case/sparse-vector' },
-            { text: 'Generative Question-Answering', link: '/use-case/question-answering' },
+            { text: 'Hybrid search', link: '/pgvecto_rs/use-case/hybrid-search' },
+            { text: 'Adaptive retrieval', link: '/pgvecto_rs/use-case/adaptive-retrieval' },
+            { text: 'Image search', link: '/pgvecto_rs/use-case/image-search' },
+            { text: 'Multi tenancy', link: '/pgvecto_rs/use-case/multi-tenancy' },
+            { text: 'Sparse vector', link: '/pgvecto_rs/use-case/sparse-vector' },
+            { text: 'Generative Question-Answering', link: '/pgvecto_rs/use-case/question-answering' },
           ],
         },
         {
           text: 'Integration',
           collapsed: false,
           items: [
-            { text: 'LangChain', link: '/integration/langchain' },
-            { text: 'LlamaIndex', link: '/integration/llama-index' },
-            { text: 'Citus', link: '/integration/citus' },
+            { text: 'LangChain', link: '/pgvecto_rs/integration/langchain' },
+            { text: 'LlamaIndex', link: '/pgvecto_rs/integration/llama-index' },
+            { text: 'Citus', link: '/pgvecto_rs/integration/citus' },
           ],
         },
         {
           text: 'Administration',
           collapsed: false,
           items: [
-            { text: 'Configuration', link: '/admin/configuration' },
-            { text: 'Upgrading', link: '/admin/upgrading' },
-            { text: 'Logical replication', link: '/admin/logical_replication' },
-            { text: 'Foreign data wrapper (FDW)', link: '/admin/fdw' },
-            { text: 'Kubernetes', link: '/admin/kubernetes' },
-            { text: 'Migration', link: '/admin/migration' },
+            { text: 'Configuration', link: '/pgvecto_rs/admin/configuration' },
+            { text: 'Upgrading', link: '/pgvecto_rs/admin/upgrading' },
+            { text: 'Logical replication', link: '/pgvecto_rs/admin/logical_replication' },
+            { text: 'Foreign data wrapper (FDW)', link: '/pgvecto_rs/admin/fdw' },
+            { text: 'Kubernetes', link: '/pgvecto_rs/admin/kubernetes' },
+            { text: 'Migration', link: '/pgvecto_rs/admin/migration' },
           ],
         },
         {
           text: 'FAQs',
           collapsed: false,
           items: [
-            { text: 'General FAQ', link: '/faqs/general' },
-            { text: 'pgvecto.rs vs. pgvector', link: '/faqs/comparison-pgvector' },
-            { text: 'pgvecto.rs vs. specialized vectordb', link: '/faqs/comparison-with-specialized-vectordb' },
-            { text: `Benchmarks`, link: '/faqs/benchmark' },
+            { text: 'General FAQ', link: '/pgvecto_rs/faqs/general' },
+            { text: 'pgvecto.rs vs. pgvector', link: '/pgvecto_rs/faqs/comparison-pgvector' },
+            { text: 'pgvecto.rs vs. specialized vectordb', link: '/pgvecto_rs/faqs/comparison-with-specialized-vectordb' },
+            { text: `Benchmarks`, link: '/pgvecto_rs/faqs/benchmark' },
           ]
         },
         {
           text: 'Reference',
           collapsed: false,
           items: [
-            { text: 'Schema', link: '/reference/schema' },
-            { text: 'Indexing Options', link: '/reference/indexing_options' },
-            { text: 'Search Options', link: '/reference/search_options' },
+            { text: 'Schema', link: '/pgvecto_rs/reference/schema' },
+            { text: 'Indexing Options', link: '/pgvecto_rs/reference/indexing_options' },
+            { text: 'Search Options', link: '/pgvecto_rs/reference/search_options' },
             {
-              text: 'Vector Types', link: '/reference/vector-types', items: [
-                { text: 'Half-Precision Vector', link: '/reference/vector-types/vecf16' },
-                { text: '8-Bit Integer Vector', link: '/reference/vector-types/veci8' },
-                { text: 'Sparse Vector', link: '/reference/vector-types/svector' },
-                { text: 'Binary Vector', link: '/reference/vector-types/bvector' },
+              text: 'Vector Types', link: '/pgvecto_rs/reference/vector-types', items: [
+                { text: 'Half-Precision Vector', link: '/pgvecto_rs/reference/vector-types/vecf16' },
+                { text: '8-Bit Integer Vector', link: '/pgvecto_rs/reference/vector-types/veci8' },
+                { text: 'Sparse Vector', link: '/pgvecto_rs/reference/vector-types/svector' },
+                { text: 'Binary Vector', link: '/pgvecto_rs/reference/vector-types/bvector' },
               ]
             },
           ],
@@ -154,16 +154,16 @@ export default defineConfig({
           text: 'Community',
           collapsed: true,
           items: [
-            { text: 'Contributing to pgvecto.rs', link: '/community/contributing' },
-            { text: 'Roadmap', link: '/community/roadmap' },
-            { text: 'Adopters', link: '/community/adopters' },
+            { text: 'Contributing to pgvecto.rs', link: '/pgvecto_rs/community/contributing' },
+            { text: 'Roadmap', link: '/pgvecto_rs/community/roadmap' },
+            { text: 'Adopters', link: '/pgvecto_rs/community/adopters' },
           ],
         },
         {
           text: 'Developers',
           collapsed: true,
           items: [
-            { text: 'Development tutorial', link: '/developers/development' },
+            { text: 'Development tutorial', link: '/pgvecto_rs/developers/development' },
           ],
         },
       ],
@@ -182,16 +182,27 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: 'Indexing', link: '/vectorchord/usage/indexing' },
-            { text: 'Indexing with MaxSim Operators', link: '/vectorchord/usage/indexing-with-maxsim-operators' },
             { text: 'Search', link: '/vectorchord/usage/search' },
+            { text: 'Monitoring', link: '/vectorchord/usage/monitoring' },
             { text: 'Performance Tuning', link: '/vectorchord/usage/performance-tuning' },
-            { text: 'Advanced Features', link: '/vectorchord/usage/advanced-features' },
-            { text: 'Range Query', link: '/vectorchord/usage/range-query' },
+            
+          ]
+        },
+        {
+          text: 'Advanced Features',
+          collapsed: false,
+          items: [
+            { text: 'Cold Start Optimization', link: '/vectorchord/advanced-features/cold-start-optimization' },,
+            { text: 'Pre and Post Filtering', link: '/vectorchord/advanced-features/pre-and-post-filtering' },
+            { text: 'Multi-Vector Retrieval', link: '/vectorchord/advanced-features/multi-vector-retrieval' },
+            { text: 'Range Query', link: '/vectorchord/advanced-features/range-query' },
+            { text: 'Rerank In Table', link: '/vectorchord/advanced-features/rerank-in-table' },
+            { text: 'External Index Precomputation', link: '/vectorchord/advanced-features/external-index-precomputation' },
           ]
         },
         {
           text: 'Use Cases',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Hybrid Search', link: '/vectorchord/use-case/hybrid-search' },
             { text: 'ColBERT Rerank', link: '/vectorchord/use-case/colbert-rerank' },
@@ -200,7 +211,7 @@ export default defineConfig({
         },
         {
           text: 'Benchmarks',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Price', link: '/vectorchord/benchmark/price' },
             { text: 'Performance', link: '/vectorchord/benchmark/performance' },
@@ -211,7 +222,7 @@ export default defineConfig({
         },
         {
           text: 'Administration',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Migration', link: '/vectorchord/admin/migration' },
             { text: 'Scalability', link: '/vectorchord/admin/scalability' },
@@ -219,7 +230,7 @@ export default defineConfig({
         },
         {
           text: 'Customer Stories',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Earth Genome', link: '/vectorchord/customer-stories/earthgenome' },
           ]

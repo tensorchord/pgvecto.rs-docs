@@ -142,7 +142,7 @@ Score:  0.29536954
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 Score:  0.35845917
-More details at [📝`pgvecto.rs` vs. pgvector](/faqs/comparison-pgvector.md).
+More details at [📝`pgvecto.rs` vs. pgvector](../faqs/comparison-pgvector.md).
 
 ## Quick start
 
