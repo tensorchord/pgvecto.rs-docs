@@ -112,7 +112,7 @@ embeddings = embed.embeddings
 ```
 
 :::info
-The embeddings in this user case are dense vectors. For creating sparse vectors, you can see [this page](/use-case/sparse-vector.html#how-to-create-a-vector-embedding).
+The embeddings in this user case are dense vectors. For creating sparse vectors, you can see [this page](../use-case/sparse-vector.html#how-to-create-a-vector-embedding).
 :::
 
 ### Insert Data into the Database
@@ -259,7 +259,7 @@ Recall the options for distance operators:
  - `<#>` for negative dot product
  - `<=>` for cosine distance
 
-For definitions, please see the [overview](/getting-started/overview.html#quick-start). 
+For definitions, please see the [overview](../getting-started/overview.html#quick-start). 
  :::
 
  Now, let's try the prompt again, with added context: 

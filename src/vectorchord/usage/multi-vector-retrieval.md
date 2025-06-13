@@ -1,4 +1,12 @@
-# Indexing with MaxSim Operators <badge type="tip" text="since v0.3.0" />
+# Multi-Vector Retrieval <badge type="tip" text="since v0.3.0" />
+
+The Multi-Vector Retrieval is an advanced tool used in Retrieval-Augmented Generation (RAG) systems to enhance document retrieval by leveraging multiple vectors per document.
+
+Unlike Single-Vector Retrieval, Multi-Vector Retrieval and the `MaxSim` operator allow vectors to capture fine-grained semantic relationships.
+
+See [our blog](https://blog.vectorchord.ai/beyond-text-unlock-ocr-free-rag-in-postgresql-with-modal-and-vectorchord) for more details on building an end-to-end Multi-Vector Retrieval application.
+
+## How to start
 
 Late interaction models embed documents and queries as vector arrays separately and compute similarity through an operator called `MaxSim`. The definition of the `MaxSim` operator is $\sum_i \max_j q_i \cdot d_j$, meaning that for each vector in the query vector array, the closest vector in the document vector array is found, their dot product is calculated, and the results are summed.
 

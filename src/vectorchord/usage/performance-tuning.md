@@ -2,12 +2,12 @@
 
 ## Index Build Time
 
-Index building can be parallelized, and with external centroid precomputation. Optimize parallelism using the following settings:
+Index building can be parallelized. Optimize parallelism using the following settings:
 
 ```SQL
 -- Set this to the number of CPU cores available for parallel operations.
-SET max_parallel_maintenance_workers = 8;
-SET max_parallel_workers = 8;
+SET max_parallel_maintenance_workers = 16;
+SET max_parallel_workers = 16;
 
 -- Adjust the total number of worker processes. 
 -- Note: A restart is required for this setting to take effect.
@@ -17,7 +17,7 @@ ALTER SYSTEM SET max_worker_processes = 16;
 The number of parallel workers also depends on the table's configuration. By default, this is automatically determined by PostgreSQL. If PostgreSQL identifies it as disabled, parallel index builds will not take effect. You can override PostgreSQL's behavior by adjusting the table's `parallel_workers` setting to enable parallel builds.
 
 ```sql
-ALTER TABLE t set (parallel_workers = 8);
+ALTER TABLE t set (parallel_workers = 16);
 ```
 
 When building an index on a table with more than 10 million vectors, you can choose to consume more shared memory to accelerate the process by setting `build.pin` to `true`:
@@ -27,6 +27,11 @@ CREATE INDEX ON items USING vchordrq (embedding vector_cosine_ops) WITH (options
 build.pin = true
 $$);
 ```
+
+---
+
+If you are using `[build.internal]`, please refer to [`build.internal.build_threads`](./indexing#build-internal-build-threads) for K-Means parallel.
+
 
 ## Query Performance
 

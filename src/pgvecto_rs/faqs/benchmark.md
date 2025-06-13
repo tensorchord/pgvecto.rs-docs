@@ -34,11 +34,11 @@ These are the performance benchmarks for the shortened embeddings. The [dbpedia-
 
 **First Pass** in the benchmark shows that the accuracy of the shortened embeddings is not as good as the full embeddings. 256D HNSW index only achieves ~65% accuracy, while 1024D HNSW index achieves ~85% accuracy. 
 
-However, the accuracy of the shortened embeddings surpasses 95% when [adaptive retrieval](/use-case/adaptive-retrieval) is employed. Additionally, adopting this approach leads to significant improvements in terms of RPS (Requests Per Second) and latency.
+However, the accuracy of the shortened embeddings surpasses 95% when [adaptive retrieval](../use-case/adaptive-retrieval) is employed. Additionally, adopting this approach leads to significant improvements in terms of RPS (Requests Per Second) and latency.
 
 ## Binary vectors
 
-`pgvecto.rs` supports [binary vectors](/reference/vector-types.html#bvector-binary-vector). The `bvector` type is optimized for storage and performance. It uses a bit-packed representation to store the binary vector. The distance calculation is also optimized for binary vectors.
+`pgvecto.rs` supports [binary vectors](../reference/vector-types/bvector). The `bvector` type is optimized for storage and performance. It uses a bit-packed representation to store the binary vector. The distance calculation is also optimized for binary vectors.
 
 Here are some performance benchmarks for the `bvector` type. We use the [dbpedia-entities-openai3-text-embedding-3-large-3072-1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-3072-1M) dataset for the benchmark. The VM is n2-standard-8 (8 vCPUs, 32 GB memory) on Google Cloud.
 
@@ -46,4 +46,4 @@ We upsert 1M binary vectors into the table and then run a KNN query for each emb
 
 ![bvector](./images/bvector.png)
 
-We can see that the `bvector`'s accuracy is not as good as the `vector` type, but it exceeds 95%  if we adopt [adaptive retrieval](/use-case/adaptive-retrieval).
+We can see that the `bvector`'s accuracy is not as good as the `vector` type, but it exceeds 95%  if we adopt [adaptive retrieval](../use-case/adaptive-retrieval).
