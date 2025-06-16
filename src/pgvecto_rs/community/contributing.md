@@ -18,7 +18,7 @@ Our community is always looking for enthusiasts to help in all different ways.
 
 ### ⚽ Simply start using `pgvecto.rs`
 
-Go through the [Getting Started](/getting-started/overview) guide. Does everything work as expected? If not, we're always looking for improvements. Chat with us on [💬 Discord](https://discord.gg/KqswhpVgdU) or [file an issue](https://github.com/tensorchord/pgvecto.rs/issues/new/choose) on GitHub.
+Go through the [Getting Started](../getting-started/overview) guide. Does everything work as expected? If not, we're always looking for improvements. Chat with us on [💬 Discord](https://discord.gg/KqswhpVgdU) or [file an issue](https://github.com/tensorchord/pgvecto.rs/issues/new/choose) on GitHub.
 
 ### 🙋 Triaging Issues and Pull Requests
 
@@ -31,7 +31,7 @@ One great way you can contribute to the project without writing any code is to h
 
 ### 👨‍💻 Contribute to `pgvecto.rs`
 
-If you find an issue you would like to fix, open a pull request. Please read [development tutorials](/developers/development) to get started.
+If you find an issue you would like to fix, open a pull request. Please read [development tutorials](../developers/development) to get started.
 
 ### 👉 Improve documentation
 
