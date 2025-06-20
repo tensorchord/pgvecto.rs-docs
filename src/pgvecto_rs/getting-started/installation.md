@@ -136,7 +136,7 @@ CREATE EXTENSION vectors;
 
 ## From source
 
-Before building from source, you could refer to the [development guide](/developers/development.md) to set up the development environment.
+Before building from source, you could refer to the [development guide](../developers/development.md) to set up the development environment.
 
 1. Then you could build and install the extension.
 

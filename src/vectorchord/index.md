@@ -9,11 +9,18 @@
 ## Usage
 
 - [Indexing](/vectorchord/usage/indexing)
-- [Indexing with MaxSim Operators](/vectorchord/usage/indexing-with-maxsim-operators)
 - [Search](/vectorchord/usage/search)
+- [Monitoring](/vectorchord/usage/monitoring)
 - [Performance Tuning](/vectorchord/usage/performance-tuning)
-- [Advanced Features](/vectorchord/usage/advanced-features)
-- [Range Query](/vectorchord/usage/range-query)
+
+## Advanced Features
+
+- [Cold Start Optimization](/vectorchord/advanced-features/cold-start-optimization)
+- [Prefiltering And Postfiltering](/vectorchord/advanced-features/pre-and-post-filtering)
+- [Multi-Vector Retrieval](/vectorchord/advanced-features/multi-vector-retrieval)
+- [Range Query](/vectorchord/advanced-features/range-query)
+- [Rerank In Table](/vectorchord/advanced-features/rerank-in-table)
+- [External Index Precomputation](/vectorchord/advanced-features/external-index-precomputation)
 
 ## Use Cases
 
