@@ -17,7 +17,7 @@ docker run \
   --name vchord-demo \
   -e POSTGRES_PASSWORD=mysecretpassword \
   -p 5432:5432 \
-  -d tensorchord/vchord-postgres:pg17-v0.4.2
+  -d tensorchord/vchord-postgres:pg17-v0.4.3
 ```
 
 2. Connect to the database using the `psql` command line tool. The default username is `postgres`.
@@ -76,8 +76,8 @@ Debian packages are used for Debian-based Linux distributions, including Debian 
 1. Download Debian packages in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and install them by `apt`.
 
 ```sh
-wget https://github.com/tensorchord/VectorChord/releases/download/0.3.0/postgresql-17-vchord_0.3.0-1_$(dpkg --print-architecture).deb
-sudo apt install ./postgresql-17-vchord_0.3.0-1_$(dpkg --print-architecture).deb
+wget https://github.com/tensorchord/VectorChord/releases/download/0.4.3/postgresql-17-vchord_0.4.3-1_$(dpkg --print-architecture).deb
+sudo apt install ./postgresql-17-vchord_0.4.3-1_$(dpkg --print-architecture).deb
 ```
 
 2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension.
@@ -137,11 +137,17 @@ Install VectorChord from [PostgreSQL Extension Network](https://pgxn.org/dist/vc
 pgxnclient install vchord # or `pgxnclient install vchord --sudo`
 ```
 
+::: tip
+
+There is a broken VectorChord `0.4.1` package on PGXN. Please do not use it. Use version `0.4.2` or later instead.
+
+:::
+
 ## Source
 
 ::: tip
 
-VectorChord supports UNIX-like operating systems. Please report an issue if you cannot compile.
+VectorChord supports UNIX-like operating systems and Windows. Please report an issue if you cannot compile or make it work.
 
 VectorChord supports little-endian architectures but only provides performance advantages on x86_64 and aarch64.
 
@@ -154,7 +160,7 @@ You may need to install VectorChord from source. Please follow these steps.
 ```sh
 git clone https://github.com/tensorchord/VectorChord.git
 cd VectorChord
-git checkout "0.4.2"
+git checkout "0.4.3"
 ```
 
 2. Install a C compiler and Rust. For GCC, the version must be 14 or higher. For Clang, the version must be 16 or higher. Other C compilers are not supported. For Rust, the version must be the same as that recorded in `rust-toolchain.toml`.
