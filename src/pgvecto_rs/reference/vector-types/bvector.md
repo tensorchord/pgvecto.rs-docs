@@ -54,4 +54,4 @@ We upsert 1M binary vectors into the table and then run a KNN query for each emb
 
 ![bvector](./images/bvector.png)
 
-We can see that the `bvector`'s accuracy is not as good as the `vector` type, but it exceeds 95%  if we adopt [adaptive retrieval](/use-case/adaptive-retrieval).
+We can see that the `bvector`'s accuracy is not as good as the `vector` type, but it exceeds 95%  if we adopt [adaptive retrieval](../../use-case/adaptive-retrieval).
