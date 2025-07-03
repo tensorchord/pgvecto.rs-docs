@@ -80,10 +80,10 @@ wget https://github.com/tensorchord/VectorChord/releases/download/0.4.3/postgres
 sudo apt install ./postgresql-17-vchord_0.4.3-1_$(dpkg --print-architecture).deb
 ```
 
-2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension.
+2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension. And then restart the PostgreSQL cluster.
 
 ```sh
-psql -U postgres -c 'ALTER SYSTEM SET shared_preload_libraries = "vchord.so"'
+psql -U postgres -c 'ALTER SYSTEM SET shared_preload_libraries = "vchord"'
 sudo systemctl restart postgresql.service
 ```
 
@@ -116,11 +116,10 @@ cp -r ./pkglibdir/. $(pg_config --pkglibdir)
 cp -r ./sharedir/. $(pg_config --sharedir)
 ```
 
-2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension.
+2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension. And then restart the PostgreSQL cluster.
 
 ```sh
-psql -U postgres -c 'ALTER SYSTEM SET shared_preload_libraries = "vchord.so"'
-sudo systemctl restart postgresql.service
+psql -U postgres -c 'ALTER SYSTEM SET shared_preload_libraries = "vchord"'
 ```
 
 3. Run the following SQL to ensure the extension is enabled.
@@ -131,10 +130,22 @@ CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 
 ## PGXN
 
-Install VectorChord from [PostgreSQL Extension Network](https://pgxn.org/dist/vchord) with:
+1. Install VectorChord from [PostgreSQL Extension Network](https://pgxn.org/dist/vchord) with:
 
 ```sh
 pgxnclient install vchord # or `pgxnclient install vchord --sudo`
+```
+
+2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension. And then restart the PostgreSQL cluster.
+
+```sh
+psql -U postgres -c 'ALTER SYSTEM SET shared_preload_libraries = "vchord"'
+```
+
+3. Run the following SQL to ensure the extension is enabled.
+
+```sql
+CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 ```
 
 ::: tip
@@ -163,51 +174,26 @@ cd VectorChord
 git checkout "0.4.3"
 ```
 
-2. Install a C compiler and Rust. For GCC, the version must be 14 or higher. For Clang, the version must be 16 or higher. Other C compilers are not supported. For Rust, the version must be the same as that recorded in `rust-toolchain.toml`.
+2. Install a C compiler and Rust. For Clang, the version must be 16 or higher. For GCC, the version must be 14 or higher. Other C compilers are not supported, and we prefer and recommend using Clang. For Rust, the version must be the same as that recorded in `rust-toolchain.toml`.
 
 You could download Clang from https://github.com/llvm/llvm-project/releases.
 
 You could setup Rust with Rustup. See https://rustup.rs/.
 
-3. Build it.
+3. Build it and install it.
 
 ```sh
 make build
-```
-
-4. Install it.
-
-```sh
 make install # or `sudo make install`
 ```
 
-5. Add the extension to `shared_preload_libraries`. Then restart the PostgreSQL cluster.
+4. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension. And then restart the PostgreSQL cluster.
 
-If the operating system is Linux, run the following SQL:
-
-```sql
-ALTER SYSTEM SET shared_preload_libraries = "vchord.so";
+```sh
+psql -U postgres -c 'ALTER SYSTEM SET shared_preload_libraries = "vchord"'
 ```
 
-If the operating system is MacOS and PostgreSQL version is 13, 14 or 15, run the following SQL:
-
-```sql
-ALTER SYSTEM SET shared_preload_libraries = "vchord.so";
-```
-
-If the operating system is MacOS, and PostgreSQL version is 16 or 17, run the following SQL:
-
-```sql
-ALTER SYSTEM SET shared_preload_libraries = "vchord.dylib";
-```
-
-If the operating system is Windows, run the following SQL:
-
-```sql
-ALTER SYSTEM SET shared_preload_libraries = "vchord.dll";
-```
-
-6. Run the following SQL to ensure the extension is enabled.
+5. Run the following SQL to ensure the extension is enabled.
 
 ```sql
 CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
@@ -217,6 +203,8 @@ CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 
 By default, `VectorChord` only finds `clang` in `PATH` as the C compiler.
 
-If you need to use GCC, please set the environment variable CC to `gcc`.
+If your Clang executable is not named `clang` or is not in `PATH`, please set the environment variable `CC` to path of your Clang.
+
+If you prefer to use GCC, please set the environment variable `CC` to `gcc` or path of your GCC.
 
 :::
