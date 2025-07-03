@@ -1,7 +1,7 @@
 # Installation
 
 :::warning
-We strongly encourage you to explore our new [VectorChord](https://github.com/tensorchord/VectorChord/) implementation, which offers improved stability and performance. Users are encouraged to migrate to VectorChord. See the [migration guide](https://docs.vectorchord.ai/vectorchord/admin/migration.html) for assistance.
+We strongly encourage you to explore our new [VectorChord](https://github.com/tensorchord/VectorChord/) implementation, which offers improved stability and performance. Users are encouraged to migrate to VectorChord. See the [migration guide](/vectorchord/admin/migration) for assistance.
 :::
 
 There are four ways to install `pgvecto.rs`.
@@ -136,7 +136,7 @@ CREATE EXTENSION vectors;
 
 ## From source
 
-Before building from source, you could refer to the [development guide](/developers/development.md) to set up the development environment.
+Before building from source, you could refer to the [development guide](../developers/development.md) to set up the development environment.
 
 1. Then you could build and install the extension.
 
