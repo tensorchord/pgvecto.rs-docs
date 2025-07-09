@@ -1,4 +1,4 @@
-name: Typos check
+name: Check Typos and Links
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   run:
-    name: Spell Check with Typos
+    name: Check Typos and Links
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Actions Repository
@@ -22,6 +22,7 @@ jobs:
     - name: Link Checker
       uses: lycheeverse/lychee-action@v2
       with:
+        args: --max-concurrency 16
         fail: true
         format: markdown
         jobSummary: true
