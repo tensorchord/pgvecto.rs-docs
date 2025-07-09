@@ -50,7 +50,7 @@ Shortened embeddings are supported by all data types in `pgvecto.rs` since versi
 
 This diagram shows the conversion between different data types, where the types connected by arrows can be cast to each other:
 
-<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNyxbMywyLCJcXHRleHR7dmVjdG9yfSJdLFsyLDAsIlxcdGV4dHt2ZWNmMTZ9Il0sWzQsMCwiXFx0ZXh0e3ZlY2k4fSJdLFszLDUsIlxcdGV4dHtidmVjdG9yfSJdLFswLDIsIlxcdGV4dHtBUlJBWX0iXSxbNiwyLCJcXHRleHR7c3ZlY3Rvcn0iXSxbNywwLCJcXHRleHR7c3ZlY2YxNn0iXSxbMiwwXSxbMCwyXSxbMSwwXSxbMCwxXSxbMywwXSxbMCwzXSxbNCwwLCIiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkb3R0ZWQifX19XSxbMCw1XSxbNSwwXSxbNiw1XSxbNSw2XSxbMCw0LCIiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkb3R0ZWQifX19XV0=&embed" width="90%" height="440" style="border-radius: 8px; border: none;"></iframe>
+<iframe class="quiver-embed" src="https://q.uiver.app/?q=WzAsNyxbMywyLCJcXHRleHR7dmVjdG9yfSJdLFsyLDAsIlxcdGV4dHt2ZWNmMTZ9Il0sWzQsMCwiXFx0ZXh0e3ZlY2k4fSJdLFszLDUsIlxcdGV4dHtidmVjdG9yfSJdLFswLDIsIlxcdGV4dHtBUlJBWX0iXSxbNiwyLCJcXHRleHR7c3ZlY3Rvcn0iXSxbNywwLCJcXHRleHR7c3ZlY2YxNn0iXSxbMiwwXSxbMCwyXSxbMSwwXSxbMCwxXSxbMywwXSxbMCwzXSxbNCwwLCIiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkb3R0ZWQifX19XSxbMCw1XSxbNSwwXSxbNiw1XSxbNSw2XSxbMCw0LCIiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkb3R0ZWQifX19XV0=&embed" width="90%" height="440" style="border-radius: 8px; border: none;"></iframe>
 
 Among them, `ARRAY` is a native type of `postgreSQL`, others are types defined by `pgvecto.rs`.
 
