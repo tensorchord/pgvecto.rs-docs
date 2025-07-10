@@ -4,6 +4,7 @@ include_fragments = true
 accept = [
     200,
     403,  # forbidden, mainly for OpenAI
+    999,  # LinkedIn
 ]
 remap = [
     "(https://github.com/[^/]+/[^/]+/blob/[^#]+)#[a-zA-Z0-9._-]* $1",  # remove fragment from GitHub **blob** URLS
