@@ -22,7 +22,7 @@ jobs:
     - name: Link Checker
       uses: lycheeverse/lychee-action@v2
       with:
-        args: --max-concurrency 16 --verbose --no-progress .
+        args: --max-concurrency 8 --verbose --no-progress .
         fail: true
         format: markdown
         jobSummary: true
