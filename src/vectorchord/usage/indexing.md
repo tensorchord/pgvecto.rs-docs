@@ -106,13 +106,13 @@ The following parameters are available:
 
 #### `build.internal.sampling_factor` <badge type="tip" text="since v0.2.0" />
 
-- Description: This index parameter determines the number of vectors sampled by K-means algorithm. The higher this value, the slower the build, the greater the memory consumption in building, and the better search performance.
+- Description: This index parameter determines the number of vectors the K-means algorithm samples per cluster. The higher this value, the slower the build, the greater the memory consumption in building, and the better search performance.
 - Type: integer
 - Domain: `[0, 1024]`
 - Default: `256`
 - Example:
-    - `build.internal.sampling_factor = 256` means that the K-means algorithm samples $256$ vectors.
-    - `build.internal.sampling_factor = 1024` means that the K-means algorithm samples $1024$ vectors.
+    - `build.internal.sampling_factor = 256` means that the K-means algorithm samples $256 * count(clusters)$ vectors.
+    - `build.internal.sampling_factor = 1024` means that the K-means algorithm samples $1024 * count(clusters)$ vectors.
 
 #### `build.internal.kmeans_iterations` <badge type="tip" text="since v0.2.2" />
 
