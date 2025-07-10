@@ -22,7 +22,8 @@ jobs:
     - name: Link Checker
       uses: lycheeverse/lychee-action@v2
       with:
-        args: --max-concurrency 8 --verbose --no-progress .
+        # exclude the blog since runner IPs are almost always blocked by HashNode
+        args: --max-concurrency 8 --verbose --no-progress --exclude '^https://blog\.vectorchord\.ai' .
         fail: true
         format: markdown
         jobSummary: true
