@@ -100,7 +100,6 @@ You can install `cnpg` [kubectl plugin](https://cloudnative-pg.io/documentation/
 $ sudo kubectl get pod
 pgvectors-1                                                1/1     Running   0             3m54s
 
-$ sudo kubectl cnpg status pgvectors
 $ kubectl cnpg status pgvectors
 Cluster Summary
 Name:                pgvectors

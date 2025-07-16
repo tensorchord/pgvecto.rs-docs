@@ -215,6 +215,7 @@ export default defineConfig({
           items: [
             { text: 'Migration', link: '/vectorchord/admin/migration' },
             { text: 'Scalability', link: '/vectorchord/admin/scalability' },
+            { text: 'Kubernetes', link: '/vectorchord/admin/kubernetes' },
           ]
         },
         {

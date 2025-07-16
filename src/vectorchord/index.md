@@ -34,4 +34,5 @@
 
 - [Migration](/vectorchord/admin/migration)
 - [Scalability](/vectorchord/admin/scalability)
+- [Kubernetes](/vectorchord/admin/kubernetes)
 
