@@ -155,7 +155,7 @@ You may now safely remove the `PGVecto.rs` extension if it is no longer required
 DROP extension vectors;
 ```
 
-### Appendix: cast of sparse vector
+### Appendix: cast of sparse vector {#appendix-about-cast-of-sparse-vector}
 
 We have discussed most types, but not the sparse vector. It is a little more complicated than other types. Suppose we have a table with a sparse vector column:
 

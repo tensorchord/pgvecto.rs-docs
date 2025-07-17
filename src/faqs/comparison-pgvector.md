@@ -86,13 +86,13 @@ Binary vectors offer significant advantages in specific embedding models like th
 
 Here are some performance benchmarks for the `bvector` type. We use the [dbpedia-entities-openai3-text-embedding-3-large-3072-1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-3072-1M) dataset for the benchmark. The VM is n2-standard-8 (8 vCPUs, 32 GB memory) on Google Cloud.
 
-We upsert 1M binary vectors into the table and then run a KNN query for each embedding. It only takes about 600MB memory to index 1M binary vectors, while the `vector` type takes about 18GB memory to index the same number of vectors. The `bvector`'s accuracy exceeds 95% if we adopt [**adaptive retrieval**](https://docs.vectorchord.ai/use-case/adaptive-retrieval.html).
+We upsert 1M binary vectors into the table and then run a KNN query for each embedding. It only takes about 600MB memory to index 1M binary vectors, while the `vector` type takes about 18GB memory to index the same number of vectors. The `bvector`'s accuracy exceeds 95% if we adopt [**adaptive retrieval**](../use-case/adaptive-retrieval).
 
-![bvector](https://docs.vectorchord.ai/assets/bvector.x2qPilMU.png)
+![bvector](../reference/vector-types/images/bvector.png)
 
 ### FP16/INT8
 
-Besides binary vectors, [pgvecto.rs](https://github.com/tensorchord/pgvecto.rs) also provides support for [FP16 (16-bit floating point)](https://docs.pgvecto.rs/reference/vector-types.html#vecf16-half-precision-vector) and INT8 (8-bit integer) data types.
+Besides binary vectors, [pgvecto.rs](https://github.com/tensorchord/pgvecto.rs) also provides support for [FP16 (16-bit floating point)](../reference/vector-types/vecf16) and INT8 (8-bit integer) data types.
 
 ## Indexing
 
@@ -101,20 +101,14 @@ pgvecto.rs takes a different approach compared to pgvector. It handles the stora
 It's a design tradeoff. During the initial stages of our development, we conducted experiments with PostgreSQL's page storage for the Hierarchical Navigable Small World (HNSW) index. similar to pgvector. However, we encountered various limitations that hindered its effectiveness and functionality:
 
 * Parallelization Challenges: The process model of PostgreSQL, where each statement corresponds to a single process and the lack of thread-safe APIs, presents challenges for parallelization. In the case of building vector indexes, which involve computationally intensive tasks, parallelization can significantly enhance performance. However, our efforts to parallelize this process were impeded by frequent occurrences of 'Too many shared buffer locked' errors.
-    
 * Write-Ahead Logging (WAL) Amplification: The issue of Write-Ahead Logging (WAL) amplification arises when inserting a 2KB vector results in generating over 20KB of WAL. This problem is inherent in the HNSW algorithm used, as it involves modifying multiple edges for a single point insertion. PostgreSQL records each change individually in the WAL, leading to substantial amplification of the WAL size.
-    
 * Lock Contention: Lock contention arises due to the need to lock every edge list during reads and writes when traversing the HNSW graph. The hierarchical structure of HNSW, where higher levels contain fewer points, often results in lock contention becoming a common bottleneck during index usage. This contention occurs when multiple operations attempt to access or modify the same edge list simultaneously, leading to delays and reduced concurrency.
-    
 
 [pgvecto.rs](https://github.com/tensorchord/pgvecto.rs) adopted a design akin to FreshDiskANN, resembling the Log-Structured Merge (LSM) tree concept. This architecture comprises three components: the writing segment, the growing segment, and the sealed segment. New vectors are initially written to the writing segment. A background process then asynchronously transforms them into the immutable growing segment. Subsequently, the growing segment undergoes a merge with the sealed segment, akin to the compaction process in an LSM tree. This design offers several benefits:
 
 * Non-blocking Insertions: Index modification operations do not impede insertion processes.
-    
 * Batched Modifications: Grouping modifications to the HNSW graph improves throughput.
-    
 * Elimination of Read-Write Lock Contention: Since sealed segments are immutable, issues related to read-write lock contention are mitigated.
-    
 
 However, there are drawbacks to this approach. One notable limitation is the absence of out-of-the-box Write-Ahead Logging (WAL) support for the index. This means that features like Point-in-Time Recovery and Physical Replication, which rely on WAL, are not readily available for the index. Nevertheless, the PostgreSQL ecosystem is robust and allows for extensions to define their own custom WAL through a resource manager. While implementing this solution requires additional effort, it is feasible to overcome the limitation and enable WAL support for the index.
 

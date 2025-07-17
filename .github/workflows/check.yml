@@ -1,4 +1,4 @@
-name: Typos check
+name: Check Typos and Links
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   run:
-    name: Spell Check with Typos
+    name: Check Typos and Links
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Actions Repository
@@ -18,3 +18,13 @@ jobs:
 
     - name: Check spelling of file.txt
       uses: crate-ci/typos@master
+
+    - name: Link Checker
+      uses: lycheeverse/lychee-action@v2
+      with:
+        # exclude the blog since runner IPs are almost always blocked by HashNode
+        args: --max-concurrency 8 --verbose --no-progress --exclude '^https://blog\.vectorchord\.ai' .
+        fail: true
+        format: markdown
+        jobSummary: true
+        lycheeVersion: nightly

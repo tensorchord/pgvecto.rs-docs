@@ -2,8 +2,6 @@
 
 Image intelligent search, also known as content-based image retrieval, goes beyond traditional keyword-based search and enables users to search for images based on their **visual content**. For example, you could search images that **contain** a red mushroom (image from [immich](https://immich.app)):
 
-![image-search](https://immich.app/assets/images/search-ex-2-707fe5ab1ab89621a7a1f3e8807b724a.webp)
-
 The feature looks like a magic because it allows you to search for images that you don't have keywords for. The search engine understands the content of the images and videos and can find the ones that are similar to the query.
 
 ## How it works

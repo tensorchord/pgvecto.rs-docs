@@ -44,7 +44,7 @@ In the following table, we provide the appropriate machine which can hold everyt
 
 ## **Results**
 
-As outlined in [our documentation](https://github.com/tensorchord/VectorChord#query-performance-tuning), VectorChord accepts two key parameters: `nprob` and `epsilon`. Here, `nprob` defines the number of candidate vectors to scan during a query, while `epsilon` serves as the threshold for determining whether to rerank results. Both parameters play a critical role in influencing both **QPS** and **recall**, allowing users to fine-tune the balance between search speed and accuracy.
+As outlined in [our documentation](../usage/performance-tuning), VectorChord accepts two key parameters: `nprob` and `epsilon`. Here, `nprob` defines the number of candidate vectors to scan during a query, while `epsilon` serves as the threshold for determining whether to rerank results. Both parameters play a critical role in influencing both **QPS** and **recall**, allowing users to fine-tune the balance between search speed and accuracy.
 
 * Lower `nprob` will result in higher QPS and lower recall.
 
