@@ -31,4 +31,4 @@ table = 'public.centroids'
 $$);
 ```
 
-To simplify the workflow, we provide end-to-end scripts for external index pre-computation, see [Run External Index Precomputation Toolkit](https://github.com/tensorchord/VectorChord/tree/main/scripts#run-external-index-precomputation-toolkit).
+To simplify the workflow, we provide end-to-end scripts for external index pre-computation, refer to [Run External Index Precomputation Toolkit](https://github.com/tensorchord/VectorChord/tree/main/scripts#run-external-index-precomputation-toolkit).

@@ -11,16 +11,14 @@
 - [Indexing](/vectorchord/usage/indexing)
 - [Search](/vectorchord/usage/search)
 - [Multi-Vector Retrieval](/vectorchord/usage/multi-vector-retrieval)
-- [Monitoring](/vectorchord/usage/monitoring)
+- [Similarity Filter](/vectorchord/usage/similarity-filter)
 - [Performance Tuning](/vectorchord/usage/performance-tuning)
-
-## Advanced Features
-
-- [Index Prewarm](/vectorchord/advanced-features/index-prewarm)
-- [Prefetch](/vectorchord/advanced-features/prefetch)
-- [Prefiltering](/vectorchord/advanced-features/prefiltering)
-- [Rerank In Table](/vectorchord/advanced-features/rerank-in-table)
-- [External Index Precomputation](/vectorchord/advanced-features/external-index-precomputation)
+- [Monitoring](/vectorchord/usage/monitoring)
+- [Prewarm](/vectorchord/usage/prewarm)
+- [Prefilter](/vectorchord/usage/prefilter)
+- [Prefetch](/vectorchord/usage/prefetch)
+- [Rerank In Table](/vectorchord/usage/rerank-in-table)
+- [External Index Precomputation](/vectorchord/usage/external-index-precomputation)
 
 ## Use Cases
 
@@ -36,10 +34,8 @@
 - [Benchmark with Elasticsearch](/vectorchord/benchmark/elasticsearch)
 - [Benchmark with pgvectorscale](/vectorchord/benchmark/pgvectorscale)
 
-
 ## Admin
 
 - [Migration](/vectorchord/admin/migration)
 - [Scalability](/vectorchord/admin/scalability)
 - [Kubernetes](/vectorchord/admin/kubernetes)
-

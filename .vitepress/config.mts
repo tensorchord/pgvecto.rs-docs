@@ -188,19 +188,14 @@ export default defineConfig({
             { text: 'Indexing', link: '/vectorchord/usage/indexing' },
             { text: 'Search', link: '/vectorchord/usage/search' },
             { text: 'Multi-Vector Retrieval', link: '/vectorchord/usage/multi-vector-retrieval' },
-            { text: 'Monitoring', link: '/vectorchord/usage/monitoring' },
+            { text: 'Similarity Filter', link: '/vectorchord/usage/similarity-filter' },
             { text: 'Performance Tuning', link: '/vectorchord/usage/performance-tuning' },
-          ]
-        },
-        {
-          text: 'Advanced Features',
-          collapsed: false,
-          items: [
-            { text: 'Index Prewarm', link: '/vectorchord/advanced-features/index-prewarm' },
-            { text: 'Prefetch', link: '/vectorchord/advanced-features/prefetch' },
-            { text: 'Prefiltering', link: '/vectorchord/advanced-features/prefiltering' },
-            { text: 'Rerank In Table', link: '/vectorchord/advanced-features/rerank-in-table' },
-            { text: 'External Index Precomputation', link: '/vectorchord/advanced-features/external-index-precomputation' },
+            { text: 'Monitoring', link: '/vectorchord/usage/monitoring' },
+            { text: 'Prewarm', link: '/vectorchord/usage/prewarm' },
+            { text: 'Prefilter', link: '/vectorchord/usage/prefilter' },
+            { text: 'Prefetch', link: '/vectorchord/usage/prefetch' },
+            { text: 'Rerank In Table', link: '/vectorchord/usage/rerank-in-table' },
+            { text: 'External Index Precomputation', link: '/vectorchord/usage/external-index-precomputation' },
           ]
         },
         {
