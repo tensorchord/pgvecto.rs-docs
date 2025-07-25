@@ -15,7 +15,7 @@ Supported workflows are as follows:
 
 ### ExternalBuildIndex
 
-The `ExternalBuildIndex` workflow is used to build vchord index externally for your Postgres cluster, details can be found [here](https://github.com/tensorchord/VectorChord?tab=readme-ov-file#external-index-precomputation).
+The `ExternalBuildIndex` workflow is used to build vchord index externally for your Postgres cluster, details can be found [here](/vectorchord/usage/external-index-precomputation).
 
 ![](../images/create_workflow.png)
 

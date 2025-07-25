@@ -42,5 +42,5 @@ SELECT * FROM items WHERE embedding <<->> sphere('[0, 0, 0]'::vector, 0.1);
 ```
 
 :::warning
-[Multi-Vector Retrieval](multi-vector-retrieval) does not support similarity filter yet.
+[Multi-Vector Retrieval](indexing-with-maxsim-operators) does not support similarity filter yet.
 :::

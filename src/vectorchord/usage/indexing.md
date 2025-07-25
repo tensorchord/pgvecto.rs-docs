@@ -22,7 +22,7 @@ $$);
 
 > [!NOTE]
 > - `options` are specified using a [TOML: Tom's Obvious Minimal Language](https://toml.io/) string. You can refer to [#Index Options](#indexing-options) for more information.
-> - When dealing with large table, it will cost huge time and memory for `build.internal`. You can refer to [External Index Precomputation](../usage/external-index-precomputation) to have a better experience.
+> - When dealing with large table, it will cost huge time and memory for `build.internal`. You can refer to [External Build](external-index-precomputation) to have a better experience.
 > - The parameter `lists`, should be configured based on the number of rows. The following table provides guidance for this selection. When searching, set `vchordrq.probes` based on the value of `lists`.
 
 | Number of Rows $N$                     | Recommended Number of Partitions $L$ | Example `lists` |
@@ -58,9 +58,9 @@ The table below shows all operator classes for types and operator for `vchordrq`
 
 `<<->>`, `<<#>>`, `<<=>>` and `@#` are operators defined by VectorChord.
 
-For more information about `<<->>`, `<<#>>`, `<<=>>`, refer to [Similarity Filter](similarity-filter).
+For more information about `<<->>`, `<<#>>`, `<<=>>`, refer to [Similarity Filter](range-query).
 
-For more information about `@#`, refer to [Multi-Vector Retrieval](multi-vector-retrieval).
+For more information about `@#`, refer to [Multi-Vector Retrieval](indexing-with-maxsim-operators).
 
 ### Indexing Options
 
