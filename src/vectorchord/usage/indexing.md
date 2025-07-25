@@ -39,6 +39,10 @@ SET vchordrq.probes = '10';
 SELECT * FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 5;
 ```
 
+## Reference
+
+### Operator Classes
+
 The table below shows all operator classes for types and operator for `vchordrq`.
 
 | Operator Class       | Description                                                     | Operator 1                | Operator 2               |
@@ -52,13 +56,11 @@ The table below shows all operator classes for types and operator for `vchordrq`
 | `vector_maxsim_ops`  | index works for `vector[]` type and scalable vector-similarity  | `@#(vector[],vector[])`   | N/A                      |
 | `vector_halfvec_ops` | index works for `halfvec[]` type and scalable vector-similarity | `@#(halfvec[],halfvec[])` | N/A                      |
 
-In the table above, `<<->>`, `<<#>>`, `<<=>>` and `@#` are operators defined by VectorChord.
+`<<->>`, `<<#>>`, `<<=>>` and `@#` are operators defined by VectorChord.
 
 For more information about `<<->>`, `<<#>>`, `<<=>>`, refer to [Similarity Filter](similarity-filter).
 
 For more information about `@#`, refer to [Multi-Vector Retrieval](multi-vector-retrieval).
-
-## Reference
 
 ### Indexing Options
 
