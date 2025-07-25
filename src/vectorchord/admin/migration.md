@@ -6,7 +6,7 @@ outline: [2,3]
 ## From PGVecto.rs
 
 Most of VectorChord's vector types are supported by `pgvector`. 
-Therefore, migrating from PGVecto.rs to VectorChord is a simple inversion of [migrating from pgvector to PGVecto.rs](../../admin/migration).
+Therefore, migrating from PGVecto.rs to VectorChord is a simple inversion of [migrating from pgvector to PGVecto.rs](../../pgvecto_rs/admin/migration).
 
 :::tip
 We provide migration image [modelzai/pgvectors-vchord](https://hub.docker.com/r/modelzai/pgvectors-vchord/tags) for pgvecto.rs to VectorChord and vice versa.

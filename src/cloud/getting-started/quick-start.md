@@ -96,7 +96,7 @@ test=> \dx
 
 ## Create Index
 
-In quick start, we will create a simple index. If you want to create a more advanced index, see [Reference](../../reference/). We provide rich user cases, see [Use Cases](../../use-case/). 
+In quick start, we will create a simple index. If you want to create a more advanced index, see [Reference](../../vectorchord/usage/indexing). We provide rich user cases, see [Use Cases](../../vectorchord/use-case/index). 
 
 ```sql
 test=> CREATE TABLE test (id integer PRIMARY KEY, embedding vector(3) NOT NULL);

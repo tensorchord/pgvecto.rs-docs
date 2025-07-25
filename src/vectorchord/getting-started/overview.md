@@ -81,10 +81,17 @@ SELECT * FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 5;
 
 For more usage, please read:
 
-* [Indexing](../usage/indexing)
-* [Indexing with MaxSim Operators](../usage/indexing-with-maxsim-operators)
-* [Performance Tuning](../usage/performance-tuning)
-* [Advanced Features](../usage/advanced-features)
+- [Indexing](/vectorchord/usage/indexing)
+- [Search](/vectorchord/usage/search)
+- [Multi-Vector Retrieval](/vectorchord/usage/multi-vector-retrieval)
+- [Similarity Filter](/vectorchord/usage/similarity-filter)
+- [Performance Tuning](/vectorchord/usage/performance-tuning)
+- [Monitoring](/vectorchord/usage/monitoring)
+- [Prewarm](/vectorchord/usage/prewarm)
+- [Prefilter](/vectorchord/usage/prefilter)
+- [Prefetch](/vectorchord/usage/prefetch)
+- [Rerank In Table](/vectorchord/usage/rerank-in-table)
+- [External Index Precomputation](/vectorchord/usage/external-index-precomputation)
 
 ## License
 

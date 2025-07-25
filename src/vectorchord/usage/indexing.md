@@ -1,6 +1,6 @@
 # Indexing
 
-Similar to [ivfflat](https://github.com/pgvector/pgvector#ivfflat), VectorChord's index type RaBitQ(vchordrq) also divides vectors into lists and searches only a subset of lists closest to the query vector. It preserves the advantages of `ivfflat`, such as fast build times and lower memory consumption, while delivering [significantly better performance](https://blog.vectorchord.ai/vectorchord-store-400k-vectors-for-1-in-postgresql#heading-ivf-vs-hnsw) than both hnsw and ivfflat.
+VectorChord's index type `vchordrq` also divides vectors into lists and searches only a subset of lists closest to the query vector. It provides fast build time and low memory consumption, while delivering [significantly better performance](https://blog.vectorchord.ai/vectorchord-store-400k-vectors-for-1-in-postgresql#heading-ivf-vs-hnsw) than both `hnsw` and `ivfflat`.
 
 To build a vector index, start by creating a table named `items` with an `embedding` column of type `vector(n)`, then populate it with sample data.
 
@@ -22,42 +22,45 @@ $$);
 
 > [!NOTE]
 > - `options` are specified using a [TOML: Tom's Obvious Minimal Language](https://toml.io/) string. You can refer to [#Index Options](#indexing-options) for more information.
+> - When dealing with large table, it will cost huge time and memory for `build.internal`. You can refer to [External Index Precomputation](../usage/external-index-precomputation) to have a better experience.
+> - The parameter `lists`, should be configured based on the number of rows. The following table provides guidance for this selection. When searching, set `vchordrq.probes` based on the value of `lists`.
+
+| Number of Rows $N$                     | Recommended Number of Partitions $L$ | Example `lists` |
+| -------------------------------------- | ------------------------------------ | --------------- |
+| $N \in [0, 10^5)$                      | N/A                                  | `[]`            |
+| $N \in [10^5, 2 \times 10^6)$          | $L = \frac{N}{500}$                  | `[2000]`        |
+| $N \in [2 \times 10^6, 5 \times 10^7)$ | $L \in [4 \sqrt{N}, 8 \sqrt{N}]$     | `[10000]`       |
+| $N \in [5 \times 10^7, \infty)$        | $L \in [8 \sqrt{N}, 16\sqrt{N}]$     | `[80000]`       |
 
 Then the index will be built internally, and you can perform a vector search with the index.
 
 ```sql
-SET vchordrq.probes = 10;
+SET vchordrq.probes = '10';
 SELECT * FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 5;
 ```
 
-The table below shows the operator classes for types and operator in the index.
+The table below shows all operator classes for types and operator for `vchordrq`.
 
-|                         | vector              | halfvec              |
-| ----------------------- | ------------------- | -------------------- |
-| L2 distance (`<->`)     | `vector_l2_ops`     | `halfvec_l2_ops`     |
-| inner product (`<#>`)   | `vector_ip_ops`     | `halfvec_ip_ops`     |
-| cosine distance (`<=>`) | `vector_cosine_ops` | `halfvec_cosine_ops` |
+| Operator Class       | Description                                                     | Operator 1                | Operator 2               |
+| -------------------- | --------------------------------------------------------------- | ------------------------- | ------------------------ |
+| `vector_l2_ops`      | index works for `vector` type and Euclidean distance            | `<->(vector,vector)`      | `<<->>(vector,vector)`   |
+| `vector_ip_ops`      | index works for `vector` type and negative inner product        | `<#>(vector,vector)`      | `<<#>>(vector,vector)`   |
+| `vector_cosine_ops`  | index works for `vector` type and cosine distance               | `<=>(vector,vector)`      | `<<=>>(vector,vector)`   |
+| `halfvec_l2_ops`     | index works for `halfvec` type and Euclidean distance           | `<->(halfvec,halfvec)`    | `<<->>(halfvec,halfvec)` |
+| `halfvec_ip_ops`     | index works for `halfvec` type and negative inner product       | `<#>(halfvec,halfvec)`    | `<<#>>(halfvec,halfvec)` |
+| `halfvec_cosine_ops` | index works for `halfvec` type and cosine distance              | `<=>(halfvec,halfvec)`    | `<<=>>(halfvec,halfvec)` |
+| `vector_maxsim_ops`  | index works for `vector[]` type and scalable vector-similarity  | `@#(vector[],vector[])`   | N/A                      |
+| `vector_halfvec_ops` | index works for `halfvec[]` type and scalable vector-similarity | `@#(halfvec[],halfvec[])` | N/A                      |
 
-## Recommendations
+In the table above, `<<->>`, `<<#>>`, `<<=>>` and `@#` are operators defined by VectorChord.
 
-When dealing with large datasets (> $10^6$ vectors), please follow these guidelines for optimal performance:
+For more information about `<<->>`, `<<#>>`, `<<=>>`, refer to [Similarity Filter](similarity-filter).
 
-1. First insert all vectors into the table before building the index
-2. Select an appropriate number of lists (`build.internal.lists` parameter) based on your dataset size
-3. The `lists` option should be configured based on the number of vectors. Below is a table to assist with your selection
-4. Failure to follow these steps may result in significantly increased query latency
+For more information about `@#`, refer to [Multi-Vector Retrieval](multi-vector-retrieval).
 
-> [!NOTE]
-> VectorChord's index leverages statistical properties of your dataset to optimize search performance. If you significantly update your vector data after building the index, the index efficiency may degrade. In such cases, rebuilding the index is recommended to restore optimal performance.
+## Reference
 
-| vectors Range | List Calculation Formula       | Example Result   |
-| ------------- | ------------------------------ | ---------------- |
-| <128k         | list = 1                       | 1                |
-| ≥128k and <2M | list = (2 * vectors) / 1000    | [256, 4000]      |
-| ≥2M and <100M | list ∈ [4√vectors, 8√vectors]  | \[4000, 80000]   |
-| ≥100M         | list ∈ [8√vectors, 16√vectors] | \[80000, 160000] |
-
-## Indexing Options
+### Indexing Options
 
 #### `residual_quantization`
 
@@ -68,18 +71,7 @@ When dealing with large datasets (> $10^6$ vectors), please follow these guideli
     - `residual_quantization = false` means that residual quantization is not used.
     - `residual_quantization = true` means that residual quantization is used.
 
-#### `build.pin` <badge type="tip" text="since v0.2.1" />
-
-- Description: This index parameter determines whether shared memory is used for indexing. For large datasets, you can choose to enable this option to speed up the build process.
-- Type: boolean
-- Default: `false`
-- Example:
-    - `build.pin = false` means that shared memory is not used.
-    - `build.pin = true` means that shared memory is used.
-
-### Internal Build Parameters
-
-The following parameters are available:
+### Internal Build Options
 
 #### `build.internal.lists`
 
@@ -111,8 +103,8 @@ The following parameters are available:
 - Domain: `[0, 1024]`
 - Default: `256`
 - Example:
-    - `build.internal.sampling_factor = 256` means that the K-means algorithm samples $256 * count(clusters)$ vectors.
-    - `build.internal.sampling_factor = 1024` means that the K-means algorithm samples $1024 * count(clusters)$ vectors.
+    - `build.internal.sampling_factor = 256` means that the K-means algorithm samples $256 C$ vectors, where $C$ is the maximum value in `build.internal.lists`.
+    - `build.internal.sampling_factor = 1024` means that the K-means algorithm samples $1024 C$ vectors, where $C$ is the maximum value in `build.internal.lists`.
 
 #### `build.internal.kmeans_iterations` <badge type="tip" text="since v0.2.2" />
 
@@ -133,9 +125,3 @@ The following parameters are available:
 - Example:
     - `build.internal.build_threads = 1` means that the K-means algorithm uses $1$ thread.
     - `build.internal.build_threads = 4` means that the K-means algorithm uses $4$ threads.
-
-### External Build Parameters
-
-To reduce the computational load on your database server during index building, refer to the [External Index Precomputation Toolkit](https://github.com/tensorchord/VectorChord/tree/main/scripts#run-external-index-precomputation-toolkit) for more information.
-
-You can refer to [performance tuning](../usage/performance-tuning#index-build-time) for more information about the performance tuning of the index.

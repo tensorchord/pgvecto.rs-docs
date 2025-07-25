@@ -1,4 +1,12 @@
-# Indexing with MaxSim Operators <badge type="tip" text="since v0.3.0" />
+# Multi-Vector Retrieval <badge type="tip" text="since v0.3.0" />
+
+The Multi-Vector Retrieval is an advanced tool used in Retrieval-Augmented Generation (RAG) systems to enhance document retrieval by leveraging multiple vectors per document.
+
+Unlike Single-Vector Retrieval, Multi-Vector Retrieval and the `MaxSim` operator allow vectors to capture fine-grained semantic relationships.
+
+Refer to [our blog](https://blog.vectorchord.ai/beyond-text-unlock-ocr-free-rag-in-postgresql-with-modal-and-vectorchord) for more details on building an end-to-end Multi-Vector Retrieval application.
+
+## How to start
 
 Late interaction models embed documents and queries as vector arrays separately and compute similarity through an operator called `MaxSim`. The definition of the `MaxSim` operator is $\sum_i \max_j q_i \cdot d_j$, meaning that for each vector in the query vector array, the closest vector in the document vector array is found, their dot product is calculated, and the results are summed.
 
@@ -42,11 +50,13 @@ The table below shows the operator classes for types and operator in the index.
 | ------------------------ | ------------------- | -------------------- |
 | `MaxSim` distance (`@#`) | `vector_maxsim_ops` | `halfvec_maxsim_ops` |
 
-## Options
+## Reference
+
+### Search Parameters
 
 The indexing mechanism for `MaxSim` operators works similarly to other vector operators. When an index is built on a column of vector arrays, each vector within the arrays is individually inserted into the index data structure. During querying, the index performs a separate vector search for each vector in the query array. However, the index does not rerank the results. Instead, it uses RaBitQ's estimated distances as a substitute for distances. The index then merges the results from all separated vector searches to produce the final output.
 
-There are a few extra options used by maxsim indexes.
+There are a few extra parameters used by maxsim indexes.
 
 #### `vchordrq.maxsim_refine`
 

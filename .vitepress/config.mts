@@ -19,6 +19,10 @@ export default defineConfig({
   sitemap: {
     hostname: 'https://docs.vectorchord.ai/'
   },
+  // pgvecto_rs doc should have a route of / to keep back compatible
+  rewrites: {
+    'pgvecto_rs/:dir/:page*': ':dir/:page*'
+  },
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     // Google Analytics
@@ -182,16 +186,21 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: 'Indexing', link: '/vectorchord/usage/indexing' },
-            { text: 'Indexing with MaxSim Operators', link: '/vectorchord/usage/indexing-with-maxsim-operators' },
             { text: 'Search', link: '/vectorchord/usage/search' },
+            { text: 'Multi-Vector Retrieval', link: '/vectorchord/usage/multi-vector-retrieval' },
+            { text: 'Similarity Filter', link: '/vectorchord/usage/similarity-filter' },
             { text: 'Performance Tuning', link: '/vectorchord/usage/performance-tuning' },
-            { text: 'Advanced Features', link: '/vectorchord/usage/advanced-features' },
-            { text: 'Range Query', link: '/vectorchord/usage/range-query' },
+            { text: 'Monitoring', link: '/vectorchord/usage/monitoring' },
+            { text: 'Prewarm', link: '/vectorchord/usage/prewarm' },
+            { text: 'Prefilter', link: '/vectorchord/usage/prefilter' },
+            { text: 'Prefetch', link: '/vectorchord/usage/prefetch' },
+            { text: 'Rerank In Table', link: '/vectorchord/usage/rerank-in-table' },
+            { text: 'External Index Precomputation', link: '/vectorchord/usage/external-index-precomputation' },
           ]
         },
         {
           text: 'Use Cases',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Hybrid Search', link: '/vectorchord/use-case/hybrid-search' },
             { text: 'ColBERT Rerank', link: '/vectorchord/use-case/colbert-rerank' },
@@ -200,7 +209,7 @@ export default defineConfig({
         },
         {
           text: 'Benchmarks',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Price', link: '/vectorchord/benchmark/price' },
             { text: 'Performance', link: '/vectorchord/benchmark/performance' },
@@ -211,7 +220,7 @@ export default defineConfig({
         },
         {
           text: 'Administration',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Migration', link: '/vectorchord/admin/migration' },
             { text: 'Scalability', link: '/vectorchord/admin/scalability' },
@@ -220,7 +229,7 @@ export default defineConfig({
         },
         {
           text: 'Customer Stories',
-          collapsed: false,
+          collapsed: true,
           items: [
             { text: 'Earth Genome', link: '/vectorchord/customer-stories/earthgenome' },
           ]
