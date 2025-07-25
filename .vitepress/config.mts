@@ -21,7 +21,10 @@ export default defineConfig({
   },
   // pgvecto_rs doc should have a route of / to keep back compatible
   rewrites: {
-    'pgvecto_rs/:dir/:page*': ':dir/:page*'
+    'pgvecto_rs/:dir/:page*': ':dir/:page*',
+    'vectorchord/usage/multi-vector-retrieval.md': 'vectorchord/usage/indexing-with-maxsim-operators.md',
+    'vectorchord/usage/similarity-filter.md': 'vectorchord/usage/range-query.md',
+    'vectorchord/usage/external-build.md': 'vectorchord/usage/external-index-precomputation.md',
   },
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
@@ -187,15 +190,15 @@ export default defineConfig({
           items: [
             { text: 'Indexing', link: '/vectorchord/usage/indexing' },
             { text: 'Search', link: '/vectorchord/usage/search' },
-            { text: 'Multi-Vector Retrieval', link: '/vectorchord/usage/multi-vector-retrieval' },
-            { text: 'Similarity Filter', link: '/vectorchord/usage/similarity-filter' },
+            { text: 'Multi-Vector Retrieval', link: '/vectorchord/usage/indexing-with-maxsim-operators' },
+            { text: 'Similarity Filter', link: '/vectorchord/usage/range-query' },
             { text: 'Performance Tuning', link: '/vectorchord/usage/performance-tuning' },
             { text: 'Monitoring', link: '/vectorchord/usage/monitoring' },
             { text: 'Prewarm', link: '/vectorchord/usage/prewarm' },
             { text: 'Prefilter', link: '/vectorchord/usage/prefilter' },
             { text: 'Prefetch', link: '/vectorchord/usage/prefetch' },
             { text: 'Rerank In Table', link: '/vectorchord/usage/rerank-in-table' },
-            { text: 'External Index Precomputation', link: '/vectorchord/usage/external-index-precomputation' },
+            { text: 'External Build', link: '/vectorchord/usage/external-index-precomputation' },
           ]
         },
         {
