@@ -1,6 +1,6 @@
 # Indexing
 
-VectorChord's index type `vchordrq` also divides vectors into lists and searches only a subset of lists closest to the query vector. It provides fast build time and low memory consumption, while delivering [significantly better performance](https://blog.vectorchord.ai/vectorchord-store-400k-vectors-for-1-in-postgresql#heading-ivf-vs-hnsw) than both `hnsw` and `ivfflat`.
+VectorChord's index type `vchordrq` divides vectors into lists and searches only a subset of lists closest to the query vector. It provides fast build time and low memory consumption, while delivering [significantly better performance](https://blog.vectorchord.ai/vectorchord-store-400k-vectors-for-1-in-postgresql#heading-ivf-vs-hnsw) than both `hnsw` and `ivfflat`.
 
 To build a vector index, start by creating a table named `items` with an `embedding` column of type `vector(n)`, then populate it with sample data.
 
