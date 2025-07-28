@@ -1,12 +1,10 @@
 # Monitoring
 
-The progress of building PostgreSQL index can be obtained by querying the [`pg_stat_progress_create_index`](https://www.postgresql.org/docs/current/progress-reporting.html#CREATE-INDEX-PROGRESS-REPORTING) view.
+You can monitor the progress of building a PostgreSQL index by querying the [`pg_stat_progress_create_index`](https://www.postgresql.org/docs/current/progress-reporting.html#CREATE-INDEX-PROGRESS-REPORTING) view.
 
 ```SQL
 SELECT command, phase, round(100.0 * blocks_done / nullif(blocks_total, 0), 1) AS "%" FROM pg_stat_progress_create_index;
 ```
-
-Here is some additional information regarding the `vchordrq` index.
 
 There are five steps in the index construction process of `vchordrq`. The phase name of each step are as follows:
 
