@@ -48,9 +48,11 @@ ORDER BY embeddings @#
 
 ### Operator Classes
 
-Refer to [Operator Classes](indexing#operator-classes).
+Refer to
 
-### Search Parameters
+* [Operator Classes (`vchordrq`)](indexing#operator-classes).
+
+### Search Parameters <badge type="info" text="vchordrq" />
 
 The indexing mechanism for `MaxSim` operators works similarly to other vector operators. When an index is built on a column of vector arrays, each vector within the arrays is individually inserted into the index data structure. During querying, the index performs a separate vector search for each vector in the query array. By default, the index does not rerank the results. Instead, it uses RaBitQ's estimated distances as a substitute for actual distances. The index then merges the results from all separated vector searches to produce the final output.
 

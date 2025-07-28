@@ -1,6 +1,6 @@
 # External Build
 
-Unlike pure SQL, external build performs clustering externally before inserting centroids into a PostgreSQL table. While this process may be more complex, it significantly speeds up indexing for larger datasets (>5M). We showed some benchmarks in the [blog post](https://blog.pgvecto.rs/vectorchord-store-400k-vectors-for-1-in-postgresql). It takes around 3 minutes to build an index for 1M vectors, 16x faster than standard indexing in pgvector.
+Unlike pure SQL, external build performs clustering externally before inserting centroids into a PostgreSQL table. While this process may be more complex, it significantly speeds up indexing for larger datasets (>5M). We showed some benchmarks in the [blog post](https://blog.vectorchord.ai/vectorchord-store-400k-vectors-for-1-in-postgresql). It takes around 3 minutes to build an index for 1M vectors, 16x faster than standard indexing in pgvector.
 
 To get started, you need to do a clustering of vectors using:
 - [faiss](https://github.com/facebookresearch/faiss)

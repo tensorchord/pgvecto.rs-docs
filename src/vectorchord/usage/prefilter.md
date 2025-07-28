@@ -45,7 +45,7 @@ Based on our experimental results, the QPS speedup at different selectivity is a
 
 ## Reference
 
-### Search Parameters
+### Search Parameters <badge type="info" text="vchordrq" />
 
 #### `vchordrq.prefilter` <badge type="tip" text="since v0.4.0" />
 

@@ -45,4 +45,6 @@ SELECT * FROM items WHERE embedding <<->> sphere('[0, 0, 0]'::vector, 0.1);
 
 ### Operator Classes
 
-Refer to [Operator Classes](indexing#operator-classes).
+Refer to
+
+* [Operator Classes (`vchordrq`)](indexing#operator-classes).

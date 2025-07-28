@@ -17,7 +17,7 @@ It's a trade-off of time for space, which is generally not recommended, so it's 
 
 ## Reference
 
-### Indexing Options
+### Indexing Options <badge type="info" text="vchordrq" />
 
 #### `rerank_in_table` <badge type="tip" text="since v0.2.1" />
 
