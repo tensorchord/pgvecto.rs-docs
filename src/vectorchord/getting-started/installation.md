@@ -17,7 +17,7 @@ docker run \
   --name vchord-demo \
   -e POSTGRES_PASSWORD=mysecretpassword \
   -p 5432:5432 \
-  -d tensorchord/vchord-postgres:pg17-v0.4.3
+  -d tensorchord/vchord-postgres:pg17-v0.5.0
 ```
 
 2. Connect to the database using the `psql` command line tool. The default username is `postgres`.
@@ -76,8 +76,8 @@ Debian packages are used for Debian-based Linux distributions, including Debian 
 1. Download Debian packages in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and install them by `apt`.
 
 ```sh
-wget https://github.com/tensorchord/VectorChord/releases/download/0.4.3/postgresql-17-vchord_0.4.3-1_$(dpkg --print-architecture).deb
-sudo apt install ./postgresql-17-vchord_0.4.3-1_$(dpkg --print-architecture).deb
+wget https://github.com/tensorchord/VectorChord/releases/download/0.5.0/postgresql-17-vchord_0.5.0-1_$(dpkg --print-architecture).deb
+sudo apt install ./postgresql-17-vchord_0.5.0-1_$(dpkg --print-architecture).deb
 ```
 
 2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension. And then restart the PostgreSQL cluster.
@@ -171,7 +171,7 @@ You may need to install VectorChord from source. Please follow these steps.
 ```sh
 git clone https://github.com/tensorchord/VectorChord.git
 cd VectorChord
-git checkout "0.4.3"
+git checkout "0.5.0"
 ```
 
 2. Install a C compiler and Rust. For Clang, the version must be 16 or higher. For GCC, the version must be 14 or higher. Other C compilers are not supported, and we prefer and recommend using Clang. For Rust, the version must be the same as that recorded in `rust-toolchain.toml`.

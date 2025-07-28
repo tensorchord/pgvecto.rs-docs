@@ -75,7 +75,7 @@ postgres=# \dx
  plpgsql | 1.0     | pg_catalog | PL/pgSQL procedural language
  vchord  | 0.1.0   | public     | vchord: Vector database plugin for Postgres, written in Rust, specifically designed for LLM
  vector  | 0.8.0   | public     | vector data type and ivfflat and hnsw access methods
- vectors | 0.4.3   | vectors    | vectors: Vector database plugin for Postgres, written in Rust, specifically designed for LLM
+ vectors | 0.5.0   | vectors    | vectors: Vector database plugin for Postgres, written in Rust, specifically designed for LLM
 ```
 
 :::
