@@ -22,3 +22,14 @@ There are 5 steps in the index construction process of `vchordrq`. The phase nam
 | 5    | `compacting tuples in index`            | Optimize the structure of the vector index to enhance performance                                   | Medium       |
 
 The 4th step, `inserting tuples from table to index`, takes up the majority of the time during index construction. The `tuples_done`, `blocks_done` and `blocks_total` columns indicate the progress of this step.
+
+### Phases <badge type="info" text="vchordg" />
+
+There are 2 steps in the index construction process of `vchordg`. The phase name of each step are as follows:
+
+| Step | Message                                | Description                       | Waiting time |
+| ---- | -------------------------------------- | --------------------------------- | ------------ |
+| 1    | `initializing`                         | Start building index              | Short        |
+| 2    | `inserting tuples from table to index` | Insert all vectors into the graph | Long         |
+
+The 2nd step, `inserting tuples from table to index`, takes up the majority of the time during index construction. The `tuples_done`, `blocks_done` and `blocks_total` columns indicate the progress of this step.

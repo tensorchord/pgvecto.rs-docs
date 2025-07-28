@@ -32,3 +32,5 @@ $$);
 ```
 
 To simplify the workflow, we provide end-to-end scripts for external index pre-computation, refer to [Run External Index Precomputation Toolkit](https://github.com/tensorchord/VectorChord/tree/main/scripts#run-external-index-precomputation-toolkit).
+
+This feature is not supported by `vchordg`, since this step does not exist in it.
