@@ -2,15 +2,15 @@
 
 Prefetch dramatically accelerates queries that involve I/O operations. It works by proactively reading buffers into operating system page cache or PostgreSQL's buffer pool based on the actual needs of the index.
 
-Prefetch helps overlap I/O with computation, as well as I/O with other I/O operations, significantly reducing the time spent waiting for buffers during query execution, thereby improving overall performance on queries.
+Prefetch helps overlap I/O with computation, as well as I/O with other I/O operations, significantly reducing the time spent waiting for buffers during query execution, thereby improving overall query performance.
 
 :::tip
-This feature is enabled by default. Any query can be benefit from prefetching with VectorChord `0.4.0` and later versions.
+This feature is enabled by default. Any query can benefit from prefetching with VectorChord `0.4.0` and later versions.
 :::
 
-Prior to version `0.4.0`, VectorChord used PostgreSQL's synchronous I/O interface. Since `0.4.0`, VectorChord utilizes PostgreSQL's asynchronous I/O interface on newer versions of PostgreSQL. The I/O interface used by VectorChord can be controlled via GUC parameters.
+Prior to version `0.4.0`, VectorChord used PostgreSQL's synchronous I/O interface. Since then, VectorChord utilizes asynchronous I/O interface on newer versions of PostgreSQL. The I/O interface used by VectorChord can be controlled via GUC parameters.
 
-In GUC parameters, we refer to the synchronous I/O interface as `read_buffer`, the asynchronous I/O interface as `read_stream`, and VectorChord's simulated asynchronous interface as `prefetch_buffer`.
+In the GUC parameters, the synchronous I/O interface is referred to as `read_buffer`, the asynchronous I/O interface as `read_stream`, and VectorChord's simulated asynchronous interface as `prefetch_buffer`.
 
 For indexes much smaller than the memory, there is almost no difference among the three prefetch modes. `read_stream` accelerates all disk-based indexes; however, it is only available on PostgreSQL 17. To address this, VectorChord provides a simulated asynchronous I/O interface called `prefetch_buffer`, which is available on all PostgreSQL versions as a fallback for older versions. `prefetch_buffer` is less effective than `read_stream`.
 

@@ -1,6 +1,6 @@
 # Search
 
-Get the nearest 5 neighbors to a vector
+To retrieve the nearest $5$ neighbors to a vector,
 
 ```sql
 SELECT * FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 5;
@@ -14,7 +14,8 @@ These operators are used for distance metrics:
 | `<#>` | negative dot product       |
 | `<=>` | cosine distance            |
 
-For a given category, get the nearest 10 neighbors to a vector
+To retrieve the $10$ nearest neighbors to a vector within a given category,
+
 ```sql
 SELECT 1 FROM items WHERE category_id = 1 ORDER BY embedding <#> '[0.5,0.5,0.5]' limit 10
 ```
@@ -29,18 +30,18 @@ SELECT 1 FROM items WHERE category_id = 1 ORDER BY embedding <#> '[0.5,0.5,0.5]'
 - Type: list of integers
 - Default:
     - ` ` <badge type="tip" text="since v0.3.0" />
-    - `10` <badge type="tip" text="until v0.2.2: default value of lists is changed to empty list" />
+    - `10` <badge type="tip" text="until v0.2.2: the default value was 10 before `lists` defaulted to empty" />
 - Example:
     - `SET vchordrq.probes = 1` means that only one probe is used.
     - `SET vchordrq.probes = 10` means that ten probes are used.
 - Note: The default value is an empty list. The length of this option must match the length of `lists`. 
-    - If `lists = []`, then probes must be an empty list.
-    - If `lists = [11, 22]`, then probes can be 2,4 or 4,8, but it must not be an empty list, `3`, `7,8,9`, or `5,5,5,5`.
+    - If `lists = []`, then probes must be ` `.
+    - If `lists = [11, 22]`, then probes can be `2,4` or `4,8`. It must not be incorrectly shaped, for example, ` `, `3`, `7,8,9`, `5,5,5,5`.
 - See also: [Performance Tuning](performance-tuning.md#search)
 
 #### `vchordrq.epsilon`
 
-- Description: Even after pruning, the number of retrieved vectors remains substantial. The index employs the RaBitQ algorithm to quantize vectors into bit vectors, which require just $\frac{1}{32}$ the memory of single-precision floating-point vectors. With minimal floating-point operations, most computations are integer-based, leading to faster processing. Unlike typical quantization algorithms, RaBitQ not only estimates distances but also their lower bounds. The index computes the lower bound for each vector and dynamically adjusts the number of vectors needing recalculated distances, based on the query count, thus balancing performance and accuracy. The GUC parameter `vchordrq.epsilon` controls the conservativeness of the lower bounds of distances. The higher the value, the higher the accuracy, but the worse the performance. The default value provides unnecessarily high accuracy for most indexes, so you can try lowering this parameter to achieve better performance.
+- Description: Even after pruning, the number of retrieved vectors remains substantial. The index employs the RaBitQ algorithm to quantize vectors into bit vectors, which require just $\frac{1}{32}$ the memory of single-precision floating-point vectors. Most computations are integer-based, leading to faster processing. Unlike typical quantization algorithms, RaBitQ not only estimates distances but also their lower bounds. The index computes the lower bound for each vector and dynamically adjusts the number of vectors needing recalculated distances, based on the query count, thus balancing performance and accuracy. The GUC parameter `vchordrq.epsilon` controls the conservativeness of the lower bounds of distances. The higher the value, the higher the accuracy, but the worse the performance. The default value provides unnecessarily high accuracy for most indexes, so you can try lowering this parameter to achieve better performance.
 - Type: float
 - Default: `1.9`
 - Domain: `[0.0, 4.0]`
@@ -59,4 +60,4 @@ SELECT 1 FROM items WHERE category_id = 1 ORDER BY embedding <#> '[0.5,0.5,0.5]'
     - `ALTER SYSTEM SET vchordrq.prewarm_dim = '64,128'` means that the projection matrix will be precomputed for dimensions 64 and 128.
 - Note:
     - This setting requires a database restart to take effect.
-    - Since `v0.4.0`, algorithm improvements makes it unnecessary so this option is removed.
+    - Since `v0.4.0`, new algorithm made this option obsolete.

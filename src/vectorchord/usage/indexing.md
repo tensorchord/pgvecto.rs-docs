@@ -22,8 +22,8 @@ $$);
 
 > [!NOTE]
 > - `options` are specified using a [TOML: Tom's Obvious Minimal Language](https://toml.io/) string. You can refer to [#Index Options](#indexing-options) for more information.
-> - When dealing with large table, it will cost huge time and memory for `build.internal`. You can refer to [External Build](external-index-precomputation) to have a better experience.
-> - The parameter `lists`, should be configured based on the number of rows. The following table provides guidance for this selection. When searching, set `vchordrq.probes` based on the value of `lists`.
+> - When dealing with large tables, it will cost huge time and memory for `build.internal`. You can refer to [External Build](external-index-precomputation) to have a better experience.
+> - The parameter `lists` should be configured based on the number of rows. The following table provides guidance for this selection. When searching, set `vchordrq.probes` based on the value of `lists`.
 
 | Number of Rows $N$                     | Recommended Number of Partitions $L$ | Example `lists` |
 | -------------------------------------- | ------------------------------------ | --------------- |
@@ -43,7 +43,7 @@ SELECT * FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 5;
 
 ### Operator Classes
 
-The table below shows all operator classes for types and operator for `vchordrq`.
+The table below shows all operator classes for `vchordrq`.
 
 | Operator Class       | Description                                                     | Operator 1                | Operator 2               |
 | -------------------- | --------------------------------------------------------------- | ------------------------- | ------------------------ |
@@ -54,7 +54,7 @@ The table below shows all operator classes for types and operator for `vchordrq`
 | `halfvec_ip_ops`     | index works for `halfvec` type and negative inner product       | `<#>(halfvec,halfvec)`    | `<<#>>(halfvec,halfvec)` |
 | `halfvec_cosine_ops` | index works for `halfvec` type and cosine distance              | `<=>(halfvec,halfvec)`    | `<<=>>(halfvec,halfvec)` |
 | `vector_maxsim_ops`  | index works for `vector[]` type and scalable vector-similarity  | `@#(vector[],vector[])`   | N/A                      |
-| `vector_halfvec_ops` | index works for `halfvec[]` type and scalable vector-similarity | `@#(halfvec[],halfvec[])` | N/A                      |
+| `halfvec_maxsim_ops` | index works for `halfvec[]` type and scalable vector-similarity | `@#(halfvec[],halfvec[])` | N/A                      |
 
 `<<->>`, `<<#>>`, `<<=>>` and `@#` are operators defined by VectorChord.
 
@@ -62,11 +62,13 @@ For more information about `<<->>`, `<<#>>`, `<<=>>`, refer to [Similarity Filte
 
 For more information about `@#`, refer to [Multi-Vector Retrieval](indexing-with-maxsim-operators).
 
+The operator classes for `MaxSim` have been available only since version `0.3.0`.
+
 ### Indexing Options
 
 #### `residual_quantization`
 
-- Description: This index parameter determines whether residual quantization is used. If you not familiar with residual quantization, you can read this [blog](https://drscotthawley.github.io/blog/posts/2023-06-12-RVQ.html) for more information. Shortly, residual quantization is a technique that improves the accuracy of vector search by quantizing the residuals of the vectors.
+- Description: This index parameter determines whether residual quantization is used. If you not familiar with residual quantization, you can read this [blog](https://drscotthawley.github.io/blog/posts/2023-06-12-RVQ.html) for more information. In short, residual quantization is a technique that improves the accuracy of vector search by quantizing the residuals of the vectors.
 - Type: boolean
 - Default: `false`
 - Example:
@@ -86,17 +88,17 @@ For more information about `@#`, refer to [Multi-Vector Retrieval](indexing-with
     - `build.internal.lists = []` means that the vector space is not partitioned.
     - `build.internal.lists = [4096]` means the vector space is divided into $4096$ cells.
     - `build.internal.lists = [4096, 262144]` means the vector space is divided into $4096$ cells, and those cells are further divided into $262144$ smaller cells.
-- Note: The index partitions the vector space into multiple Voronoi cells using centroids, iteratively creating a hierarchical space partition tree. Each leaf node in this tree represents a region with an associated list storing vectors in that region. During insertion, vectors are placed in lists corresponding to their appropriate leaf nodes. For queries, the index optimizes search by excluding lists whose leaf nodes are distant from the query vector, effectively pruning the search space. If the length of `lists` is 1,the `lists` option should be no less than $4 * \sqrt{N}$, where $N$ is the number of vectors in the table.
+- Note: The index partitions the vector space into multiple Voronoi cells using centroids, iteratively creating a hierarchical space partition tree. Each leaf node in this tree represents a region with an associated list storing vectors in that region. During insertion, vectors are placed in lists corresponding to their appropriate leaf nodes. For queries, the index optimizes search by excluding lists whose leaf nodes are distant from the query vector, effectively pruning the search space. If the length of `lists` is $1$, the `lists` option should be no less than $4 * \sqrt{N}$, where $N$ is the number of vectors in the table.
 
 #### `build.internal.spherical_centroids`
 
-- Description: This index parameter determines whether perform spherical K-means -- the centroids are L2 normalized after each iteration, you can refer to option `spherical` in [here](https://github.com/facebookresearch/faiss/wiki/Faiss-building-blocks:-clustering,-PCA,-quantization#additional-options).
+- Description: This index parameter determines whether to perform spherical K-means -- the centroids are L2 normalized after each iteration, you can refer to option `spherical` in [here](https://github.com/facebookresearch/faiss/wiki/Faiss-building-blocks:-clustering,-PCA,-quantization#additional-options).
 - Type: boolean
 - Default: `false`
 - Example:
     - `build.internal.spherical_centroids = false` means that spherical k-means is not performed.
     - `build.internal.spherical_centroids = true` means that spherical k-means is performed.
-- Note: Set this to `true` if your model generates embeddings where the metric is cosine similarity.
+- Note: Set this to `true` if your model generates embeddings that use cosine similarity as the metric.
 
 #### `build.internal.sampling_factor` <badge type="tip" text="since v0.2.0" />
 

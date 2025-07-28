@@ -1,6 +1,6 @@
 # Prefilter <badge type="tip" text="since v0.4.0" />
 
-In a filtered index scan, the index performs the scan first and then PostgreSQL checks whether the filter conditions are satisfied. On this page, "filter" refers to the filter on the index scan node of query plan in PostgreSQL. This is usually constructed from the `WHERE` clause in the SQL statement. The filter does not need to have a specific form.
+In a filtered index scan, the index performs the scan first and then PostgreSQL checks whether the filter conditions are satisfied. On this page, "filter" refers to the filter on the index scan node of the query plan in PostgreSQL. This is usually constructed from the `WHERE` clause in the SQL statement. The filter does not need to have a specific form.
 
 ```sql
 EXPLAIN (COSTS FALSE)
@@ -25,13 +25,13 @@ SELECT * FROM items WHERE id % 97 = 0 ORDER BY embedding <-> '[0, 0, 0]' LIMIT 1
          Filter: ((id % '97'::bigint) = 0)
 ```
 
-To retrieve $10$ vectors that satisfy the filter condition, the index returned approximately $970$ rows. This suggests that the index performed a large amount of unnecessary computation. If the index could leverage the filter condition for pruning, the computation would be significantly reduced. The vector index provides a GUC parameter `vchordrq.prefilter` that allows it to prune using the filter condition.
+To retrieve $10$ vectors that satisfy the filter condition, the index returned approximately $970$ rows. This suggests that the index executed a large amount of redundant computation. If the index could leverage the filter condition for pruning, the computation would be significantly reduced. The vector index provides a GUC parameter `vchordrq.prefilter` that allows pruning of the search space based on the filter condition.
 
 ```sql
 SET vchordrq.prefilter = on;
 ```
 
-Prefilter makes the vector index perform the search based on the filter. This prunes the search space, and a smaller search space leads to a more efficient search. However, checking whether the filter conditions are satisfied also introduces overhead. So prefilter is only recommended when the filter is strict (eliminating many rows) and cheap (computational cost is much lower than computing vector distances). To aid understanding, we present two incorrect usage examples:
+Prefilter enables the vector index to perform the search based on the filter. This prunes the search space, and a smaller search space leads to a more efficient search. However, checking whether the filter conditions are satisfied also introduces overhead. So prefilter is only recommended when the filter is strict (eliminating many rows) and cheap (computational cost is much lower than computing vector distances). To aid understanding, we present two incorrect usage examples:
 
 * `id % 97 > 0`: this filter is relaxed
 * `email ~ '^([a-zA-Z]+)*$'`: this filter is expensive
