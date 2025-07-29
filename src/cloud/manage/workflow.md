@@ -2,7 +2,7 @@
 
 ## Overview
 
-Workflow is a feature that allow you can use some pre-defined functions to complete some tasks. For example, you can use `ExternalBuildIndex` workflow to build index externally for your Postgres cluster. There are some advantages of using workflow:
+Workflow is a feature that allow you can use some pre-defined functions to complete some tasks. For example, you can use [`ExternalBuildIndex`](#ExternalBuildIndex) workflow to build index externally for your Postgres cluster. There are some advantages of using workflow:
 - **Out Of Box**: You can use the pre-defined functions to complete some tasks without writing any code.
 - **Accelerate Tasks**: You can use a server with a higher resource configuration than the PostgreSQL cluster to accelerate the task.
 - **Cluster Stability**: The workflow is executed in a separate server, which will not affect the stability of the PostgreSQL cluster. 
@@ -13,9 +13,9 @@ Workflow is a feature that allow you can use some pre-defined functions to compl
 Supported workflows are as follows:
 - [ExternalBuildIndex](#ExternalBuildIndex)
 
-### ExternalBuildIndex
+### ExternalBuildIndex {#ExternalBuildIndex}
 
-The `ExternalBuildIndex` workflow is used to build vchord index externally for your Postgres cluster, details can be found [here](../../vectorchord/usage/advanced-features#external-index-precomputation).
+The `ExternalBuildIndex` workflow is used to build vchord index externally for your Postgres cluster, details can be found [here](/vectorchord/usage/external-index-precomputation).
 
 ![](../images/create_workflow.png)
 

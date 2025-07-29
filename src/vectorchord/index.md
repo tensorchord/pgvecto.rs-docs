@@ -9,11 +9,16 @@
 ## Usage
 
 - [Indexing](/vectorchord/usage/indexing)
-- [Indexing with MaxSim Operators](/vectorchord/usage/indexing-with-maxsim-operators)
 - [Search](/vectorchord/usage/search)
+- [Multi-Vector Retrieval](/vectorchord/usage/indexing-with-maxsim-operators)
+- [Similarity Filter](/vectorchord/usage/range-query)
 - [Performance Tuning](/vectorchord/usage/performance-tuning)
-- [Advanced Features](/vectorchord/usage/advanced-features)
-- [Range Query](/vectorchord/usage/range-query)
+- [Monitoring](/vectorchord/usage/monitoring)
+- [Prewarm](/vectorchord/usage/prewarm)
+- [Prefilter](/vectorchord/usage/prefilter)
+- [Prefetch](/vectorchord/usage/prefetch)
+- [Rerank In Table](/vectorchord/usage/rerank-in-table)
+- [External Build](/vectorchord/usage/external-index-precomputation)
 
 ## Use Cases
 
@@ -29,9 +34,8 @@
 - [Benchmark with Elasticsearch](/vectorchord/benchmark/elasticsearch)
 - [Benchmark with pgvectorscale](/vectorchord/benchmark/pgvectorscale)
 
-
 ## Admin
 
 - [Migration](/vectorchord/admin/migration)
 - [Scalability](/vectorchord/admin/scalability)
-
+- [Kubernetes](/vectorchord/admin/kubernetes)
