@@ -49,7 +49,7 @@ REINDEX INDEX t_val_idx_1;
 REINDEX INDEX t_val_idx_2;
 ```
 
-## Upgrade to 0.4.0
+## Upgrade to 0.4.0 {#upgrade-to-0-4-0}
 
 You may get this error if some [indexes](../usage/indexing.md) were created before upgrading `pgvecto.rs` to 0.4.0:
 
@@ -76,7 +76,7 @@ ALTER EXTENSION vectors UPDATE;
 -- CREATE INDEX that_is_also_index ...
 ```
 
-## Upgrade from 0.1.x
+## Upgrade from 0.1.x {#upgrade-from-0-1-x}
 
 You need to follow these steps to make `ALTER EXTENSION vectors UPDATE` work.
 

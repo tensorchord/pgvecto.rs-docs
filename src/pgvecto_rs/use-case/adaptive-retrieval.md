@@ -108,7 +108,7 @@ CREATE INDEX openai_vector_index_1024 on openai3072 using vectors((text_embeddin
 CREATE INDEX openai_vector_index on openai3072 using vectors(text_embedding_3_large_3072_embedding vector_l2_ops);
 ```
 
-Additionally, we have constructed a [binary vector index](../reference/vector-types.html#bvector-binary-vector) for the 3072-dimensional embeddings and conducted an ANN query using this index as well.
+Additionally, we have constructed a [binary vector index](../reference/vector-types/bvector) for the 3072-dimensional embeddings and conducted an ANN query using this index as well.
 
 ```sql
 CREATE INDEX openai_vector_index_bvector ON public.openai3072 USING vectors (text_embedding_3_large_3072_bvector bvector_l2_ops);

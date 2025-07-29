@@ -7,7 +7,7 @@ For more information about keyword-based hybrid search, please refer to [Hybrid 
 :::
 
 
-This post explores how to use how [BGE-M3](https://github.com/FlagOpen/FlagEmbedding/tree/master/FlagEmbedding/BGE_M3) and `pgvecto.rs` to exploit the potential of hybrid search using both sparse and dense vectors.
+This post explores how to use how [BGE-M3](https://huggingface.co/BAAI/bge-m3) and `pgvecto.rs` to exploit the potential of hybrid search using both sparse and dense vectors.
 
 Let's dive in.
 

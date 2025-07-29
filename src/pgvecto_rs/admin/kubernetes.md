@@ -6,9 +6,9 @@ If you want to use `pgvecto.rs` in PostgreSQL which is running in Kubernetes, we
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_helm"></a> [helm](#requirement\_helm) | >= 2.4.1 |
-| <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl) | >= 1.14 |
-| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 1.24.0 |
+| [helm](https://helm.sh/) | >= 2.4.1 |
+| [kubectl](https://kubernetes.io/docs/tasks/tools/) | >= 1.14 |
+| [Kubernetes](https://kubernetes.io/) | >= 1.24.0 |
 
 ## Install CloudNative-PG
 

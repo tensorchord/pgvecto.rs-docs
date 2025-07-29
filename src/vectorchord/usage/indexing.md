@@ -120,7 +120,7 @@ The operator classes for `MaxSim` have been available only since version `0.3.0`
     - `build.internal.kmeans_iterations = 10` means that the K-means algorithm performs $10$ iterations.
     - `build.internal.kmeans_iterations = 100` means that the K-means algorithm performs $100$ iterations.
 
-#### `build.internal.build_threads`
+#### `build.internal.build_threads` {#build-internal-build-threads}
 
 - Description: This index parameter determines the number of threads used by K-means algorithm. The higher this value, the faster the build, and greater load on the server in building.
 - Type: integer
