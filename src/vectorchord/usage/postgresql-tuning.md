@@ -1,4 +1,4 @@
-# Performance Tuning
+# PostgreSQL Tuning
 
 ## Indexing
 
@@ -28,17 +28,6 @@ The number of parallel workers also depends on the table's configuration. By def
 ALTER TABLE items set (parallel_workers = 15);
 ```
 
-When building an index on a table with more than 10 million vectors, you may opt to use more shared memory to accelerate the process by setting `build.pin` to `true`.
-
-```sql
-CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $$
-residual_quantization = true
-build.pin = true
-$$);
-```
-
-If you are using `build.internal`, refer to [`build.internal.build_threads`](./indexing#build-internal-build-threads) for K-Means parallel.
-
 ## Search
 
 To ensure the search performs efficiently, you may need to adjust some PostgreSQL parameters.
@@ -58,29 +47,3 @@ SET effective_io_concurrency = 200;
 -- If you do not rely on it, you may choose to disable it.
 SET jit = off;
 ```
-
-You can fine-tune the search performance by adjusting the `probes` and `epsilon` parameters:
-
-```sql
--- Set probes to control the number of lists scanned. 
--- It's recommended to set it to 3%-10% of the total `lists` value.
-SET vchordrq.probes = 100;
-
--- Set epsilon to control the reranking precision.
--- A larger value leads to more reranking, resulting in higher recall at the cost of increased latency.
--- It's recommended to set it to 1.0-1.9. Default value is 1.9.
-SET vchordrq.epsilon = 1.9;
-```
-
-## Reference
-
-### Indexing Options
-
-#### `build.pin` <badge type="tip" text="since v0.2.1" />
-
-- Description: This index parameter determines whether shared memory is used for indexing. For large datasets, you can choose to enable this option to speed up the build process.
-- Type: boolean
-- Default: `false`
-- Example:
-    - `build.pin = false` means that shared memory is not used.
-    - `build.pin = true` means that shared memory is used.

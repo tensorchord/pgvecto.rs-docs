@@ -24,7 +24,7 @@ Furthermore, the [Asynchronous I/O](https://pganalyze.com/blog/postgres-18-async
 
 ## Reference
 
-### Search Parameters
+### Search Parameters <badge type="info" text="vchordrq" />
 
 #### `vchordrq.io_search` <badge type="tip" text="since v0.4.0" />
 

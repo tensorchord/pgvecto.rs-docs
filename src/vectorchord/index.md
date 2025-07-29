@@ -9,10 +9,9 @@
 ## Usage
 
 - [Indexing](/vectorchord/usage/indexing)
-- [Search](/vectorchord/usage/search)
 - [Multi-Vector Retrieval](/vectorchord/usage/indexing-with-maxsim-operators)
 - [Similarity Filter](/vectorchord/usage/range-query)
-- [Performance Tuning](/vectorchord/usage/performance-tuning)
+- [PostgreSQL Tuning](/vectorchord/usage/performance-tuning)
 - [Monitoring](/vectorchord/usage/monitoring)
 - [Prewarm](/vectorchord/usage/prewarm)
 - [Prefilter](/vectorchord/usage/prefilter)

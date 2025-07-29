@@ -65,27 +65,21 @@ INSERT INTO items (embedding) SELECT ARRAY[random(), random(), random()]::real[]
 With VectorChord, you can create `vchordrq` indexes.
 
 ```SQL
-CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $$
-residual_quantization = true
-[build.internal]
-lists = []
-$$);
+CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops);
 ```
 
 And then perform a vector search using `SELECT ... ORDER BY ... LIMIT ...`.
 
 ```SQL
-SET vchordrq.probes TO '';
 SELECT * FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 5;
 ```
 
 For more usage, please read:
 
 - [Indexing](/vectorchord/usage/indexing)
-- [Search](/vectorchord/usage/search)
 - [Multi-Vector Retrieval](/vectorchord/usage/indexing-with-maxsim-operators)
 - [Similarity Filter](/vectorchord/usage/range-query)
-- [Performance Tuning](/vectorchord/usage/performance-tuning)
+- [PostgreSQL Tuning](/vectorchord/usage/performance-tuning)
 - [Monitoring](/vectorchord/usage/monitoring)
 - [Prewarm](/vectorchord/usage/prewarm)
 - [Prefilter](/vectorchord/usage/prefilter)

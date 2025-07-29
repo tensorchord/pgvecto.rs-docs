@@ -24,6 +24,7 @@ export default defineConfig({
     'pgvecto_rs/:dir/:page*': ':dir/:page*',
     'vectorchord/usage/multi-vector-retrieval.md': 'vectorchord/usage/indexing-with-maxsim-operators.md',
     'vectorchord/usage/similarity-filter.md': 'vectorchord/usage/range-query.md',
+    'vectorchord/usage/postgresql-tuning.md': 'vectorchord/usage/performance-tuning.md',
     'vectorchord/usage/external-build.md': 'vectorchord/usage/external-index-precomputation.md',
   },
   head: [
@@ -189,10 +190,9 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: 'Indexing', link: '/vectorchord/usage/indexing' },
-            { text: 'Search', link: '/vectorchord/usage/search' },
             { text: 'Multi-Vector Retrieval', link: '/vectorchord/usage/indexing-with-maxsim-operators' },
             { text: 'Similarity Filter', link: '/vectorchord/usage/range-query' },
-            { text: 'Performance Tuning', link: '/vectorchord/usage/performance-tuning' },
+            { text: 'PostgreSQL Tuning', link: '/vectorchord/usage/performance-tuning' },
             { text: 'Monitoring', link: '/vectorchord/usage/monitoring' },
             { text: 'Prewarm', link: '/vectorchord/usage/prewarm' },
             { text: 'Prefilter', link: '/vectorchord/usage/prefilter' },
