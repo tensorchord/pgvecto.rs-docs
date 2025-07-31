@@ -55,3 +55,35 @@ Furthermore, the [Asynchronous I/O](https://pganalyze.com/blog/postgres-18-async
     - `read_buffer` indicates a preference for `ReadBuffer`.
     - `prefetch_buffer` indicates a preference for both `PrefetchBuffer` and `ReadBuffer`.
     - `read_stream` indicates a preference for `read_stream`.
+
+### Search Parameters <badge type="info" text="vchordg" />
+
+#### `vchordg.io_search` <badge type="tip" text="since v0.5.0" />
+
+- Description: This GUC parameter controls the I/O prefetching strategy for reading bit vectors in vector search, which can impact search performance on disk-based vectors.
+- Type: string
+- Domain: Depends on PostgreSQL version
+    - PostgreSQL 13, 14, 15, 16: `{"read_buffer", "prefetch_buffer"}`
+    - PostgreSQL 17: `{"read_buffer", "prefetch_buffer", "read_stream"}`
+- Default: Depends on PostgreSQL version
+    - PostgreSQL 13, 14, 15, 16: `prefetch_buffer`
+    - PostgreSQL 17: `read_stream`
+- Note:
+    - `read_buffer` indicates a preference for `ReadBuffer`.
+    - `prefetch_buffer` indicates a preference for both `PrefetchBuffer` and `ReadBuffer`.
+    - `read_stream` indicates a preference for `read_stream`.
+
+#### `vchordg.io_rerank` <badge type="tip" text="since v0.5.0" />
+
+- Description: This GUC parameter controls the I/O prefetching strategy for reading full precision vectors in vector search, which can significantly impact search performance on disk-based vectors.
+- Type: string
+- Domain: Depends on PostgreSQL version
+    - PostgreSQL 13, 14, 15, 16: `{"read_buffer", "prefetch_buffer"}`
+    - PostgreSQL 17: `{"read_buffer", "prefetch_buffer", "read_stream"}`
+- Default: Depends on PostgreSQL version
+    - PostgreSQL 13, 14, 15, 16: `prefetch_buffer`
+    - PostgreSQL 17: `read_stream`
+- Note:
+    - `read_buffer` indicates a preference for `ReadBuffer`.
+    - `prefetch_buffer` indicates a preference for both `PrefetchBuffer` and `ReadBuffer`.
+    - `read_stream` indicates a preference for `read_stream`.

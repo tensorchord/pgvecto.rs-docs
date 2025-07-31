@@ -28,3 +28,14 @@ It works well even if the index size is much larger than memory size.
     - `regclass`, an object identifier of the `vchordrq` index
 - Example:
     - `SELECT vchordrq_prewarm('items_embedding_idx')`
+
+### Functions <badge type="info" text="vchordg" />
+
+#### `vchordg_prewarm` <badge type="tip" text="since v0.5.0" />
+
+- Description: This function warms the `vchordg` index by loading index to buffer pool.
+- Result: `text`
+- Arguments:
+    - `regclass`, an object identifier of the `vchordg` index
+- Example:
+    - `SELECT vchordg_prewarm('items_embedding_idx')`

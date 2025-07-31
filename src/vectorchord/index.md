@@ -10,6 +10,7 @@
 
 - [Indexing](/vectorchord/usage/indexing)
 - [Multi-Vector Retrieval](/vectorchord/usage/indexing-with-maxsim-operators)
+- [Graph Index](/vectorchord/usage/graph-index)
 - [Similarity Filter](/vectorchord/usage/range-query)
 - [PostgreSQL Tuning](/vectorchord/usage/performance-tuning)
 - [Monitoring](/vectorchord/usage/monitoring)
