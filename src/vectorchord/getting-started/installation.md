@@ -1,6 +1,17 @@
 # Installation
 
-There are four ways to install VectorChord.
+VectorChord is tested on the following operating system:
+
+* Ubuntu (x86_64, aarch64)
+* MacOS (aarch64)
+* Windows (x86_64)
+* Alpine Linux (x86_64, aarch64) [^1]
+
+[^1]: VectorChord is tested with PostgreSQL 15 in `community` repository, 16 and 17 in `main` repository on Alpine Linux 3.22.
+
+Please report a bug if you encounter issues on any of the above operating systems, or submit a feature request for additional platform support.
+
+There are 4 ways to install VectorChord.
 
 ## Docker
 
@@ -62,15 +73,6 @@ Other sections may align with the above.
 
 ## Debian packages
 
-::: tip
-
-Installation from Debian packages requires a dependency on `GLIBC >= 2.35`, so only the following distributions are supported:
-
-- `Debian 12 (Bookworm)` or later
-- `Ubuntu 22.04` or later
-
-:::
-
 Debian packages are used for Debian-based Linux distributions, including Debian and Ubuntu. They can be easily installed by `apt`. You can use this installation method on x86_64 Linux and aarch64 Linux.
 
 1. Download Debian packages in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and install them by `apt`.
@@ -130,6 +132,12 @@ CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 
 ## PGXN
 
+::: tip
+
+See [Source](#source) for build requirements.
+
+:::
+
 1. Install VectorChord from [PostgreSQL Extension Network](https://pgxn.org/dist/vchord) with:
 
 ```sh
@@ -158,53 +166,37 @@ There is a broken VectorChord `0.4.1` package on PGXN. Please do not use it. Use
 
 ::: tip
 
-VectorChord supports UNIX-like operating systems and Windows. Please report an issue if you cannot compile or make it work.
+Build requirements:
 
-VectorChord supports little-endian architectures but only provides performance advantages on x86_64 and aarch64.
+* any port of `make`
+* `clang >= 16` with `libclang`
+* `rust >= 1.89` with `cargo`
+
+It's recommended to use Rustup for installing Rust on most platforms, while on Alpine Linux, using the system package manager is advised.
+
+You can set the environment variable `CC` to specify the desired C compiler for the build system. If you do not set this variable, the build system automatically searches for clang and gcc. To compile all C code with clang, set `CC` to the path of clang. To compile all C code with gcc, set `CC` to the path of gcc; note that in this case, there is a requirement `gcc >= 14`.
+
+Rust version requirement is not a long-term guarantee; we will raise the required Rust version with each new release.
 
 :::
 
-You may need to install VectorChord from source. Please follow these steps.
-
-1. Clone the repository and checkout the branch.
+1. Download the source code, build and install it with `make`.
 
 ```sh
-git clone https://github.com/tensorchord/VectorChord.git
-cd VectorChord
-git checkout "0.5.0"
-```
-
-2. Install a C compiler and Rust. For Clang, the version must be 16 or higher. For GCC, the version must be 14 or higher. Other C compilers are not supported, and we prefer and recommend using Clang. For Rust, the version must be the same as that recorded in `rust-toolchain.toml`.
-
-You could download Clang from https://github.com/llvm/llvm-project/releases.
-
-You could setup Rust with Rustup. See https://rustup.rs/.
-
-3. Build it and install it.
-
-```sh
+curl -fsSL https://github.com/tensorchord/VectorChord/archive/refs/tags/0.5.0.tar.gz | tar -xz
+cd VectorChord-0.5.0
 make build
 make install # or `sudo make install`
 ```
 
-4. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension. And then restart the PostgreSQL cluster.
+2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension. And then restart the PostgreSQL cluster.
 
 ```sh
 psql -U postgres -c 'ALTER SYSTEM SET shared_preload_libraries = "vchord"'
 ```
 
-5. Run the following SQL to ensure the extension is enabled.
+3. Run the following SQL to ensure the extension is enabled.
 
 ```sql
 CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 ```
-
-::: tip
-
-By default, `VectorChord` only finds `clang` in `PATH` as the C compiler.
-
-If your Clang executable is not named `clang` or is not in `PATH`, please set the environment variable `CC` to path of your Clang.
-
-If you prefer to use GCC, please set the environment variable `CC` to `gcc` or path of your GCC.
-
-:::
