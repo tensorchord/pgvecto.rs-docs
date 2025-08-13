@@ -1,45 +1,43 @@
 # Measure Recall <badge type="tip" text="since v0.5.0" />
 
-In the world of vector search, recall refers to the percentage of vectors that the index returns which are true nearest neighbors. For example, if a nearest neighbor query for the 200 nearest neighbors returns 194 of the ground truth nearest neighbors, then the recall is 194/200 x 100 = 97%.
+In the context of vector search, recall is the ratio of true nearest neighbors to approximate nearest neighbors returned by the index. For example, if the index retrieves $100$ approximate nearest neighbors and $97$ of them are true nearest neighbors, then the recall is $\frac{97}{100} = 0.97$.
 
-In a vector query, recall is important because it measures the percentage of relevant results retrieved from a search. Recall helps you evaluate the quality of a vector index and provides insight into balancing search speed and accuracy.
+Recall measures the ratio of relevant results to all results retrieved from a search. When using an index, you likely want to know the recall and QPS corresponding to different parameters. The function `vchordrq_evaluate_query_recall` is designed for evaluating recall. It receives a query that returns row identifiers and returns the corresponding recall.
 
-With VectorChord, you can find the recall for a vector query on a vector index for any SQL query. You can easily tune the [search parameters](indexing#search-parameters) to achieve the desired search recall.
-
-::: code-group
-
-```sql [vchordrq]
--- You can tune the search parameters before measure
--- SET vchordrq.probes = '100'
--- SET vchordrq.epsilon = 1.0
-
-SELECT vchordrq_evaluate_query_recall(query=>$$
-  SELECT * FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 10
+```sql
+SET vchordrq.probes = '100';
+SET vchordrq.epsilon = 1.0;
+SELECT vchordrq_evaluate_query_recall(query => $$
+  SELECT ctid FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 10);
 $$);
 ```
 
-:::
+By default, the function evaluates the recall by generating estimated ground truth with another index scan. If you would like to evaluate the recall by generating ground truth with a table scan, set the function parameter `exact_search` to `true`.
 
-::: details
-
-By default, the function uses `exact_search=>false` to generate a **slightly inaccurate** ground truth by setting `vchordrq.probes` to an extremely large value (65535). This method is much faster than using `exact_search=true` for a full table scan, and the resulting precision is acceptable in most situations.
-
-:::
+```sql
+SET vchordrq.probes = '100';
+SET vchordrq.epsilon = 1.0;
+SELECT vchordrq_evaluate_query_recall(query => $$
+  SELECT ctid FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 10
+$$, exact_search => true);
+```
 
 ## Reference
 
+This feature is not supported by `vchordg`.
+
 ### Functions <badge type="info" text="vchordrq" />
 
-#### `vchordrq_evaluate_query_recall`
+#### `vchordrq_evaluate_query_recall` <badge type="tip" text="since v0.5.0" />
 
-- Description: Evaluates the recall of a given SQL query.
-- Result: `real` (a value between 0.0 and 1.0, or NaN if no results are found)
+- Description: Evaluates the recall of a given `vchordrq` query.
+- Result: `real`
 - Arguments:
-    - `query`(text): The SQL query to be evaluated.
-    - `exact_search`(boolean): A flag to indicate whether an full table scan should be performed for the ground truth set. The default value is false.
-    - `accu_probes`(text): Used when `exact_search` is false. It specifies the `vchordrq.probes` value for the ANN search that generates the estimated ground truth. If NULL, it will be derived from the active `vchordrq.probes` setting  during the initial query execution.
-    - `accu_epsilon`(real): Used when `exact_search` is false. It specifies the `vchordrq.epsilon` value for the ANN search that generates the estimated ground truth. The default value is 1.9.
+    - `query: text`, the query whose recall is evaluated
+    - `exact_search: boolean`, use ground truth instead of estimated ground truth
+    - `accu_probes: text`, `vchordrq.probes` for estimated ground truth
+    - `accu_epsilon: real`, `vchordrq.epsilon` for estimated ground truth
 - Example:
-    - `SELECT vchordrq_evaluate_query_recall(query=>$$SELECT ctid FROM t ORDER BY val <-> '[0.5, 0.25, 1.0]' LIMIT 10$$);`
-    - `SELECT vchordrq_evaluate_query_recall(query=>$$SELECT ctid FROM t ORDER BY val <-> '[0.5, 0.25, 1.0]' LIMIT 10$$, exact_search=>true);`
-    - `SELECT vchordrq_evaluate_query_recall(query=>$$SELECT ctid FROM t ORDER BY val <-> '[0.5, 0.25, 1.0]' LIMIT 10$$, exact_search=>false, accu_probes=>'100', accu_epsilon=>3.9);`
+    - `SELECT vchordrq_evaluate_query_recall(query => $$ SELECT ctid FROM t ORDER BY val <-> '[0.5, 0.25, 1.0]' LIMIT 10 $$);`
+    - `SELECT vchordrq_evaluate_query_recall(query => $$ SELECT ctid FROM t ORDER BY val <-> '[0.5, 0.25, 1.0]' LIMIT 10 $$, exact_search => true);`
+    - `SELECT vchordrq_evaluate_query_recall(query => $$ SELECT ctid FROM t ORDER BY val <-> '[0.5, 0.25, 1.0]' LIMIT 10 $$, accu_probes => '9999', accu_epsilon => 4.0);`

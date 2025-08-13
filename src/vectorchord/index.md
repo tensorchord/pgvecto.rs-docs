@@ -14,6 +14,7 @@
 - [Similarity Filter](/vectorchord/usage/range-query)
 - [PostgreSQL Tuning](/vectorchord/usage/performance-tuning)
 - [Monitoring](/vectorchord/usage/monitoring)
+- [Measure Recall](/vectorchord/usage/measure-recall)
 - [Prewarm](/vectorchord/usage/prewarm)
 - [Prefilter](/vectorchord/usage/prefilter)
 - [Prefetch](/vectorchord/usage/prefetch)
