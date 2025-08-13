@@ -211,7 +211,7 @@ The operator classes for `MaxSim` are available since version `0.3.0`.
     - `build.internal.build_threads = 1` means that the K-means algorithm uses $1$ thread.
     - `build.internal.build_threads = 4` means that the K-means algorithm uses $4$ threads.
 
-### Search Parameters <badge type="info" text="vchordrq" />
+### Search Parameters <badge type="info" text="vchordrq" /> {#search-parameters}
 
 #### `vchordrq.probes`
 

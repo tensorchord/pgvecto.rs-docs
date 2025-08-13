@@ -195,6 +195,7 @@ export default defineConfig({
             { text: 'Similarity Filter', link: '/vectorchord/usage/range-query' },
             { text: 'PostgreSQL Tuning', link: '/vectorchord/usage/performance-tuning' },
             { text: 'Monitoring', link: '/vectorchord/usage/monitoring' },
+            { text: 'Measure Recall', link: '/vectorchord/usage/measure-recall' },
             { text: 'Prewarm', link: '/vectorchord/usage/prewarm' },
             { text: 'Prefilter', link: '/vectorchord/usage/prefilter' },
             { text: 'Prefetch', link: '/vectorchord/usage/prefetch' },
