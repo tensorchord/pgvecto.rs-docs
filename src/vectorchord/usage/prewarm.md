@@ -10,7 +10,7 @@ SELECT pg_prewarm('items_pkey');
 
 However, it only works if the size of the buffer pool is much larger than the size of the index. For vector indexes, the index size is often much larger than memory size. Vector indexes are designed so that the index data is divided into two parts: a small, hot portion and a large, cold portion. Vector indexes only need the hot portion in memory to achieve reasonable performance. Therefore, a specialized prewarm function exists and it loads only the hot portion of the index into memory.
 
-```sql
+```sql [vchordrq]
 SELECT vchordrq_prewarm('items_embedding_idx');
 ```
 
@@ -28,3 +28,14 @@ It works well even if the index size is much larger than memory size.
     - `regclass`, an object identifier of the `vchordrq` index
 - Example:
     - `SELECT vchordrq_prewarm('items_embedding_idx')`
+
+### Functions <badge type="info" text="vchordg" />
+
+#### `vchordg_prewarm` <badge type="tip" text="since v0.5.0" />
+
+- Description: This function warms the `vchordg` index by loading index to buffer pool.
+- Result: `text`
+- Arguments:
+    - `regclass`, an object identifier of the `vchordg` index
+- Example:
+    - `SELECT vchordg_prewarm('items_embedding_idx')`

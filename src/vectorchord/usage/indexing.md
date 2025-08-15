@@ -2,7 +2,7 @@
 
 VectorChord's index type `vchordrq` divides vectors into lists and searches only a subset of lists closest to the query vector. It provides fast build time and low memory consumption, while delivering [significantly better performance](https://blog.vectorchord.ai/vectorchord-store-400k-vectors-for-1-in-postgresql#heading-ivf-vs-hnsw) than both `hnsw` and `ivfflat`.
 
-To build a vector index, start by creating a table named `items` with an `embedding` column of type `vector(n)`, then populate it with sample data.
+Let's start by creating a table named `items` with an `embedding` column of type `vector(n)`, and then populate it with sample data.
 
 ```sql
 CREATE TABLE items (id bigserial PRIMARY KEY, embedding vector(3));
@@ -211,7 +211,7 @@ The operator classes for `MaxSim` are available since version `0.3.0`.
     - `build.internal.build_threads = 1` means that the K-means algorithm uses $1$ thread.
     - `build.internal.build_threads = 4` means that the K-means algorithm uses $4$ threads.
 
-### Search Parameters <badge type="info" text="vchordrq" />
+### Search Parameters <badge type="info" text="vchordrq" /> {#search-parameters}
 
 #### `vchordrq.probes`
 

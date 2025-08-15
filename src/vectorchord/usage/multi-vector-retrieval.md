@@ -46,6 +46,8 @@ ORDER BY embeddings @#
 
 ## Reference
 
+This feature is not supported by `vchordg`.
+
 ### Operator Classes
 
 Refer to
