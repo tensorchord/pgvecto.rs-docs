@@ -11,8 +11,6 @@ VectorChord is tested on the following operating system:
 
 Please report a bug if you encounter issues on any of the above operating systems, or submit a feature request for additional platform support.
 
-There are 4 ways to install VectorChord.
-
 ## Docker
 
 ### VectorChord Image
@@ -71,9 +69,50 @@ docker run \
 
 Other sections may align with the above.
 
-## Debian packages
+## Source
 
-Debian packages are used for Debian-based Linux distributions, including Debian and Ubuntu. They can be easily installed by `apt`. You can use this installation method on x86_64 Linux and aarch64 Linux.
+::: tip
+
+Build requirements:
+
+* any port of `make`
+* `clang >= 16` with `libclang`
+* `rust >= 1.89` with `cargo`
+
+It's recommended to use Rustup for installing Rust on most platforms, while on Alpine Linux, using the system package manager is advised.
+
+You can set the environment variable `CC` to specify the desired C compiler for the build system. If you do not set this variable, the build system automatically searches for clang and gcc. To compile all C code with clang, set `CC` to the path of clang. To compile all C code with gcc, set `CC` to the path of gcc; note that in this case, there is a requirement `gcc >= 14`.
+
+Rust version requirement is not a long-term guarantee; we will raise the required Rust version with each new release.
+
+:::
+
+If you have not installed PostgreSQL yet, please install PostgreSQL. If you have not installed pgvector yet, you could install pgvector before the 3rd step.
+
+1. Download the source code, build and install it with `make`.
+
+```sh
+curl -fsSL https://github.com/tensorchord/VectorChord/archive/refs/tags/0.5.0.tar.gz | tar -xz
+cd VectorChord-0.5.0
+make build
+make install # or `sudo make install`
+```
+
+2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension. And then restart the PostgreSQL cluster.
+
+```sh
+psql -U postgres -c 'ALTER SYSTEM SET shared_preload_libraries = "vchord"'
+```
+
+3. Run the following SQL to ensure the extension is enabled.
+
+```sql
+CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
+```
+
+## Debian
+
+If you have not installed PostgreSQL yet, please install PostgreSQL following https://www.postgresql.org/download/linux/debian/. If you have not installed pgvector yet, you could install pgvector by `apt install postgresql-17-pgvector` before the 3rd step.
 
 1. Download Debian packages in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and install them by `apt`.
 
@@ -95,33 +134,22 @@ sudo systemctl restart postgresql.service
 CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 ```
 
-## Prebuilt binaries
+## Ubuntu
 
-::: tip
+If you have not installed PostgreSQL yet, please install PostgreSQL following https://www.postgresql.org/download/linux/ubuntu/. If you have not installed pgvector yet, you could install pgvector by `apt install postgresql-17-pgvector` before the 3rd step.
 
-Installation from prebuilt binaries requires a dependency on `GLIBC >= 2.35`, so only the following distributions are supported:
-
-- `Debian 12 (Bookworm)` or later
-- `Ubuntu 22.04` or later
-- `Red Hat Enterprise 10.0` or later
-- `Fedora 36` or later
-- `openSUSE 15.6` or later
-
-:::
-
-Prebuilt binaries are used for other Linux distributions. You can consider repackaging the precompiled binaries. You can use this installation method on x86_64 Linux and aarch64 Linux.
-
-1. Download prebuilt binaries in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and repackage it referring to your distribution's documentation. Then install it by system package manager. We do not recommend doing this, but if you wish, you can also manually copy the files to the system directory.
+1. Download Debian packages in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and install them by `apt`.
 
 ```sh
-cp -r ./pkglibdir/. $(pg_config --pkglibdir)
-cp -r ./sharedir/. $(pg_config --sharedir)
+wget https://github.com/tensorchord/VectorChord/releases/download/0.5.0/postgresql-17-vchord_0.5.0-1_$(dpkg --print-architecture).deb
+sudo apt install ./postgresql-17-vchord_0.5.0-1_$(dpkg --print-architecture).deb
 ```
 
 2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension. And then restart the PostgreSQL cluster.
 
 ```sh
 psql -U postgres -c 'ALTER SYSTEM SET shared_preload_libraries = "vchord"'
+sudo systemctl restart postgresql.service
 ```
 
 3. Run the following SQL to ensure the extension is enabled.
@@ -137,6 +165,8 @@ CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 See [Source](#source) for build requirements.
 
 :::
+
+If you have not installed PostgreSQL yet, please install PostgreSQL. If you have not installed pgvector yet, you could install pgvector by `pgrxclient install vector` before the 3rd step.
 
 1. Install VectorChord from [PostgreSQL Extension Network](https://pgxn.org/dist/vchord) with:
 
@@ -162,31 +192,21 @@ There is a broken VectorChord `0.4.1` package on PGXN. Please do not use it. Use
 
 :::
 
-## Source
+## Prebuilt binaries <badge type="danger" text="deprecated" />
 
-::: tip
+::: warning
 
-Build requirements:
-
-* any port of `make`
-* `clang >= 16` with `libclang`
-* `rust >= 1.89` with `cargo`
-
-It's recommended to use Rustup for installing Rust on most platforms, while on Alpine Linux, using the system package manager is advised.
-
-You can set the environment variable `CC` to specify the desired C compiler for the build system. If you do not set this variable, the build system automatically searches for clang and gcc. To compile all C code with clang, set `CC` to the path of clang. To compile all C code with gcc, set `CC` to the path of gcc; note that in this case, there is a requirement `gcc >= 14`.
-
-Rust version requirement is not a long-term guarantee; we will raise the required Rust version with each new release.
+Prebuilt binaries may not match the PostgreSQL in ABI on your machine, which could cause silent errors. We strongly recommend that you build from source in this case.
 
 :::
 
-1. Download the source code, build and install it with `make`.
+If you have not installed PostgreSQL yet, please install PostgreSQL. If you have not installed pgvector yet, you could install pgvector before the 3rd step.
+
+1. Download prebuilt binaries in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and repackage it referring to your distribution's documentation. Then install it by system package manager. We do not recommend doing this, but if you wish, you can also manually copy the files to the system directory.
 
 ```sh
-curl -fsSL https://github.com/tensorchord/VectorChord/archive/refs/tags/0.5.0.tar.gz | tar -xz
-cd VectorChord-0.5.0
-make build
-make install # or `sudo make install`
+cp -r ./pkglibdir/. $(pg_config --pkglibdir)
+cp -r ./sharedir/. $(pg_config --sharedir)
 ```
 
 2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension. And then restart the PostgreSQL cluster.
