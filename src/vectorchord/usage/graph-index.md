@@ -115,13 +115,12 @@ All operator classes are available since version `0.3.0`.
 
 #### `vchordg.enable_scan` <badge type="tip" text="since v0.5.0" />
 
-- Description: This GUC parameter `vchordg.enable_scan` controls whether the query planner can use the vchordg index. It is useful if you want to disable the VectorChord vector index individually for benchmarking or comparison purposes.
+- Description: Enables or disables the query planner's use of `vchordg` index scan. It's for testing purposes.
 - Type: boolean
-- Default: `true`
+- Default: `on`
 - Example:
-    - `vchordg.enable_scan = false` disables all vchordg indexes without affecting other indexes.
-    - `vchordg.enable_scan = true` enables all vchordg indexes.
-- Note: Setting  `vchordg.enable_scan = true` does not guarantee that a vchordg index will be used.
+    - `vchordg.enable_scan = off` disables the query planner's use of `vchordg` index scan.
+    - `vchordg.enable_scan = on` enables the query planner's use of `vchordg` index scan.
 
 #### `vchordg.ef_search` <badge type="tip" text="since v0.5.0" />
 
