@@ -113,6 +113,15 @@ All operator classes are available since version `0.3.0`.
 
 ### Search Parameters <badge type="info" text="vchordg" />
 
+#### `vchordg.enable_scan` <badge type="tip" text="since v0.5.0" />
+
+- Description: Enables or disables the query planner's use of `vchordg` index scan. It's for testing purposes.
+- Type: boolean
+- Default: `on`
+- Example:
+    - `vchordg.enable_scan = off` disables the query planner's use of `vchordg` index scan.
+    - `vchordg.enable_scan = on` enables the query planner's use of `vchordg` index scan.
+
 #### `vchordg.ef_search` <badge type="tip" text="since v0.5.0" />
 
 - Description: The size of the dynamic list containing the nearest neighbors in search. The larger `vchordg.ef_search` is, the better the recall, but the worse the QPS. `vchordg.ef_search` corresponds to $\text{ef}$ in HNSW and DiskANN.
