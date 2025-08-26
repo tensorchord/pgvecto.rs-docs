@@ -213,6 +213,16 @@ The operator classes for `MaxSim` are available since version `0.3.0`.
 
 ### Search Parameters <badge type="info" text="vchordrq" /> {#search-parameters}
 
+#### `vchordrq.enable_scan` <badge type="tip" text="since v0.5.0" />
+
+- Description: This GUC parameter `vchordrq.enable_scan` controls whether the query planner can use the vchordrq index. It is useful if you want to disable the VectorChord vector index individually for benchmarking or comparison purposes.
+- Type: boolean
+- Default: `true`
+- Example:
+    - `vchordrq.enable_scan = false` disables all vchordrq indexes without affecting other indexes.
+    - `vchordrq.enable_scan = true` enables all vchordrq indexes.
+- Note: Setting `vchordrq.enable_scan = true` does not guarantee that a vchordrq index will be used.
+
 #### `vchordrq.probes`
 
 - Description: This GUC parameter `vchordrq.probes` controls how the vector space assists in query pruning. The more probes, the more accurate the search, but also the slower it is.

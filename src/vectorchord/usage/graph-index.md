@@ -113,6 +113,16 @@ All operator classes are available since version `0.3.0`.
 
 ### Search Parameters <badge type="info" text="vchordg" />
 
+#### `vchordg.enable_scan` <badge type="tip" text="since v0.5.0" />
+
+- Description: This GUC parameter `vchordg.enable_scan` controls whether the query planner can use the vchordg index. It is useful if you want to disable the VectorChord vector index individually for benchmarking or comparison purposes.
+- Type: boolean
+- Default: `true`
+- Example:
+    - `vchordg.enable_scan = false` disables all vchordg indexes without affecting other indexes.
+    - `vchordg.enable_scan = true` enables all vchordg indexes.
+- Note: Setting  `vchordg.enable_scan = true` does not guarantee that a vchordg index will be used.
+
 #### `vchordg.ef_search` <badge type="tip" text="since v0.5.0" />
 
 - Description: The size of the dynamic list containing the nearest neighbors in search. The larger `vchordg.ef_search` is, the better the recall, but the worse the QPS. `vchordg.ef_search` corresponds to $\text{ef}$ in HNSW and DiskANN.
