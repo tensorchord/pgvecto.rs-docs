@@ -85,6 +85,8 @@ You can set the environment variable `CC` to specify the desired C compiler for 
 
 Rust version requirement is not a long-term guarantee; we will raise the required Rust version with each new release.
 
+These build requirements apply only to x86_64 and aarch64. For all other architectures, nightly Rust and latest Clang are required. These platforms may lack SIMD support, so we recommend that you always submit a feature request before compiling.
+
 :::
 
 If you have not installed PostgreSQL yet, please install PostgreSQL. If you have not installed pgvector yet, you could install pgvector before the 3rd step.
