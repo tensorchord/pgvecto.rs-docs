@@ -6,8 +6,10 @@ VectorChord is tested on the following operating system:
 * MacOS (aarch64)
 * Windows (x86_64)
 * Alpine Linux (x86_64, aarch64) [^1]
+* Debian (powerpc64le, s390x, riscv64) [^2]
 
 [^1]: VectorChord is tested with PostgreSQL 15 in `community` repository, 16 and 17 in `main` repository on Alpine Linux 3.22.
+[^2]: VectorChord is tested with PostgreSQL 13, 14, 15, 16, and 17 in PostgreSQL's official repository on `powerpc64le`, and PostgreSQL 15 and 17 in Debian's official repository on `s390x` and `riscv64`, with QEMU user space emulator.
 
 Please report a bug if you encounter issues on any of the above operating systems, or submit a feature request for additional platform support.
 
@@ -26,7 +28,7 @@ docker run \
   --name vchord-demo \
   -e POSTGRES_PASSWORD=mysecretpassword \
   -p 5432:5432 \
-  -d tensorchord/vchord-postgres:pg17-v0.5.0
+  -d tensorchord/vchord-postgres:pg17-v0.5.1
 ```
 
 2. Connect to the database using the `psql` command line tool. The default username is `postgres`.
@@ -85,7 +87,7 @@ You can set the environment variable `CC` to specify the desired C compiler for 
 
 Rust version requirement is not a long-term guarantee; we will raise the required Rust version with each new release.
 
-These build requirements apply only to x86_64 and aarch64. For all other architectures, nightly Rust and latest Clang are required. These platforms may lack SIMD support, so we recommend that you always submit a feature request before compiling.
+These build requirements apply only to x86_64 and aarch64. For all other architectures, including powerpc64le, s390x and riscv64, nightly Rust and latest Clang are required.
 
 :::
 
@@ -94,8 +96,8 @@ If you have not installed PostgreSQL yet, please install PostgreSQL. If you have
 1. Download the source code, build and install it with `make`.
 
 ```sh
-curl -fsSL https://github.com/tensorchord/VectorChord/archive/refs/tags/0.5.0.tar.gz | tar -xz
-cd VectorChord-0.5.0
+curl -fsSL https://github.com/tensorchord/VectorChord/archive/refs/tags/0.5.1.tar.gz | tar -xz
+cd VectorChord-0.5.1
 make build
 make install # or `sudo make install`
 ```
@@ -112,6 +114,50 @@ psql -U postgres -c 'ALTER SYSTEM SET shared_preload_libraries = "vchord"'
 CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 ```
 
+### Tuning
+
+VectorChord performs runtime CPU dispatch for SIMD code. If you want the compiler to optimize the whole program for a particular CPU, you could instruct it to generate code for that CPU.
+
+```sh
+RUSTFLAGS="-Ctarget-cpu=icelake" make build
+```
+
+To see all valid CPU options and the default CPU for your target triple, run:
+
+```sh
+rustc --print target-cpus
+```
+
+To generate code for the host machine, run:
+
+```sh
+RUSTFLAGS="-Ctarget-cpu=native" make build
+```
+
+Please note that binaries generated with a specific `target-cpu` are not compatible with other CPUs.
+
+You can also do it by using Cargo's configuration.
+
+```sh
+cd VectorChord-0.5.1
+mkdir -p .cargo
+touch .cargo/config.toml
+echo 'build.rustflags = ["-Ctarget-cpu=icelake"]' >> ./cargo/config.toml
+```
+
+### s390x
+
+This section applies only to version 0.5.1 and may change in the next version.
+
+When the target is S390X, you need to use the patch we provide for the upstream crate. You can do it by using Cargo's configuration.
+
+```sh
+cd VectorChord-0.5.1
+mkdir -p .cargo
+touch .cargo/config.toml
+echo 'patch.crates-io.pgrx = { git = "https://github.com/tensorchord/pgrx.git", branch = "big-endian" }' >> ./cargo/config.toml
+```
+
 ## Debian
 
 If you have not installed PostgreSQL yet, please install PostgreSQL following https://www.postgresql.org/download/linux/debian/. If you have not installed pgvector yet, you could install pgvector by `apt install postgresql-17-pgvector` before the 3rd step.
@@ -119,8 +165,8 @@ If you have not installed PostgreSQL yet, please install PostgreSQL following ht
 1. Download Debian packages in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and install them by `apt`.
 
 ```sh
-wget https://github.com/tensorchord/VectorChord/releases/download/0.5.0/postgresql-17-vchord_0.5.0-1_$(dpkg --print-architecture).deb
-sudo apt install ./postgresql-17-vchord_0.5.0-1_$(dpkg --print-architecture).deb
+wget https://github.com/tensorchord/VectorChord/releases/download/0.5.1/postgresql-17-vchord_0.5.1-1_$(dpkg --print-architecture).deb
+sudo apt install ./postgresql-17-vchord_0.5.1-1_$(dpkg --print-architecture).deb
 ```
 
 2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension. And then restart the PostgreSQL cluster.
@@ -143,8 +189,8 @@ If you have not installed PostgreSQL yet, please install PostgreSQL following ht
 1. Download Debian packages in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and install them by `apt`.
 
 ```sh
-wget https://github.com/tensorchord/VectorChord/releases/download/0.5.0/postgresql-17-vchord_0.5.0-1_$(dpkg --print-architecture).deb
-sudo apt install ./postgresql-17-vchord_0.5.0-1_$(dpkg --print-architecture).deb
+wget https://github.com/tensorchord/VectorChord/releases/download/0.5.1/postgresql-17-vchord_0.5.1-1_$(dpkg --print-architecture).deb
+sudo apt install ./postgresql-17-vchord_0.5.1-1_$(dpkg --print-architecture).deb
 ```
 
 2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension. And then restart the PostgreSQL cluster.
