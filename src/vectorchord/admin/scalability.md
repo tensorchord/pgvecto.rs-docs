@@ -1,4 +1,4 @@
-# Scalability 
+# Scalability
 
 ## Background
 

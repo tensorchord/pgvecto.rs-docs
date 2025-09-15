@@ -5,7 +5,7 @@ outline: [2,3]
 
 ## From PGVecto.rs
 
-Most of VectorChord's vector types are supported by `pgvector`. 
+Most of VectorChord's vector types are supported by `pgvector`.
 Therefore, migrating from PGVecto.rs to VectorChord is a simple inversion of [migrating from pgvector to PGVecto.rs](/admin/migration).
 
 :::tip
@@ -82,7 +82,7 @@ postgres=# \dx
 
 #### 2. Check exist indexes
 
-For indexes created at vector columns, please retrieve the definition and record it in a convenient location. 
+For indexes created at vector columns, please retrieve the definition and record it in a convenient location.
 This information is necessary for the recovery of the indexes at a later stage.
 
 ```sql
@@ -114,7 +114,7 @@ The migration will be completed in one command and no additional memory is requi
 However, you need to delete the index on the vector column in advance.
 
 ::: warning
-This step will cause some downtime, due to: 
+This step will cause some downtime, due to:
 - a long `ACCESS EXCLUSIVE` lock by `ALTER TABLE ALTER COLUMN`
 :::
 
@@ -134,7 +134,7 @@ ALTER TABLE table_binary ALTER COLUMN vec_bits TYPE bit(3) USING array_to_string
 
 #### 4. Recreate index
 
-The next step is to recreate index on `vector` columns for `PGVecto.rs`. 
+The next step is to recreate index on `vector` columns for `PGVecto.rs`.
 
 ```sql
 CREATE INDEX ON index_vector USING vchordrq (vec_f32 vector_l2_ops) WITH (options = $$

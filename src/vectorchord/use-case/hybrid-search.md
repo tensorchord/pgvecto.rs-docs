@@ -53,9 +53,9 @@ If you want to reproduce the tutorial quickly, you can use the `tensorchord/vcho
 You can run the following command to build and start the Postgres with VectorChord-BM25 and VectorChord.
 
 ```bash
-docker run   \           
-  --name vchord-suite  \
-  -e POSTGRES_PASSWORD=postgres  \
+docker run \
+  --name vchord-suite \
+  -e POSTGRES_PASSWORD=postgres \
   -p 5432:5432 \
   -d tensorchord/vchord-suite:pg17-latest
 ```
@@ -229,7 +229,7 @@ In semantic search, we already use Bi-Encoder vectorized the documents and queri
 
 ```python
 reranker = FlagReranker(
-    'BAAI/bge-reranker-v2-m3', 
+    'BAAI/bge-reranker-v2-m3',
     query_max_length=256,
     passage_max_length=512,
     use_fp16=True,
@@ -237,7 +237,7 @@ reranker = FlagReranker(
 ) # Setting use_fp16 to True speeds up computation with a slight performance degradation
 
 for query_id, docs in tqdm(results.items()):
-    scores = reranker.compute_score(pairs, normalize=True) 
+    scores = reranker.compute_score(pairs, normalize=True)
     for i, doc_id in enumerate(docs):
         bge_scores[query_id][doc_id] = scores[i]
 ```

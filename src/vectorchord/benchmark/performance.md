@@ -4,7 +4,7 @@ Here we present a comprehensive benchmark comparing our implementation of Vector
 
 ## QPS
 
-### LAION 5M 
+### LAION 5M
 
 <img src="../images/laion-5m-top10.png" alt="QPS on LAION 5M top 10" style="width: 100%; height: auto; margin: 0 auto; display: block;" />
 

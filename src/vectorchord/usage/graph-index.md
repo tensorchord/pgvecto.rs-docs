@@ -30,7 +30,7 @@ SET vchordg.ef_search TO '128';
 SELECT * FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 10;
 ```
 
-As a disk-based index, `vchordg` usually requires only the quantized vectors to be kept in the buffer pool to maintain performance. By default, `vchordg` quantizes a $D$-dimensional vector to $2D$ bits. Let the number of rows be $N$. Then, the total memory required for the index is $2DN$ bits. If you have very limited memory and are using ultra-high dimensional vectors, consider quantizing a vector to $D$ bits. Then, the total memory required for the index is $DN$ bits. 
+As a disk-based index, `vchordg` usually requires only the quantized vectors to be kept in the buffer pool to maintain performance. By default, `vchordg` quantizes a $D$-dimensional vector to $2D$ bits. Let the number of rows be $N$. Then, the total memory required for the index is $2DN$ bits. If you have very limited memory and are using ultra-high dimensional vectors, consider quantizing a vector to $D$ bits. Then, the total memory required for the index is $DN$ bits.
 
 ```sql
 CREATE INDEX ON items USING vchordg (embedding vector_l2_ops) WITH (options = $$
