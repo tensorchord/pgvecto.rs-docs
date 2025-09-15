@@ -4,6 +4,7 @@ include_fragments = true
 accept = [
     200,
     403, # forbidden, mainly for OpenAI
+    429, # Terraform
     999, # LinkedIn
 ]
 remap = [
