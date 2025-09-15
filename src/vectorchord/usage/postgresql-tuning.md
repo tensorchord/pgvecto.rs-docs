@@ -5,7 +5,7 @@
 Indexing may be parallelized. Parallelism increases server load and is therefore not enabled by default in PostgreSQL. To enable it, refer to the following SQL.
 
 ```sql
--- Sets the maximum number of background processes that the cluster can support. 
+-- Sets the maximum number of background processes that the cluster can support.
 -- It's recommended to set it to the sum of your desired parallelism plus 8.
 -- For example, if you want to use 16 threads for parallel processing, set the value to 24.
 -- Note: A restart is required for this setting to take effect.

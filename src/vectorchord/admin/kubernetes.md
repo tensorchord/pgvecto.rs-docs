@@ -49,7 +49,7 @@ USER postgres
 ## Create PostgreSQL cluster
 
 We provide a sample yaml file to create a PostgreSQL cluster in Kubernetes. You can modify it according to your needs. You need pay attention to the following points:
-- Set `shared_preload_libraries` to load `vchord` shared library. 
+- Set `shared_preload_libraries` to load `vchord` shared library.
 - Execute `CREATE EXTENSION IF NOT EXISTS vchord CASCADE;` to create `vchord` extension.
 
 ```yaml
@@ -59,15 +59,15 @@ metadata:
   name: tensorchord
 type: kubernetes.io/basic-auth
 data:
-  password: dGVuc29yY2hvcmQ= # tensorchord 
+  password: dGVuc29yY2hvcmQ= # tensorchord
   username: dGVuc29yY2hvcmQ= # tensorchord
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: vchord 
+  name: vchord
 spec:
-  instances: 1 
+  instances: 1
   bootstrap:
     initdb:
       database: tensorchord
@@ -86,13 +86,13 @@ spec:
     - "vchord.so"
 ```
 
-You can install `cnpg` [kubectl plugin](https://cloudnative-pg.io/documentation/1.25/kubectl-plugin/) to manage your PostgreSQL cluster. Now we can check the status of the cluster. 
+You can install `cnpg` [kubectl plugin](https://cloudnative-pg.io/documentation/1.25/kubectl-plugin/) to manage your PostgreSQL cluster. Now we can check the status of the cluster.
 
 ```shell
 $ sudo kubectl get pod
 vchord-1                                                 1/1     Running     0             42s
 
-$ kubectl cnpg status vchord   
+$ kubectl cnpg status vchord
 Cluster Summary
 Name:                vchord
 Namespace:           default
@@ -100,7 +100,7 @@ System ID:           7527554386501582867
 PostgreSQL Image:    ghcr.io/tensorchord/cloudnative-vectorchord:17
 Primary instance:    vchord-1
 Primary start time:  2025-07-16 05:55:51 +0000 UTC (uptime 53s)
-Status:              Cluster in healthy state 
+Status:              Cluster in healthy state
 Instances:           1
 Ready instances:     1
 Current Write LSN:   0/204FB50 (Timeline: 1 - WAL File: 000000010000000000000002)
@@ -151,7 +151,7 @@ ttensorchord=> \dx
 ---------+---------+------------+---------------------------------------------------------------------------------------------
  plpgsql | 1.0     | pg_catalog | PL/pgSQL procedural language
  vchord  | 0.5.2   | public     | vchord: Vector database plugin for Postgres, written in Rust, specifically designed for LLM
- vector  | 0.8.0   | public     | vector data type and ivfflat and hnsw access methods
+ vector  | 0.8.1   | public     | vector data type and ivfflat and hnsw access methods
 (3 rows)
 ```
 

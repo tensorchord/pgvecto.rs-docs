@@ -232,7 +232,7 @@ The operator classes for `MaxSim` are available since version `0.3.0`.
 - Example:
     - `SET vchordrq.probes = 1` means that only one probe is used.
     - `SET vchordrq.probes = 10` means that ten probes are used.
-- Note: The default value is an empty list. The length of this option must match the length of `lists`. 
+- Note: The default value is an empty list. The length of this option must match the length of `lists`.
     - If `lists = []`, then probes must be ` `.
     - If `lists = [11, 22]`, then probes can be `2,4` or `4,8`. It must not be incorrectly shaped, for example, ` `, `3`, `7,8,9`, `5,5,5,5`.
 

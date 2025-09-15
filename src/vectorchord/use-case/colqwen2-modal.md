@@ -65,9 +65,9 @@ If you want to reproduce the tutorial quickly, you can use the `tensorchord/vcho
 You can run the following command to build and start Postgres with VectorChord-BM25 and VectorChord.
 
 ```bash
-docker run   \           
-  --name vchord-suite  \
-  -e POSTGRES_PASSWORD=postgres  \
+docker run \
+  --name vchord-suite \
+  -e POSTGRES_PASSWORD=postgres \
   -p 5432:5432 \
   -d tensorchord/vchord-suite:pg17-latest
 ```
@@ -107,7 +107,7 @@ def download_dataset(cache=False) -> None:
     from datasets import load_dataset
     from tqdm import tqdm
 
-    collection_dataset_names = get_collection_dataset_names("vidore/vidore-benchmark-667173f98e70a1c0fa4db00d") 
+    collection_dataset_names = get_collection_dataset_names("vidore/vidore-benchmark-667173f98e70a1c0fa4db00d")
     for dataset_name in tqdm(collection_dataset_names, desc="vidore benchmark dataset(s)"):
         dataset = load_dataset(dataset_name, split="test",num_proc=10)
         unique_indices = dataset.to_pandas().drop_duplicates(subset="image_filename", keep="first").index #to remove repeating PDF pages with different queries
@@ -177,12 +177,12 @@ class ColPaliModel:
         if self.model_name == "vidore/colqwen2-v1.0":
             from colpali_engine.models import ColQwen2, ColQwen2Processor
             from transformers.utils.import_utils import is_flash_attn_2_available
-            
+
             # load model
             model = ColQwen2.from_pretrained(
                 self.model_name,
                 torch_dtype=torch.bfloat16,
-                device_map="cuda:0", 
+                device_map="cuda:0",
                 attn_implementation="flash_attention_2" if is_flash_attn_2_available() else None,
                 cache_dir=self.cache_dir,
             ).eval()
@@ -214,7 +214,7 @@ $ modal volume get colpali-embedding-checkpoint /path/to/local/vidore_embeddings
 
 Now, we'll use the **vechord** SDK to load these embeddings into our PostgreSQL database and create the necessary multi-vector index. vechord provides a Pythonic, ORM-like way to interact with VectorChord in Postgres.
 
-%[https://github.com/tensorchord/vechord] 
+%[https://github.com/tensorchord/vechord]
 
 ```python
 MultiVector = List[Vector[128]] # Assuming 128 dimensions for ColQwen2
@@ -223,8 +223,8 @@ lists = 2500 # lists is the number of the cluster
 # Define the database table schema using vechord
 class Image(Table, kw_only=True):
     uid: Optional[PrimaryKeyAutoIncrease] = None
-    image_embedding: Annotated[MultiVector, MultiVectorIndex(lists=lists)] # Stores the document's visual embeddings 
-    query_embedding: Annotated[MultiVector, MultiVectorIndex(lists=lists)]  # Stores the query's embeddings 
+    image_embedding: Annotated[MultiVector, MultiVectorIndex(lists=lists)] # Stores the document's visual embeddings
+    query_embedding: Annotated[MultiVector, MultiVectorIndex(lists=lists)]  # Stores the query's embeddings
     query: str = None
     dataset: Optional[str] = None
     dataset_id: Optional[int] = None
@@ -305,8 +305,8 @@ recall@10 0.92
 Total execution time: 810 seconds # Baseline accuracy and time
 
 # Enable WARP
-# There is no need to focus on specific times, 
-# only relative times need to be taken into account, 
+# There is no need to focus on specific times,
+# only relative times need to be taken into account,
 # as the tests were performed on a local model with poor performance.
 ndcg@10 0.8353
 recall@10 0.90
