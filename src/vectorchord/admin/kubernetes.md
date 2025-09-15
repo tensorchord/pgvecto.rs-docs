@@ -151,7 +151,7 @@ ttensorchord=> \dx
 ---------+---------+------------+---------------------------------------------------------------------------------------------
  plpgsql | 1.0     | pg_catalog | PL/pgSQL procedural language
  vchord  | 0.5.2   | public     | vchord: Vector database plugin for Postgres, written in Rust, specifically designed for LLM
- vector  | 0.8.0   | public     | vector data type and ivfflat and hnsw access methods
+ vector  | 0.8.1   | public     | vector data type and ivfflat and hnsw access methods
 (3 rows)
 ```
 
