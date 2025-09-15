@@ -32,61 +32,44 @@ $$, exact_search => true);
 
 ## Query sampling <badge type="tip" text="since v0.5.2" />
 
-You may find it more useful to evaluate user-generated queries than randomly generated ones. VectorChord includes a built-in method to sample and store recent user queries. These records are grouped by index, making them easily accessible and seamlessly integrable with recall evaluation.
+To evaluate query recall, VectorChord includes a built-in method to sample queries.
 
 ```sql
--- Enable the query sampling
-ALTER SYSTEM SET vchordrq.query_sampling_enable = on;
-
--- Set the maximum number of queries to record per index
-ALTER SYSTEM SET vchordrq.query_sampling_max_records = 1000;
-
--- Set the sampling rate (e.g., 1.0 for all queries, 0.01 for 1%)
--- For high-traffic systems, a rate of 0.01 or lower is recommended.
-ALTER SYSTEM SET vchordrq.query_sampling_rate = 1;
-SELECT pg_reload_conf();
-
--- Now, execute an example vector search
--- SELECT * FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 10;
+SET vchordrq.query_sampling_enable = on;
+SET vchordrq.query_sampling_max_records = 1000;
+SET vchordrq.query_sampling_rate = 1;
 ```
+
+Suppose you have executed an example vector search `SELECT * FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 10`.
 
 After queries have been executed and sampled, you can inspect the captured components of them, including the schema, index, table, column, operator, and vector.
 
 ```sql
--- List recorded queries for a specific index
-SELECT * from vchordrq_sampled_queries('idx');
--- schema_name | index_name | table_name | column_name | operator |    value
----------------+------------+------------+-------------+----------+--------------
--- public      | idx        | items      | embedding   | <->      | [0.5,0.25,1]
-
--- List recorded queries for all accessible indexes
--- DANGER: The result may unexpectedly mix records from multiple indexes. Please check carefully before use. // [!code error]
--- SELECT COUNT(DISTINCT index_name) FROM vchordrq_sampled_queries WHERE ... // [!code error]
-SELECT * from vchordrq_sampled_queries;
+SELECT * from vchordrq_sampled_queries('items_embedding_idx');
+-- schema_name | index_name          | table_name | column_name | operator |    value
+---------------+---------------------+------------+-------------+----------+--------------
+-- public      | items_embedding_idx | items      | embedding   | <->      | [0.5,0.25,1]
 ```
 
-To measure the recall of the recorded queries, you can reconstruct the target query statement. The `vchordrq_sampled_queries` view is **not** recommended here because the evaluated recall will be incorrect if the records come from more than one index.
+To measure the recall of the recorded queries, you can construct the target query statement.
 
 ```sql
 SELECT AVG(recall_value) FROM (
     SELECT vchordrq_evaluate_query_recall(
             format(
-                'SELECT ctid FROM %I.%I ORDER BY %I %s %s LIMIT 10',
-                quote_ident(lq.schema_name),
-                quote_ident(lq.table_name),
-                quote_ident(lq.column_name),
+                'SELECT ctid FROM %I.%I ORDER BY %I OPERATOR(%s) %L LIMIT 10',
+                lq.schema_name,
+                lq.table_name,
+                lq.column_name,
                 lq.operator,
-                quote_literal(lq.value)
+                lq.value
             )
     ) AS recall_value
     FROM vchordrq_sampled_queries('items_embedding_idx') AS lq
 ) AS eval_results;
 ```
 
-::: tip IMPORTANT
-- This feature adds an extra 0.3 to 1 millisecond of latency to SELECT statements, which can be reduced by lowering the value of `vchordrq.query_sampling_max_records`.
-- Query records are not synchronized by replication or backup. Each Postgres replica maintains its own set of records based on the queries it processes.
-:::
+If you are using the [replication](https://www.postgresql.org/docs/current/runtime-config-replication.html) feature with a primary server and standby servers, please note that sampled queries are not synchronized by replication or backup. Rather, each server maintains its own set of queries based on those it processes.
 
 ## Reference
 
@@ -112,20 +95,20 @@ This feature is not supported by `vchordg` and Multi-Vector Retrieval.
 
 #### `vchordrq.query_sampling_rate` <badge type="tip" text="since v0.5.2" />
 
-- Description: Controls the fraction of vchordrq index scan queries that will be recorded like [log_statement_sample_rate](https://www.postgresql.org/docs/current/runtime-config-logging.html#GUC-LOG-STATEMENT-SAMPLE-RATE). This setting is only active when `vchordrq.query_sampling_enable` is on.
+- Description: Controls the sampling rate at which queries are recorded. This setting is only active when `vchordrq.query_sampling_enable` is on.
 - Type: real
 - Default: `0`
 - Domain: `[0, 1]`
 - Example:
     - `vchordrq.query_sampling_rate = 0` records no query.
     - `vchordrq.query_sampling_rate = 0.01` records approximately 1% of queries.
-    - `vchordrq.query_sampling_rate = 1` records every query.
+    - `vchordrq.query_sampling_rate = 1` records every query. It's for testing purposes.
 
 ### Functions <badge type="info" text="vchordrq" />
 
 #### `vchordrq_sampled_queries` <badge type="tip" text="since v0.5.2" /> {#vchordrq-sampled-queries-func}
 
-- Description: Retrieves the set of recorded queries for a **single**, **specified** vchordrq index.
+- Description: Retrieves the set of recorded queries for a `vchordrq` index.
 - Result: `table`
     - `schema_name: text`, the schema of the table in the query
     - `index_name: text`, the name of the index used in the query
@@ -136,7 +119,17 @@ This feature is not supported by `vchordg` and Multi-Vector Retrieval.
 - Arguments:
     - `regclass`, the object identifier of a `vchordrq` index
 - Example:
-    - `SELECT vchordrq_sampled_queries('idx');`
+    - `SELECT vchordrq_sampled_queries('items_embedding_idx');`
+
+#### `vchordrq_sampled_values` <badge type="tip" text="since v0.5.2" />
+
+- Description: Retrieves the target vector of recorded queries for a `vchordrq` index.
+- Result: `text`, the text representation of the target vector from the query.
+- Arguments:
+    - `regclass`, the object identifier of a `vchordrq` index
+- Example:
+    - `SELECT vchordrq_sampled_values('items_embedding_idx');`
+- Note: this view is only intended for debug.
 
 #### `vchordrq_evaluate_query_recall` <badge type="tip" text="since v0.5.0" />
 
@@ -159,3 +152,4 @@ This feature is not supported by `vchordg` and Multi-Vector Retrieval.
 - Description: Retrieves the set of recorded queries for **all** vchordrq indexes.
 - Example:
     - `SELECT * from vchordrq_sampled_queries;`
+- Note: this view is only intended for debug.
