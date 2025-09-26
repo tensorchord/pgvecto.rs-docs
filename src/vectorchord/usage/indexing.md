@@ -156,6 +156,10 @@ The operator classes for `MaxSim` are available since version `0.3.0`.
     - `build.pin = false` means that shared memory is not used.
     - `build.pin = true` means that shared memory is used.
 
+### Default Build Options <badge type="tip" text="since v0.5.3" />
+
+This is the default value of index building. The index will not be partitioned. In terms of semantics, `build.default = {}` is similar to `build.internal.lists = []`.
+
 ### Internal Build Options <badge type="info" text="vchordrq" />
 
 #### `build.internal.lists`
