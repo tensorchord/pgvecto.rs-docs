@@ -12,13 +12,13 @@ Prior to version `0.4.0`, VectorChord used PostgreSQL's synchronous I/O interfac
 
 In the GUC parameters, the synchronous I/O interface is referred to as `read_buffer`, the asynchronous I/O interface as `read_stream`, and VectorChord's simulated asynchronous interface as `prefetch_buffer`.
 
-For indexes much smaller than the memory, there is almost no difference among the three prefetch modes. `read_stream` accelerates all disk-based indexes; however, it is only available on PostgreSQL 17. To address this, VectorChord provides a simulated asynchronous I/O interface called `prefetch_buffer`, which is available on all PostgreSQL versions as a fallback for older versions. `prefetch_buffer` is less effective than `read_stream`.
+For indexes much smaller than the memory, there is almost no difference among the three prefetch modes. `read_stream` accelerates all disk-based indexes; however, it is only available on PostgreSQL 17 and 18. To address this, VectorChord provides a simulated asynchronous I/O interface called `prefetch_buffer`, which is available on all PostgreSQL versions as a fallback for older versions. `prefetch_buffer` is less effective than `read_stream`.
 
-| Prefetch Mode     | Description                                                                                      | Supported PostgreSQL Versions |
-| ----------------- | ------------------------------------------------------------------------------------------------ | ----------------------------- |
-| `read_stream`     | Asynchronous I/O interface in PostgreSQL                                                         | PostgreSQL 17                 |
-| `prefetch_buffer` | VectorChord's simulated asynchronous I/O interface used as fallback on older PostgreSQL versions | PostgreSQL 13, 14, 15, 16, 17 |
-| `read_buffer`     | Synchronous I/O interface in PostgreSQL                                                          | PostgreSQL 13, 14, 15, 16, 17 |
+| Prefetch Mode     | Description                                                                                      | Supported PostgreSQL Versions     |
+| ----------------- | ------------------------------------------------------------------------------------------------ | --------------------------------- |
+| `read_stream`     | Asynchronous I/O interface in PostgreSQL                                                         | PostgreSQL 17, 18                 |
+| `prefetch_buffer` | VectorChord's simulated asynchronous I/O interface used as fallback on older PostgreSQL versions | PostgreSQL 13, 14, 15, 16, 17, 18 |
+| `read_buffer`     | Synchronous I/O interface in PostgreSQL                                                          | PostgreSQL 13, 14, 15, 16, 17, 18 |
 
 Furthermore, the [Asynchronous I/O](https://pganalyze.com/blog/postgres-18-async-io) that will be introduced in PostgreSQL 18 will make `read_stream` more advantageous.
 
@@ -32,10 +32,10 @@ Furthermore, the [Asynchronous I/O](https://pganalyze.com/blog/postgres-18-async
 - Type: string
 - Domain: Depends on PostgreSQL version
     - PostgreSQL 13, 14, 15, 16: `{"read_buffer", "prefetch_buffer"}`
-    - PostgreSQL 17: `{"read_buffer", "prefetch_buffer", "read_stream"}`
+    - PostgreSQL 17, 18: `{"read_buffer", "prefetch_buffer", "read_stream"}`
 - Default: Depends on PostgreSQL version
     - PostgreSQL 13, 14, 15, 16: `prefetch_buffer`
-    - PostgreSQL 17: `read_stream`
+    - PostgreSQL 17, 18: `read_stream`
 - Note:
     - `read_buffer` indicates a preference for `ReadBuffer`.
     - `prefetch_buffer` indicates a preference for both `PrefetchBuffer` and `ReadBuffer`.
@@ -47,10 +47,10 @@ Furthermore, the [Asynchronous I/O](https://pganalyze.com/blog/postgres-18-async
 - Type: string
 - Domain: Depends on PostgreSQL version
     - PostgreSQL 13, 14, 15, 16: `{"read_buffer", "prefetch_buffer"}`
-    - PostgreSQL 17: `{"read_buffer", "prefetch_buffer", "read_stream"}`
+    - PostgreSQL 17, 18: `{"read_buffer", "prefetch_buffer", "read_stream"}`
 - Default: Depends on PostgreSQL version
     - PostgreSQL 13, 14, 15, 16: `prefetch_buffer`
-    - PostgreSQL 17: `read_stream`
+    - PostgreSQL 17, 18: `read_stream`
 - Note:
     - `read_buffer` indicates a preference for `ReadBuffer`.
     - `prefetch_buffer` indicates a preference for both `PrefetchBuffer` and `ReadBuffer`.
@@ -64,10 +64,10 @@ Furthermore, the [Asynchronous I/O](https://pganalyze.com/blog/postgres-18-async
 - Type: string
 - Domain: Depends on PostgreSQL version
     - PostgreSQL 13, 14, 15, 16: `{"read_buffer", "prefetch_buffer"}`
-    - PostgreSQL 17: `{"read_buffer", "prefetch_buffer", "read_stream"}`
+    - PostgreSQL 17, 18: `{"read_buffer", "prefetch_buffer", "read_stream"}`
 - Default: Depends on PostgreSQL version
     - PostgreSQL 13, 14, 15, 16: `prefetch_buffer`
-    - PostgreSQL 17: `read_stream`
+    - PostgreSQL 17, 18: `read_stream`
 - Note:
     - `read_buffer` indicates a preference for `ReadBuffer`.
     - `prefetch_buffer` indicates a preference for both `PrefetchBuffer` and `ReadBuffer`.
@@ -79,10 +79,10 @@ Furthermore, the [Asynchronous I/O](https://pganalyze.com/blog/postgres-18-async
 - Type: string
 - Domain: Depends on PostgreSQL version
     - PostgreSQL 13, 14, 15, 16: `{"read_buffer", "prefetch_buffer"}`
-    - PostgreSQL 17: `{"read_buffer", "prefetch_buffer", "read_stream"}`
+    - PostgreSQL 17, 18: `{"read_buffer", "prefetch_buffer", "read_stream"}`
 - Default: Depends on PostgreSQL version
     - PostgreSQL 13, 14, 15, 16: `prefetch_buffer`
-    - PostgreSQL 17: `read_stream`
+    - PostgreSQL 17, 18: `read_stream`
 - Note:
     - `read_buffer` indicates a preference for `ReadBuffer`.
     - `prefetch_buffer` indicates a preference for both `PrefetchBuffer` and `ReadBuffer`.
