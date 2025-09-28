@@ -45,7 +45,10 @@ CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 
 ::: tip
 
-To achieve full performance, please mount the volume to PostgreSQL data directory by adding the option like `-v $PWD/pgdata:/var/lib/postgresql/data`
+To achieve full performance, please mount the volume to PostgreSQL data directory by adding the option like:
+
+* `-v $PWD/pgdata:/var/lib/postgresql/18/docker`, on PostgreSQL 18
+* `-v $PWD/pgdata:/var/lib/postgresql/data`, on PostgreSQL 14, 15, 16 and 17
 
 You can configure PostgreSQL by the reference of the parent image in https://hub.docker.com/_/postgres/.
 
@@ -55,21 +58,40 @@ You can configure PostgreSQL by the reference of the parent image in https://hub
 
 <a href="https://hub.docker.com/r/tensorchord/vchord-suite"><img src="https://img.shields.io/docker/pulls/tensorchord/vchord-suite"/></a>
 
-In addition to the base image with the VectorChord extension, we provide an all-in-one image, `tensorchord/vchord-suite:pg17-latest`. This comprehensive image includes all official TensorChord extensions. Developers should select an image tag that is compatible with their extension's version, as indicated in [the support matrix](https://github.com/tensorchord/VectorChord-images?tab=readme-ov-file#support-matrix).
+In addition to the base image with the VectorChord extension, we provide an all-in-one image, `tensorchord/vchord-suite:pg18-latest`. This comprehensive image includes all official TensorChord extensions. Developers should select an image tag that is compatible with their extension's version, as indicated in [the support matrix](https://github.com/tensorchord/VectorChord-images?tab=readme-ov-file#support-matrix).
 
-1. Launch container
+1. Launch a VectorChord container in Docker.
 
 ```sh
 docker run \
   --name vchord-suite \
   -e POSTGRES_PASSWORD=postgres \
   -p 5432:5432 \
-  -d tensorchord/vchord-suite:pg17-20250408
-  # If you want to use ghcr image, you can change the image to `ghcr.io/tensorchord/vchord-suite:pg17-20250408`.
-  # if you want to use the latest version, you can use the tag `pg17-latest`.
+  -d tensorchord/vchord-suite:pg18-latest
+  # If you want to use ghcr image, you can change the image to `ghcr.io/tensorchord/vchord-suite:pg18-latest`.
+  # if you want to use the specific version, you can use the tag `pg17-20250815`, supported version can be found in the support matrix.
 ```
 
 Other sections may align with the above.
+
+### VectorChord Scratch Image
+
+<a href="https://hub.docker.com/r/tensorchord/vchord-scratch"><img src="https://img.shields.io/docker/pulls/tensorchord/vchord-scratch" /></a>
+
+We provide a scratch image that contains only the files of VectorChord. You can install VectorChord in any image using Docker's `COPY`, like
+
+```dockerfile
+FROM tensorchord/vchord-scratch:pg18-v0.5.3 AS vchord_scratch
+FROM postgres:18-bookworm
+RUN apt-get update && apt-get install -y postgresql-18-pgvector
+COPY --from=vchord_scratch / /
+CMD ["postgres", "-c" ,"shared_preload_libraries=vchord,vector"]
+```
+
+This image can also be used as a CloudNativePG image volume extension. See also
+
+* [Image Volume Extensions](https://cloudnative-pg.io/documentation/current/imagevolume_extensions/)
+* [Kubernetes](../admin/kubernetes)
 
 ## Source
 
@@ -79,7 +101,7 @@ Build requirements:
 
 * any port of `make`
 * `clang >= 16` with `libclang`
-* `rust >= 1.89` with `cargo`
+* `rust >= 1.90` with `cargo`
 
 It's recommended to use Rustup for installing Rust on most platforms, while on Alpine Linux, using the system package manager is advised.
 

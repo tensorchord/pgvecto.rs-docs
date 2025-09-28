@@ -20,7 +20,7 @@ For indexes much smaller than the memory, there is almost no difference among th
 | `prefetch_buffer` | VectorChord's simulated asynchronous I/O interface used as fallback on older PostgreSQL versions | PostgreSQL 13, 14, 15, 16, 17, 18 |
 | `read_buffer`     | Synchronous I/O interface in PostgreSQL                                                          | PostgreSQL 13, 14, 15, 16, 17, 18 |
 
-Furthermore, the [Asynchronous I/O](https://pganalyze.com/blog/postgres-18-async-io) that will be introduced in PostgreSQL 18 will make `read_stream` more advantageous.
+To fully leverage this feature with `read_stream`, you need to enable asynchronous I/O on PostgreSQL 18. See also [PostgreSQL Tuning](performance-tuning#asynchronous-i-o).
 
 ## Reference
 
