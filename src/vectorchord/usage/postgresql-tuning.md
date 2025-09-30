@@ -57,13 +57,16 @@ This section applies only to PostgreSQL 18.
 
 ### `io_uring`
 
-`io_uring` method uses Linux's `io_uring`, which can reduce the overhead of context switches. This interface is available in kernel 5.1 and later. If you are using a newer kernel, it is recommended. You can enable this method by GUC `io_method`.
+`io_uring` method uses Linux's `io_uring`, which can reduce the overhead of context switches. This interface is available in kernel 5.1 and later. If you are using a newer kernel, it is recommended. You can enable this method through the GUC `io_method`.
 
 ```sql
+-- Note: A restart is required for this setting to take effect.
 ALTER SYSTEM SET io_method = 'io_uring';
 ```
 
-Please note that due to security measures, your container runtime, cloud provider, or system administrator may explicitly disable `io_uring`. In this case, you should consult your provider for relevant information. See also [Consider removing io_uring syscalls in from RuntimeDefault](https://github.com/containerd/containerd/issues/9048).
+Because `io_uring` uses additional file descriptors, PostgreSQL may reach `RLIMIT_NOFILE` limit. You may need to increase this limit on your system.
+
+For security reasons, container runtimes, cloud providers, and system administrators may disable `io_uring`. If this happens, check with your vendor for details. See also [Consider removing io_uring syscalls in from RuntimeDefault](https://github.com/containerd/containerd/issues/9048).
 
 This section applies only to Linux.
 
@@ -72,13 +75,14 @@ This section applies only to Linux.
 This is the default in PostgreSQL 18. PostgreSQL avoids blocking backend by sending I/O requests to a process pool. You can explicitly enable this method through the GUC `io_method`.
 
 ```sql
+-- Note: A restart is required for this setting to take effect.
 ALTER SYSTEM SET io_method = 'worker';
-```
 
-You can adjust the size of the process pool through the GUC `io_workers`. The default value is `3`, and the optimal value depends on your workload.
-
-```sql
-ALTER SYSTEM SET io_workers = 3;
+-- Selects the number of I/O worker processes to use.
+-- It's recommended to set it to your parallelism.
+-- For example, if your parallelism is 16, set the value to 16.
+-- Note: A restart is required for this setting to take effect.
+ALTER SYSTEM SET io_workers = 16;
 ```
 
 ### `sync`
@@ -86,5 +90,6 @@ ALTER SYSTEM SET io_workers = 3;
 `sync` method works the same way as in PostgreSQL 17. Reads are synchronous and blocking, and `posix_fadvise` is used to provide the operating system with hints about upcoming reads. You would only use this method for debugging. You can enable this method through the GUC `io_method`.
 
 ```sql
+-- Note: A restart is required for this setting to take effect.
 ALTER SYSTEM SET io_method = 'sync';
 ```
