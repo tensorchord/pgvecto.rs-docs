@@ -8,7 +8,8 @@ If you want to use `vectorchord` in PostgreSQL which is running in Kubernetes, w
 |------|---------|
 | [helm](https://helm.sh/) | >= 2.4.1 |
 | [kubectl](https://kubernetes.io/docs/tasks/tools/) | >= 1.14 |
-| [Kubernetes](https://kubernetes.io/) | >= 1.24.0,>= 1.31.0(Image Volume Extensions)  |
+| [Kubernetes](https://kubernetes.io/) | >= 1.24.0 |
+| [Kubernetes (Image Volume Extensions)](https://kubernetes.io/) | >= 1.31.0 |
 
 ## Install CloudNative-PG
 
