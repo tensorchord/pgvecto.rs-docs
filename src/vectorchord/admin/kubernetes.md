@@ -26,12 +26,6 @@ NAME                                   READY   STATUS    RESTARTS   AGE
 cnpg-cloudnative-pg-54f97dbcdf-jm97n   1/1     Running   0          1m
 ```
 
-:::warning
-If you want to use [`Image Volume Extensions`](https://cloudnative-pg.io/documentation/current/imagevolume_extensions/), you need to meet the following requirements:
-- Use Kubernetes version 1.31.0 or above (1.33.0 is recommended), and make sure the `ImageVolume` feature gate is enabled.
-- Use CloudNative-PG helm chart version 0.26.0 or above.
-:::
-
 ## PostgreSQL image with `vectorchord`
 
 In the repository, we already provide a docker image with `vectorchord` installed. You can find it in [ghcr.io/tensorchord/cloudnative-vectorchord](https://github.com/tensorchord/cloudnative-vectorchord/pkgs/container/cloudnative-vectorchord). If you want to build your own image, you can use the following Dockerfile as a reference.
@@ -175,6 +169,12 @@ For Kubernetes, the [ImageVolume feature](https://kubernetes.io/blog/2024/08/16/
 
 Based on these two features, we can create lightweight `vectorchord` extension image [vchord-scratch](https://github.com/tensorchord/VectorChord-images/pkgs/container/vchord-scratch).
 
+:::tip
+If you want to use [`Image Volume Extensions`](https://cloudnative-pg.io/documentation/current/imagevolume_extensions/), you need to meet the following requirements:
+- Use Kubernetes version 1.31.0 or above (1.33.0 is recommended), and make sure the `ImageVolume` feature gate is enabled.
+- Use CloudNative-PG helm chart version 0.26.0 or above.
+:::
+
 ### Create PostgreSQL cluster with Image Volume Extensions
 
 You can use the following sample yaml file to create a PostgreSQL cluster with `vectorchord` extension image. You can modify it according to your needs. You need pay attention to the following points:
@@ -250,5 +250,5 @@ tensorchord=> \dx
 ```
 
 :::warning
-The image `ghcr.io/cloudnative-pg/postgresql:18-system-bookworm` already contains pgvector 0.8.1, which is required for vchord 0.5.3. Please ensure that the pgvector version matches the vchord requirements.
+The image `ghcr.io/cloudnative-pg/postgresql:18-system-bookworm` already contains pgvector 0.8.1, which is required for vchord 0.5.3. Please ensure that the pgvector version matches the vchord requirements. However, this image may not include pgvector in future versions, but we have not seen this trend in the short term. 
 :::
