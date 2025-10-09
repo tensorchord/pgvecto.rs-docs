@@ -90,7 +90,7 @@ spec:
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17
   postgresql:
     shared_preload_libraries: # load vchord shared library
-    - "vchord.so"
+    - "vchord"
 ```
 
 You can install `cnpg` [kubectl plugin](https://cloudnative-pg.io/documentation/1.25/kubectl-plugin/) to manage your PostgreSQL cluster. Now we can check the status of the cluster.
@@ -225,4 +225,30 @@ spec:
     - "vchord"
 ```
 
-Refer to the document above for checking and connecting to the cluster.
+We can check the extension is alroady installed successfully.
+
+```shell
+$ kubectl port-forward services/vchord-rw 5432:5432
+$ psql -h
+$ psql -h 0.0.0.0 -U tensorchord -d tensorchord
+Password for user tensorchord: 
+psql (13.3 (Ubuntu 13.3-1.pgdg16.04+1), server 18.0 (Debian 18.0-1.pgdg12+3))
+WARNING: psql major version 13, server major version 18.
+         Some psql features might not work.
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
+Type "help" for help.
+
+tensorchord=> \dx
+                                                 List of installed extensions
+  Name   | Version |   Schema   |                                         Description                                         
+---------+---------+------------+---------------------------------------------------------------------------------------------
+ plpgsql | 1.0     | pg_catalog | PL/pgSQL procedural language
+ vchord  | 0.5.3   | public     | vchord: Vector database plugin for Postgres, written in Rust, specifically designed for LLM
+ vector  | 0.8.1   | public     | vector data type and ivfflat and hnsw access methods
+(3 rows)
+
+```
+
+:::warning
+The image `ghcr.io/cloudnative-pg/postgresql:18-system-bookworm` already contains pgvector 0.8.1, which is required for vchord 0.5.3. Please ensure that the pgvector version matches the vchord requirements.
+:::
