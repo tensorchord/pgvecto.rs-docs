@@ -250,5 +250,5 @@ tensorchord=> \dx
 ```
 
 :::warning
-The image `ghcr.io/cloudnative-pg/postgresql:18-system-bookworm` already contains pgvector 0.8.1, which is required for vchord 0.5.3. Please ensure that the pgvector version matches the vchord requirements. However, this image may not include pgvector in future versions, but we have not seen this trend in the short term. 
+The image `ghcr.io/cloudnative-pg/postgresql:18-system-bookworm` already contains pgvector, which is required for vchord. However, this image may not include pgvector in future versions, but we have not seen this trend in the short term. 
 :::
