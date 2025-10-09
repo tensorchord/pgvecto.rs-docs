@@ -9,6 +9,7 @@ If you want to use `vectorchord` in PostgreSQL which is running in Kubernetes, w
 | [helm](https://helm.sh/) | >= 2.4.1 |
 | [kubectl](https://kubernetes.io/docs/tasks/tools/) | >= 1.14 |
 | [Kubernetes](https://kubernetes.io/) | >= 1.24.0 |
+| [Kubernetes (Image Volume Extensions)](https://kubernetes.io/) | >= 1.31.0 |
 
 ## Install CloudNative-PG
 
@@ -83,7 +84,7 @@ spec:
   imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17
   postgresql:
     shared_preload_libraries: # load vchord shared library
-    - "vchord.so"
+    - "vchord"
 ```
 
 You can install `cnpg` [kubectl plugin](https://cloudnative-pg.io/documentation/1.25/kubectl-plugin/) to manage your PostgreSQL cluster. Now we can check the status of the cluster.
@@ -156,3 +157,98 @@ ttensorchord=> \dx
 ```
 
 The `vchord` extension is installed successfully. You can try [quick-start](https://docs.vectorchord.ai/vectorchord/getting-started/overview.html#quick-start) without installation.
+
+
+## Lightweight Extension Images
+
+Managing extensions is one of the biggest challenges when running PostgreSQL on Kubernetes. If you want to add a new extension to [this image](#postgresql-image-with-vectorchord), you must rebuild the image, back up your PostgreSQL cluster, apply the new image with the added extension, and then restore the cluster. This process reflects the concept of immutable containers in Kubernetes.
+
+Thanks to Andrew Dunstan and Matheus Alcantara, a [proposal for PostgreSQL 18](https://commitfest.postgresql.org/patch/4913/) introduces a new configuration option (GUC), extension_control_path, which allows users to specify additional directories for extension control files.
+
+For Kubernetes, the [ImageVolume feature](https://kubernetes.io/blog/2024/08/16/kubernetes-1-31-image-volume-source/) allows us to mount a container image as a read-only and immutable volume inside a running pod. This enables PostgreSQL extensions packaged as independent OCI-compliant container images to be mounted inside CloudNativePG clusters at a known directory.
+
+Based on these two features, we can create lightweight `vectorchord` extension image [vchord-scratch](https://github.com/tensorchord/VectorChord-images/pkgs/container/vchord-scratch).
+
+:::tip
+If you want to use [`Image Volume Extensions`](https://cloudnative-pg.io/documentation/current/imagevolume_extensions/), you need to meet the following requirements:
+- Use Kubernetes version 1.31.0 or above (1.33.0 is recommended), and make sure the `ImageVolume` feature gate is enabled.
+- Use CloudNative-PG helm chart version 0.26.0 or above.
+:::
+
+### Create PostgreSQL cluster with Image Volume Extensions
+
+You can use the following sample yaml file to create a PostgreSQL cluster with `vectorchord` extension image. You can modify it according to your needs. You need pay attention to the following points:
+- Set `shared_preload_libraries` to load `vchord` shared library.
+- Execute `CREATE EXTENSION IF NOT EXISTS vchord CASCADE;` to create `vchord` extension.
+- Set `extensions` to specify the `vchord-scratch` extension image. 
+- Set `extension_control_path` and `dynamic_library_path` to specify the paths of extension control files and shared library files.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tensorchord
+type: kubernetes.io/basic-auth
+data:
+  password: dGVuc29yY2hvcmQ= # tensorchord 
+  username: dGVuc29yY2hvcmQ= # tensorchord
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: vchord 
+spec:
+  instances: 1 
+  imageName: ghcr.io/cloudnative-pg/postgresql:18-system-bookworm
+  bootstrap:
+    initdb:
+      database: tensorchord
+      postInitApplicationSQL:
+        - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
+      owner: tensorchord
+      secret:
+        name: tensorchord
+      dataChecksums: true
+      encoding: 'UTF8'
+  storage:
+    size: 1Gi
+  postgresql:
+    extensions:
+      - name: vchord
+        image:
+          reference: ghcr.io/tensorchord/vchord-scratch:pg18-v0.5.3
+        dynamic_library_path:
+          - /usr/lib/postgresql/18/lib/
+        extension_control_path:
+          - /usr/share/postgresql/18/
+    shared_preload_libraries:
+    - "vchord"
+```
+
+We can check the extension is alroady installed successfully.
+
+```shell
+$ kubectl port-forward services/vchord-rw 5432:5432
+$ psql -h
+$ psql -h 0.0.0.0 -U tensorchord -d tensorchord
+Password for user tensorchord: 
+psql (13.3 (Ubuntu 13.3-1.pgdg16.04+1), server 18.0 (Debian 18.0-1.pgdg12+3))
+WARNING: psql major version 13, server major version 18.
+         Some psql features might not work.
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
+Type "help" for help.
+
+tensorchord=> \dx
+                                                 List of installed extensions
+  Name   | Version |   Schema   |                                         Description                                         
+---------+---------+------------+---------------------------------------------------------------------------------------------
+ plpgsql | 1.0     | pg_catalog | PL/pgSQL procedural language
+ vchord  | 0.5.3   | public     | vchord: Vector database plugin for Postgres, written in Rust, specifically designed for LLM
+ vector  | 0.8.1   | public     | vector data type and ivfflat and hnsw access methods
+(3 rows)
+
+```
+
+:::warning
+The image `ghcr.io/cloudnative-pg/postgresql:18-system-bookworm` already contains pgvector, which is required for vchord. However, this image may not include pgvector in future versions, but we have not seen this trend in the short term. 
+:::
