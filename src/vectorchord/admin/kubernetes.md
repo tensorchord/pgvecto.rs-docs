@@ -222,7 +222,7 @@ spec:
         extension_control_path:
           - /usr/share/postgresql/18/
     shared_preload_libraries:
-    - "vchord.so"
+    - "vchord"
 ```
 
 Refer to the document above for checking and connecting to the cluster.
