@@ -57,16 +57,27 @@ This section applies only to PostgreSQL 18.
 
 ### `io_uring`
 
-`io_uring` method uses Linux's `io_uring`, which can reduce the overhead of context switches. This interface is available in kernel 5.1 and later. If you are using a newer kernel, it is recommended. You can enable this method through the GUC `io_method`.
+`io_uring` method uses Linux's `io_uring`, which can reduce the overhead of context switches. This interface is available in kernel 5.1 and later. You can enable this method through the GUC `io_method`.
 
 ```sql
 -- Note: A restart is required for this setting to take effect.
 ALTER SYSTEM SET io_method = 'io_uring';
 ```
 
-Because `io_uring` uses additional file descriptors, PostgreSQL may reach `RLIMIT_NOFILE` limit. You may need to increase this limit on your system.
+Since `io_uring` uses additional file descriptors and locked memory, PostgreSQL may reach `RLIMIT_NOFILE` and `RLIMIT_MEMLOCK` limits. You may need to increase these limits on your system. See also
 
-For security reasons, container runtimes, cloud providers, and system administrators may disable `io_uring`. If this happens, check with your vendor for details. See also [Consider removing io_uring syscalls in from RuntimeDefault](https://github.com/containerd/containerd/issues/9048).
+* [limits.conf (PAM)](https://www.man7.org/linux/man-pages/man5/limits.conf.5.html)
+* [Process Properties (systemd)](https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html#Process%20Properties)
+* [Set ulimits in container (Docker)](https://docs.docker.com/reference/cli/docker/container/run/#ulimit)
+
+For security reasons, container runtimes, cloud providers, and system administrators may disable `io_uring`. If this happens, check with your vendor for details. See also
+
+* [Consider removing io_uring syscalls in from RuntimeDefault (containerd)](https://github.com/containerd/containerd/issues/9048)
+
+`io_uring` is often considered recommended. However, performance depends on your workload. See also
+
+* [Tuning AIO in PostgreSQL 18 (Tomas Vondra)](https://vondra.me/posts/tuning-aio-in-postgresql-18/)
+* [Benchmarking Postgres 17 vs 18 (planetscale)](https://planetscale.com/blog/benchmarking-postgres-17-vs-18)
 
 This section applies only to Linux.
 
@@ -79,8 +90,9 @@ This is the default in PostgreSQL 18. PostgreSQL avoids blocking backend by send
 ALTER SYSTEM SET io_method = 'worker';
 
 -- Selects the number of I/O worker processes to use.
--- It's recommended to set it to your parallelism.
+-- It's recommended to set it to the minimum of your parallelism and maximum value.
 -- For example, if your parallelism is 16, set the value to 16.
+-- The maximum value is 32, so you can't set it to anything higher.
 -- Note: A restart is required for this setting to take effect.
 ALTER SYSTEM SET io_workers = 16;
 ```
