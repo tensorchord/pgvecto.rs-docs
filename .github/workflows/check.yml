@@ -27,4 +27,4 @@ jobs:
         fail: true
         format: markdown
         jobSummary: true
-        lycheeVersion: nightly
+        lycheeVersion: v0.20.1
