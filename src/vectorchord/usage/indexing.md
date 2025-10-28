@@ -88,8 +88,6 @@ SET vchordrq.probes TO '10';
 SELECT * FROM items ORDER BY embedding <=> '[3,1,2]' LIMIT 10;
 ```
 
-For large tables, the `build.internal` process costs huge time and memory. You can refer to [External Build](external-index-precomputation) to have a better experience.
-
 For large tables, you may opt to use more shared memory to accelerate the process by setting `build.pin` to `true`.
 
 ```sql
@@ -102,6 +100,10 @@ spherical_centroids = true
 build_threads = 8
 $$);
 ```
+
+For large tables, the `build.internal` process costs huge time and memory. Let the dimension be `D`, `build.internal.lists[-1]` be `C`, `build.internal.sampling_factor` be `F`, and `build.internal.threads` be `T`. The memory consumption is approximately `4CD(F + T + 1)` bytes.
+
+You can also refer to [External Build](external-index-precomputation) to offload the indexing workload to other machines.
 
 ## Reference
 
