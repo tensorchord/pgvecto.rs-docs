@@ -62,7 +62,7 @@ SHOW search_path;
 SET search_path = "$user, public";
 ```
 
-#### 2. Check exist indexes
+#### 2. Check existing indexes
 
 For indexes created at vector columns, please retrieve the definition and record it in a convenient location. This information is necessary for the recovery of the indexes at a later stage.
 

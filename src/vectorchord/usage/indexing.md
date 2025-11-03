@@ -71,7 +71,7 @@ SET vchordrq.probes TO '10';
 SELECT * FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 10;
 ```
 
-The second step, inserting rows, can be parallelized using multiple processes. Refer to [PostgreSQL Tuning](performance-tuning.md#indexing).
+The second step, inserting rows, can be parallelized using multiple processes. Refer to [PostgreSQL Tuning](performance-tuning.md).
 
 For most datasets using cosine similarity, enabling `residual_quantization` and `build.internal.spherical_centroids` improves both QPS and recall.
 

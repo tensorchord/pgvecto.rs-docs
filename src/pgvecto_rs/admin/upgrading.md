@@ -55,7 +55,7 @@ You may get this error if some [indexes](../usage/indexing.md) were created befo
 
 ```
 ERROR:  index public.this_is_index depends on operator class vector_cos_ops for access method vectors
-index public.this_is_index depends on operator class vector_cos_ops for access method vectorscannot drop operator class vector_cos_ops for access method vectors because other objects depend on it 
+index public.this_is_index depends on operator class vector_cos_ops for access method vectors cannot drop operator class vector_cos_ops for access method vectors because other objects depend on it 
 
 ERROR:  cannot drop operator class vector_cos_ops for access method vectors because other objects depend on it
 SQL state: 2BP01

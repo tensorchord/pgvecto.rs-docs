@@ -57,7 +57,7 @@ If you want to do a PITR for a cluster, you can follow the steps below:
 - Select the target time that you want to restore to.
     ![](../images/target-time.png)
     ::: warning
-    The target time should be within the first first recoverability point and last archived wal time.
+    The target time should be within the first recoverability point and last archived wal time.
     :::
 
 

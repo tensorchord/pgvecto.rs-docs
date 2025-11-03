@@ -28,7 +28,7 @@ Think about the limitations of traditional OCR: complex layouts get mangled, tab
 
 > T*he ColPali architecture (Image from the ColPali paper)*
 
-**ColQwen2** builds upon this powerful ColPali architecture but swaps the underlying VLM for the more recent **Qwen2-VL-2B**. It generates [**ColBERT**\-style](https://arxiv.org/abs/2004.12832) multi-vector representations, capturing fine-grained details from both text and images. As seen on the [**vidro-leaderboard**,](https://huggingface.co/spaces/vidore/vidore-leaderboard) ColQwen2 delivers impressive performance with practical model size.
+**ColQwen2** builds upon this powerful ColPali architecture but swaps the underlying VLM for the more recent **Qwen2-VL-2B**. It generates [**ColBERT**\-style](https://arxiv.org/abs/2004.12832) multi-vector representations, capturing fine-grained details from both text and images. As seen on the [**vidore-leaderboard**,](https://huggingface.co/spaces/vidore/vidore-leaderboard) ColQwen2 delivers impressive performance with practical model size.
 
 ## How Does VectorChord Enable ColQwen2 in Postgres?
 

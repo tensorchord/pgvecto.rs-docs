@@ -77,7 +77,7 @@ For embedding, we can use a pre-trained embedding model like `BGE-M3` to generat
 
 For validation, we use the [BEIR](https://github.com/beir-cellar/beir) dataset, a heterogeneous benchmark for information retrieval. It is easy to use and allows you to evaluate your models across 15+ diverse IR datasets.
 
-First, you need to load your data into PostgreSQL.Then you can use the following SQL query to generate embeddings for the documents.
+First, you need to load your data into PostgreSQL. Then you can use the following SQL query to generate embeddings for the documents.
 
 ```python
 with self.conn.cursor() as cursor:

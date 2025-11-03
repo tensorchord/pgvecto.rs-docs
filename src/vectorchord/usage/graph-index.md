@@ -40,7 +40,7 @@ ef_construction = 128
 $$);
 ```
 
-The index building can be sped up by using multiple processes. Refer to [PostgreSQL Tuning](performance-tuning.md#indexing).
+The index building can be sped up by using multiple processes. Refer to [PostgreSQL Tuning](performance-tuning.md).
 
 ## Reference
 
