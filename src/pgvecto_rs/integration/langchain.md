@@ -135,7 +135,7 @@ Score:  0.29536954
 - 💃 **Easy to use**: pgvecto.rs is a Postgres extension, which means that you can use it directly within your existing database. This makes it easy to integrate into your existing workflows and applications.
 - 🔗 **Async indexing**: pgvecto.rs's index is asynchronously constructed by the background threads and does not block insertions and always ready for new queries.
 - 🥅 **Filtering**: pgvecto.rs supports filtering. You can set conditions when searching or retrieving points. This is the missing feature of other postgres extensions.
-- 🧮 **Quantization**: pgvecto.rs supports scalar quantization and product qutization up to 64x.
+- 🧮 **Quantization**: pgvecto.rs supports scalar quantization and product quantization up to 64x.
 - 🦀 **Rewrite in Rust**: Rust's strict compile-time checks ensure memory safety, reducing the risk of bugs and security issues commonly associated with C extensions.
 
 ## Comparison with pgvector

@@ -14,7 +14,7 @@ But you could safely remove some numbers from the end of the sequence and still 
 
 ::: details
 
-You may need normalization to ensure that the shortened embeddings compatible with some distance calculation e.g. dot poroduct. OpenAI's API will help you on this if you are calling `text-embedding-3-large` to generate a lower dimension embedding directly, instead of truncating the original embeddings on your own.
+You may need normalization to ensure that the shortened embeddings compatible with some distance calculation e.g. dot product. OpenAI's API will help you on this if you are calling `text-embedding-3-large` to generate a lower dimension embedding directly, instead of truncating the original embeddings on your own.
 
 ```python
 embedding_3072_dim_from_openai = [-0.00611, -0.00269, ...]

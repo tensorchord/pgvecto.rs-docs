@@ -1,6 +1,6 @@
 # Terraform Integration Overview with VectorChord Cloud
 
-This guide walks you through the process of installing and configuring the PGVetco.rs Cloud provider.
+This guide walks you through the process of installing and configuring the PGVecto.rs Cloud provider.
 
 ## 1. Prerequisites
 

@@ -24,7 +24,7 @@ services:
     networks:
       localnet:
 
-  forigen_db:
+  foreign_db:
     image: tensorchord/pgvecto-rs:pg15-v0.2.0
     ports:
       - "5433:5432"

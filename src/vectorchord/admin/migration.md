@@ -55,7 +55,7 @@ CREATE EXTENSION vchord CASCADE;
 
 ::: info
 
-This will install vectorchord and pgvector at public schema, if other schema is picked, please subsititue `public` with your schema at the migration command.
+This will install vectorchord and pgvector at public schema, if other schema is picked, please substitute `public` with your schema at the migration command.
 
 :::
 
@@ -80,7 +80,7 @@ postgres=# \dx
 
 :::
 
-#### 2. Check exist indexes
+#### 2. Check existing indexes
 
 For indexes created at vector columns, please retrieve the definition and record it in a convenient location.
 This information is necessary for the recovery of the indexes at a later stage.
@@ -145,7 +145,7 @@ spherical_centroids = false
 $$);
 ```
 
-For more information of create index at `VectorChord`, see [indexing](../usage/indexing).
+For more information on creating index at `VectorChord`, see [indexing](../usage/indexing).
 
 #### 5. Clean the environment
 

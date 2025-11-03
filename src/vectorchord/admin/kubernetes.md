@@ -146,7 +146,7 @@ You can use `kubectl port-forward` to connect to PostgreSQL cluster.
 ```shell
 $ kubectl port-forward services/vchord-rw 5432:5432
 $ psql -h 127.0.0.1 -d tensorchord -U tensorchord
-ttensorchord=> \dx
+tensorchord=> \dx
                                                  List of installed extensions
   Name   | Version |   Schema   |                                         Description                                         
 ---------+---------+------------+---------------------------------------------------------------------------------------------
@@ -225,7 +225,7 @@ spec:
     - "vchord"
 ```
 
-We can check the extension is alroady installed successfully.
+We can check the extension is already installed successfully.
 
 ```shell
 $ kubectl port-forward services/vchord-rw 5432:5432
