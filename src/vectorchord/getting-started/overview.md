@@ -10,7 +10,7 @@ VectorChord introduces remarkable enhancements over pgvecto.rs and pgvector:
 
 **⚡ Enhanced Performance**: Delivering optimized operations with up to 5x faster queries, 16x higher insert throughput, and 16x quicker[^1] index building compared to pgvector's HNSW implementation.
 
-[^1]: Based on [MyScale Benchmark](https://myscale.github.io/benchmark/) with 768-dimensional vectors and 95% recall. Please checkout our [blog post](https://blog.vectorchord.ai/vectorchord-store-400k-vectors-for-1-in-postgresql) for more details.
+[^1]: Based on [MyScale Benchmark](https://myscale.github.io/benchmark/) with 768-dimensional vectors and 95% recall. Please check out our [blog post](https://blog.vectorchord.ai/vectorchord-store-400k-vectors-for-1-in-postgresql) for more details.
 
 **💰 Affordable Vector Search**: Query 100M 768-dimensional vectors using just 32GB of memory, achieving 35ms P50 latency with top10 recall@95%, helping you keep infrastructure costs down while maintaining high search quality.
 
