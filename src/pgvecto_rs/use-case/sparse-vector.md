@@ -59,7 +59,7 @@ For instance, both `rocket` and `SPACE X` are related to space exploration, but 
 
 A vector embedding is the internal representation of input data in deep learning models, also known as embedding models. Most embedding models, such as `text-embedding-3-small`, only output dense embeddings. 
 
-[SPLADE](https://europe.naverlabs.com/research/computer-science/splade-a-sparse-bi-encoder-bert-based-model-achieves-effective-and-efficient-full-text-document-ranking/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors) and [BGE-M3](https://arxiv.org/pdf/2402.03216.pdf) can generate sparse embeddings, sometimes called lexical weights. In this section, we will introduce the `BGE-M3` model for generating dense and sparse vectors.
+[SPLADE](https://europe.naverlabs.com/blog/splade-a-sparse-bi-encoder-bert-based-model-achieves-effective-and-efficient-first-stage-ranking/) and [BGE-M3](https://arxiv.org/pdf/2402.03216.pdf) can generate sparse embeddings, sometimes called lexical weights. In this section, we will introduce the `BGE-M3` model for generating dense and sparse vectors.
 
 `BGE-M3` is a multi-functionality model, which can simultaneously perform the three common retrieval functionalities of the embedding model: dense retrieval, multi-vector retrieval, and sparse retrieval. We will learn how to generate dense and sparse embeddings from it.
 

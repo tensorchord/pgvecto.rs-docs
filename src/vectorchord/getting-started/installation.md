@@ -169,13 +169,13 @@ echo 'build.rustflags = ["-Ctarget-cpu=icelake"]' >> ./cargo/config.toml
 
 ## Debian
 
-If you have not installed PostgreSQL yet, please install PostgreSQL following https://www.postgresql.org/download/linux/debian/. If you have not installed pgvector yet, you could install pgvector by `apt install postgresql-17-pgvector` before the 3rd step.
+If you have not installed PostgreSQL yet, please install PostgreSQL following https://www.postgresql.org/download/linux/debian/. If you have not installed pgvector yet, you could install pgvector by `apt install postgresql-18-pgvector` before the 3rd step.
 
 1. Download Debian packages in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and install them by `apt`.
 
 ```sh
-wget https://github.com/tensorchord/VectorChord/releases/download/0.5.3/postgresql-17-vchord_0.5.3-1_$(dpkg --print-architecture).deb
-sudo apt install ./postgresql-17-vchord_0.5.3-1_$(dpkg --print-architecture).deb
+wget https://github.com/tensorchord/VectorChord/releases/download/0.5.3/postgresql-18-vchord_0.5.3-1_$(dpkg --print-architecture).deb
+sudo apt install ./postgresql-18-vchord_0.5.3-1_$(dpkg --print-architecture).deb
 ```
 
 2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension. And then restart the PostgreSQL cluster.
@@ -193,13 +193,13 @@ CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 
 ## Ubuntu
 
-If you have not installed PostgreSQL yet, please install PostgreSQL following https://www.postgresql.org/download/linux/ubuntu/. If you have not installed pgvector yet, you could install pgvector by `apt install postgresql-17-pgvector` before the 3rd step.
+If you have not installed PostgreSQL yet, please install PostgreSQL following https://www.postgresql.org/download/linux/ubuntu/. If you have not installed pgvector yet, you could install pgvector by `apt install postgresql-18-pgvector` before the 3rd step.
 
 1. Download Debian packages in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and install them by `apt`.
 
 ```sh
-wget https://github.com/tensorchord/VectorChord/releases/download/0.5.3/postgresql-17-vchord_0.5.3-1_$(dpkg --print-architecture).deb
-sudo apt install ./postgresql-17-vchord_0.5.3-1_$(dpkg --print-architecture).deb
+wget https://github.com/tensorchord/VectorChord/releases/download/0.5.3/postgresql-18-vchord_0.5.3-1_$(dpkg --print-architecture).deb
+sudo apt install ./postgresql-18-vchord_0.5.3-1_$(dpkg --print-architecture).deb
 ```
 
 2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension. And then restart the PostgreSQL cluster.
