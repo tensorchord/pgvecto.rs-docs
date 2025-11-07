@@ -86,7 +86,7 @@ For more usage, please read:
 - [Prewarm](/vectorchord/usage/prewarm)
 - [Prefilter](/vectorchord/usage/prefilter)
 - [Prefetch](/vectorchord/usage/prefetch)
-- [Rerank In Table](/vectorchord/usage/rerank-in-table)
+- [Rerank in Table](/vectorchord/usage/rerank-in-table)
 - [External Build](/vectorchord/usage/external-index-precomputation)
 
 ## License

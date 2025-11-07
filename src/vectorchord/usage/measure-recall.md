@@ -1,4 +1,4 @@
-# Measure Recall
+# Measure Recall <badge type="tip" text="since v0.5.0" />
 
 In the context of vector search, recall is the ratio of true nearest neighbors to approximate nearest neighbors returned by the index. For example, if the index retrieves $100$ approximate nearest neighbors and $97$ of them are true nearest neighbors, then the recall is $\frac{97}{100} = 0.97$.
 

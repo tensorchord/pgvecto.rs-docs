@@ -199,7 +199,7 @@ export default defineConfig({
             { text: 'Prewarm', link: '/vectorchord/usage/prewarm' },
             { text: 'Prefilter', link: '/vectorchord/usage/prefilter' },
             { text: 'Prefetch', link: '/vectorchord/usage/prefetch' },
-            { text: 'Rerank In Table', link: '/vectorchord/usage/rerank-in-table' },
+            { text: 'Rerank in Table', link: '/vectorchord/usage/rerank-in-table' },
             { text: 'External Build', link: '/vectorchord/usage/external-index-precomputation' },
           ]
         },
