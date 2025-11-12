@@ -1,4 +1,4 @@
-# Rerank In Table <badge type="tip" text="since v0.2.1" />
+# Rerank in Table <badge type="tip" text="since v0.2.1" />
 
 PostgreSQL indexes store row identifiers and the values of the indexed columns. Typically, indexed columns have simple data types, for example, integers or strings with short length limits.
 
@@ -23,7 +23,7 @@ This feature is not supported by `vchordg`.
 
 #### `rerank_in_table` <badge type="tip" text="since v0.2.1" />
 
-- Description: This index parameter determines whether the vectors are fetched from the table. If so, the index will require less storage, but the query latency will increase significantly. It should only be enabled when disk space is extremely limited.
+- Description: This option determines whether the vectors are fetched from the table. If so, the index will require less storage, but the query latency will increase significantly. It should only be enabled when disk space is extremely limited.
 - Type: boolean
 - Default: `false`
 - Example:

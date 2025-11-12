@@ -88,20 +88,22 @@ SET vchordrq.probes TO '10';
 SELECT * FROM items ORDER BY embedding <=> '[3,1,2]' LIMIT 10;
 ```
 
-For large tables, the `build.internal` process costs huge time and memory. You can refer to [External Build](external-index-precomputation) to have a better experience.
-
-For large tables, you may opt to use more shared memory to accelerate the process by setting `build.pin` to `true`.
+For large tables, you may opt to use more shared memory to accelerate the process by setting `build.pin` to `2`.
 
 ```sql
 CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $$
 residual_quantization = true
-build.pin = true
+build.pin = 2
 [build.internal]
 lists = [1000]
 spherical_centroids = true
 build_threads = 8
 $$);
 ```
+
+For large tables, the `build.internal` process costs significant time and memory. Let `build.internal.kmeans_dimension` or the dimension be $D$, `build.internal.lists[-1]` be $C$, `build.internal.sampling_factor` be $F$, and `build.internal.build_threads` be $T$. The memory consumption is approximately $4CD(F + T + 1)$ bytes. You can moderately reduce these options for lower memory usage.
+
+You can also refer to [External Build](external-index-precomputation) to offload the indexing workload to other machines.
 
 ## Reference
 
@@ -140,21 +142,40 @@ The operator classes for `MaxSim` are available since version `0.3.0`.
 
 #### `residual_quantization`
 
-- Description: This index parameter determines whether residual quantization is used. If you not familiar with residual quantization, you can read this [blog](https://drscotthawley.github.io/blog/posts/2023-06-12-RVQ.html) for more information. In short, residual quantization is a technique that improves the accuracy of vector search by quantizing the residuals of the vectors.
+- Description: This option determines whether residual quantization is used. If you are not familiar with residual quantization, you can read this [blog](https://drscotthawley.github.io/blog/posts/2023-06-12-RVQ.html) for more information. In short, residual quantization is a technique that improves the accuracy of vector search by quantizing the residuals of the vectors.
 - Type: boolean
 - Default: `false`
 - Example:
     - `residual_quantization = false` means that residual quantization is not used.
     - `residual_quantization = true` means that residual quantization is used.
 
+#### `degree_of_parallelism` <badge type="tip" text="since v1.0.0" />
+
+- Description: This option is a hint that specifies the degree of parallelism. In most cases, you do not need to change it. If you are using a CPU with more than `32` threads and wish to utilize more threads for PostgreSQL, you may set it to the number of threads for better performance.
+- Type: integer
+- Default: `32`
+- Domain: `[1, 256]`
+- Example:
+    - `degree_of_parallelism = 32` hints to the index that `32` or less processes may access on the index concurrently.
+    - `degree_of_parallelism = 64` hints to the index that `64` or less processes may access on the index concurrently.
+
 #### `build.pin` <badge type="tip" text="since v0.2.1" />
 
-- Description: This index parameter determines whether shared memory is used for indexing. For large tables, you can choose to enable this option to speed up the build process.
-- Type: boolean
-- Default: `false`
+- Description: This option determines whether shared memory is used for indexing. For large tables, you can choose to enable this option to speed up the build process.
+- Type: union of integer and boolean
+- Default:
+    - `-1` <badge type="tip" text="since v1.0.0" />
+    - `false` <badge type="tip" text="until v0.5.3" />
+- Domain:
+    - `{-1, 0, 1, 2, false, true}` <badge type="tip" text="since v1.0.0" />
+    - `{false, true}` <badge type="tip" text="until v0.5.3" />
 - Example:
-    - `build.pin = false` means that shared memory is not used.
-    - `build.pin = true` means that shared memory is used.
+    - `build.pin = 2` means the hot portion of the index is cached in memory. 
+    - `build.pin = 1` means a subset of the hot portion of the index is cached in memory, consuming less memory.
+    - `build.pin = 0` means that this feature is enabled but nothing is actually cached. This option is for debugging purposes only.
+    - `build.pin = -1` means that this feature is disabled.
+    - `build.pin = false` is the legacy form of `build.pin = -1`.
+    - `build.pin = true` is the legacy form of `build.pin = 1`.
 
 ### Default Build Options <badge type="tip" text="since v0.5.3" />
 
@@ -164,7 +185,7 @@ This is the default value of index building. The index will not be partitioned. 
 
 #### `build.internal.lists`
 
-- Description: This index parameter determines the hierarchical structure of the vector space partitioning.
+- Description: This option determines the hierarchical structure of the vector space partitioning.
 - Type: list of integers
 - Default:
     - `[]` <badge type="tip" text="since v0.3.0" />
@@ -173,11 +194,11 @@ This is the default value of index building. The index will not be partitioned. 
     - `build.internal.lists = []` means that the vector space is not partitioned.
     - `build.internal.lists = [4096]` means the vector space is divided into $4096$ cells.
     - `build.internal.lists = [4096, 262144]` means the vector space is divided into $4096$ cells, and those cells are further divided into $262144$ smaller cells.
-- Note: The index partitions the vector space into multiple Voronoi cells based on centroids, iteratively creating a hierarchical space partition tree. Each leaf node in this tree represents a region with an associated list storing vectors in that region. During insertion, vectors are placed in lists corresponding to their appropriate leaf nodes. For queries, the index optimizes search by excluding lists whose leaf nodes are distant from the query vector, effectively pruning the search space. If the length of `lists` is $1$, the `lists` option should be no less than $4 * \sqrt{N}$, where $N$ is the number of vectors in the table.
+- Note: The index partitions the vector space into multiple Voronoi cells based on centroids, iteratively creating a hierarchical space partition tree. Each leaf node in this tree represents a region with an associated list storing vectors in that region. During insertion, vectors are placed in lists corresponding to their appropriate leaf nodes. For queries, the index optimizes search by excluding lists whose leaf nodes are distant from the query vector, effectively pruning the search space. If the length of `lists` is $1$, the `lists` option should be no less than $4\sqrt{N}$, where $N$ is the number of vectors in the table.
 
 #### `build.internal.spherical_centroids`
 
-- Description: This index parameter determines whether to perform spherical K-means -- the centroids are L2 normalized after each iteration, you can refer to option `spherical` in [here](https://github.com/facebookresearch/faiss/wiki/Faiss-building-blocks:-clustering,-PCA,-quantization#additional-options).
+- Description: This option determines whether to perform spherical K-means -- the centroids are L2 normalized after each iteration, you can refer to option `spherical` in [here](https://github.com/facebookresearch/faiss/wiki/Faiss-building-blocks:-clustering,-PCA,-quantization#additional-options).
 - Type: boolean
 - Default: `false`
 - Example:
@@ -187,17 +208,17 @@ This is the default value of index building. The index will not be partitioned. 
 
 #### `build.internal.sampling_factor` <badge type="tip" text="since v0.2.0" />
 
-- Description: This index parameter determines the number of vectors the K-means algorithm samples per cluster. The higher this value, the slower the build, the greater the memory consumption in building, and the better search performance.
+- Description: This option determines the number of vectors the K-means algorithm samples per cluster. The higher this value, the slower the build, the greater the memory consumption in building, and the better search performance.
 - Type: integer
 - Domain: `[0, 1024]`
 - Default: `256`
 - Example:
     - `build.internal.sampling_factor = 256` means that the K-means algorithm samples $256 C$ vectors, where $C$ is the maximum value in `build.internal.lists`.
-    - `build.internal.sampling_factor = 1024` means that the K-means algorithm samples $1024 C$ vectors, where $C$ is the maximum value in `build.internal.lists`.
+    - `build.internal.sampling_factor = 32` means that the K-means algorithm samples $32 C$ vectors, where $C$ is the maximum value in `build.internal.lists`. This reduces K-means' time and memory usage to approximately $\frac{1}{8}$ of what it would be with the default value of `256`.
 
 #### `build.internal.kmeans_iterations` <badge type="tip" text="since v0.2.2" />
 
-- Description: This index parameter determines the number of iterations for K-means algorithm. The higher this value, the slower the build.
+- Description: This option determines the number of iterations for K-means algorithm. The higher this value, the slower the build.
 - Type: integer
 - Domain: `[0, 1024]`
 - Default: `10`
@@ -207,13 +228,30 @@ This is the default value of index building. The index will not be partitioned. 
 
 #### `build.internal.build_threads`
 
-- Description: This index parameter determines the number of threads used by K-means algorithm. The higher this value, the faster the build, and greater load on the server in building.
+- Description: This option determines the number of threads used by K-means algorithm. The higher this value, the faster the build, and greater load on the server in building.
 - Type: integer
 - Domain: `[1, 255]`
 - Default: `1`
 - Example:
     - `build.internal.build_threads = 1` means that the K-means algorithm uses $1$ thread.
     - `build.internal.build_threads = 4` means that the K-means algorithm uses $4$ threads.
+
+#### `build.internal.kmeans_algorithm` <badge type="tip" text="since v1.0.0" />
+
+- Description: This option determines the K-means algorithm to be used.
+- Type: object
+- Example:
+    - `build.internal.kmeans_algorithm.lloyd = {}`. This uses Lloyd's algorithm. This is the default value.
+    - `build.internal.kmeans_algorithm.hierarchical = {}`. This uses hierarchical clustering. Compared to Lloyd's algorithm, this approach is much faster, but it may cause a loss of accuracy.
+
+#### `build.internal.kmeans_dimension` <badge type="tip" text="since v1.0.0" />
+
+- Description: This option determines the dimension to use for K-means input and output. This feature employs dimensionality reduction and expansion via resampling, effectively reducing K-means' time and memory consumption, but it may cause a loss of accuracy.
+- Type: union of integer and null
+- Default: null
+- Example:
+    - If this option is not set, this feature is disabled.
+    - `build.internal.kmeans_dimension = 100` means that K-means will process vectors with $100$ dimensions. For original vectors of $900$ dimensions, this reduces K-means' time and memory usage to approximately $\frac{1}{9}$ of what it would be without this feature.
 
 ### Search Parameters <badge type="info" text="vchordrq" /> {#search-parameters}
 
@@ -250,7 +288,7 @@ This is the default value of index building. The index will not be partitioned. 
     - `SET vchordrq.epsilon = 0.1` indicates you are using a very optimistic lower bound estimation. You set it this way because your dataset is not sensitive to the lower bound estimation, for the precision you need.
     - `SET vchordrq.epsilon = 4.0` indicates you are using a very pessimistic lower bound estimation. You set it this way because your dataset is not very sensitive to the lower bound estimation, for the precision you need.
 
-#### `vchordrq.prewarm_dim` <badge type="danger" text="deprecated in v0.4.0" />	
+#### `vchordrq.prewarm_dim` <badge type="danger" text="removed in v0.4.0" />	
 
 - Description: The `vchordrq.prewarm_dim` GUC parameter is used to precompute the RaBitQ projection matrix for the specified dimensions. This can help to reduce the latency of the first query after the PostgreSQL cluster is started.
 - Type: list of integers
