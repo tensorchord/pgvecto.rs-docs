@@ -31,9 +31,9 @@ You need to tune a few settings to improve I/O performance.
 
 ```sql
 -- Sets the number of concurrent disk I/O operations that PostgreSQL expects can be executed simultaneously.
--- It's recommended to set it to 200 when using SSDs for storage.
-SET effective_io_concurrency = 200;
-SET maintenance_io_concurrency = 200;
+-- It's recommended to set it to 20 when using SSDs for storage.
+SET effective_io_concurrency = 20;
+SET maintenance_io_concurrency = 20;
 ```
 
 We have observed that in certain cases, malfunctioning JIT can negatively impact performance. If you do not rely on it, you may choose to disable it.
