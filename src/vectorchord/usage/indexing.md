@@ -27,7 +27,7 @@ You can also add filters to vector search queries as needed.
 SELECT * FROM items WHERE id % 7 <> 0 ORDER BY embedding <-> '[3,1,2]' LIMIT 10;
 ```
 
-## Tuning
+## Tuning: Balance query throughput and accuracy
 
 When there are less than $100,000$ rows in the table, you usually don't need to set parameters for search and query.
 
@@ -58,7 +58,7 @@ The parameter `lists` should be tuned based on the number of rows. The following
 | $N \in [2 \times 10^6, 5 \times 10^7)$ | $L \in [4 \sqrt{N}, 8 \sqrt{N}]$     | `[10000]`       |
 | $N \in [5 \times 10^7, \infty)$        | $L \in [8 \sqrt{N}, 16\sqrt{N}]$     | `[80000]`       |
 
-The process of building an index involves two steps: partitioning the vector space first, and then inserting rows into the index. The first step, partitioning the vector space, can be sped up using multiple threads.
+The process of building an index involves two steps: clustering the vectors first, and then inserting vectors into the index. The first step, clustering the vectors, can be sped up using multiple threads.
 
 ```sql
 CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $$
@@ -66,14 +66,11 @@ CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $
 lists = [1000]
 build_threads = 8
 $$);
-
-SET vchordrq.probes TO '10';
-SELECT * FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 10;
 ```
 
-The second step, inserting rows, can be parallelized using multiple processes. Refer to [PostgreSQL Tuning](performance-tuning.md).
+The second step, inserting vectors into the index, can be parallelized using the appropriate GUC parameter. Refer to [PostgreSQL Tuning](performance-tuning.md).
 
-For most datasets using cosine similarity, enabling `residual_quantization` and `build.internal.spherical_centroids` improves both QPS and recall.
+For most datasets using cosine similarity, enabling `residual_quantization` and `build.internal.spherical_centroids` may improve both QPS and recall. If possible, please verify this on data from the production environment.
 
 ```sql
 CREATE INDEX ON items USING vchordrq (embedding vector_cosine_ops) WITH (options = $$
@@ -83,27 +80,66 @@ lists = [1000]
 spherical_centroids = true
 build_threads = 8
 $$);
-
-SET vchordrq.probes TO '10';
-SELECT * FROM items ORDER BY embedding <=> '[3,1,2]' LIMIT 10;
 ```
 
-For large tables, you may opt to use more shared memory to accelerate the process by setting `build.pin` to `2`.
+## Tuning: Improve build speed
+
+For large tables (> 50 million rows), the `build.internal` process requires significant time and memory. Let the vector dimension be $D$, `build.internal.lists[-1]` be $C$, `build.internal.sampling_factor` be $F$, `build.internal.kmeans_iterations` be $L$, and `build.internal.build_threads` be $T$.
+
+* The memory consumption is approximately $4CD(F + T + 1)$ bytes, which usually takes more than 128 GB.
+* The build time is approximately $O(FC^2DL)$, which usually takes more than one day.
+
+To improve the build speed, you may opt to use more shared memory to accelerate the process by setting `build.pin` to `2`.
 
 ```sql
 CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $$
-residual_quantization = true
 build.pin = 2
 [build.internal]
-lists = [1000]
-spherical_centroids = true
+lists = [160000]
 build_threads = 8
 $$);
 ```
 
-For large tables, the `build.internal` process costs significant time and memory. Let `build.internal.kmeans_dimension` or the dimension be $D$, `build.internal.lists[-1]` be $C$, `build.internal.sampling_factor` be $F$, and `build.internal.build_threads` be $T$. The memory consumption is approximately $4CD(F + T + 1)$ bytes. You can moderately reduce these options for lower memory usage.
+If the build speed is still unsatisfactory, you can use Hierarchical clustering to accelerate the process at the expense of some accuracy. In our benchmark, the Hierarchical clustering was 100 times faster than the default Lloyd clustering, while query accuracy decreased by less than 1%.
 
-You can also refer to [External Build](external-index-precomputation) to offload the indexing workload to other machines.
+```sql
+CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $$
+build.pin = 2
+[build.internal]
+lists = [160000]
+build_threads = 8
+kmeans_algorithm.hierarchical = {}
+$$);
+```
+
+## Tuning: Save more memory
+
+As we discussed, these parameters determine the memory usage during the index build $4CD(F + T + 1)$:
+
+* D: Vector dimension, or `build.internal.kmeans_dimension` if set
+* C: `build.internal.lists[-1]`
+* F: `build.internal.sampling_factor`
+* T: `build.internal.build_threads`
+
+If you encounter an Out-of-Memory (OOM) error, reducing these parameters will lower memory usage. Based on our experience, reducing D will have the least impact on accuracy, so that could be a good starting point. Decreasing `F` is also plausible next. Since `C` is much more sensitive, it should be the last thing you consider.
+
+For your reference, this configuration has little impact on query accuracy (less than 1%):
+* Reduce `D` from 768 to 100
+* Reduce `F` from 256 to 64
+
+```sql
+CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $$
+build.pin = 2
+[build.internal]
+lists = [160000]
+build_threads = 8
+kmeans_algorithm.hierarchical = {}
+kmeans_dimension = 100
+sampling_factor = 64
+$$);
+```
+
+If the decrease in accuracy is unacceptable, you can also refer to [External Build](external-index-precomputation) to offload the indexing workload to other machines.
 
 ## Reference
 
