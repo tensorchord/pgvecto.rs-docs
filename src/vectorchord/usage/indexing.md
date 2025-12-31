@@ -70,7 +70,7 @@ $$);
 
 The second step, inserting vectors into the index, can be parallelized using the appropriate GUC parameter. Refer to [PostgreSQL Tuning](performance-tuning.md). It's a common practice to set the value of `build.internal.build_threads` and parallel workers of PostgreSQL to the number of CPU cores.
 
-For most datasets using cosine similarity, enabling `residual_quantization` and `build.internal.spherical_centroids` may improve both QPS and recall. If possible, please verify this on data from the production environment.
+For most datasets using cosine similarity, enabling `residual_quantization` and `build.internal.spherical_centroids` may improve both QPS and recall. We recommend validating this on a representative sample of your production data in a staging or offline evaluation environment (for example, via offline recall/latency benchmarks or a controlled A/B test) before enabling it broadly in production.
 
 ```sql
 CREATE INDEX ON items USING vchordrq (embedding vector_cosine_ops) WITH (options = $$
@@ -84,7 +84,7 @@ $$);
 
 ## Tuning: Handling ultra large vector tables
 
-For large tables with more than 50 million rows, the `build.internal` process requires significant time and memory. Let the vector dimension be $D$, `build.internal.lists[-1]` be $C$, `build.internal.sampling_factor` be $F$, `build.internal.kmeans_iterations` be $L$, and `build.internal.build_threads` be $T$.
+For large tables with more than 50 million rows, the `build.internal` process requires significant time and memory. Let the effective vector dimension used during k-means be $D$, `build.internal.lists[-1]` be $C$, `build.internal.sampling_factor` be $F$, `build.internal.kmeans_iterations` be $L$, and `build.internal.build_threads` be $T$.
 
 * The memory consumption is approximately $4DC(F + T + 1)$ bytes, which usually takes more than 128 GB.
 * The build time is approximately $O(FC^2DL)$, which usually takes more than one day.
@@ -100,7 +100,7 @@ build_threads = 8
 $$);
 ```
 
-If the build speed is still unsatisfactory, you can use the hierarchical clustering to accelerate the process at the expense of some accuracy. In our [benchmark](https://blog.vectorchord.ai/how-we-made-100m-vector-indexing-in-20-minutes-possible-on-postgresql#heading-hierarchical-k-means), the hierarchical clustering was 100 times faster than the default lloyd clustering, while query accuracy decreased by less than 1%.
+If the build speed is still unsatisfactory, you can use the hierarchical clustering to accelerate the process at the expense of some accuracy. In our [benchmark](https://blog.vectorchord.ai/how-we-made-100m-vector-indexing-in-20-minutes-possible-on-postgresql#heading-hierarchical-k-means), the hierarchical clustering was 100 times faster than the default algorithm, while query accuracy decreased by less than 1%.
 
 ```sql
 CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $$
@@ -114,7 +114,7 @@ $$);
 
 ---
 
-If you encounter an Out-of-Memory (OOM) error, reducing $D$, $C$ or $F$ will lower the memory usage. Based on our [experience](https://blog.vectorchord.ai/how-we-made-100m-vector-indexing-in-20-minutes-possible-on-postgresql#heading-dimensionality-reduction), reducing `D` will have the least impact on accuracy, so that could be a good starting point, then decreasing `F` is also plausible. Since `C` is much more sensitive, it should be the last thing you consider.
+If you encounter an Out-of-Memory (OOM) error, reducing $D$, $C$ or $F$ will lower the memory usage. Based on our [experience](https://blog.vectorchord.ai/how-we-made-100m-vector-indexing-in-20-minutes-possible-on-postgresql#heading-dimensionality-reduction), reducing `D` will have the least impact on accuracy, so that could be a good starting point. Decreasing `F` is also plausible. Since `C` is much more sensitive, it should be the last thing you consider.
 
 For your reference, this configuration has little impact on query accuracy (less than 1%):
 * Reduce `D` from 768 to 100
@@ -132,7 +132,7 @@ sampling_factor = 64
 $$);
 ```
 
-If you have sufficient memory, please do not set `build.internal.kmeans_dimension`, as it will reduce accuracy and may increase build time. If the accuracy is not acceptable, you can also refer to the [External Build](external-index-precomputation) to offload the indexing workload to other machines.
+If you have sufficient memory, please do not set `build.internal.kmeans_dimension`, as it will reduce accuracy and may increase build time due to the dimension restoration. If the accuracy is not acceptable, you can also refer to the [External Build](external-index-precomputation) to offload the indexing workload to other machines.
 
 ## Reference
 
