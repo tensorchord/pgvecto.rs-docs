@@ -58,7 +58,7 @@ The parameter `lists` should be tuned based on the number of rows. The following
 | $N \in [2 \times 10^6, 5 \times 10^7)$ | $L \in [4 \sqrt{N}, 8 \sqrt{N}]$     | `[10000]`       |
 | $N \in [5 \times 10^7, \infty)$        | $L \in [8 \sqrt{N}, 16\sqrt{N}]$     | `[80000]`       |
 
-The process of building an index involves two steps: clustering the vectors first, and then inserting vectors into the index. The first step, clustering the vectors, can be sped up using multiple threads.
+The process of building an index involves two steps: partitioning the vector space first, and then inserting rows into the index. The first step, partitioning the vector space, can be sped up using multiple threads.
 
 ```sql
 CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $$
@@ -68,9 +68,9 @@ build_threads = 8
 $$);
 ```
 
-The second step, inserting vectors into the index, can be parallelized using the appropriate GUC parameter. Refer to [PostgreSQL Tuning](performance-tuning.md). It's a common practice to set the value of `build.internal.build_threads` and parallel workers of PostgreSQL to the number of CPU cores.
+The second step, inserting rows into the index, can be parallelized using the appropriate GUC parameter. Refer to [PostgreSQL Tuning](performance-tuning.md). It's a common practice to set the value of `build.internal.build_threads` and parallel workers of PostgreSQL to the number of CPU cores.
 
-For most datasets using cosine similarity, enabling `residual_quantization` and `build.internal.spherical_centroids` may improve both QPS and recall. We recommend validating this on a representative sample of your production data in a staging or offline evaluation environment (for example, via offline recall/latency benchmarks or a controlled A/B test) before enabling it broadly in production.
+For most datasets using cosine similarity, enabling `residual_quantization` and `build.internal.spherical_centroids` may improve both QPS and recall. We recommend validating this on a representative sample of your production data before enabling it in production.
 
 ```sql
 CREATE INDEX ON items USING vchordrq (embedding vector_cosine_ops) WITH (options = $$
@@ -82,57 +82,59 @@ build_threads = 8
 $$);
 ```
 
-## Tuning: Handling ultra large vector tables
-
-For large tables with more than 50 million rows, the `build.internal` process requires significant time and memory. Let the effective vector dimension used during k-means be $D$, `build.internal.lists[-1]` be $C$, `build.internal.sampling_factor` be $F$, `build.internal.kmeans_iterations` be $L$, and `build.internal.build_threads` be $T$.
-
-* The memory consumption is approximately $4DC(F + T + 1)$ bytes, which usually takes more than 128 GB.
-* The build time is approximately $O(FC^2DL)$, which usually takes more than one day.
+## Tuning: Optimize the indexing time
 
 To improve the build speed, you may opt to use more shared memory to accelerate the process by setting `build.pin` to `2`.
 
 ```sql
 CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $$
+...
 build.pin = 2
-[build.internal]
-lists = [160000]
-build_threads = 8
 $$);
 ```
 
-If the build speed is still unsatisfactory, you can use the hierarchical clustering to accelerate the process at the expense of some accuracy. In our [benchmark](https://blog.vectorchord.ai/how-we-made-100m-vector-indexing-in-20-minutes-possible-on-postgresql#heading-hierarchical-k-means), the hierarchical clustering was 100 times faster than the default algorithm, while query accuracy decreased by less than 1%.
+For large tables with more than 50 million rows, the `build.internal` process requires significant time and memory. Let $D$ be the vector dimension used for partition, $C$ be `build.internal.lists[-1]`, $F$ be `build.internal.sampling_factor`, $L$ be `build.internal.kmeans_iterations`, and $T$ be `build.internal.build_threads`. The build time is approximately $O(FC^2DL)$, which usually takes more than one day.
+
+If this applies to you, you can use the hierarchical clustering to speed up the process, albeit at the expense of some accuracy. In our [benchmark](https://blog.vectorchord.ai/how-we-made-100m-vector-indexing-in-20-minutes-possible-on-postgresql#heading-hierarchical-k-means), hierarchical clustering was 100 times faster than the default algorithm, while query recall decreased only from 95.6% to 94.9%.
 
 ```sql
 CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $$
-build.pin = 2
-[build.internal]
-lists = [160000]
-build_threads = 8
+...
 kmeans_algorithm.hierarchical = {}
 $$);
 ```
 
----
+## Tuning: Optimize the memory usage with indexing
 
-If you encounter an Out-of-Memory (OOM) error, reducing $D$, $C$ or $F$ will lower the memory usage. Based on our [experience](https://blog.vectorchord.ai/how-we-made-100m-vector-indexing-in-20-minutes-possible-on-postgresql#heading-dimensionality-reduction), reducing `D` will have the least impact on accuracy, so that could be a good starting point. Decreasing `F` is also plausible. Since `C` is much more sensitive, it should be the last thing you consider.
+When the indexing process starts, VectorChord shows the estimated amount of memory that will be allocated, such as:
 
-For your reference, this configuration has little impact on query accuracy (less than 1%):
-* Reduce `D` from 768 to 100
-* Reduce `F` from 256 to 64
+```shell
+INFO:  clustering: estimated memory usage is 1.49 GiB
+```
+
+If the value exceeds your expectations or the physical memory constraint, it is wise to cancel and check this chapter. There are some options that can help reduce memory usage.
+
+The memory usage $4DC(F + T + 1)$, is mostly determined by:
+
+* D: The vector dimension used for partition. This is either the actual vector dimension or the k-means dimension if set.
+* F: `build.internal.sampling_factor`.
+* C: `build.internal.lists[-1]`.
+
+Based on our [experience](https://blog.vectorchord.ai/how-we-made-100m-vector-indexing-in-20-minutes-possible-on-postgresql#heading-dimensionality-reduction), reducing `D` will have the least impact on accuracy, so that could be a good starting point. Decreasing `F` is also plausible. Since `C` is much more sensitive, it should be the last thing you consider.
+
+For your reference, this configuration has little impact on query accuracy:
+* Reduce `D` from 768 to 100.
+* Reduce `F` from 256 to 64.
 
 ```sql
 CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $$
-build.pin = 2
-[build.internal]
-lists = [160000]
-build_threads = 8
-kmeans_algorithm.hierarchical = {}
+...
 kmeans_dimension = 100
 sampling_factor = 64
 $$);
 ```
 
-If you have sufficient memory, please do not set `build.internal.kmeans_dimension`, as it will reduce accuracy and may increase build time due to the dimension restoration. If the accuracy is not acceptable, you can also refer to the [External Build](external-index-precomputation) to offload the indexing workload to other machines.
+If the accuracy is not acceptable, you can also refer to the [External Build](external-index-precomputation) to offload the indexing workload to other machines.
 
 ## Reference
 
