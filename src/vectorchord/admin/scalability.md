@@ -25,7 +25,7 @@ Therefore, we deploy VectorChord services on AWS EKS with OpenTofu and CloudNati
 
 * [CloudNativePG](https://cloudnative-pg.io/): Manage the full lifecycle of a highly available PostgreSQL database cluster with a primary/standby architecture
 
-* [PGBouncer](https://www.pgbouncer.org/): Lightweight connection pooler for PostgreSQL, provided by module [Pooler](https://cloudnative-pg.io/docs/1.28/connection_pooling) of CloudNativePG
+* [PGBouncer](https://www.pgbouncer.org/): Lightweight connection pooler for PostgreSQL, provided by module [Pooler](https://cloudnative-pg.io/documentation/1.25/connection_pooling/) of CloudNativePG
 
 <img src="../images/scalability-architecture.png" alt="Architecture" width="100%" />
 
