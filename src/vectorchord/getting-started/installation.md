@@ -90,7 +90,7 @@ CMD ["postgres", "-c" ,"shared_preload_libraries=vchord,vector"]
 
 This image can also be used as a CloudNativePG image volume extension. See also
 
-* [Image Volume Extensions](https://cloudnative-pg.io/documentation/current/imagevolume_extensions/)
+* [Image Volume Extensions](https://cloudnative-pg.io/docs/1.28/imagevolume_extensions)
 * [Kubernetes](../admin/kubernetes)
 
 ## Source
