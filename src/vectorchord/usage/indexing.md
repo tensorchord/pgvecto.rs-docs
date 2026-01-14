@@ -27,9 +27,9 @@ You can also add filters to vector search queries as needed.
 SELECT * FROM items WHERE id % 7 <> 0 ORDER BY embedding <-> '[3,1,2]' LIMIT 10;
 ```
 
-## Tuning
+## Tuning: Query performance
 
-When there are less than $100,000$ rows in the table, you usually don't need to set parameters for search and query.
+When there are less than $100,000$ rows in the table, you usually don't need to set the index options.
 
 ```sql
 CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops);
@@ -66,14 +66,11 @@ CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $
 lists = [1000]
 build_threads = 8
 $$);
-
-SET vchordrq.probes TO '10';
-SELECT * FROM items ORDER BY embedding <-> '[3,1,2]' LIMIT 10;
 ```
 
-The second step, inserting rows, can be parallelized using multiple processes. Refer to [PostgreSQL Tuning](performance-tuning.md).
+The second step, inserting rows into the index, can be parallelized using the appropriate GUC parameter. Refer to [PostgreSQL Tuning](performance-tuning.md). It's a common practice to set the value of `build.internal.build_threads` and parallel workers of PostgreSQL to the number of CPU cores.
 
-For most datasets using cosine similarity, enabling `residual_quantization` and `build.internal.spherical_centroids` improves both QPS and recall.
+For most datasets using cosine similarity, enabling `residual_quantization` and `build.internal.spherical_centroids` may improve both QPS and recall.
 
 ```sql
 CREATE INDEX ON items USING vchordrq (embedding vector_cosine_ops) WITH (options = $$
@@ -83,27 +80,57 @@ lists = [1000]
 spherical_centroids = true
 build_threads = 8
 $$);
-
-SET vchordrq.probes TO '10';
-SELECT * FROM items ORDER BY embedding <=> '[3,1,2]' LIMIT 10;
 ```
 
-For large tables, you may opt to use more shared memory to accelerate the process by setting `build.pin` to `2`.
+## Optimize: Build time
+
+To improve the build speed, you may opt to use more shared memory to accelerate the process by setting `build.pin` to `2`.
 
 ```sql
 CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $$
-residual_quantization = true
+...
 build.pin = 2
-[build.internal]
-lists = [1000]
-spherical_centroids = true
-build_threads = 8
 $$);
 ```
 
-For large tables, the `build.internal` process costs significant time and memory. Let `build.internal.kmeans_dimension` or the dimension be $D$, `build.internal.lists[-1]` be $C$, `build.internal.sampling_factor` be $F$, and `build.internal.build_threads` be $T$. The memory consumption is approximately $4CD(F + T + 1)$ bytes. You can moderately reduce these options for lower memory usage.
+For large tables with more than 50 million rows, the partition time of indexing usually takes more than one day. If this applies to you, you can use the hierarchical clustering to speed up the process, albeit at the expense of some accuracy. In our [benchmark](https://blog.vectorchord.ai/how-we-made-100m-vector-indexing-in-20-minutes-possible-on-postgresql#heading-hierarchical-k-means), hierarchical clustering was 400 times faster than the default algorithm, while query recall decreased only from 95.6% to 94.9%.
 
-You can also refer to [External Build](external-index-precomputation) to offload the indexing workload to other machines.
+```sql
+CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $$
+...
+kmeans_algorithm.hierarchical = {}
+$$);
+```
+
+## Optimize: Memory usage
+
+When the indexing process begins, VectorChord displays the estimated memory usage in the [INFO](https://www.postgresql.org/docs/current/runtime-config-logging.html#RUNTIME-CONFIG-SEVERITY-LEVELS) message. Check the GUC [log_min_messages](https://www.postgresql.org/docs/current/runtime-config-logging.html#GUC-LOG-MIN-MESSAGES) and [client_min_messages](https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-CLIENT-MIN-MESSAGES) settings to ensure the message is captured.
+
+An example of the message is:
+
+```
+INFO:  clustering: estimated memory usage is 1.49 GiB
+```
+
+If the value exceeds your expectations or the physical memory constraint, this chapter could be helpful. There are some options that can help reduce memory usage.
+
+The memory usage $4DC(F + T + 1)$, is mostly determined by:
+
+* $D$: the dimension of vectors, or `build.internal.kmeans_dimension` if set
+* $F$: `build.internal.sampling_factor`.
+* $C$: `build.internal.lists[-1]`.
+
+Based on our [experience](https://blog.vectorchord.ai/how-we-made-100m-vector-indexing-in-20-minutes-possible-on-postgresql#heading-dimensionality-reduction), reducing `D` and `F` could be a good starting point.
+
+```sql
+CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $$
+...
+kmeans_dimension = 100
+sampling_factor = 64
+$$);
+```
+
+If the accuracy is not acceptable, you can also refer to the [External Build](external-index-precomputation) to offload the indexing workload to other machines.
 
 ## Reference
 
