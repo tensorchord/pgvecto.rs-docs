@@ -16,7 +16,7 @@ There are 5 steps in the index construction process of `vchordrq`. The phase nam
 | ---- | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------ |
 | 1    | `initializing`                          | Start building index                                                                                                   | Short        |
 | 2    | `initializing index, by default build`  | This step is only for default build                                                                                    | Short        |
-| 2    | `initializing index, by internal build` | This step is only for internal build. It involves table sampling and performing K-means clustering to obtain centroids | Long         |
+| 2    | `initializing index, by internal build` | This step is only for internal build. It involves table sampling and performing partitioning to obtain centroids | Long         |
 | 2    | `initializing index, by external build` | This step is only for external build. It loads centroids from a specified table                                        | Short        |
 | 3    | `initializing index`                    | Initialize the data structure and storage of the index                                                                 | Short        |
 | 4    | `inserting tuples from table to index`  | Assign all vectors to their corresponding lists                                                                        | Long         |

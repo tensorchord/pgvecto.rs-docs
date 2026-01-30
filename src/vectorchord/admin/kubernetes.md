@@ -87,7 +87,7 @@ spec:
     - "vchord"
 ```
 
-You can install `cnpg` [kubectl plugin](https://cloudnative-pg.io/documentation/1.25/kubectl-plugin/) to manage your PostgreSQL cluster. Now we can check the status of the cluster.
+You can install `cnpg` [kubectl plugin](https://cloudnative-pg.io/docs/1.28/kubectl-plugin) to manage your PostgreSQL cluster. Now we can check the status of the cluster.
 
 ```shell
 $ sudo kubectl get pod
