@@ -1,6 +1,6 @@
-# Clustering Tuning
+# Partitioning Tuning
 
-For large tables, the partitioning phase can dominate both build time and memory consumption due to the computational complexity of K-means clustering.
+For large tables, the partitioning phase can dominate both build time and memory consumption due to the computational complexity of K-means algorithm.
 
 The following example shows an index configuration we used for a table with 1 billion rows.
 
@@ -14,15 +14,15 @@ lists = [800, 640000]
 $$);
 ```
 
-At this scale, building an index with this configuration is unlikely to complete within reasonable time and memory constraints on a single machine. This section describes several options for adapting the clustering process to enable indexing from millions up to billions of rows under such constraints.
+At this scale, building an index with this configuration is unlikely to complete within reasonable time and memory constraints on a single machine. This section describes several options for adapting the process to enable indexing from millions up to billions of rows under such constraints.
 
-## Hierarchical Clustering
+## Hierarchical K-means
 
-Standard K-means clustering becomes increasingly expensive as the number of clusters grows. Hierarchical clustering mitigates this cost by decomposing the clustering process into multiple levels, where each level performs K-means over a smaller number of clusters.
+Standard K-means becomes increasingly expensive as the number of centroids grows. Hierarchical K-means mitigates this cost by decomposing the whole process into multiple levels, where each level performs K-means over a smaller number of centroids.
 
-Hierarchical clustering can substantially reduce clustering time. However, it may introduce less precise cluster boundaries, which can affect downstream search accuracy.
+Hierarchical K-means can substantially reduce time of the partitioning. However, it may introduce less precise boundaries, which can affect downstream search accuracy.
 
-The following example shows how to enable hierarchical clustering during index construction:
+The following example shows how to enable Hierarchical K-means during the partitioning phase:
 
 ```sql
 CREATE INDEX ON t USING vchordrq (embedding vector_l2_ops) WITH (options = $$
@@ -35,17 +35,17 @@ kmeans_algorithm.hierarchical = {}
 $$);
 ```
 
-## Clustering Dimension
+## K-means Dimension
 
-During the partitioning phase, additional memory is allocated for K-means clustering beyond PostgreSQL shared buffers. This memory is used to store the input vectors for clustering.
+During the partitioning phase, additional memory is allocated for VectorChord beyond PostgreSQL shared buffers. This memory is used to store the input vectors for K-means.
 
-VectorChord supports reducing the dimensionality of vectors during clustering and restoring the original dimensionality afterward. Using lower-dimensional vectors reduces memory consumption and can speed up clustering.
+VectorChord supports reducing the dimensionality of vectors during K-means and restoring the original dimensionality afterward. Using lower-dimensional vectors reduces memory consumption and can speed up the K-means.
 
-However, dimensionality reduction may also reduce clustering quality and query recall. In addition, the dimensionality restoration step introduces extra overhead, so the overall impact on build time may vary.
+However, dimensionality reduction may also reduce K-means quality and query recall. In addition, the dimensionality restoration step introduces extra overhead, so the overall impact on build time may vary.
 
-If the clustering dimension `build.internal.kmeans_dimension` exceeds the original vector dimension, it is ignored.
+If the K-means dimension `build.internal.kmeans_dimension` exceeds the original vector dimension, it is ignored.
 
-The following example shows how to enable dimensionality reduction during clustering:
+The following example shows how to enable dimensionality reduction during the partitioning phase:
 
 ```sql
 CREATE INDEX ON t USING vchordrq (embedding vector_l2_ops) WITH (options = $$
@@ -58,13 +58,13 @@ kmeans_dimension = 100
 $$);
 ```
 
-## Clustering Samples
+## K-means Samples
 
-VectorChord applies sampling before clustering when the number of input vectors exceeds `build.internal.sampling_factor × build.internal.lists[-1]`.
+VectorChord applies sampling before K-means when the number of input vectors exceeds `build.internal.sampling_factor × build.internal.lists[-1]`.
 
-Lower values of `build.internal.sampling_factor` reduce the number of vectors used for clustering, resulting in faster clustering and lower memory usage. The default value is 256, and in practice values are typically not set lower than 64, as too few samples can lead to a noticeable degradation in query recall.
+Lower values of `build.internal.sampling_factor` reduce the number of vectors used for K-means, resulting in faster K-means and lower memory usage. The default value is 256, and in practice values are typically not set lower than 64, as too few samples can lead to a noticeable degradation in query recall.
 
-The following example shows how to reduce the sampling factor:
+The following example shows how to reduce the sampling factor during the partitioning phase:
 
 ```sql
 CREATE INDEX ON t USING vchordrq (embedding vector_l2_ops) WITH (options = $$
@@ -89,7 +89,7 @@ where:
 * $C$ is `build.internal.lists[-1]`.
 * $T$ is `build.internal.build_threads`.
 
-In practice, reducing $D$ or $F$ is often the most effective way to lower memory consumption. The table below illustrates an extreme example:
+In practice, reducing $D$ or $F$ is often the effective way to lower memory consumption. The table below illustrates an extreme example:
 
 | D    | C      | F    | T    | Memory estimation |
 | ---- | ------ | ---- | ---- | ----------------- |
