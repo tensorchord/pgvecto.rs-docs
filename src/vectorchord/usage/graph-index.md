@@ -141,3 +141,13 @@ All operator classes are available since version `0.3.0`.
 - Example:
     - `SET vchordg.beam_search = 8` indicates that the index accesses 8 vertices at once during search.
     - `SET vchordg.beam_search = 1` indicates that the index accesses 1 vertex at once during search.
+
+#### `vchordg.max_scan_tuples` <badge type="tip" text="since v0.5.0" />
+
+- Description: The GUC parameter `vchordg.max_scan_tuples` controls the maximum number of tuples that can be scanned in a vector search. In most cases, you do not need to set this parameter, because the `LIMIT` clause serves a similar purpose. However, when a `WHERE` clause is present, the `LIMIT` clause applies after filtering, while this GUC parameter applies before filtering. This parameter is intended to prevent performance degradation when the filtering selectivity is very low.
+- Type: integer
+- Domain: `[-1, 2147483647]`
+- Example:
+  - `SET vchordg.max_scan_tuples = 999` indicates the index scans returns at most $999$ tuples.
+  - `SET vchordg.max_scan_tuples = -1` indicates the required number of tuples.
+- Note: This parameter has no effect when set to `-1`.
