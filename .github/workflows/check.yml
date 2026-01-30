@@ -27,4 +27,4 @@ jobs:
         fail: true
         format: markdown
         jobSummary: true
-        lycheeVersion: v0.20.1
+        lycheeVersion: v0.22.0

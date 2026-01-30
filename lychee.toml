@@ -7,12 +7,22 @@ accept = [
     429, # Terraform
     999, # LinkedIn
 ]
+root_dir = "src"
 remap = [
     "(https://github.com/[^/]+/[^/]+/blob/[^#]+)#[a-zA-Z0-9._-]* $1", # remove fragment from GitHub **blob** URLS
     "(https://github.com/[^/]+/[^/]+/tree/[^#]+)#[a-zA-Z0-9._-]* $1", # remove fragment from GitHub **main** URLS
     # `rewrites` from the `.vitepress/config.mts` file
-    "([\\w]+)/vectorchord/usage/indexing-with-maxsim-operators $1/vectorchord/usage/multi-vector-retrieval",
-    "([\\w]+)/vectorchord/usage/range-query $1/vectorchord/usage/similarity-filter",
-    "([\\w]+)/vectorchord/usage/performance-tuning $1/vectorchord/usage/postgresql-tuning",
-    "([\\w]+)/vectorchord/usage/external-index-precomputation $1/vectorchord/usage/external-build",
+    "([\\w]+)/src/admin/(.*) $1/src/pgvecto_rs/admin/$2",
+    "([\\w]+)/src/community/(.*) $1/src/pgvecto_rs/community/$2",
+    "([\\w]+)/src/developers/(.*) $1/src/pgvecto_rs/developers/$2",
+    "([\\w]+)/src/faqs/(.*) $1/src/pgvecto_rs/faqs/$2",
+    "([\\w]+)/src/getting-started/(.*) $1/src/pgvecto_rs/getting-started/$2",
+    "([\\w]+)/src/integration/(.*) $1/src/pgvecto_rs/integration/$2",
+    "([\\w]+)/src/reference/(.*) $1/src/pgvecto_rs/reference/$2",
+    "([\\w]+)/src/usage/(.*) $1/src/pgvecto_rs/usage/$2",
+    "([\\w]+)/src/use-case/(.*) $1/src/pgvecto_rs/use-case/$2",
+    "([\\w]+)/src/vectorchord/usage/indexing-with-maxsim-operators $1/src/vectorchord/usage/multi-vector-retrieval",
+    "([\\w]+)/src/vectorchord/usage/range-query $1/src/vectorchord/usage/similarity-filter",
+    "([\\w]+)/src/vectorchord/usage/performance-tuning $1/src/vectorchord/usage/postgresql-tuning",
+    "([\\w]+)/src/vectorchord/usage/external-index-precomputation $1/src/vectorchord/usage/external-build",
 ]

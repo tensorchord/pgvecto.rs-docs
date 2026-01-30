@@ -21,7 +21,15 @@ export default defineConfig({
   },
   // pgvecto_rs doc should have a route of / to keep back compatible
   rewrites: {
-    'pgvecto_rs/:dir/:page*': ':dir/:page*',
+    'pgvecto_rs/admin/:page*': 'admin/:page*',
+    'pgvecto_rs/community/:page*': 'community/:page*',
+    'pgvecto_rs/developers/:page*': 'developers/:page*',
+    'pgvecto_rs/faqs/:page*': 'faqs/:page*',
+    'pgvecto_rs/getting-started/:page*': 'getting-started/:page*',
+    'pgvecto_rs/integration/:page*': 'integration/:page*',
+    'pgvecto_rs/reference/:page*': 'reference/:page*',
+    'pgvecto_rs/usage/:page*': 'usage/:page*',
+    'pgvecto_rs/use-case/:page*': 'use-case/:page*',
     'vectorchord/usage/multi-vector-retrieval.md': 'vectorchord/usage/indexing-with-maxsim-operators.md',
     'vectorchord/usage/similarity-filter.md': 'vectorchord/usage/range-query.md',
     'vectorchord/usage/postgresql-tuning.md': 'vectorchord/usage/performance-tuning.md',
