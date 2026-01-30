@@ -202,7 +202,7 @@ export default defineConfig({
             { text: 'Graph Index', link: '/vectorchord/usage/graph-index' },
             { text: 'Similarity Filter', link: '/vectorchord/usage/range-query' },
             { text: 'PostgreSQL Tuning', link: '/vectorchord/usage/performance-tuning' },
-            { text: 'Clustering Optimization', link: '/vectorchord/usage/clustering-optimization' },
+            { text: 'Clustering Tuning', link: '/vectorchord/usage/clustering-tuning' },
             { text: 'Monitoring', link: '/vectorchord/usage/monitoring' },
             { text: 'Measure Recall', link: '/vectorchord/usage/measure-recall' },
             { text: 'Prewarm', link: '/vectorchord/usage/prewarm' },

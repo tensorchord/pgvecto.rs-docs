@@ -13,7 +13,7 @@
 - [Graph Index](/vectorchord/usage/graph-index)
 - [Similarity Filter](/vectorchord/usage/range-query)
 - [PostgreSQL Tuning](/vectorchord/usage/performance-tuning)
-- [Clustering Optimization](/vectorchord/usage/clustering-optimization)
+- [Clustering Tuning](/vectorchord/usage/clustering-tuning)
 - [Monitoring](/vectorchord/usage/monitoring)
 - [Measure Recall](/vectorchord/usage/measure-recall)
 - [Prewarm](/vectorchord/usage/prewarm)

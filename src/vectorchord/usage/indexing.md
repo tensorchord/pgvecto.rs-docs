@@ -101,10 +101,9 @@ build_threads = 8
 $$);
 ```
 
-For large tables, the partitioning phase (K-means clustering) can become both time- and memory-intensive. The following options can be used to reduce the build overhead. For detailed configuration examples, refer to the [Clustering Optimization](clustering-optimization.md).
+For large tables, the partitioning phase can impose substantial time and memory overhead. Further clustering-specific optimizations are covered in [Clustering Tuning](clustering-tuning.md).
 
-- Hierarchical K-means (`build.internal.kmeans_algorithm.hierarchical`) to reduce build time
-- `build.internal.kmeans_dimension` and `build.internal.sampling_factor` to reduce memory consumption
+You can also refer to [External Build](external-index-precomputation) to offload the partitioning phase to other machines.
 
 ## Reference
 
