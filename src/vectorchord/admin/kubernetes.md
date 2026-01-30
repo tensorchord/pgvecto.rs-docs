@@ -170,7 +170,7 @@ For Kubernetes, the [ImageVolume feature](https://kubernetes.io/blog/2024/08/16/
 Based on these two features, we can create lightweight `vectorchord` extension image [vchord-scratch](https://github.com/tensorchord/VectorChord-images/pkgs/container/vchord-scratch).
 
 :::tip
-If you want to use [`Image Volume Extensions`](https://cloudnative-pg.io/documentation/current/imagevolume_extensions/), you need to meet the following requirements:
+If you want to use [`Image Volume Extensions`](https://cloudnative-pg.io/docs/1.28/imagevolume_extensions/), you need to meet the following requirements:
 - Use Kubernetes version 1.31.0 or above (1.33.0 is recommended), and make sure the `ImageVolume` feature gate is enabled.
 - Use CloudNative-PG helm chart version 0.26.0 or above.
 :::
