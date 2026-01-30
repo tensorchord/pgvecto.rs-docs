@@ -303,8 +303,9 @@ This is the default value of index building. The index will not be partitioned. 
 
 - Description: The GUC parameter `vchordrq.max_scan_tuples` controls the maximum number of tuples that can be scanned in a vector search. In most cases, you do not need to set this parameter, because the `LIMIT` clause serves a similar purpose. However, when a `WHERE` clause is present, the `LIMIT` clause applies after filtering, while this GUC parameter applies before filtering. This parameter is intended to prevent performance degradation when the filtering selectivity is very low.
 - Type: integer
+- Default: `-1`
 - Domain: `[-1, 2147483647]`
 - Example:
-  - `SET vchordrq.max_scan_tuples = 999` indicates the index scans returns at most $999$ tuples.
-  - `SET vchordrq.max_scan_tuples = -1` indicates the required number of tuples.
+  - `SET vchordrq.max_scan_tuples = 999` indicates the index scan returns at most $999$ tuples.
+  - `SET vchordrq.max_scan_tuples = -1` indicates no limit on the number of tuples.
 - Note: This parameter has no effect when set to `-1`.
