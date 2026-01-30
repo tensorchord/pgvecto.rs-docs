@@ -101,7 +101,7 @@ build_threads = 8
 $$);
 ```
 
-For large tables, the partitioning phase can impose substantial time and memory overhead. Further partition-specific optimizations are covered in [Partitioning Tuning](partitioning-tuning.md).
+For large tables, time and memory overhead are dominated by the partitioning phase. See [Partitioning Tuning](partitioning-tuning) for further tuning.
 
 You can also refer to [External Build](external-index-precomputation) to offload the partitioning phase to other machines.
 

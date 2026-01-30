@@ -1,6 +1,6 @@
 # Partitioning Tuning
 
-For large tables, the partitioning phase can dominate both build time and memory consumption due to the computational complexity of K-means algorithm.
+For large tables, the partitioning phase can dominate both build time and memory consumption.
 
 The following example shows an index configuration we used for a table with 1 billion rows.
 
