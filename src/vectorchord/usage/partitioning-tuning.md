@@ -1,140 +1,123 @@
 # Partitioning Tuning
 
-For large tables, the partitioning phase can dominate both build time and memory consumption.
+For large tables, the partitioning phase dominates both build time and memory consumption.
 
-The build time of this phase is primarily driven by the cost of K-means. As the table grows, `build.internal.lists[-1]` is typically increased to match the number of rows, resulting in a larger number of centroids.
-
-Since the computational cost of standard K-means grows with the number of centroids, partitioning very large tables can be time-consuming, and may take 1 day or longer on a typical cloud instance.
-
-During the partitioning phase, VectorChord allocates additional memory beyond PostgreSQL shared buffers to process input vectors during partitioning. The amount of memory consumed is primarily determined by the vector dimensionality, the number of centroids, and the amount of data sampled.
-
-This memory usage can be approximated as:
-
-$4DC(F + T + 1)$
+Time complexity of partitioning is $O(FC^{2}DL)$, and the memory consumption in bytes can be approximated by $4DC(F + T + 1)$,
 
 where:
 * $D$ is the vector dimension, or `build.internal.kmeans_dimension` if set.
 * $F$ is `build.internal.sampling_factor`.
 * $C$ is `build.internal.lists[-1]`.
 * $T$ is `build.internal.build_threads`.
+* $L$ is `build.internal.kmeans_iterations`.
 
-The table below illustrates an extreme example of memory usage under these parameters:
-
-| D    | C      | F    | T    | Memory estimation |
-| ---- | ------ | ---- | ---- | ----------------- |
-| 768  | 640000 | 256  | 24   | 514.6 GiB         |
-
-Under such conditions, building an index is unlikely to complete within reasonable time and memory constraints on a single machine. This section therefore focuses on techniques for adapting the partitioning process to make indexing feasible at scales ranging from millions to billions of rows.
+This page introduces some tuning techniques to improve build time and memory consumption.
 
 ## Hierarchical K-means
 
-To address the rapidly increasing computational cost of standard K-means as the number of centroids grows, hierarchical K-means decomposes the partitioning process into multiple levels, each operating on a smaller set of centroids.
+Hierarchical K-means is an algorithm that is faster than [Lloyd's algorithm](https://en.wikipedia.org/wiki/Lloyd%27s_algorithm). When applied this algorithm, the asymptotic time complexity is reduced to $O(FC^{1.5}DL)$. As a trade-off, it has a slight negative impact on search performance and recall.
 
-This can substantially reduce partitioning time, but may lead to less precise cluster boundaries, affecting downstream search accuracy.
+Usage:
 
-The following example shows how to enable hierarchical K-means during the partitioning phase.
-
-```sql
-CREATE INDEX ON t USING vchordrq (embedding vector_l2_ops) WITH (options = $$
-build.pin = 2
-residual_quantization = true
-[build.internal]
-build_threads = 24
-lists = [800, 640000]
-kmeans_algorithm.hierarchical = {}
-$$);
+```toml
+build.internal.kmeans_algorithm.hierarchical = {}
 ```
 
-## K-means Dimension
+## Reduce Sampling Factor
 
-Because memory consumption during the partitioning phase is driven by the dimensionality of the input vectors, reducing the vector dimension used for K-means is an effective way to lower memory usage.
+Reducing sampling factor improves build time and memory consumption linearly. As a trade-off, it has a moderate negative impact on search performance and recall.
 
-VectorChord supports reducing vector dimensionality during partitioning and restoring the original dimensionality afterward. Using lower-dimensional vectors reduces memory consumption and can also speed up the partitioning phase.
+Usage:
 
-However, reducing the vector dimension may produce coarser centroids, affecting index quality and downstream query accuracy, and the dimensionality restoration step can introduce additional overhead, so the overall impact on build time may vary.
-
-If the K-means dimension `build.internal.kmeans_dimension` exceeds the original vector dimension, it is ignored.
-
-The following example shows how to enable dimensionality reduction during the partitioning phase.
-
-```sql
-CREATE INDEX ON t USING vchordrq (embedding vector_l2_ops) WITH (options = $$
-build.pin = 2
-residual_quantization = true
-[build.internal]
-build_threads = 24
-lists = [800, 640000]
-kmeans_dimension = 100
-$$);
+```toml
+build.internal.sampling_factor = 64
 ```
 
-## K-means Samples
+## Dimensionality reduction
 
-In addition to vector dimensionality, the number of vectors sampled for K-means is another key factor that influences the cost of the partitioning phase.
+Dimensionality reduction uses the fast Johnson–Lindenstrauss transform, reducing the dimensionality of the vectors involved in clustering to below their original dimension, thereby improving build time and memory consumption linearly. As a trade-off, it has a slight negative impact on search performance and recall.
 
-VectorChord applies sampling before K-means when the number of input vectors exceeds `build.internal.sampling_factor × build.internal.lists[-1]`.
+Usage:
 
-Lower values of `build.internal.sampling_factor` reduce the number of vectors used for K-means, resulting in faster indexing and lower memory usage. The default value is 256, and values are typically not set lower than 64 in practice, as too few samples can lead to a noticeable degradation in query recall.
-
-The following example shows how to reduce the sampling factor during the partitioning phase.
-
-```sql
-CREATE INDEX ON t USING vchordrq (embedding vector_l2_ops) WITH (options = $$
-build.pin = 2
-residual_quantization = true
-[build.internal]
-build_threads = 24
-lists = [800, 640000]
-sampling_factor = 64
-$$);
+```toml
+build.internal.kmeans_dimension = 100
 ```
 
-## Large-scale Indexing Results
+## Reference settings
 
-Prior to VectorChord 1.0.0, index construction for extremely large datasets typically relied on [external build](external-index-precomputation.md) on GPU instances to handle the computational and memory demands.
+### LAION 100M
 
-By combining the techniques described above, it becomes possible to build indexes for very large datasets on a single machine. The following examples show index configurations used in this setting.
+Dataset:
 
-For dataset LAION with 100 million rows:
+* Source: https://sisap-challenges.github.io/2024/datasets/
+* Metric: Inner Product
+* Dimension: 768
+* Number of vectors: 100,000,000
+* Number of test vectors: 1,000
+
+Test machine (AWS EC2 i7i.4xlarge):
+
+* CPU: Intel Xeon Platinum 8559C
+* Number of vCPUs: 16
+* Memory: 128 GiB
+* Storage: 3750 GiB NVMe SSD
 
 ```sql
 CREATE INDEX ON laion USING vchordrq (embedding vector_ip_ops) WITH (options = $$
 build.pin = 2
-[build.internal]
-lists = [400, 160000]
-build_threads = 16
-spherical_centroids = true
-kmeans_algorithm.hierarchical = {}
-kmeans_dimension = 100
-sampling_factor = 64
+build.internal.lists = [400, 160000]
+build.internal.build_threads = 16
+build.internal.spherical_centroids = true
+build.internal.kmeans_algorithm.hierarchical = {}
+build.internal.kmeans_dimension = 100
+build.internal.sampling_factor = 64
 $$);
 ```
 
-For dataset DEEP with 1 billion rows:
+Result:
+
+* Total Build Time: 18 minutes
+* Peak Memory: 6 GiB
+* Test Case 1
+  * Parameters
+    * `vchordrq.probes = '40,140'`
+    * `vchordrq.epsilon = 1.4`
+  * QPS @ Top10: 120
+  * Recall @ Top10: 0.949
+
+### DEEP 1B
+
+Dataset:
+
+* Source: https://big-ann-benchmarks.com/neurips21.html
+* Metric: Euclidean
+* Dimension: 96
+* Number of vectors: 1,000,000,000
+* Number of test vectors: 10,000
+
+Test machine (AWS EC2 i7ie.6xlarge):
+
+* CPU: Intel Xeon Platinum 8559C
+* Number of vCPUs: 24
+* Memory: 192 GiB
+* Storage: 7500 GiB NVMe SSD
 
 ```sql
 CREATE INDEX ON deep USING vchordrq (embedding vector_l2_ops) WITH (options = $$
 build.pin = 2
 residual_quantization = true
-[build.internal]
-build_threads = 24
-lists = [800, 640000]
-kmeans_algorithm.hierarchical = {}
+build.internal.lists = [800, 640000]
+build.internal.build_threads = 24
+build.internal.kmeans_algorithm.hierarchical = {}
 $$);
-
 ```
 
-The table below summarizes representative benchmark results obtained with these configurations.
+Result:
 
-| Target                          | [LAION](https://blog.vectorchord.ai/how-we-made-100m-vector-indexing-in-20-minutes-possible-on-postgresql) | [DEEP](https://blog.vectorchord.ai/scaling-vector-search-to-1-billion-on-postgresql) |
-| ------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Rows                            | 100,000,000                                                  | 1,000,000,000                                                |
-| Dimension                       | 768                                                          | 96                                                           |
-| Instance Type                   | Amazon EC2 i7i.8xlarge                                       | AWS  EC2 i7ie.6xlarge                                        |
-| Hierarchical K-means            | Enabled                                                      | Enabled                                                      |
-| build.internal.kmeans_dimension | 100                                                          | Not set                                                      |
-| build.internal.sampling_factor  | 64                                                           | Not set                                                      |
-| Build Time                      | 20 minutes                                                   | 107 minutes                                                  |
-| Peak Memory                     | 6 GB                                                         | 64 GB                                                        |
-| QPS@Top10                       | 123                                                          | 68                                                           |
-| Recall@Top10                    | 94.9%                                                        | 95.1%                                                        |
+* Total Build Time: 107 minutes
+* Peak Memory: 64 GiB
+* Test Case 1
+  * Parameters
+    * `vchordrq.probes = '40,250'`
+  * QPS @ Top10: 68
+  * Recall @ Top10: 0.951
