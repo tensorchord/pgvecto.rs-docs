@@ -87,6 +87,7 @@ For more usage, please read:
 - [Prefilter](/vectorchord/usage/prefilter)
 - [Prefetch](/vectorchord/usage/prefetch)
 - [Rerank in Table](/vectorchord/usage/rerank-in-table)
+- [Partitioning Tuning](/vectorchord/usage/partitioning-tuning)
 - [External Build](/vectorchord/usage/external-index-precomputation)
 
 ## License

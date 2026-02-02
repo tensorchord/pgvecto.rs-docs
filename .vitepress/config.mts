@@ -208,6 +208,7 @@ export default defineConfig({
             { text: 'Prefilter', link: '/vectorchord/usage/prefilter' },
             { text: 'Prefetch', link: '/vectorchord/usage/prefetch' },
             { text: 'Rerank in Table', link: '/vectorchord/usage/rerank-in-table' },
+            { text: 'Partitioning Tuning', link: '/vectorchord/usage/partitioning-tuning' },
             { text: 'External Build', link: '/vectorchord/usage/external-index-precomputation' },
           ]
         },

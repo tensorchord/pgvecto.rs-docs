@@ -29,7 +29,7 @@ SELECT * FROM items WHERE id % 7 <> 0 ORDER BY embedding <-> '[3,1,2]' LIMIT 10;
 
 ## Tuning
 
-When there are less than $100,000$ rows in the table, you usually don't need to set parameters for search and query.
+When there are less than $100,000$ rows in the table, you usually don't need to set the index options.
 
 ```sql
 CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops);
@@ -88,7 +88,7 @@ SET vchordrq.probes TO '10';
 SELECT * FROM items ORDER BY embedding <=> '[3,1,2]' LIMIT 10;
 ```
 
-For large tables, you may opt to use more shared memory to accelerate the process by setting `build.pin` to `2`.
+To improve the build speed, you may opt to use more shared memory to accelerate the process by setting `build.pin` to `2`.
 
 ```sql
 CREATE INDEX ON items USING vchordrq (embedding vector_l2_ops) WITH (options = $$
@@ -101,9 +101,9 @@ build_threads = 8
 $$);
 ```
 
-For large tables, the `build.internal` process costs significant time and memory. Let `build.internal.kmeans_dimension` or the dimension be $D$, `build.internal.lists[-1]` be $C$, `build.internal.sampling_factor` be $F$, and `build.internal.build_threads` be $T$. The memory consumption is approximately $4CD(F + T + 1)$ bytes. You can moderately reduce these options for lower memory usage.
+For large tables, time and memory overhead are dominated by the partitioning phase. See [Partitioning Tuning](partitioning-tuning) for further tuning.
 
-You can also refer to [External Build](external-index-precomputation) to offload the indexing workload to other machines.
+You can also refer to [External Build](external-index-precomputation) to offload the partitioning phase to other machines.
 
 ## Reference
 
