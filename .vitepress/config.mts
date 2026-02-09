@@ -200,6 +200,7 @@ export default defineConfig({
             { text: 'Indexing', link: '/vectorchord/usage/indexing' },
             { text: 'Multi-Vector Retrieval', link: '/vectorchord/usage/indexing-with-maxsim-operators' },
             { text: 'Graph Index', link: '/vectorchord/usage/graph-index' },
+            { text: 'Quantization Types', link: '/vectorchord/usage/quantization-types' },
             { text: 'Similarity Filter', link: '/vectorchord/usage/range-query' },
             { text: 'PostgreSQL Tuning', link: '/vectorchord/usage/performance-tuning' },
             { text: 'Monitoring', link: '/vectorchord/usage/monitoring' },

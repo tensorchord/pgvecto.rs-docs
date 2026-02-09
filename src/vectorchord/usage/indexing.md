@@ -119,8 +119,16 @@ The following table lists all available operator classes supported by `vchordrq`
 | `halfvec_l2_ops`     | index works for `halfvec` type and Euclidean distance           | `<->(halfvec,halfvec)`    | `<<->>(halfvec,halfvec)` |
 | `halfvec_ip_ops`     | index works for `halfvec` type and negative inner product       | `<#>(halfvec,halfvec)`    | `<<#>>(halfvec,halfvec)` |
 | `halfvec_cosine_ops` | index works for `halfvec` type and cosine distance              | `<=>(halfvec,halfvec)`    | `<<=>>(halfvec,halfvec)` |
+| `rabitq8_l2_ops`     | index works for `rabitq8` type and Euclidean distance           | `<->(rabitq8,rabitq8)`    | `<<->>(rabitq8,rabitq8)` |
+| `rabitq8_ip_ops`     | index works for `rabitq8` type and negative inner product       | `<#>(rabitq8,rabitq8)`    | `<<#>>(rabitq8,rabitq8)` |
+| `rabitq8_cosine_ops` | index works for `rabitq8` type and cosine distance              | `<=>(rabitq8,rabitq8)`    | `<<=>>(rabitq8,rabitq8)` |
+| `rabitq4_l2_ops`     | index works for `rabitq4` type and Euclidean distance           | `<->(rabitq4,rabitq4)`    | `<<->>(rabitq4,rabitq4)` |
+| `rabitq4_ip_ops`     | index works for `rabitq4` type and negative inner product       | `<#>(rabitq4,rabitq4)`    | `<<#>>(rabitq4,rabitq4)` |
+| `rabitq4_cosine_ops` | index works for `rabitq4` type and cosine distance              | `<=>(rabitq4,rabitq4)`    | `<<=>>(rabitq4,rabitq4)` |
 | `vector_maxsim_ops`  | index works for `vector[]` type and scalable vector-similarity  | `@#(vector[],vector[])`   | N/A                      |
 | `halfvec_maxsim_ops` | index works for `halfvec[]` type and scalable vector-similarity | `@#(halfvec[],halfvec[])` | N/A                      |
+| `rabitq8_maxsim_ops` | index works for `rabitq8[]` type and scalable vector-similarity | `@#(rabitq8[],rabitq8[])` | N/A                      |
+| `rabitq4_maxsim_ops` | index works for `rabitq4[]` type and scalable vector-similarity | `@#(rabitq4[],rabitq4[])` | N/A                      |
 
 `<->`, `<#>` and `<=>` are operators defined by pgvector.
 
@@ -130,13 +138,13 @@ The following table lists all available operator classes supported by `vchordrq`
 | `<#>` | negative dot product       |
 | `<=>` | cosine distance            |
 
-`<<->>`, `<<#>>`, `<<=>>` and `@#` are operators defined by VectorChord.
+`<<->>`, `<<#>>`, `<<=>>` are operators defined by VectorChord. For more information about `<<->>`, `<<#>>`, `<<=>>`, refer to [Similarity Filter](range-query).
 
-For more information about `<<->>`, `<<#>>`, `<<=>>`, refer to [Similarity Filter](range-query).
+`@#` is an operator defined by VectorChord. For more information about `@#`, refer to [Multi-Vector Retrieval](indexing-with-maxsim-operators).
 
-For more information about `@#`, refer to [Multi-Vector Retrieval](indexing-with-maxsim-operators).
+`rabitq8`, `rabitq4` are types defined by VectorChord. For more information about `rabitq8`, `rabitq4`, refer to [Quantization Types](quantization-types).
 
-The operator classes for `MaxSim` are available since version `0.3.0`.
+The operator classes for `MaxSim` are available since version `0.3.0`. The operator classes for `rabitq8` and `rabitq4` are available since version `1.1.0`.
 
 ### Indexing Options <badge type="info" text="vchordrq" /> {#indexing-options}
 
@@ -148,6 +156,7 @@ The operator classes for `MaxSim` are available since version `0.3.0`.
 - Example:
     - `residual_quantization = false` means that residual quantization is not used.
     - `residual_quantization = true` means that residual quantization is used.
+- Note: This option is not supported for `rabitq8` and `rabitq4`.
 
 #### `degree_of_parallelism` <badge type="tip" text="since v1.0.0" />
 
