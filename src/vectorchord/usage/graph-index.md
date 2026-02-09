@@ -56,12 +56,18 @@ The following table lists all available operator classes supported by `vchordg`.
 | `halfvec_l2_ops`     | index works for `halfvec` type and Euclidean distance     | `<->(halfvec,halfvec)` | `<<->>(halfvec,halfvec)` |
 | `halfvec_ip_ops`     | index works for `halfvec` type and negative inner product | `<#>(halfvec,halfvec)` | `<<#>>(halfvec,halfvec)` |
 | `halfvec_cosine_ops` | index works for `halfvec` type and cosine distance        | `<=>(halfvec,halfvec)` | `<<=>>(halfvec,halfvec)` |
+| `rabitq8_l2_ops`     | index works for `rabitq8` type and Euclidean distance     | `<->(rabitq8,rabitq8)` | `<<->>(rabitq8,rabitq8)` |
+| `rabitq8_ip_ops`     | index works for `rabitq8` type and negative inner product | `<#>(rabitq8,rabitq8)` | `<<#>>(rabitq8,rabitq8)` |
+| `rabitq8_cosine_ops` | index works for `rabitq8` type and cosine distance        | `<=>(rabitq8,rabitq8)` | `<<=>>(rabitq8,rabitq8)` |
+| `rabitq4_l2_ops`     | index works for `rabitq4` type and Euclidean distance     | `<->(rabitq4,rabitq4)` | `<<->>(rabitq4,rabitq4)` |
+| `rabitq4_ip_ops`     | index works for `rabitq4` type and negative inner product | `<#>(rabitq4,rabitq4)` | `<<#>>(rabitq4,rabitq4)` |
+| `rabitq4_cosine_ops` | index works for `rabitq4` type and cosine distance        | `<=>(rabitq4,rabitq4)` | `<<=>>(rabitq4,rabitq4)` |
 
-`<<->>`, `<<#>>`, `<<=>>` are operators defined by VectorChord.
+`<<->>`, `<<#>>`, `<<=>>` are operators defined by VectorChord. For more information about `<<->>`, `<<#>>`, `<<=>>`, refer to [Similarity Filter](range-query).
 
-For more information about `<<->>`, `<<#>>`, `<<=>>`, refer to [Similarity Filter](range-query).
+`rabitq8`, `rabitq4` are types defined by VectorChord. For more information about `rabitq8`, `rabitq4`, refer to [Quantization Types](quantization-types).
 
-All operator classes are available since version `0.3.0`.
+The first 6 operator classes are available since version `0.5.0`, and the last 6 operator classes are available since version `1.1.0`.
 
 ### Indexing Options <badge type="info" text="vchordg" />
 
