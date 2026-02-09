@@ -151,7 +151,7 @@ tensorchord=> \dx
   Name   | Version |   Schema   |                                         Description                                         
 ---------+---------+------------+---------------------------------------------------------------------------------------------
  plpgsql | 1.0     | pg_catalog | PL/pgSQL procedural language
- vchord  | 1.0.0   | public     | vchord: Vector database plugin for Postgres, written in Rust, specifically designed for LLM
+ vchord  | 1.1.0   | public     | vchord: Vector database plugin for Postgres, written in Rust, specifically designed for LLM
  vector  | 0.8.1   | public     | vector data type and ivfflat and hnsw access methods
 (3 rows)
 ```
@@ -216,7 +216,7 @@ spec:
     extensions:
       - name: vchord
         image:
-          reference: ghcr.io/tensorchord/vchord-scratch:pg18-v1.0.0
+          reference: ghcr.io/tensorchord/vchord-scratch:pg18-v1.1.0
         dynamic_library_path:
           - /usr/lib/postgresql/18/lib/
         extension_control_path:
@@ -243,7 +243,7 @@ tensorchord=> \dx
   Name   | Version |   Schema   |                                         Description                                         
 ---------+---------+------------+---------------------------------------------------------------------------------------------
  plpgsql | 1.0     | pg_catalog | PL/pgSQL procedural language
- vchord  | 1.0.0   | public     | vchord: Vector database plugin for Postgres, written in Rust, specifically designed for LLM
+ vchord  | 1.1.0   | public     | vchord: Vector database plugin for Postgres, written in Rust, specifically designed for LLM
  vector  | 0.8.1   | public     | vector data type and ivfflat and hnsw access methods
 (3 rows)
 
