@@ -83,6 +83,7 @@ For more usage, please read:
 - [Similarity Filter](/vectorchord/usage/range-query)
 - [PostgreSQL Tuning](/vectorchord/usage/performance-tuning)
 - [Monitoring](/vectorchord/usage/monitoring)
+- [Fallback Parameters](/vectorchord/usage/fallback-parameters)
 - [Measure Recall](/vectorchord/usage/measure-recall)
 - [Prewarm](/vectorchord/usage/prewarm)
 - [Prefilter](/vectorchord/usage/prefilter)

@@ -128,11 +128,13 @@ The first 6 operator classes are available since version `0.5.0`, and the last 6
     - `vchordg.enable_scan = off` disables the query planner's use of `vchordg` index scan.
     - `vchordg.enable_scan = on` enables the query planner's use of `vchordg` index scan.
 
-#### `vchordg.ef_search` <badge type="tip" text="since v0.5.0" />
+#### `vchordg.ef_search` <badge type="tip" text="since v0.5.0" /> {#search-parameters-vchordg-ef-search}
 
 - Description: The size of the dynamic list containing the nearest neighbors in search. The larger `vchordg.ef_search` is, the better the recall, but the worse the QPS. `vchordg.ef_search` corresponds to $\text{ef}$ in HNSW and DiskANN.
 - Type: integer
-- Default: `64`
+- Default:
+    - `64`
+    - This parameter supports [fallback](fallback-parameters).
 - Domain: `[1, 65535]`
 - Example:
     - `SET vchordg.ef_search = 64` indicates the size of the dynamic list containing the nearest neighbors is $64$ during search.

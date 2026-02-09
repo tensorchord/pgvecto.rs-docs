@@ -273,13 +273,14 @@ This is the default value of index building. The index will not be partitioned. 
     - `vchordrq.enable_scan = off` disables the query planner's use of `vchordrq` index scan.
     - `vchordrq.enable_scan = on` enables the query planner's use of `vchordrq` index scan.
 
-#### `vchordrq.probes`
+#### `vchordrq.probes` {#search-parameters-vchordrq-probes}
 
 - Description: This GUC parameter `vchordrq.probes` controls how the vector space assists in query pruning. The more probes, the more accurate the search, but also the slower it is.
 - Type: list of integers
 - Default:
     - ` ` <badge type="tip" text="since v0.3.0" />
     - `10` <badge type="tip" text="until v0.2.2: the default value was 10 before `lists` defaulted to empty" />
+    - This parameter supports [fallback](fallback-parameters).
 - Example:
     - `SET vchordrq.probes = 1` means that only one probe is used.
     - `SET vchordrq.probes = 10` means that ten probes are used.
@@ -287,11 +288,13 @@ This is the default value of index building. The index will not be partitioned. 
     - If `lists = []`, then probes must be ` `.
     - If `lists = [11, 22]`, then probes can be `2,4` or `4,8`. It must not be incorrectly shaped, for example, ` `, `3`, `7,8,9`, `5,5,5,5`.
 
-#### `vchordrq.epsilon`
+#### `vchordrq.epsilon` {#search-parameters-vchordrq-epsilon}
 
 - Description: Even after pruning, the number of retrieved vectors remains substantial. The index employs the RaBitQ algorithm to quantize vectors into bit vectors, which require just $\frac{1}{32}$ the memory of single-precision floating-point vectors. Most computations are integer-based, leading to faster processing. Unlike conventional quantization algorithms, RaBitQ estimates not only distances but also their lower bounds. The index computes the lower bound for each vector and dynamically adjusts the number of vectors needing recalculated distances, based on the query count, thus balancing performance and accuracy. The GUC parameter `vchordrq.epsilon` controls the conservativeness of the lower bounds of distances. The higher the value, the higher the accuracy, but the worse the performance. The default value tends to favor higher accuracy than needed for most use cases, so you can try lowering this parameter to achieve better performance.
 - Type: real
-- Default: `1.9`
+- Default:
+    - `1.9`
+    - This parameter supports [fallback](fallback-parameters).
 - Domain: `[0.0, 4.0]`
 - Example:
     - `SET vchordrq.epsilon = 0.1` indicates you are using a very optimistic lower bound estimation. You set it this way because your dataset is not sensitive to the lower bound estimation, for the precision you need.
