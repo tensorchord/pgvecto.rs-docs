@@ -37,7 +37,7 @@ docker run \
   --name vectorchord-demo \
   -e POSTGRES_PASSWORD=mysecretpassword \
   -p 5432:5432 \
-  -d tensorchord/vchord-postgres:pg18-v1.0.0
+  -d tensorchord/vchord-postgres:pg18-v1.1.0
 ```
 > In addition to the base image with the VectorChord extension, we provide an all-in-one image, `tensorchord/vchord-suite:pg18-latest`. This comprehensive image includes all official TensorChord extensions. Developers should select an image tag that is compatible with their extension's version, as indicated in [the support matrix](https://github.com/tensorchord/VectorChord-images?tab=readme-ov-file#support-matrix).
 
@@ -79,9 +79,11 @@ For more usage, please read:
 - [Indexing](/vectorchord/usage/indexing)
 - [Multi-Vector Retrieval](/vectorchord/usage/indexing-with-maxsim-operators)
 - [Graph Index](/vectorchord/usage/graph-index)
+- [Quantization Types](/vectorchord/usage/quantization-types)
 - [Similarity Filter](/vectorchord/usage/range-query)
 - [PostgreSQL Tuning](/vectorchord/usage/performance-tuning)
 - [Monitoring](/vectorchord/usage/monitoring)
+- [Fallback Parameters](/vectorchord/usage/fallback-parameters)
 - [Measure Recall](/vectorchord/usage/measure-recall)
 - [Prewarm](/vectorchord/usage/prewarm)
 - [Prefilter](/vectorchord/usage/prefilter)

@@ -23,7 +23,7 @@ jobs:
       uses: lycheeverse/lychee-action@v2
       with:
         # exclude the blog since runner IPs are almost always blocked by HashNode
-        args: --max-concurrency 8 --verbose --no-progress --exclude '^https://blog\.vectorchord\.ai' .
+        args: --max-concurrency 8 --verbose --no-progress .
         fail: true
         format: markdown
         jobSummary: true
