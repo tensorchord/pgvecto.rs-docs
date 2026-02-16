@@ -101,7 +101,7 @@ Build requirements:
 
 * any port of `make`
 * `clang >= 16` with `libclang`
-* `rust >= 1.90` with `cargo`
+* `rust >= 1.93` with `cargo`
 
 It's recommended to use Rustup for installing Rust on most platforms, while on Alpine Linux, using the system package manager is advised.
 
