@@ -48,7 +48,7 @@ Refer to
 
 #### `quantize_to_rabitq8(vector)` <badge type="tip" text="since v1.1.0" />
 
-- Description: Quantizes a vector to `rabitq8`. This function may produce different outputs for the same input with different versions of VectorChord or with different machines.
+- Description: Quantize a vector to `rabitq8`. This function may produce different outputs for the same input with different versions of VectorChord or with different machines.
 - Result: `rabitq8`, the quantized vector
 - Arguments:
     - `vector`, the vector to be quantized
@@ -58,7 +58,7 @@ Refer to
 
 #### `quantize_to_rabitq8(halfvec)` <badge type="tip" text="since v1.1.0" />
 
-- Description: Quantizes a vector to `rabitq8`. This function may produce different outputs for the same input with different versions of VectorChord or with different machines.
+- Description: Quantize a vector to `rabitq8`. This function may produce different outputs for the same input with different versions of VectorChord or with different machines.
 - Result: `rabitq8`, the quantized vector
 - Arguments:
     - `halfvec`, the vector to be quantized
@@ -68,7 +68,7 @@ Refer to
 
 #### `quantize_to_rabitq4(vector)` <badge type="tip" text="since v1.1.0" />
 
-- Description: Quantizes a vector to `rabitq4`. This function may produce different outputs for the same input with different versions of VectorChord or with different machines.
+- Description: Quantize a vector to `rabitq4`. This function may produce different outputs for the same input with different versions of VectorChord or with different machines.
 - Result: `rabitq4`, the quantized vector
 - Arguments:
     - `vector`, the vector to be quantized
@@ -78,7 +78,7 @@ Refer to
 
 #### `quantize_to_rabitq4(halfvec)` <badge type="tip" text="since v1.1.0" />
 
-- Description: Quantizes a vector to `rabitq4`. This function may produce different outputs for the same input with different versions of VectorChord or with different machines.
+- Description: Quantize a vector to `rabitq4`. This function may produce different outputs for the same input with different versions of VectorChord or with different machines.
 - Result: `rabitq4`, the quantized vector
 - Arguments:
     - `halfvec`, the vector to be quantized
