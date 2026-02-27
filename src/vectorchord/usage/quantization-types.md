@@ -39,10 +39,12 @@ Refer to
 #### `rabitq8` <badge type="tip" text="since v1.1.0" />
 
 - Description: The data type of a quantized vector that uses `uint8` for internal storage. It's based on extended RaBitQ.[^exrabitq]
+- Textual representation: Unlike `vector`/`halfvec`, the textual representation of `rabitq8` is more complex. Suppose the dimension is $d$; it consists of a concatenation of an array of $4$ floating-point numbers enclosed in parentheses and an array of $d$ `uint8` integers enclosed in brackets. For example, `(2.999999, 160.63234, 647, 2.8498733)[255, 205, 187]`. Its interpretation is internal, but you can get the vector it represents by using `dequantize_to_vector(rabitq8)`/`dequantize_to_halfvec(rabitq8)`.
 
 #### `rabitq4` <badge type="tip" text="since v1.1.0" />
 
 - Description: The data type of a quantized vector that uses `uint4` for internal storage. It's based on extended RaBitQ.[^exrabitq]
+- Textual representation: Unlike `vector`/`halfvec`, the textual representation of `rabitq4` is more complex. Suppose the dimension is $d$; it consists of a concatenation of an array of $4$ floating-point numbers enclosed in parentheses and an array of $d$ `uint4` integers enclosed in brackets. For example, `(2.999999, 9.420722, 38, 2.8498733)[15, 12, 11]`. Its interpretation is internal, but you can get the vector it represents by using `dequantize_to_vector(rabitq4)`/`dequantize_to_halfvec(rabitq4)`.
 
 ### Functions
 
