@@ -28,7 +28,7 @@ docker run \
   --name vchord-demo \
   -e POSTGRES_PASSWORD=mysecretpassword \
   -p 5432:5432 \
-  -d tensorchord/vchord-postgres:pg18-v1.1.0
+  -d tensorchord/vchord-postgres:pg18-v1.1.1
 ```
 
 2. Connect to the database using the `psql` command line tool. The default username is `postgres`.
@@ -81,7 +81,7 @@ Other sections may align with the above.
 We provide a scratch image that contains only the files of VectorChord. You can install VectorChord in any image using Docker's `COPY`, like
 
 ```dockerfile
-FROM tensorchord/vchord-scratch:pg18-v1.1.0 AS vchord_scratch
+FROM tensorchord/vchord-scratch:pg18-v1.1.1 AS vchord_scratch
 FROM postgres:18-bookworm
 RUN apt-get update && apt-get install -y postgresql-18-pgvector
 COPY --from=vchord_scratch / /
@@ -118,8 +118,8 @@ If you have not installed PostgreSQL yet, please install PostgreSQL. If you have
 1. Download the source code, build and install it with `make`.
 
 ```sh
-curl -fsSL https://github.com/tensorchord/VectorChord/archive/refs/tags/1.1.0.tar.gz | tar -xz
-cd VectorChord-1.1.0
+curl -fsSL https://github.com/tensorchord/VectorChord/archive/refs/tags/1.1.1.tar.gz | tar -xz
+cd VectorChord-1.1.1
 make build
 make install # or `sudo make install`
 ```
@@ -161,7 +161,7 @@ Please note that binaries generated with a specific `target-cpu` are not compati
 You can also do it by using Cargo's configuration.
 
 ```sh
-cd VectorChord-1.1.0
+cd VectorChord-1.1.1
 mkdir -p .cargo
 touch .cargo/config.toml
 echo 'build.rustflags = ["-Ctarget-cpu=icelake"]' >> ./cargo/config.toml
@@ -174,8 +174,8 @@ If you have not installed PostgreSQL yet, please install PostgreSQL following ht
 1. Download Debian packages in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and install them by `apt`.
 
 ```sh
-wget https://github.com/tensorchord/VectorChord/releases/download/1.1.0/postgresql-18-vchord_1.1.0-1_$(dpkg --print-architecture).deb
-sudo apt install ./postgresql-18-vchord_1.1.0-1_$(dpkg --print-architecture).deb
+wget https://github.com/tensorchord/VectorChord/releases/download/1.1.1/postgresql-18-vchord_1.1.1-1_$(dpkg --print-architecture).deb
+sudo apt install ./postgresql-18-vchord_1.1.1-1_$(dpkg --print-architecture).deb
 ```
 
 2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension. And then restart the PostgreSQL cluster.
@@ -198,8 +198,8 @@ If you have not installed PostgreSQL yet, please install PostgreSQL following ht
 1. Download Debian packages in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and install them by `apt`.
 
 ```sh
-wget https://github.com/tensorchord/VectorChord/releases/download/1.1.0/postgresql-18-vchord_1.1.0-1_$(dpkg --print-architecture).deb
-sudo apt install ./postgresql-18-vchord_1.1.0-1_$(dpkg --print-architecture).deb
+wget https://github.com/tensorchord/VectorChord/releases/download/1.1.1/postgresql-18-vchord_1.1.1-1_$(dpkg --print-architecture).deb
+sudo apt install ./postgresql-18-vchord_1.1.1-1_$(dpkg --print-architecture).deb
 ```
 
 2. Configure your PostgreSQL by modifying the `shared_preload_libraries` to include the extension. And then restart the PostgreSQL cluster.

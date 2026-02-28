@@ -39,52 +39,94 @@ Refer to
 #### `rabitq8` <badge type="tip" text="since v1.1.0" />
 
 - Description: The data type of a quantized vector that uses `uint8` for internal storage. It's based on extended RaBitQ.[^exrabitq]
+- Textual representation: Unlike `vector`/`halfvec`, the textual representation of `rabitq8` is more complex. Suppose the dimension is $d$; it consists of a concatenation of an array of $4$ floating-point numbers enclosed in parentheses and an array of $d$ `uint8` integers enclosed in brackets. For example, `(2.999999, 160.63234, 647, 2.8498733)[255, 205, 187]`. Its interpretation is internal, but you can get the vector it represents by using `dequantize_to_vector(rabitq8)`/`dequantize_to_halfvec(rabitq8)`.
 
 #### `rabitq4` <badge type="tip" text="since v1.1.0" />
 
 - Description: The data type of a quantized vector that uses `uint4` for internal storage. It's based on extended RaBitQ.[^exrabitq]
+- Textual representation: Unlike `vector`/`halfvec`, the textual representation of `rabitq4` is more complex. Suppose the dimension is $d$; it consists of a concatenation of an array of $4$ floating-point numbers enclosed in parentheses and an array of $d$ `uint4` integers enclosed in brackets. For example, `(2.999999, 9.420722, 38, 2.8498733)[15, 12, 11]`. Its interpretation is internal, but you can get the vector it represents by using `dequantize_to_vector(rabitq4)`/`dequantize_to_halfvec(rabitq4)`.
 
 ### Functions
 
 #### `quantize_to_rabitq8(vector)` <badge type="tip" text="since v1.1.0" />
 
-- Description: Quantizes a vector to `rabitq8`. This function may produce different outputs for the same input with different versions of VectorChord or with different machines.
+- Description: Quantize a vector to `rabitq8`. Note that this function may produce sightly different results for identical inputs with different versions of VectorChord or with different machines.
 - Result: `rabitq8`, the quantized vector
 - Arguments:
     - `vector`, the vector to be quantized
 - Example:
     - `SELECT quantize_to_rabitq8('[1,1,1]'::vector)`
-- Note: This function does not have a corresponding `CAST`. If you really need one, you can create it by `CREATE CAST (vector AS rabitq8) WITH FUNCTION quantize_to_rabitq8(vector) AS ASSIGNMENT`.
+- Note: This function does not have a corresponding `CAST`. If needed, you can create one manually using `CREATE CAST (vector AS rabitq8) WITH FUNCTION quantize_to_rabitq8(vector) AS ASSIGNMENT`.
 
 #### `quantize_to_rabitq8(halfvec)` <badge type="tip" text="since v1.1.0" />
 
-- Description: Quantizes a vector to `rabitq8`. This function may produce different outputs for the same input with different versions of VectorChord or with different machines.
+- Description: Quantize a vector to `rabitq8`. Note that this function may produce sightly different results for identical inputs with different versions of VectorChord or with different machines.
 - Result: `rabitq8`, the quantized vector
 - Arguments:
     - `halfvec`, the vector to be quantized
 - Example:
     - `SELECT quantize_to_rabitq8('[1,1,1]'::halfvec)`
-- Note: This function does not have a corresponding `CAST`. If you really need one, you can create it by `CREATE CAST (halfvec AS rabitq8) WITH FUNCTION quantize_to_rabitq8(halfvec) AS ASSIGNMENT`.
+- Note: This function does not have a corresponding `CAST`. If needed, you can create one manually using `CREATE CAST (halfvec AS rabitq8) WITH FUNCTION quantize_to_rabitq8(halfvec) AS ASSIGNMENT`.
+
+#### `dequantize_to_vector(rabitq8)` <badge type="tip" text="since v1.1.1" />
+
+- Description: Dequantize a quantized vector to `vector`. Note that this function may produce sightly different results for identical inputs with different versions of VectorChord or with different machines. The original vector cannot be precisely reconstructed using this function.
+- Result: `vector`, the dequantized vector
+- Arguments:
+    - `rabitq8`, the quantized vector to be dequantized
+- Example:
+    - `SELECT dequantize_to_vector(quantize_to_rabitq8('[1,1,1]'::vector))`
+- Note: This function does not have a corresponding `CAST`. If needed, you can create one manually using `CREATE CAST (rabitq8 AS vector) WITH FUNCTION dequantize_to_vector(rabitq8) AS ASSIGNMENT`.
+
+#### `dequantize_to_halfvec(rabitq8)` <badge type="tip" text="since v1.1.1" />
+
+- Description: Dequantize a quantized vector to `halfvec`. Note that this function may produce sightly different results for identical inputs with different versions of VectorChord or with different machines. The original vector cannot be precisely reconstructed using this function.
+- Result: `halfvec`, the dequantized vector
+- Arguments:
+    - `rabitq8`, the quantized vector to be dequantized
+- Example:
+    - `SELECT dequantize_to_halfvec(quantize_to_rabitq8('[1,1,1]'::halfvec))`
+- Note: This function does not have a corresponding `CAST`. If needed, you can create one manually using `CREATE CAST (rabitq8 AS halfvec) WITH FUNCTION dequantize_to_halfvec(rabitq8) AS ASSIGNMENT`.
 
 #### `quantize_to_rabitq4(vector)` <badge type="tip" text="since v1.1.0" />
 
-- Description: Quantizes a vector to `rabitq4`. This function may produce different outputs for the same input with different versions of VectorChord or with different machines.
+- Description: Quantize a vector to `rabitq4`. Note that this function may produce sightly different results for identical inputs with different versions of VectorChord or with different machines.
 - Result: `rabitq4`, the quantized vector
 - Arguments:
     - `vector`, the vector to be quantized
 - Example:
     - `SELECT quantize_to_rabitq4('[1,1,1]'::vector)`
-- Note: This function does not have a corresponding `CAST`. If you really need one, you can create it by `CREATE CAST (vector AS rabitq4) WITH FUNCTION quantize_to_rabitq4(vector) AS ASSIGNMENT`.
+- Note: This function does not have a corresponding `CAST`. If needed, you can create one manually using `CREATE CAST (vector AS rabitq4) WITH FUNCTION quantize_to_rabitq4(vector) AS ASSIGNMENT`.
 
 #### `quantize_to_rabitq4(halfvec)` <badge type="tip" text="since v1.1.0" />
 
-- Description: Quantizes a vector to `rabitq4`. This function may produce different outputs for the same input with different versions of VectorChord or with different machines.
+- Description: Quantize a vector to `rabitq4`. Note that this function may produce sightly different results for identical inputs with different versions of VectorChord or with different machines.
 - Result: `rabitq4`, the quantized vector
 - Arguments:
     - `halfvec`, the vector to be quantized
 - Example:
     - `SELECT quantize_to_rabitq4('[1,1,1]'::halfvec)`
-- Note: This function does not have a corresponding `CAST`. If you really need one, you can create it by `CREATE CAST (halfvec AS rabitq4) WITH FUNCTION quantize_to_rabitq4(halfvec) AS ASSIGNMENT`.
+- Note: This function does not have a corresponding `CAST`. If needed, you can create one manually using `CREATE CAST (halfvec AS rabitq4) WITH FUNCTION quantize_to_rabitq4(halfvec) AS ASSIGNMENT`.
+
+#### `dequantize_to_vector(rabitq4)` <badge type="tip" text="since v1.1.1" />
+
+- Description: Dequantize a quantized vector to `vector`. Note that this function may produce sightly different results for identical inputs with different versions of VectorChord or with different machines. The original vector cannot be precisely reconstructed using this function.
+- Result: `vector`, the dequantized vector
+- Arguments:
+    - `rabitq4`, the quantized vector to be dequantized
+- Example:
+    - `SELECT dequantize_to_vector(quantize_to_rabitq4('[1,1,1]'::vector))`
+- Note: This function does not have a corresponding `CAST`. If needed, you can create one manually using `CREATE CAST (rabitq4 AS vector) WITH FUNCTION dequantize_to_vector(rabitq4) AS ASSIGNMENT`.
+
+#### `dequantize_to_halfvec(rabitq4)` <badge type="tip" text="since v1.1.1" />
+
+- Description: Dequantize a quantized vector to `halfvec`. Note that this function may produce sightly different results for identical inputs with different versions of VectorChord or with different machines. The original vector cannot be precisely reconstructed using this function.
+- Result: `halfvec`, the dequantized vector
+- Arguments:
+    - `rabitq4`, the quantized vector to be dequantized
+- Example:
+    - `SELECT dequantize_to_halfvec(quantize_to_rabitq4('[1,1,1]'::halfvec))`
+- Note: This function does not have a corresponding `CAST`. If needed, you can create one manually using `CREATE CAST (rabitq4 AS halfvec) WITH FUNCTION dequantize_to_halfvec(rabitq4) AS ASSIGNMENT`.
 
 ### Operators
 
