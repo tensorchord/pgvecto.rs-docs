@@ -12,6 +12,8 @@ exclude = [
     "^https://www\\.linkedin\\.com/in/tom-ingold/$",
     # Timeout
     "^https://www\\.freedesktop\\.org/software/systemd/man/latest/systemd\\.exec\\.html#Process%20Properties$",
+    # WIP
+    "^https://pgxn\\.org/dist/vchord_bm25$",
 ]
 root_dir = "src"
 remap = [
