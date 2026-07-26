@@ -171,6 +171,10 @@ echo 'build.rustflags = ["-Ctarget-cpu=icelake"]' >> ./cargo/config.toml
 
 If you have not installed PostgreSQL yet, please install PostgreSQL following https://www.postgresql.org/download/linux/debian/. If you have not installed pgvector yet, you could install pgvector by `apt install postgresql-18-pgvector` before the 3rd step.
 
+::: tip Note on release URLs
+The GitHub organization hosting VectorChord's source was recently transferred. Links to github.com/tensorchord/VectorChord/releases will redirect to the new org. This is expected and does not indicate a compromised release; maintainers and commit history are unchanged.
+:::
+
 1. Download Debian packages in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and install them by `apt`.
 
 ```sh
@@ -194,6 +198,10 @@ CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
 ## Ubuntu
 
 If you have not installed PostgreSQL yet, please install PostgreSQL following https://www.postgresql.org/download/linux/ubuntu/. If you have not installed pgvector yet, you could install pgvector by `apt install postgresql-18-pgvector` before the 3rd step.
+
+::: tip Note on release URLs
+The GitHub organization hosting VectorChord's source was recently transferred. Links to github.com/tensorchord/VectorChord/releases will redirect to the new org. This is expected and does not indicate a compromised release; maintainers and commit history are unchanged.
+:::
 
 1. Download Debian packages in [the release page](https://github.com/tensorchord/VectorChord/releases/latest), and install them by `apt`.
 
