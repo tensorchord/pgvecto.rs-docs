@@ -74,6 +74,8 @@ docker run \
 
 Other sections may align with the above.
 
+See also [VectorChord Suite](/vectorchord/getting-started/vectorchord-suite).
+
 ### VectorChord Scratch Image
 
 <a href="https://hub.docker.com/r/tensorchord/vchord-scratch"><img src="https://img.shields.io/docker/pulls/tensorchord/vchord-scratch" /></a>

@@ -70,6 +70,7 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Docs', link: '/vectorchord/' },
+      { text: 'Docs (bm25)', link: '/vectorchord-bm25/' },
       { text: 'Cloud', link: '/cloud/' },
       { text: 'Blog', link: 'https://blog.vectorchord.ai/' },
       {
@@ -248,6 +249,25 @@ export default defineConfig({
           collapsed: true,
           items: [
             { text: 'Earth Genome', link: '/vectorchord/customer-stories/earthgenome' },
+          ]
+        },
+      ],
+      '/vectorchord-bm25/': [
+        {
+          text: 'Getting Started',
+          collapsed: false,
+          items: [
+            { text: 'Overview', link: '/vectorchord-bm25/getting-started/overview' },
+            { text: 'Installation', link: '/vectorchord-bm25/getting-started/installation' },
+          ],
+        },
+        {
+          text: 'Usage',
+          collapsed: false,
+          items: [
+            { text: 'Indexing', link: '/vectorchord-bm25/usage/indexing' },
+            { text: 'Fallback Parameters', link: '/vectorchord-bm25/usage/fallback-parameters' },
+            { text: 'Prefilter', link: '/vectorchord-bm25/usage/prefilter' }
           ]
         },
       ],
